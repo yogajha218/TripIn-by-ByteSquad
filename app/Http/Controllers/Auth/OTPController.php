@@ -6,6 +6,7 @@ use App\Mail\OTPMail;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OTPController extends Controller
@@ -53,7 +54,7 @@ class OTPController extends Controller
         // Log the user in
 
         /* Problem Delay */
-        // Auth::login($user); 
+        Auth::login($user); 
 
         return redirect()->route('home')->with('status', 'Your account has been verified successfully!');
     }

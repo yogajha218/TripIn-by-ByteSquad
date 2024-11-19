@@ -31,7 +31,7 @@ const Login = () => {
   }
 
   const handlePrivacyTerms = {
-    
+
   }
 
   return (
@@ -70,7 +70,7 @@ const Login = () => {
 
           {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit}>
-            
+
             <input
               type="email"
               id="email"
@@ -81,7 +81,10 @@ const Login = () => {
               onChange={(e) => setData("email", e.target.value)}
               required
               autoComplete="email"
+
             />
+
+
             <input
               type="password"
               id="password"
@@ -92,6 +95,7 @@ const Login = () => {
               onChange={(e) => setData("password", e.target.value)}
               required
             />
+            {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
 
             {!isSignIn && (
               <input
@@ -103,6 +107,7 @@ const Login = () => {
                 onChange={(e) => setData("confirmPassword", e.target.value)}
                 required
               />
+
             )}
 
             {isSignIn && (
@@ -115,10 +120,10 @@ const Login = () => {
 
             {!isSignIn && (
               <div className="flex items-start space-x-2">
-                <input 
-                  type="checkbox" 
-                  id="terms" 
-                  className="mt-1" 
+                <input
+                  type="checkbox"
+                  id="terms"
+                  className="mt-1"
                   checked={data.termsAccepted}
                   onChange={(e) => setData("termsAccepted", e.target.checked)}
                   aria-checked={data.termsAccepted}

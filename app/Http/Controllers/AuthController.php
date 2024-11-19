@@ -21,8 +21,10 @@ class AuthController extends Controller
 
     public function register(Request $request){
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+        ], [
+            'email.unique' => 'Email is already Taken.',
         ]);
 
         if ($validator->fails()) {
@@ -33,13 +35,13 @@ class AuthController extends Controller
         try{
             $user = User::create([
                 'email' => $request->email,
-                'password' => Hash::make($request->password),       
+                'password' => Hash::make($request->password),
             ]);
 
             return Inertia::render("LoginPage");
         } catch (\Exception $e){
             FacadesLog::error("Error creating user: " . $e->getMessage());
-            return redirect()->back()->withErrors(['email' => 'Failed to create user.'])->withInput();
+            return redirect()->back()->withErrors(['email' => 'An unexpected error occurred. Please try again later.'])->withInput();
         }
 
     }
@@ -55,7 +57,7 @@ class AuthController extends Controller
 
         try {
             if (Auth::attempt([
-                'email' => $request->email, 
+                'email' => $request->email,
                 'password' => $request->password
             ])) {
                 $request->session()->regenerate();

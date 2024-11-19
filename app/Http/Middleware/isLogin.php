@@ -20,6 +20,6 @@ class isLogin
             return $next($request);
         }
 
-        return redirect('login')->withErrors('Please Login First');
+        return redirect('/')->withErrors('Please Login First');
     }
 }

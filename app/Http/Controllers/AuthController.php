@@ -63,11 +63,11 @@ class AuthController extends Controller
                 // Redirect to the desired page
                 return redirect()->route('home');
             }
-
-            // If authentication fails, return back with an error
-            return back()->withErrors([
+                // If authentication fails, return back with an error
+                return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
                 ])->onlyInput('email');
+
             } catch (\Exception $e) {
                 // Log the exception message for debugging
                 FacadesLog::error("Login attempt failed: " . $e->getMessage());
@@ -86,6 +86,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Logged out successfully!');
+        return redirect()->route('auth')->with('success', 'Logged out successfully!');
     }
 }

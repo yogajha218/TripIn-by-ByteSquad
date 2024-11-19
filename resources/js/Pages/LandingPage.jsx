@@ -1,6 +1,28 @@
-//import tripinLogo from './assets/TripInLogo.svg';
 
 const LandingPage = () => {
+  const handleLogout = async () => {
+      const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+    try {
+      const response = await fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
+        },
+      });
+
+      if (response.ok) {
+        window.location.href = '/'; // Redirect to login after logout
+      } else {
+        alert('Logout failed, please try again');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+      alert('Logout failed, please try again');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-100 flex flex-col items-center  justify-center px-20">
       {/* Logo Container */}
@@ -22,7 +44,7 @@ const LandingPage = () => {
       {/* Continue Button */}
       <button
         className="w-full max-w-xs bg-primary2 text-white py-4 rounded-full font-medium hover:bg-blue-800 transition-colors cursor-pointer"
-        onClick={() => alert('Continue button clicked')}
+        onClick={handleLogout}
       >
         CONTINUE
       </button>

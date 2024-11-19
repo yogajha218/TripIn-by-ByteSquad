@@ -1,8 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+
+  const {data, setData, post, processing, errors} = useForm({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    termsAccepted: false,
+  });
+
+  const isFormValid = data.email && data.password && (isSignIn || (data.confirmPassword && data.termsAccepted));
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted with data: ", data);
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+    if(isSignIn){
+      post("/login");
+    } else {
+      post("/register", data, {
+      headers: {
+        "X-CSRF-TOKEN": csrfToken,
+      },
+    });
+    }
+  }
+
+  const handlePrivacyTerms = {
+    
+  }
 
   return (
     <div className="min-h-screen bg-primary flex flex-col">
@@ -39,23 +69,39 @@ const Login = () => {
           </h2>
 
           {/* Form */}
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            
             <input
               type="email"
+              id="email"
+              name="email"
               placeholder="Email"
               className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+              value={data.email}
+              onChange={(e) => setData("email", e.target.value)}
+              required
+              autoComplete="email"
             />
             <input
               type="password"
+              id="password"
+              name="password"
               placeholder="Password"
               className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+              value={data.password}
+              onChange={(e) => setData("password", e.target.value)}
+              required
             />
 
             {!isSignIn && (
               <input
                 type="password"
+                id="confirmPassword"
                 placeholder="Confirm Password"
                 className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                value={data.confirmPassword}
+                onChange={(e) => setData("confirmPassword", e.target.value)}
+                required
               />
             )}
 
@@ -69,14 +115,21 @@ const Login = () => {
 
             {!isSignIn && (
               <div className="flex items-start space-x-2">
-                <input type="checkbox" id="terms" className="mt-1" />
+                <input 
+                  type="checkbox" 
+                  id="terms" 
+                  className="mt-1" 
+                  checked={data.termsAccepted}
+                  onChange={(e) => setData("termsAccepted", e.target.checked)}
+                  aria-checked={data.termsAccepted}
+                  />
                 <label htmlFor="terms" className="text-sm text-black">
                   I understood the{" "}
-                  <Link to="/TermsAndCondition" className="text-sky-400">
+                  <Link href="/terms-condition" className="text-sky-400">
                     Terms & Conditions
                   </Link>{" "}
                   and{" "}
-                  <Link to="/PrivacyPolicy" className="text-sky-400">
+                  <Link href="/privacy-policy" className="text-sky-400">
                     Privacy Policy
                   </Link>
                 </label>
@@ -86,9 +139,13 @@ const Login = () => {
             <button
               type="submit"
               className="w-full py-3 bg-primary2 text-white rounded-lg font-medium"
+              disabled={processing || !isFormValid}
             >
               {isSignIn ? "SIGN IN" : "SIGN UP"}
             </button>
+
+            {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
+
           </form>
         </div>
       </div>

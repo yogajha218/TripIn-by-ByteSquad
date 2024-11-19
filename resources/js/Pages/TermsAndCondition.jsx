@@ -1,8 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 
 const TermsAndConditions = () => {
-  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-primary">
@@ -11,7 +10,7 @@ const TermsAndConditions = () => {
 
       {/* Header */}
       <div className="flex items-center px-6 pb-4">
-        <button className="text-white mr-6 bg-transparent" onClick={() => navigate(-1)}>
+        <button className="text-white mr-6 bg-transparent" onClick={() => history.back()}>
           <svg
             className="w-6 h-6 text-gray-800 dark:text-white"
             aria-hidden="true"

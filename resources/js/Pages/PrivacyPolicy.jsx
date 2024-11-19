@@ -1,9 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 
 const PrivacyPolicy = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-primary">
       {/* App Bar */}
@@ -11,15 +9,18 @@ const PrivacyPolicy = () => {
 
       {/* Header */}
       <div className="flex items-center px-6 pb-4">
-        <button className="text-white mr-6 bg-transparent" onClick={() => navigate(-1)}>
+        {/* Back Button */}
+        <button
+          className="text-white mr-6 bg-transparent"
+          onClick={() => history.back()} // Using browser's history.back()
+          aria-label="Go back"
+        >
           <svg
             className="w-6 h-6 text-gray-800 dark:text-white"
-            aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
             viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
           >
             <path
               stroke="currentColor"
@@ -35,10 +36,7 @@ const PrivacyPolicy = () => {
 
       {/* Content */}
       <div className="bg-white rounded-t-3xl p-12">
-        <h2 className="text-2xl font-semibold">Terms and Condition</h2>
-        <h1 className="text-2xl font-semibold mb-4 text-black">
-          Welcome to TripIn!
-        </h1>
+        <h2 className="text-2xl font-semibold text-black mb-4">Privacy Policy</h2>
         <p className="text-gray-700 mb-6">
           We are committed to protecting the privacy and security of your
           personal data. This Privacy Policy explains how we collect, use, and
@@ -52,7 +50,7 @@ const PrivacyPolicy = () => {
             Here are the details of our Privacy Policy:
           </h3>
 
-          <div className="space-y-2 text-black">
+          <div className="space-y-4 text-black">
             <div>
               <h4 className="font-semibold">1. Collection of Personal Data</h4>
               <p className="text-gray-700 ml-4">

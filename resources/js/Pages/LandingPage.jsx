@@ -1,12 +1,11 @@
 //import tripinLogo from './assets/TripInLogo.svg';
-import tripinLogo from '/TripInLogo.svg'
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-100 flex flex-col items-center  justify-center px-20">
       {/* Logo Container */}
       <div className="mb-2">
-        <img src={tripinLogo}
+        <img src='/TripInLogo.svg'
          className="" alt="Logo of TripIn" />
       </div>
 

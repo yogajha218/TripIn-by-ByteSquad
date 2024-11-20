@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Log;
 use App\Models\User;
+use App\Models\UserOtp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -21,27 +23,59 @@ class AuthController extends Controller
 
     public function register(Request $request){
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+        ], [
+            'email.unique' => 'Email is already Taken.',
         ]);
 
-        if ($validator->fails()) {
-            FacadesLog::info("Validation failed", $validator->errors()->toArray()); // Log validation errors
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        try{ 
+            $otpCode = rand(1000, 9999);
 
-        try{
-            $user = User::create([
+            Mail::raw("Your OTP code is : $otpCode", function($message) use ($request){
+                $message->to($request->email) -> subject('Your OTP Code');
+            });
+
+            UserOtp::Create([
                 'email' => $request->email,
-                'password' => Hash::make($request->password),       
+                'otp' => $otpCode,
+                'otp_expires_at' => now()->addMinutes(10),
             ]);
+            
+            session(['temp_password' => $request->password]);
 
-            return Inertia::render("LoginPage");
+            return redirect()->route('otp.form')->with('email', $request->email);
+
         } catch (\Exception $e){
-            FacadesLog::error("Error creating user: " . $e->getMessage());
-            return redirect()->back()->withErrors(['email' => 'Failed to create user.'])->withInput();
+            FacadesLog::error("Error creating OTP: " . $e->getMessage());
+            return redirect()->back()->withErrors(['email' => 'An unexpected error occurred. Please try again later.'])->withInput();
+        }
+    }
+
+    public function verify(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|digits:4',
+        ]);
+
+        $otpRecord = UserOtp::where('email', $request->email)->first();
+
+        if (!$otpRecord || $otpRecord->otp != $request->otp || now()->isAfter($otpRecord->otp_expires_at)) {
+            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
         }
 
+        // OTP is valid, create user account
+        User::create([
+            'email' => $request->email,
+            'password' => Hash::make(session('temp_password')),
+        ]);
+
+        // Delete the OTP
+        $otpRecord->delete();
+        session()->forget('temp_password');
+
+        return redirect()->route('home')->with('success', 'Registration success!');
     }
 
     public function login(Request $request){
@@ -55,7 +89,7 @@ class AuthController extends Controller
 
         try {
             if (Auth::attempt([
-                'email' => $request->email, 
+                'email' => $request->email,
                 'password' => $request->password
             ])) {
                 $request->session()->regenerate();

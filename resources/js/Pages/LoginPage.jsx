@@ -3,16 +3,7 @@ import { Link, useForm } from "@inertiajs/react";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
-
-  const {data, setData, post, processing, errors} = useForm({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    termsAccepted: false,
-  });
-
   const isFormValid = data.email && data.password && (isSignIn || (data.confirmPassword && data.termsAccepted));
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,9 +21,12 @@ const Login = () => {
     }
   }
 
-  const handlePrivacyTerms = {
-    
-  }
+  const {data, setData, post, processing, errors} = useForm({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    termsAccepted: false,
+  });
 
   return (
     <div className="min-h-screen bg-primary flex flex-col">
@@ -64,13 +58,13 @@ const Login = () => {
       {/* Form Container */}
       <div className="bg-white flex-1 p-6 min-h-[calc(100vh-240px)]">
         <div className="max-w-md mx-auto">
-          <h2 className="text-lg font-medium mb-6 text-black">
+          <h2 className="text-lg font-medium mb-6 texx-black">
             {isSignIn ? "Login to your Account" : "Create your Account"}
           </h2>
 
           {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit}>
-            
+
             <input
               type="email"
               id="email"
@@ -81,7 +75,9 @@ const Login = () => {
               onChange={(e) => setData("email", e.target.value)}
               required
               autoComplete="email"
+
             />
+
             <input
               type="password"
               id="password"
@@ -92,6 +88,7 @@ const Login = () => {
               onChange={(e) => setData("password", e.target.value)}
               required
             />
+            {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
 
             {!isSignIn && (
               <input
@@ -103,6 +100,7 @@ const Login = () => {
                 onChange={(e) => setData("confirmPassword", e.target.value)}
                 required
               />
+
             )}
 
             {isSignIn && (
@@ -115,10 +113,10 @@ const Login = () => {
 
             {!isSignIn && (
               <div className="flex items-start space-x-2">
-                <input 
-                  type="checkbox" 
-                  id="terms" 
-                  className="mt-1" 
+                <input
+                  type="checkbox"
+                  id="terms"
+                  className="mt-1"
                   checked={data.termsAccepted}
                   onChange={(e) => setData("termsAccepted", e.target.checked)}
                   aria-checked={data.termsAccepted}

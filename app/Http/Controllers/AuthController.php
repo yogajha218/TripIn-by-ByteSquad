@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Database\QueryException;
 
 use function Illuminate\Log\log;
 
@@ -25,33 +26,47 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
+            'confirmPassword' => 'required|same:password',
         ], [
             'email.unique' => 'Email is already Taken.',
+            'password.min' => 'Your password must be at least 8 characters.',
+            'confirmPassword.same' => 'The password confirmation does not match.',
         ]);
 
-        try{ 
-            $otpCode = rand(1000, 9999);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-            Mail::raw("Your OTP code is : $otpCode", function($message) use ($request){
-                $message->to($request->email) -> subject('Your OTP Code');
-            });
+        $user = User::where('email', '=', $request->email)->first();
 
-            UserOtp::Create([
-                'email' => $request->email,
-                'otp' => $otpCode,
-                'otp_expires_at' => now()->addMinutes(10),
-            ]);
-            
-            session(['temp_password' => $request->password]);
+        try{
+            if(!$user){
+                $otpCode = rand(1000, 9999);
 
-            return redirect()->route('otp.form')->with('email', $request->email);
+                Mail::raw("Your OTP code is : $otpCode", function($message) use ($request){
+                    $message->to($request->email) -> subject('Your OTP Code');
+                });
+
+                UserOtp::Create([
+                    'email' => $request->email,
+                    'otp' => $otpCode,
+                    'otp_expires_at' => now()->addMinutes(10),
+                ]);
+
+                session(['temp_password' => $request->password]);
+
+                return redirect()->route('otp.form')->with('email', $request->email);
+
+            }else{
+                return redirect()->back()->withErrors(['emailTaken' => 'Email is already taken']);
+            }
 
         } catch (\Exception $e){
             FacadesLog::error("Error creating OTP: " . $e->getMessage());
             return redirect()->back()->withErrors(['email' => 'An unexpected error occurred. Please try again later.'])->withInput();
         }
     }
-
+    
     public function verify(Request $request)
     {
         $request->validate([

@@ -3,6 +3,12 @@ import { Link, useForm } from "@inertiajs/react";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+  const {data, setData, post, processing, errors} = useForm({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    termsAccepted: false,
+  });
   const isFormValid = data.email && data.password && (isSignIn || (data.confirmPassword && data.termsAccepted));
 
   const handleSubmit = (e) => {
@@ -21,12 +27,7 @@ const Login = () => {
     }
   }
 
-  const {data, setData, post, processing, errors} = useForm({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    termsAccepted: false,
-  });
+  
 
   return (
     <div className="min-h-screen bg-primary flex flex-col">

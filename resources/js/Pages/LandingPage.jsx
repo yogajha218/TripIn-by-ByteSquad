@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 
 const LandingPage = () => {
   const handleLogout = async () => {
@@ -42,12 +43,12 @@ const LandingPage = () => {
       </div>
 
       {/* Continue Button */}
-      <button
-        className="w-full max-w-xs bg-primary2 text-white py-4 rounded-full font-medium hover:bg-blue-800 transition-colors cursor-pointer"
-        onClick={handleLogout}
+      <Link
+        className="w-full text-center max-w-xs bg-primary2 text-white py-4 rounded-full font-medium hover:bg-blue-800 transition-colors cursor-pointer"
+        href="/auth"
       >
         CONTINUE
-      </button>
+      </Link>
     </div>
   );
 };

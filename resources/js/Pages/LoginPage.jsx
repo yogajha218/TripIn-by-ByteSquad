@@ -3,16 +3,7 @@ import { Link, useForm } from "@inertiajs/react";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
-
-  const {data, setData, post, processing, errors} = useForm({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    termsAccepted: false,
-  });
-
   const isFormValid = data.email && data.password && (isSignIn || (data.confirmPassword && data.termsAccepted));
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,9 +21,12 @@ const Login = () => {
     }
   }
 
-  const handlePrivacyTerms = {
-
-  }
+  const {data, setData, post, processing, errors} = useForm({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    termsAccepted: false,
+  });
 
   return (
     <div className="min-h-screen bg-primary flex flex-col">
@@ -64,7 +58,7 @@ const Login = () => {
       {/* Form Container */}
       <div className="bg-white flex-1 p-6 min-h-[calc(100vh-240px)]">
         <div className="max-w-md mx-auto">
-          <h2 className="text-lg font-medium mb-6 text-black">
+          <h2 className="text-lg font-medium mb-6 texx-black">
             {isSignIn ? "Login to your Account" : "Create your Account"}
           </h2>
 
@@ -83,7 +77,6 @@ const Login = () => {
               autoComplete="email"
 
             />
-
 
             <input
               type="password"

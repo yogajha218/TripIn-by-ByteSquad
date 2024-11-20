@@ -19,15 +19,17 @@ const Login = () => {
     if(isSignIn){
       post("/login");
     } else {
-      post("/register", data, {
-      headers: {
-        "X-CSRF-TOKEN": csrfToken,
-      },
-    });
+      if(data.confirmPassword == data.password){
+        post("/register", data, {
+          headers: {
+            "X-CSRF-TOKEN": csrfToken,
+          },
+        });
+      } else {
+        alert("Passwords do not match");
+      } 
     }
   }
-
-  
 
   return (
     <div className="min-h-screen bg-primary flex flex-col">

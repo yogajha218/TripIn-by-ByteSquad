@@ -27,8 +27,6 @@ const Login = () => {
     }
   }
 
-
-
   return (
     <div className="min-h-screen bg-primary flex flex-col">
       {/* Logo Container */}

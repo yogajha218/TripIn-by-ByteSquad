@@ -13,19 +13,13 @@ use App\Http\Controllers\ProfileController;
 route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){  
     route::get('/', [AuthController::class, 'welcomeIndex'])->name('welcome');
     route::get('/auth', [AuthController::class, 'authIndex'])->name('auth');
+    route::get('/forgot-password', [AuthController::class, 'forgotPasswordIndex'])->name('forgotPassword');
     route::post('/login', [AuthController::class, 'login']);
     route::post('/register', [AuthController::class, 'register']);
+    route::get('/register/otp', [AuthController::class, 'otpIndex'])->name('otp.form');
     route::post('/register/otp/verify', [AuthController::class, 'verify'])->name('otp.verify');
-    route::get('/register/otp', function(){
-        $email = session('email');
-        return Inertia::render('Otp', ['email' => $email]);
-    })->name('otp.form');
-    route::get('/privacy-policy', function(){
-        return Inertia::render('PrivacyPolicy');
-    });
-    route::get('/terms-condition', function(){
-        return Inertia::render('TermsAndCondition');
-    });
+    route::get('/privacy-policy', [AuthController::class, 'privacyIndex']);
+    route::get('/terms-condition', [AuthController::class, 'termsIndex']);
 });
 
 route::post('/logout', [AuthController::class, 'logout']) -> name('logout');

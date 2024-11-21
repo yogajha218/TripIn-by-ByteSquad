@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Credit;
 use App\Models\Log;
 use App\Models\User;
 use App\Models\UserOtp;
@@ -18,8 +19,29 @@ use function Illuminate\Log\log;
 
 class AuthController extends Controller
 {
-    public function index(){
+    public function welcomeIndex(){
+        return Inertia::render('LandingPage');
+    }
+
+    public function authIndex(){
         return Inertia::render('LoginPage');
+    }
+
+    public function forgotPasswordIndex(){
+        return Inertia::render('ForgotPassword');
+    }
+
+    public function privacyIndex(){
+        return Inertia::render('PrivacyPolicy');
+    }
+
+    public function termsIndex(){
+        return Inertia::render('TermsAndCondition');
+    }
+
+    public function otpIndex(){
+        $email = session('email');
+        return Inertia::render('Otp', ['email' => $email]);
     }
 
     public function register(Request $request){
@@ -81,9 +103,14 @@ class AuthController extends Controller
         }
 
         // OTP is valid, create user account
-        User::create([
+        $user = User::create([
             'email' => $request->email,
             'password' => Hash::make(session('temp_password')),
+        ]);
+
+        Credit::create([
+            'user_id' => $user->user_id,
+            'credit_amount' => 0,
         ]);
 
         // Delete the OTP
@@ -127,7 +154,6 @@ class AuthController extends Controller
                 ])->onlyInput('email');
             }
     }
-
     public function logout(Request $request)
     {
         Auth::logout();

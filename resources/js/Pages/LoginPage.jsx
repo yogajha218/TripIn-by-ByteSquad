@@ -27,8 +27,6 @@ const Login = () => {
     }
   }
 
-
-
   return (
     <div className="min-h-screen bg-primary flex flex-col">
       {/* Logo Container */}
@@ -107,9 +105,9 @@ const Login = () => {
 
             {isSignIn && (
               <div className="text-right">
-                <a href="#" className="text-primary">
+                <Link href="/forgot-password" className="text-primary">
                   Forgot Password?
-                </a>
+                </Link>
               </div>
             )}
 

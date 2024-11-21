@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('license_plate');
             $table->integer('seat');
             $table->string('status');
-            $table->unsignedBigInteger('booking_id');
+            $table->unsignedBigInteger('booking_id')->nullable();
 
             $table->timestamps();
             $table->foreign('booking_id')->references('booking_id')->on('bookings')->onDelete('cascade');            

@@ -3,7 +3,7 @@ export const CardComponent = ({ CardProp }) => {
         <div className="max-w-[395px]  h-fit rounded-[10px] border border-[#8BAFCE80] bg-white ">
             <div className="flex px-4 pt-7 pb-3 items-center">
                 <div>
-                    <img src="/public/shuttle_icon.svg" alt="shuttle_icon" />
+                    <img src="/shuttle_icon.svg" alt="shuttle_icon" />
                 </div>
                 <div className="flex-row justify-start items-start h-fit ml-2">
                     <p className="text-black">{CardProp.name}</p>
@@ -16,7 +16,7 @@ export const CardComponent = ({ CardProp }) => {
                 <div className=" h-full ali flex justify-end relative top-2 right-1">
                     <img
                         className="h-[72px] w-[12px]"
-                        src="/public/cardLine.svg"
+                        src="/cardLine.svg"
                         alt="cardLine"
                     />
                 </div>

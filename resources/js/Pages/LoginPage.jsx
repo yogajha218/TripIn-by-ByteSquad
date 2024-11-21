@@ -105,7 +105,7 @@ const Login = () => {
 
             {isSignIn && (
               <div className="text-right">
-                <Link href="/forgot-password" className="text-primary">
+                <Link href="/forgot-password/email" className="text-primary">
                   Forgot Password?
                 </Link>
               </div>

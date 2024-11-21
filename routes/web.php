@@ -14,6 +14,8 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::get('/', [AuthController::class, 'welcomeIndex'])->name('welcome');
     route::get('/auth', [AuthController::class, 'authIndex'])->name('auth');
     route::get('/forgot-password', [AuthController::class, 'forgotPasswordIndex'])->name('forgotPassword');
+    Route::get('/forgot-password/email', [AuthController::class, 'sendEmail'])->name('forgotpass_email');
+    Route::get('/forgot-password/new-password', [AuthController::class, 'newPassword'])->name('forgotpass_newpass');
     route::post('/login', [AuthController::class, 'login']);
     route::post('/register', [AuthController::class, 'register']);
     route::get('/register/otp', [AuthController::class, 'otpRegisterIndex'])->name('otp.form');

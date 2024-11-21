@@ -39,9 +39,13 @@ class AuthController extends Controller
         return Inertia::render('TermsAndCondition');
     }
 
-    public function otpIndex(){
+    public function otpRegisterIndex(){
         $email = session('email');
         return Inertia::render('Otp', ['email' => $email]);
+    }
+
+    public function otpPasswordIndex(){
+        return Inertia::render('OtpPassword');
     }
 
     public function register(Request $request){

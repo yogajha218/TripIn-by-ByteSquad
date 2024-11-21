@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('credits', function (Blueprint $table) {
             $table->id('credit_id')->autoIncrement();
-            $table->unsignedBigInteger('payment_id');
-
-            $table->foreign('payment_id')->references('payment_id')->on('payments')->onDelete('cascade');
-
-            $table->decimal('credit_amount', 10, 2);
+            $table->decimal('credit_amount', 10, 2)->default(0);
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');            
         });
     }
 

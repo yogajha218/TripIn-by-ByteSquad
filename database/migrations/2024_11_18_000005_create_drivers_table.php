@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id('driver_id');
             $table->string('name');
             $table->unsignedBigInteger('vehicle_id');
-
             $table->timestamps();
             $table->foreign('vehicle_id')->references('vehicle_id')->on('vehicles')->onDelete('cascade');            
         });

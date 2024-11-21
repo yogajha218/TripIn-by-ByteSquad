@@ -19,15 +19,13 @@ const Login = () => {
     if(isSignIn){
       post("/login");
     } else {
-      post("/register", data, {
-      headers: {
-        "X-CSRF-TOKEN": csrfToken,
-      },
-    });
+        post("/register", data, {
+            headers: {
+              "X-CSRF-TOKEN": csrfToken,
+            },
+        });
     }
   }
-
-  
 
   return (
     <div className="min-h-screen bg-primary flex flex-col">
@@ -78,6 +76,7 @@ const Login = () => {
               autoComplete="email"
 
             />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
             <input
               type="password"
@@ -101,8 +100,8 @@ const Login = () => {
                 onChange={(e) => setData("confirmPassword", e.target.value)}
                 required
               />
-
             )}
+            {errors.confirmPassword && <div className="text-red-500 text-sm">{errors.confirmPassword}</div>}
 
             {isSignIn && (
               <div className="text-right">
@@ -142,9 +141,6 @@ const Login = () => {
             >
               {isSignIn ? "SIGN IN" : "SIGN UP"}
             </button>
-
-            {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
-
           </form>
         </div>
       </div>

@@ -1,7 +1,9 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
-const OtpPassword = () => {
+const OtpPassword = ({email}) => {
   const [verificationCode, setVerificationCode] = useState(['', '', '', '']);
+  const [error, setError] = useState("");
 
   const handleChange = (index, value) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
@@ -13,6 +15,27 @@ const OtpPassword = () => {
       if (value && index < 3) {
         const nextInput = document.querySelector(`input[name="code-${index + 1}"]`);
         nextInput?.focus();
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+    const otp = verificationCode.join('');
+    
+    try{
+      const response = await axios.post('/forgot-password/otp/verify', {
+        email, 
+        otp,
+      }, {
+        headers: {'X-CSRF-TOKEN': csrfToken}
+      });
+    } catch (err) {
+      if (err.response && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError('An unexpected error occurred. Please try again.');
       }
     }
   };
@@ -54,7 +77,8 @@ const OtpPassword = () => {
           </p>
 
           {/* Code Input Fields */}
-          <div className="flex justify-between gap-3 mb-8">
+          <form onSubmit={handleSubmit}>
+            <div className="flex justify-between gap-3 mb-8">
             {verificationCode.map((digit, index) => (
               <input
                 key={index}
@@ -72,13 +96,15 @@ const OtpPassword = () => {
               />
             ))}
           </div>
-
-          {/* Confirm Button */}
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          
+          {/* Confirm Button */} 
           <button className="w-full bg-primary2 text-white py-4 rounded-xl 
                            font-semibold hover:opacity-90 transition-opacity 
                            active:scale-[0.99]">
             Confirm
           </button>
+          </form>
         </div>
       </div>
     </div>

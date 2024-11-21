@@ -13,9 +13,11 @@ use App\Http\Controllers\ProfileController;
 route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::get('/', [AuthController::class, 'welcomeIndex'])->name('welcome');
     route::get('/auth', [AuthController::class, 'authIndex'])->name('auth');
-    route::get('/forgot-password', [AuthController::class, 'forgotPasswordIndex'])->name('forgotPassword');
-    Route::get('/forgot-password/email', [AuthController::class, 'sendEmail'])->name('forgotpass_email');
-    Route::get('/forgot-password/new-password', [AuthController::class, 'newPassword'])->name('forgotpass_newpass');
+    route::get('/forgot-password', [AuthController::class, 'forgotPasswordIndex'])->name('password.index');
+    route::get('/forgot-password/email', [AuthController::class, 'forgotPasswordEmailIndex']);
+    route::get('/forgot-password/otp', [AuthController::class, 'otpPasswordIndex'])->name('password.otp');
+    route::post('/forgot-password/otp/send', [AuthController::class, 'sendEmailPassword']);
+    route::post('/forgot-password/otp/verify', [AuthController::class, 'verifyEmailPassword']);
     route::post('/login', [AuthController::class, 'login']);
     route::post('/register', [AuthController::class, 'register']);
     route::get('/register/otp', [AuthController::class, 'otpRegisterIndex'])->name('otp.form');
@@ -25,7 +27,6 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
 });
 
 route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
-route::get('/forgot-password/otp', [AuthController::class, 'otpPasswordIndex']);
 
 //Rute jika sudah masuk ke aplikasi
 route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){

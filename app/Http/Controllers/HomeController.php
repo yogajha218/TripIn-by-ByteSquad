@@ -21,8 +21,42 @@ class HomeController extends Controller
         ]);
     }
 
-    
+    public function sendEmail(Request $request){
+        $validator = Validator::make(request()->all(), [
+            'email' => 'required|email',
+        ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::where('email', '=', $request->email)->first();
+
+        try{
+            if(!$user){
+                $otpCode = rand(1000, 9999);
+
+                Mail::raw("Your OTP code is : $otpCode", function($message) use ($request){
+                    $message->to($request->email) -> subject('Your OTP Code');
+                });
+
+                UserOtp::Create([
+                    'email' => $request->email,
+                    'otp' => $otpCode,
+                    'otp_expires_at' => now()->addMinutes(10),
+                ]);
+
+                // session(['email' => $request->email]);
+
+                return redirect();
+            } else {
+                return redirect()->back()->withErrors(['email' => 'Email does not found']);
+            }
+        } catch (\Exception $e) {
+            FacadesLog::error('Error while sending email: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['email' => 'Email does not found']);
+        }
+    }
 
     public function verifyEmail(Request $request){
         $request->validate([

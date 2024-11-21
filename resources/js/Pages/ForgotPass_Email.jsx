@@ -1,30 +1,36 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import tripinLogo from "/TripInLogo.svg";
+import { useForm } from "@inertiajs/react";
 
 const ResetPasswordEmail = () => {
-  const [email, setEmail] = useState("");
+  const { data, setData, post, processing, errors } = useForm({
+    email: "",
+  });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const handleSubmitEmail = async (e) => {
+  const handleSubmitEmail = (e) => {
     e.preventDefault();
-    setError("");
-
-    if (!validateEmail(email)) {
+    console.log("Email send : ", data);
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+    
+    if (!validateEmail(data.email)) {
       setError("Please enter a valid email address");
       return;
     }
 
+    post("/forgot-password/otp/send", data, {
+      headers: {
+        "X-CSRF-TOKEN": csrfToken,
+      },
+    });
   };
 
   const handleBack = () => {
-    navigate(-1); // Navigate back to previous page
+    //
   };
 
   return (
@@ -41,7 +47,7 @@ const ResetPasswordEmail = () => {
       <div className="flex justify-center">
         <div className="flex items-center">
           <img
-            src={tripinLogo}
+            src='/TripInLogo.svg'
             className="h-40 object-contain"
             alt="Logo of TripIn"
           />
@@ -63,16 +69,19 @@ const ResetPasswordEmail = () => {
             <input
               type="email"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="email"
+              name="email"
+              value={data.email}
+              onChange={(e) => setData("email", e.target.value)}
               className="w-full px-6 py-3 border text-black border-gray-300 bg-transparent rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-primary2 focus:border-transparent"
               required
             />
             <button
+              disabled={processing}
               type="submit"
               className="w-full bg-primary2 text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
             >
-              Reset Password
+              {processing ? "Processing..." : "Send Email"}
             </button>
           </form>
         </div>

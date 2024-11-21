@@ -51,6 +51,29 @@ function HomePage() {
         checkIsCardDataEmpty(upcomingCardProp, setUpcomingTripsCardProp, setIsUpcomingTripAvailable);
     }, [users]); // Run effect when users data changes
 
+    const handleLogout = async () => {
+      const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+        try {
+        const response = await fetch('/logout', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            },
+        });
+
+        if (response.ok) {
+            window.location.href = '/'; // Redirect to login after logout
+        } else {
+            alert('Logout failed, please try again');
+        }
+        } catch (error) {
+        console.error('Error during logout:', error);
+        alert('Logout failed, please try again');
+        }
+    };
+
     return (
         <div className="lg:max-w-[400px] md:min-w-[360px] mx-auto">
             <div className="h-[328px] relative min-w-[360px] bg-white">
@@ -79,7 +102,9 @@ function HomePage() {
                             {user.userCredit} Credit Points
                         </p>
                     </a>
-                    <button className="text-white bg-primary2 py-2 rounded-lg mx-5">
+                    <button 
+                        onClick={handleLogout}
+                        className="text-white bg-primary2 py-2 rounded-lg mx-5">
                         BOOK NOW
                     </button>
                 </div>

@@ -27,6 +27,23 @@ class AuthController extends Controller
         return Inertia::render('LoginPage');
     }
 
+    public function forgotPasswordIndex(){
+        return Inertia::render('ForgotPassword');
+    }
+
+    public function privacyIndex(){
+        return Inertia::render('PrivacyPolicy');
+    }
+
+    public function termsIndex(){
+        return Inertia::render('TermsAndCondition');
+    }
+
+    public function otpIndex(){
+        $email = session('email');
+        return Inertia::render('Otp', ['email' => $email]);
+    }
+
     public function register(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',

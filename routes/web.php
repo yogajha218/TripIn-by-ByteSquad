@@ -16,16 +16,14 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::get('/forgot-password', [AuthController::class, 'forgotPasswordIndex'])->name('forgotPassword');
     route::post('/login', [AuthController::class, 'login']);
     route::post('/register', [AuthController::class, 'register']);
-    route::get('/register/otp', [AuthController::class, 'otpIndex'])->name('otp.form');
+    route::get('/register/otp', [AuthController::class, 'otpRegisterIndex'])->name('otp.form');
     route::post('/register/otp/verify', [AuthController::class, 'verify'])->name('otp.verify');
     route::get('/privacy-policy', [AuthController::class, 'privacyIndex']);
     route::get('/terms-condition', [AuthController::class, 'termsIndex']);
 });
 
 route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
-route::get('/dashboard', function(){
-    return Inertia::render('HomePage');
-});
+route::get('/forgot-password/otp', [AuthController::class, 'otpPasswordIndex']);
 
 //Rute jika sudah masuk ke aplikasi
 route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){

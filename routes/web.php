@@ -9,7 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 
 // Rute untuk login dan registrasi
-route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){  
+route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::get('/', [AuthController::class, 'index'])->name('auth');
     route::post('/login', [AuthController::class, 'login']);
     route::post('/register', [AuthController::class, 'register']);
@@ -27,6 +27,9 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
 });
 
 route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
+route::get('/dashboard', function(){
+    return Inertia::render('TripinDashboard');
+});
 
 //Rute jika sudah masuk ke aplikasi
 route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){

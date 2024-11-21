@@ -1,6 +1,7 @@
 import { useLayoutEffect, useState } from "react";
 import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
+
 function TripInDashboard() {
     const [user, setUser] = useState({});
     const [isTripAvailable, setIsTripsAvailable] = useState(false);

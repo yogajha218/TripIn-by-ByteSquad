@@ -32,7 +32,8 @@ class AuthController extends Controller
     }
 
     public function forgotPasswordIndex(){
-        return Inertia::render('ForgotPass_NewPass');
+        $email = session('email');
+        return Inertia::render('ForgotPass_NewPass', ['email' => $email]);
     }
 
     public function otpRegisterIndex(){
@@ -48,10 +49,8 @@ class AuthController extends Controller
         return Inertia::render('TermsAndCondition');
     }
 
-    
-
     public function otpPasswordIndex(Request $request){
-        $email = $request->query('email');
+        $email = session('email');
         return Inertia::render('OtpPassword', ['email' => $email]);
     }
 
@@ -133,7 +132,7 @@ class AuthController extends Controller
 
     public function sendEmailPassword(Request $request) {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
         ]);
 
         if ($validator->fails()) {
@@ -142,32 +141,35 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        try {
-            if ($user) {
+        if (!$user) {
+                return redirect()->back()->withErrors(['email' => 'Email does not exist']);
+
+            } else {
                 $otpCode = rand(1000, 9999);
 
                 Mail::raw("Your OTP code is : $otpCode", function ($message) use ($request) {
                     $message->to($request->email)->subject('Your OTP Code');
                 });
 
-                UserOtp::create([
+                UserOtp::where('email', $request->email)->delete();
+                UserOtp::updateOrCreate([
                     'email' => $request->email,
                     'otp' => $otpCode,
                     'otp_expires_at' => now()->addMinutes(10),
                 ]);
 
-                session(['email' => $request->email]);
+                session(['email' => $user->email]);
 
                 // Return an Inertia-compatible redirect
-                return redirect()->route('password.otp')->with(['email' => $request->email]);
-            } else {
-                return redirect()->back()->withErrors(['email' => 'Email does not exist']);
+                return redirect()->route('password.otp')->with(['email' => $user->email]);  
             }
-        } catch (\Exception $e) {
-            FacadesLog::error('Error while sending email: ' . $e->getMessage());
+        // try {
+            
+        // } catch (\Exception $e) {
+        //     FacadesLog::error('Error while sending email: ' . $e->getMessage());
 
-            return redirect()->back()->withErrors(['email' => 'Failed to send email.']);
-        }
+        //     return redirect()->back()->withErrors(['email' => 'Failed to send email.']);
+        // }
     }
 
     public function verifyEmailPassword(Request $request)
@@ -183,8 +185,33 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid or expired OTP.'], 422);
         }   
         
-        // session()->forget('emailPassword');
-        return redirect()->route('password.index'); //ubah ke halaman new password
+        return redirect()->route('password.index')->with(['email'=>$otpRecord->email]); //ubah ke halaman new password
+    }
+
+    public function updateNewPassword(Request $request){
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+            'confirmPassword' => 'required|same:password',
+        ], [
+            'email.unique' => 'Email is already Taken.',
+            'password.min' => 'Your password must be at least 8 characters.',
+            'confirmPassword.same' => 'The password confirmation does not match.',
+        ]);
+
+        try{
+            $user = User::where('email', '=', $request->email);
+        }catch (\Exception){
+            return redirect()->back()->withErrors('Email not found');
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        session()->forget('email');
+
+        return redirect()->route('auth');
     }
 
     public function login(Request $request){

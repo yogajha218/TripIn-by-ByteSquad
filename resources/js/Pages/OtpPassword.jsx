@@ -1,9 +1,11 @@
+import { Link } from '@inertiajs/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 
 const OtpPassword = ({email}) => {
   const [verificationCode, setVerificationCode] = useState(['', '', '', '']);
   const [error, setError] = useState("");
+  console.log("Email received : ", email);
 
   const handleChange = (index, value) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
@@ -37,7 +39,7 @@ const OtpPassword = ({email}) => {
       } else {
         setError('An unexpected error occurred. Please try again.');
       }
-    }
+    }    
   };
 
   const handleKeyDown = (index, e) => {
@@ -99,11 +101,12 @@ const OtpPassword = ({email}) => {
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           
           {/* Confirm Button */} 
-          <button className="w-full bg-primary2 text-white py-4 rounded-xl 
+          <Link className="w-full bg-primary2 text-white py-4 rounded-xl 
                            font-semibold hover:opacity-90 transition-opacity 
-                           active:scale-[0.99]">
+                           active:scale-[0.99]"
+                href='/forgot-password'>
             Confirm
-          </button>
+          </Link>
           </form>
         </div>
       </div>

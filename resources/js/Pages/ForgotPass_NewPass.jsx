@@ -1,25 +1,28 @@
+import { useForm } from "@inertiajs/react";
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import tripinLogo from "/TripInLogo.svg";
 
-const ResetPasswordNew = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const email = location.state?.email || "";
-
+const ResetPasswordNew = ({email}) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+  const {data, setData, post, processing, errors} = useForm({
+    email: email,
+    password: "",
+    confirmPassword: "",
+    termsAccepted: false,
+  });
+
+  console.log('New Pass Email : ', email);
 
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return passwordRegex.test(password);
   };
 
-  const handleResetPassword = async (e) => {
+  const handleSubmitPassword = async (e) => {
     e.preventDefault();
-    setError("");
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
 
     if (!validatePassword(newPassword)) {
       setError("Password must be at least 8 characters with letters and numbers");
@@ -33,49 +36,18 @@ const ResetPasswordNew = () => {
     }
 
     try {
-      // TODO: Add actual password reset logic
-      console.log("Password reset successful for:", email);
-      navigate("/login"); // Redirect to login page after successful reset
+      post('/forgot-password/new-password', data, {
+        headers: {"X-CSRF-TOKEN": csrfToken,},
+      })
     } catch (err) {
       setError("Failed to reset password. Please try again.");
     }
-  };
-
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setNewPassword(value);
-    if (confirmPassword) {
-      setIsPasswordMatch(value === confirmPassword);
-      if (value !== confirmPassword) {
-        setError("Passwords do not match");
-      } else {
-        setError("");
-      }
-    }
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    const value = e.target.value;
-    setConfirmPassword(value);
-    if (newPassword) {
-      setIsPasswordMatch(value === newPassword);
-      if (value !== newPassword) {
-        setError("Passwords do not match");
-      } else {
-        setError("");
-      }
-    }
-  };
-
-  const handleBack = () => {
-    navigate(-1); // Go back to email input page
   };
 
   return (
     <div className="min-h-screen bg-primary flex flex-col">
       <div className="px-4 pt-10">
         <button 
-          onClick={handleBack}
           className="text-white bg-transparent text-2xl hover:opacity-80 transition-opacity"
         >
           &lt;
@@ -85,7 +57,7 @@ const ResetPasswordNew = () => {
       <div className="flex justify-center">
         <div className="flex items-center">
           <img 
-            src={tripinLogo} 
+            src='/TripInLogo.svg' 
             className="h-40 object-contain" 
             alt="Logo of TripIn" 
           />
@@ -100,30 +72,37 @@ const ResetPasswordNew = () => {
             </div>
           )}
 
-          <form onSubmit={handleResetPassword} className="w-full">
+          <form onSubmit={handleSubmitPassword} className="w-full">
             <h2 className="text-xl text-black font-semibold mb-4">
               Please enter a new password
             </h2>
             <input
               type="email"
-              value={email}
+              name="email"
+              id="email"
+              value={data.email}
+              onChange={(e) => setData('email', e.target.value)}
               disabled
               className="w-full px-4 py-3 text-black border border-gray-300 rounded-lg mb-4 bg-gray-50"
             />
             <input
               type="password"
+              name="password"
+              id="password"
               placeholder="New Password"
-              value={newPassword}
-              onChange={handlePasswordChange}
+              value={data.password}
+              onChange={(e) => setData('password', e.target.value)}
               className={`w-full px-4 py-3 text-black bg-transparent border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-primary2 focus:border-transparent
                 ${!isPasswordMatch ? 'border-red-500' : 'border-gray-300'}`}
               required
             />
             <input
               type="password"
+              name="confirmPassword"
+              id="confirmPassword"
               placeholder="Confirm New Password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
+              value={data.confirmPassword}
+              onChange={(e) => setData('confirmPassword', e.target.value)}
               className={`w-full px-4 py-3 text-black bg-transparent border rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-primary2 focus:border-transparent
                 ${!isPasswordMatch ? 'border-red-500' : 'border-gray-300'}`}
               required
@@ -133,7 +112,7 @@ const ResetPasswordNew = () => {
               className={`w-full bg-primary2 text-white py-3 rounded-lg font-medium 
                 ${!isPasswordMatch ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90 transition-opacity'}
               `}
-              disabled={!isPasswordMatch}
+              disabled={!isPasswordMatch || processing}
             >
               Reset Password
             </button>

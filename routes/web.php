@@ -24,7 +24,7 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
 
 route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
 route::get('/dashboard', function(){
-    return Inertia::render('TripinDashboard');
+    return Inertia::render('HomePage');
 });
 
 //Rute jika sudah masuk ke aplikasi

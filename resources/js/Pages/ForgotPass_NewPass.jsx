@@ -15,19 +15,11 @@ const ResetPasswordNew = ({email}) => {
 
   console.log('New Pass Email : ', email);
 
-  const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
   const handleSubmitPassword = async (e) => {
     e.preventDefault();
     const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-
-    if (!validatePassword(newPassword)) {
-      setError("Password must be at least 8 characters with letters and numbers");
-      return;
-    }
+    console.log('New Pass : ', data.password );    
+    console.log('New Pass : ', data.confirmPassword );    
 
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match");

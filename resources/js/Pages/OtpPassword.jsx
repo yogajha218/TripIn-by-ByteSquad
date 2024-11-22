@@ -27,14 +27,19 @@ const OtpPassword = ({email}) => {
     const otp = verificationCode.join('');
 
     try{
-      const response = await axios.post('/forgot-password/otp/verify', {
+      const response = await axios.post(route('password.otp.verify'), {
         email,
         otp,
       }, {
         headers: {'X-CSRF-TOKEN': csrfToken}
       });
 
-      router.visit('/forgot-password')
+      // Handle successful response
+      if (response.status === 200) {
+          // Redirect to the desired route after successful verification
+          window.location.href = '/forgot-password'; // Assuming you return the redirect URL from the server
+      }
+
     } catch (err) {
       if (err.response && err.response.data.message) {
         setError(err.response.data.message);
@@ -87,6 +92,7 @@ const OtpPassword = ({email}) => {
               <input
                 key={index}
                 type="text"
+                id='otp'
                 inputMode="numeric"
                 name={`code-${index}`}
                 value={digit}
@@ -103,11 +109,11 @@ const OtpPassword = ({email}) => {
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
           {/* Confirm Button */}
-          <button type="submit"
+          <button
+          type='submit'
             className="w-full bg-primary2 text-white py-4 rounded-xl
              font-semibold hover:opacity-90 transition-opacity
              active:scale-[0.99]"
-             onClick={handleSubmit}
              >
                 Confirm
             </button>

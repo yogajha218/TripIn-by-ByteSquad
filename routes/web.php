@@ -26,8 +26,8 @@ route::get('/forgot-password', [AuthController::class, 'forgotPasswordIndex'])->
 route::get('/forgot-password/email', [AuthController::class, 'forgotPasswordEmailIndex']);
 route::get('/forgot-password/otp', [AuthController::class, 'otpPasswordIndex'])->name('password.otp');
 route::post('/forgot-password/otp/send', [AuthController::class, 'sendEmailPassword']);
-route::post('/forgot-password/otp/verify', [AuthController::class, 'verifyEmailPassword']);
-route::post('/forgot-password/new-password', [AuthController::class, 'updateNewPassword']);
+route::post('/forgot-password/otp/verify', [AuthController::class, 'verifyEmailPassword'])->name('password.otp.verify');
+route::post('/forgot-password/new-password', [AuthController::class, 'updatePassword']);
 
 //Rute jika sudah masuk ke aplikasi
 route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){

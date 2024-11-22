@@ -88,7 +88,8 @@ const Login = () => {
               onChange={(e) => setData("password", e.target.value)}
               required
             />
-            {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
+              {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
+
 
             {!isSignIn && (
               <input

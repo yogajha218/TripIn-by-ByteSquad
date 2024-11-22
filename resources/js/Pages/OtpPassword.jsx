@@ -56,12 +56,18 @@ const OtpPassword = ({email}) => {
     }
   };
 
+  const handleBack = () => {
+    window.location.href = "/forgot-password/email"
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-primary">
       {/* Top Section */}
       <div className="flex-none mt-0">
         {/* Back Button */}
-        <button className="text-white text-2xl bg-transparent hover:opacity-80 transition-opacity">
+        <button
+        onClick={handleBack}
+        className="text-white text-2xl bg-transparent hover:opacity-80 transition-opacity">
           &lt;
         </button>
       </div>
@@ -92,7 +98,6 @@ const OtpPassword = ({email}) => {
               <input
                 key={index}
                 type="text"
-                id='otp'
                 inputMode="numeric"
                 name={`code-${index}`}
                 value={digit}
@@ -109,11 +114,11 @@ const OtpPassword = ({email}) => {
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
           {/* Confirm Button */}
-          <button
-          type='submit'
+          <button type="submit"
             className="w-full bg-primary2 text-white py-4 rounded-xl
              font-semibold hover:opacity-90 transition-opacity
              active:scale-[0.99]"
+             onClick={handleSubmit}
              >
                 Confirm
             </button>

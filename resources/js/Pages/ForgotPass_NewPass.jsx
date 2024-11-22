@@ -15,7 +15,7 @@ const ResetPasswordNew = ({email}) => {
 
   console.log('New Pass Email : ', email);
 
-  // TODO 
+  // TODO
   // const validatePassword = (password) => {
   //   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   //   return passwordRegex.test(password);
@@ -24,9 +24,9 @@ const ResetPasswordNew = ({email}) => {
   const handleSubmitPassword = async (e) => {
     e.preventDefault();
     const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-    console.log('New Pass : ', data.password );    
-    console.log('New Pass : ', data.confirmPassword );  
-    
+    console.log('New Pass : ', data.password );
+    console.log('New Pass : ', data.confirmPassword );
+
     // TODO
     // if (!validatePassword(newPassword)) {
     //   setError("Password must be at least 8 characters with letters and numbers");
@@ -48,11 +48,16 @@ const ResetPasswordNew = ({email}) => {
     }
   };
 
+  const handleBack = () => {
+    window.location.href = "/forgot-password/email"
+  };
+
   return (
     <div className="min-h-screen bg-primary flex flex-col">
       <div className="px-4 pt-10">
-        <button 
-          className="text-white bg-transparent text-2xl hover:opacity-80 transition-opacity"
+        <button
+          onClick={handleBack}
+          className= "text-white bg-transparent text-2xl hover:opacity-80 transition-opacity"
         >
           &lt;
         </button>
@@ -60,10 +65,10 @@ const ResetPasswordNew = ({email}) => {
 
       <div className="flex justify-center">
         <div className="flex items-center">
-          <img 
-            src='/TripInLogo.svg' 
-            className="h-40 object-contain" 
-            alt="Logo of TripIn" 
+          <img
+            src='/TripInLogo.svg'
+            className="h-40 object-contain"
+            alt="Logo of TripIn"
           />
         </div>
       </div>
@@ -100,6 +105,8 @@ const ResetPasswordNew = ({email}) => {
                 ${!isPasswordMatch ? 'border-red-500' : 'border-gray-300'}`}
               required
             />
+            {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
+
             <input
               type="password"
               name="confirmPassword"
@@ -111,9 +118,10 @@ const ResetPasswordNew = ({email}) => {
                 ${!isPasswordMatch ? 'border-red-500' : 'border-gray-300'}`}
               required
             />
+            {errors.confirmPassword && <div className="text-red-500 text-sm">{errors.confirmPassword}</div>}
             <button
               type="submit"
-              className={`w-full bg-primary2 text-white py-3 rounded-lg font-medium 
+              className={`w-full bg-primary2 text-white py-3 rounded-lg font-medium
                 ${!isPasswordMatch ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90 transition-opacity'}
               `}
               disabled={!isPasswordMatch || processing}

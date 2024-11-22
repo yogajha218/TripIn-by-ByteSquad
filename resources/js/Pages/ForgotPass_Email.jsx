@@ -15,7 +15,7 @@ const ResetPasswordEmail = () => {
   const handleSubmitEmail = (e) => {
     e.preventDefault();
     const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-    
+
     if (!validateEmail(data.email)) {
       setError("Please enter a valid email address");
       return;
@@ -31,7 +31,7 @@ const ResetPasswordEmail = () => {
   };
 
   const handleBack = () => {
-    //
+    window.location.href = "/auth"
   };
 
   return (

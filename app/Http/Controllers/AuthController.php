@@ -55,11 +55,12 @@ class AuthController extends Controller
     public function register(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
             'confirmPassword' => 'required|same:password',
         ], [
             'email.unique' => 'Email is already Taken.',
             'password.min' => 'Your password must be at least 8 characters.',
+            'password.regex' => 'Password must contain both letters and numbers.',
             'confirmPassword.same' => 'The password confirmation does not match.',
         ]);
 
@@ -200,8 +201,13 @@ class AuthController extends Controller
     public function updatePassword(Request $request){
         $request->validate([
             'email' => 'required',
-            'password' => 'required',
+            'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
             'confirmPassword' => 'required|same:password',
+
+        ], [
+            'password.min' => 'Your password must be at least 8 characters.',
+            'password.regex' => 'Password must contain both letters and numbers.',
+            'confirmPassword.same' => 'The password confirmation does not match.',
         ]);
 
         FacadesLog::info('new pass : ' . $request->password);

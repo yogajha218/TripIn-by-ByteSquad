@@ -34,6 +34,10 @@ route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     route::get('/', [HomeController::class, 'homeIndex'])->name('home');
 });
 
+// testing
+Route::get('/profile', function () {
+    return Inertia::render('ProfilePage');
+});
 
 
 

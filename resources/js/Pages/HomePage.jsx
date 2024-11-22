@@ -41,12 +41,12 @@ function HomePage() {
         };
 
         const upcomingCardProp = {
-            name: "Shuttle Bus Tripi",
-            plateNumber: "BHXXX12345JJ",
-            origin: "Bandar Udara Internasional Haji Muhammad Sulaiman Sepinggan",
-            destination: "The Trans Luxury Hotel Bandung",
-            status: "On Trip",
-            price: "120.000/PAX",
+            // name: "Shuttle Bus Tripi",
+            // plateNumber: "BHXXX12345JJ",
+            // origin: "Bandar Udara Internasional Haji Muhammad Sulaiman Sepinggan",
+            // destination: "The Trans Luxury Hotel Bandung",
+            // status: "On Trip",
+            // price: "120.000/PAX",
         };
 
         checkIsCardDataEmpty(
@@ -152,7 +152,10 @@ function HomePage() {
                                     CardProp={upcomingTripsCardProp}
                                 />
                             ) : (
-                                <div>none</div>
+                                <div className="pb-9 justify-center items-center flex flex-col">
+                                    <img src="/tayo-bus.svg" />
+                                    <p>no tayo trip available</p>
+                                </div>
                             )}
                         </div>
                     </div>

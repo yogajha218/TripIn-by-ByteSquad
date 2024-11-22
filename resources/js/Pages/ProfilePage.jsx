@@ -6,7 +6,7 @@ const ProfilePage = () => {
     return (
         <>
             <div className="flex justify-center">
-                <div className="  h-fit w-full lg:max-w-[500px] bg-slate-200">
+                <div className="  h-fit w-full lg:max-w-[500px]">
                     <div className="w-full h-[220px] bg-primary">
                         <p className="text-white font-semibold text-3xl pt-16 text-center">
                             Profile

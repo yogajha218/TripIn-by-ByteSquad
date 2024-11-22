@@ -14,7 +14,6 @@ const ResetPasswordEmail = () => {
 
   const handleSubmitEmail = (e) => {
     e.preventDefault();
-    console.log("Email send : ", data);
     const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
     
     if (!validateEmail(data.email)) {
@@ -27,6 +26,8 @@ const ResetPasswordEmail = () => {
         "X-CSRF-TOKEN": csrfToken,
       },
     });
+
+    console.log("Email send : ", data.email);
   };
 
   const handleBack = () => {

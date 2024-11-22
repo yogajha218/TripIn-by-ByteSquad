@@ -1,16 +1,18 @@
+import { Link } from '@inertiajs/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 
 const OtpPassword = ({email}) => {
   const [verificationCode, setVerificationCode] = useState(['', '', '', '']);
   const [error, setError] = useState("");
+  console.log("Email received : ", email);
 
   const handleChange = (index, value) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
       const newCode = [...verificationCode];
       newCode[index] = value;
       setVerificationCode(newCode);
-      
+
       // Auto-focus next input
       if (value && index < 3) {
         const nextInput = document.querySelector(`input[name="code-${index + 1}"]`);
@@ -23,14 +25,21 @@ const OtpPassword = ({email}) => {
     e.preventDefault();
     const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
     const otp = verificationCode.join('');
-    
+
     try{
-      const response = await axios.post('/forgot-password/otp/verify', {
-        email, 
+      const response = await axios.post(route('password.otp.verify'), {
+        email,
         otp,
       }, {
         headers: {'X-CSRF-TOKEN': csrfToken}
       });
+
+      // Handle successful response
+      if (response.status === 200) {
+          // Redirect to the desired route after successful verification
+          window.location.href = '/forgot-password'; // Assuming you return the redirect URL from the server
+      }
+
     } catch (err) {
       if (err.response && err.response.data.message) {
         setError(err.response.data.message);
@@ -59,10 +68,10 @@ const OtpPassword = ({email}) => {
 
       {/* Logo Section */}
       <div className="flex-none flex justify-center px-4">
-        <img 
-          src='/TripInLogo.svg' 
-          className="h-38 object-contain" 
-          alt="Logo of TripIn" 
+        <img
+          src='/TripInLogo.svg'
+          className="h-38 object-contain"
+          alt="Logo of TripIn"
         />
       </div>
 
@@ -83,13 +92,14 @@ const OtpPassword = ({email}) => {
               <input
                 key={index}
                 type="text"
+                id='otp'
                 inputMode="numeric"
                 name={`code-${index}`}
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-16 h-16 border-2 border-gray-200 rounded-xl 
-                          text-center bg-transparent text-xl text-black 
+                className="w-16 h-16 border-2 border-gray-200 rounded-xl
+                          text-center bg-transparent text-xl text-black
                           font-semibold focus:border-gray-400 focus:outline-none
                           transition-colors"
                 maxLength={1}
@@ -97,13 +107,16 @@ const OtpPassword = ({email}) => {
             ))}
           </div>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-          
-          {/* Confirm Button */} 
-          <button className="w-full bg-primary2 text-white py-4 rounded-xl 
-                           font-semibold hover:opacity-90 transition-opacity 
-                           active:scale-[0.99]">
-            Confirm
-          </button>
+
+          {/* Confirm Button */}
+          <button
+          type='submit'
+            className="w-full bg-primary2 text-white py-4 rounded-xl
+             font-semibold hover:opacity-90 transition-opacity
+             active:scale-[0.99]"
+             >
+                Confirm
+            </button>
           </form>
         </div>
       </div>

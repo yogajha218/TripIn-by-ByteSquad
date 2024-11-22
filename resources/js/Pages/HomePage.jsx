@@ -105,7 +105,7 @@ function HomePage() {
                     <button 
                         onClick={handleLogout}
                         className="text-white bg-primary2 py-2 rounded-lg mx-5">
-                        BOOK NOW
+                        LOGOUT SEMENTARA
                     </button>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { useState } from "react"; 
+import { useState } from "react";
 
 const ResetPassword = () => {
     const [step, setStep] = useState(1);
@@ -90,14 +90,14 @@ const ResetPassword = () => {
             setError("");
             setIsPasswordMatch(true);
         } else {
-            console.log("Navigate back");
+            window.location.href = '/auth';;
         }
     };
 
     return (
         <div className="min-h-screen bg-primary flex flex-col">
             <div className="px-4 pt-10">
-                <button 
+                <button
                     onClick={handleBack}
                     className="text-white bg-transparent text-2xl hover:opacity-80 transition-opacity"
                 >
@@ -107,10 +107,10 @@ const ResetPassword = () => {
 
             <div className="flex justify-center">
                 <div className="flex items-center">
-                    <img 
-                        src='/TripInLogo.svg' 
-                        className="h-40 object-contain" 
-                        alt="Logo of TripIn" 
+                    <img
+                        src='/TripInLogo.svg'
+                        className="h-40 object-contain"
+                        alt="Logo of TripIn"
                     />
                 </div>
             </div>
@@ -174,7 +174,7 @@ const ResetPassword = () => {
                             />
                             <button
                                 type="submit"
-                                className={`w-full bg-primary2 text-white py-3 rounded-lg font-medium 
+                                className={`w-full bg-primary2 text-white py-3 rounded-lg font-medium
                                     ${!isPasswordMatch ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90 transition-opacity'}
                                 `}
                                 disabled={!isPasswordMatch}

@@ -18,6 +18,17 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
             },
         });
     };
+
+    const handleOtp = (e) => {
+        e.preventDefault();
+        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+        post(route('profile.edit.otp.send'), {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+            },
+        });
+    };
     
     return (
         <div className="flex justify-center">
@@ -73,7 +84,7 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 disabled={true}                             
                                 required
                             />
-                            <a className="flex px-5 h-[48px] bg-white border border-slate-300 mb-8 mt-[-1.5rem] rounded-lg  items-center hover:bg-slate-50 hover:border-slate-500 hover:cursor-pointer">
+                            <a onClick={handleOtp} className="flex px-5 h-[48px] bg-white border border-slate-300 mb-8 mt-[-1.5rem] rounded-lg  items-center hover:bg-slate-50 hover:border-slate-500 hover:cursor-pointer">
                                 <p>Change password</p>
                             </a>
                             <label className="font-bold text-lg leading-10">

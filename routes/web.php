@@ -40,6 +40,11 @@ route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     route::get('/profile', [ProfileController::class, 'profileIndex'])->name('profile');
     route::get('/profile/edit', [ProfileController::class, 'profileEditIndex'])->name('profile.edit');
     route::post('/profile/edit/send', [ProfileController::class, 'profileEdit'])->name('profile.edit.send');
+    route::get('/profile/password/otp', [ProfileController::class, 'profileOtpPasswordIndex'])->name('profile.edit.otp');
+    route::post('/profile/edit/password/otp/send', [ProfileController::class, 'sendEmailOtp'])->name('profile.edit.otp.send');
+    route::post('/profile/edit/password/otp/verify', [ProfileController::class, 'verifyEmailOtp'])->name('profile.edit.otp.verify');
+    route::get('/profile/edit/password', [ProfileController::class, 'profileUpdatePasswordIndex'])->name('profile.edit.password');
+    route::post('/profile/edit/password/send', [ProfileController::class, 'updatePassword'])->name('profile.edit.password.send');
 });
 
 

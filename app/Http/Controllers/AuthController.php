@@ -157,9 +157,7 @@ class AuthController extends Controller
             ]);
 
             session(['email' => $request->email]);
-            FacadesLog::info('Session Email :'. session('email'));
-            FacadesLog::info('Generated OTP : '. $otpCode);
-            // Return an Inertia-compatible redirect
+        
             return redirect()->route('password.otp')->with(['email' => $user->email]);
         }
     }
@@ -179,11 +177,6 @@ class AuthController extends Controller
             FacadesLog::error('OTP record not found for email: ' . $request->email);
             return response()->json(['message' => 'OTP record not found.'], 404);
         }
-
-        // Now that we know $otpRecord is not null, we can safely log its properties
-        FacadesLog::info('User  email : ' . $otpRecord->email);
-        FacadesLog::info('User  OTP : ' . $otpRecord->otp);
-        FacadesLog::info('User  Input OTP : ' . $request->otp);
 
         // Check if the provided OTP matches the stored OTP
         if ($request->otp != $otpRecord->otp) {

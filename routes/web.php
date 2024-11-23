@@ -35,6 +35,9 @@ route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     route::get('/', [HomeController::class, 'homeIndex'])->name('home');
 });
 
+route::get('/History', function(){
+    return Inertia::render('HistoryPage');
+});
 
 
 

@@ -27,6 +27,33 @@ class AuthController extends Controller
         return Inertia::render('LoginPage');
     }
 
+    public function forgotPasswordEmailIndex(){
+        return Inertia::render('ForgotPass_Email');
+    }
+
+    public function forgotPasswordIndex(){
+        $email = session('email');
+        return Inertia::render('ForgotPass_NewPass', ['email' => $email]);
+    }
+
+    public function otpRegisterIndex(){
+        $email = session('email');
+        return Inertia::render('Otp', ['email' => $email]);
+    }
+
+    public function privacyIndex(){
+        return Inertia::render('PrivacyPolicy');
+    }
+
+    public function termsIndex(){
+        return Inertia::render('TermsAndCondition');
+    }
+
+    public function otpPasswordIndex(Request $request){
+        $email = session('email');
+        return Inertia::render('OtpPassword', ['email' => $email]);
+    }
+
     public function register(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
@@ -71,7 +98,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(['email' => 'An unexpected error occurred. Please try again later.'])->withInput();
         }
     }
-    
+
     public function verify(Request $request)
     {
         $request->validate([
@@ -101,6 +128,65 @@ class AuthController extends Controller
         session()->forget('temp_password');
 
         return redirect()->route('home')->with('success', 'Registration success!');
+    }
+
+    public function sendEmailPassword(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+                return redirect()->back()->withErrors(['email' => 'Email does not exist']);
+
+            } else {
+                $otpCode = rand(1000, 9999);
+
+                Mail::raw("Your OTP code is : $otpCode", function ($message) use ($request) {
+                    $message->to($request->email)->subject('Your OTP Code');
+                });
+
+                UserOtp::where('email', $request->email)->delete();
+                UserOtp::updateOrCreate([
+                    'email' => $request->email,
+                    'otp' => $otpCode,
+                    'otp_expires_at' => now()->addMinutes(10),
+                ]);
+
+                session(['email' => $user->email]);
+
+                // Return an Inertia-compatible redirect
+                return redirect()->route('password.otp')->with(['email' => $user->email]);
+            }
+        // try {
+
+        // } catch (\Exception $e) {
+        //     FacadesLog::error('Error while sending email: ' . $e->getMessage());
+
+        //     return redirect()->back()->withErrors(['email' => 'Failed to send email.']);
+        // }
+    }
+
+    public function verifyEmailPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'otp' => 'required',
+        ]);
+
+        $otpRecord = UserOtp::where('email', $request->email)->first();
+
+        if (!$otpRecord || $otpRecord->otp != $request->otp || now()->isAfter($otpRecord->otp_expires_at)) {
+            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
+        }
+
+        // session()->forget('emailPassword');
+        return redirect()->route('password.index'); //ubah ke halaman new password
     }
 
     public function login(Request $request){
@@ -146,4 +232,58 @@ class AuthController extends Controller
 
         return redirect()->route('auth')->with('success', 'Logged out successfully!');
     }
+
+    public function sendEmail(Request $request){
+        $validator = Validator::make(request()->all(), [
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::where('email', '=', $request->email)->first();
+
+        try{
+            if(!$user){
+                $otpCode = rand(1000, 9999);
+
+                Mail::raw("Your OTP code is : $otpCode", function($message) use ($request){
+                    $message->to($request->email) -> subject('Your OTP Code');
+                });
+
+                UserOtp::Create([
+                    'email' => $request->email,
+                    'otp' => $otpCode,
+                    'otp_expires_at' => now()->addMinutes(10),
+                ]);
+
+                // session(['email' => $request->email]);
+
+                return redirect();
+            } else {
+                return redirect()->back()->withErrors(['email' => 'Email does not found']);
+            }
+        } catch (\Exception $e) {
+            FacadesLog::error('Error while sending email: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['email' => 'Email does not found']);
+        }
+    }
+
+    public function verifyEmail(Request $request){
+        $request->validate([
+            'email' => 'required',
+            'otp' => 'required',
+        ]);
+
+        $otpRecord = UserOtp::where('email', $request->email)->first();
+
+        if (!$otpRecord || $otpRecord->otp != $request->otp || now()->isAfter($otpRecord->otp_expires_at)) {
+            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
+        }
+
+        return redirect()->route('forgotPassword'); //ubah ke halaman new password
+    }
 }
+
+

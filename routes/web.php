@@ -9,7 +9,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 
-// Rute untuk login dan registrasi
+// Rute untuk logout
+route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
+
+// Route untuk auth
 route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::get('/', [AuthController::class, 'welcomeIndex'])->name('welcome');
     route::get('/auth', [AuthController::class, 'authIndex'])->name('auth');
@@ -21,19 +24,23 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::get('/terms-condition', [AuthController::class, 'termsIndex']);
 });
 
-route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
-route::get('/forgot-password', [AuthController::class, 'forgotPasswordIndex'])->name('password.index');
-route::get('/forgot-password/email', [AuthController::class, 'forgotPasswordEmailIndex']);
-route::get('/forgot-password/otp', [AuthController::class, 'otpPasswordIndex'])->name('password.otp');
-route::post('/forgot-password/otp/send', [AuthController::class, 'sendEmailPassword']);
-route::post('/forgot-password/otp/verify', [AuthController::class, 'verifyEmailPassword'])->name('password.otp.verify');
-route::post('/forgot-password/new-password', [AuthController::class, 'updatePassword']);
+// Rute untuk lupa password
+route::group(['prefix' => '/forgot-password'], function(){
+    route::get('/', [AuthController::class, 'forgotPasswordIndex'])->name('password.index');
+    route::get('/email', [AuthController::class, 'forgotPasswordEmailIndex']);
+    route::get('/otp', [AuthController::class, 'otpPasswordIndex'])->name('password.otp');
+    route::post('/otp/send', [AuthController::class, 'sendEmailPassword']);
+    route::post('/otp/verify', [AuthController::class, 'verifyEmailPassword'])->name('password.otp.verify');
+    route::post('/new-password', [AuthController::class, 'updatePassword']);
+});
 
 //Rute jika sudah masuk ke aplikasi
 route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     route::get('/', [HomeController::class, 'homeIndex'])->name('home');
+    route::get('/profile', [ProfileController::class, 'profileIndex'])->name('profile');
+    route::get('/profile/edit', [ProfileController::class, 'profileEditIndex'])->name('profile.edit');
+    route::post('/profile/edit/send', [ProfileController::class, 'profileEdit'])->name('profile.edit.send');
 });
-
 
 
 

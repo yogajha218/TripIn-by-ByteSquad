@@ -9,40 +9,54 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use App\Models\User;
 use Inertia\Response;
 
 class ProfileController extends Controller
-{
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): Response
-    {
-        return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
+{    
+
+    public function profileIndex(){
+        return Inertia::render('ProfilePage');
+    }
+
+    public function profileEditIndex(){
+        $user = Auth::user();
+        return Inertia::render('EditProfilePage',  [
+            'email' => $user->email, 
+            'username' => $user->username, 
+            'phone_number' => $user->phone_number,
+            'gender' => $user->gender,
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function profileEdit(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $request->validate([
+            'username' =>  'required',
+            'phone_number' => 'required',
+            'gender' => 'required',
+        ]);
+        
+        try{
+            $user = User::where('email', Auth::user()->email);
+            if(!$user){
+                return redirect()->back()->withErrors('User not authenticated');
+            } else {
+                $user->update([
+                    'username' => $request->username,
+                    'phone_number' => $request->phone_number,
+                    'gender' => $request->gender,
+                ]);;
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+                $user->save();
+
+                return redirect()->back()->with('success', 'succesfully updating the data');
+            }
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit');
     }
-
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([

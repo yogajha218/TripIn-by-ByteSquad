@@ -8,10 +8,12 @@ class Credit extends Model
 {
     protected $primaryKey = 'credit_id';
     protected $table = 'credits';
+    protected $fillable =[
+        'credit_amount',
+        'user_id',
+    ];
 
-
-    public function payment()
-    {
-        return $this->belongsTo(Payment::class, 'payment_id');
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
     }
 }

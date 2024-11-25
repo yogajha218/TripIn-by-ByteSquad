@@ -15,6 +15,7 @@ class HomeController extends Controller
 {
     public function homeIndex(){
         $users = User::with('credit')->get();
+        
 
         return Inertia::render('HomePage', [
             'users' => $users,

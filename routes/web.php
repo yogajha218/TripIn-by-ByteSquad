@@ -8,6 +8,8 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SeatController;
+use App\Http\Controllers\SelectSeatController;
 
 // Rute untuk logout
 route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
@@ -46,6 +48,13 @@ route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     route::get('/profile/edit/password', [ProfileController::class, 'profileUpdatePasswordIndex'])->name('profile.edit.password');
     route::post('/profile/edit/password/send', [ProfileController::class, 'updatePassword'])->name('profile.edit.password.send');
 });
+
+Route::get('/selectseat', function () {
+    return Inertia::render('SelectSeat');
+});
+
+route::get('/seat', [SeatController::class, 'seatIndex'])->name('seat.index');
+route::post('/seat/store/{vehicle_id}', [SeatController::class, 'seatStore'])->name('seat.store');
 
 
 

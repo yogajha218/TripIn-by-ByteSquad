@@ -4,7 +4,7 @@ import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/navbarTripin";
 
-function HomePage() {
+const HomePage = () => {
     const { users } = usePage().props; // Get users from Inertia props
     const [user, setUser] = useState({});
     const [isTripAvailable, setIsTripsAvailable] = useState(false);

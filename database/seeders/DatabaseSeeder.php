@@ -36,15 +36,15 @@ class DatabaseSeeder extends Seeder
         Vehicle::insert([
             [
                 'license_plate' => 'B 1234 BX',
-                'seat' => 20,
+                'seats' => 20,
                 'status' => 'Tersedia', 
             ], [
                 'license_plate' => 'B 2255 RD',
-                'seat' => 22,
+                'seats' => 22,
                 'status' => 'Tersedia', 
             ], [
                 'license_plate' => 'B 6565 VC',
-                'seat' => 20,
+                'seats' => 20,
                 'status' => 'Tersedia', 
             ],  
         ]);

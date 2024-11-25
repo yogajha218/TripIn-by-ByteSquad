@@ -25,6 +25,15 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (empty($user->username)) {
+                $user->username = 'user' . $user->user_id;
+            }
+        });
+    }
+
     public function isOtpValid($otp)
     {
         return $this->otp === $otp && !$this->isExpired();

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id('vehicle_id')->autoIncrement();
             $table->string('license_plate');
-            $table->integer('seat');
+            $table->integer('seats');
             $table->string('status');
             $table->unsignedBigInteger('booking_id')->nullable();
+            $table->json('booked_seats')->nullable()->default('[]');
 
             $table->timestamps();
             $table->foreign('booking_id')->references('booking_id')->on('bookings')->onDelete('cascade');            

@@ -8,6 +8,15 @@ class Vehicle extends Model
 {
     protected $primaryKey = 'vehicle_id';
     protected $table = 'vehicles';
+    protected $fillable = [
+        'license_plate',
+        'seats', 
+        'status',
+        'booked_seats' => 'array',
+    ];
+    protected $casts = [
+        'booked_seats' => 'array',
+    ];
 
     public function driver()
     {

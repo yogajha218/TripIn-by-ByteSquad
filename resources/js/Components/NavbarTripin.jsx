@@ -2,6 +2,11 @@ import { Link } from "@inertiajs/react";
 import React, { useLayoutEffect, useState } from "react";
 const NavbarTripin = ({ pageInfo }) => {
     const [activePage, setActivePage] = useState("");
+    const handleReload = () => {
+        e.preventDefault();
+        sessionStorage.setItem("reloaded", "true");
+        window.location.reload();
+    }
 
     useLayoutEffect(() => {
         switch (pageInfo) {
@@ -63,6 +68,7 @@ const NavbarTripin = ({ pageInfo }) => {
             )}
             {activePage === "ProfilePage" ? (
                 <Link
+                    onClick={handleReload}
                     href="/home/profile"
                     className="flex justify-center items-center"
                 >
@@ -70,6 +76,7 @@ const NavbarTripin = ({ pageInfo }) => {
                 </Link>
             ) : (
                 <Link
+                    onClick={handleReload}
                     href="/home/profile"
                     className="flex justify-center items-center"
                 >

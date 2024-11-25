@@ -37,6 +37,10 @@ class ProfileController extends Controller
         return Inertia::render('EditProfilePassword', ['email' => $user->email]);
     }
 
+    public function faqIndex(){
+        return Inertia::render('Faq');
+    }
+
     public function profileEditIndex(){
         $user = Auth::user();
         return Inertia::render('EditProfilePage',  [

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import NavbarTripin from "@/Components/navbarTripin";
+import { Button } from "@headlessui/react";
 
 const ProfilePage = () => {
     const [notification, setNotification] = useState(null);
@@ -23,6 +24,36 @@ const ProfilePage = () => {
     //         return () => clearTimeout(timer);
     //     }
     // }, [flash.success]);
+
+    if (sessionStorage.getItem("reloaded") === "true") {
+        sessionStorage.removeItem("reloaded"); // Remove the flag after first reload
+    }
+    const handleLogout = async () => {
+        await fetch("/sanctum/csrf-cookie");
+
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
+
+        try {
+            const response = await fetch("/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            });
+
+            if (response.ok) {
+                window.location.href = "/"; // Redirect to login after logout
+            } else {
+                alert("Logout failed, please try again");
+            }
+        } catch (error) {
+            console.error("Error during logout:", error);
+            alert("Logout failed, please try again");
+        }
+    };
 
     return (
         <>
@@ -97,7 +128,7 @@ const ProfilePage = () => {
                             </p>
                             <div className="w-full h-[198px] grid grid-cols-1 overflow-hidden rounded-xl">
                                 <Link
-                                    href="#"
+                                    href="/faq"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
                                 >
                                     <img src="/faq.svg" alt="icon" />
@@ -124,13 +155,13 @@ const ProfilePage = () => {
                                 Action
                             </p>
                             <div className="w-full h-[68px]  overflow-hidden rounded-xl mb-14">
-                                <Link
-                                    href="#"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[68px]"
+                                <button
+                                    onClick={handleLogout}
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[68px] w-full"
                                 >
                                     <img src="/logout.svg" alt="icon" />
                                     <p className="px-5">Log Out</p>
-                                </Link>
+                                </button>
                             </div>
                         </div>
                     </div>

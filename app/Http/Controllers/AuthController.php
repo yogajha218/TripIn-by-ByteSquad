@@ -72,6 +72,9 @@ class AuthController extends Controller
 
         try{
             if(!$user){
+                if($userOtp = UserOtp::where('email', $request->email)){
+                    $userOtp->delete();
+                }
                 $otpCode = rand(1000, 9999);
 
                 Mail::raw("Your OTP code is : $otpCode", function($message) use ($request){

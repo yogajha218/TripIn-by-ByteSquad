@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 
 const FAQ = () => {
   const faqs = [
@@ -41,7 +41,7 @@ const FAQ = () => {
     <div className="min-h-screen bg-primary flex flex-col">
       {/* Header */}
       <div className="flex items-center px-4 py-6 mt-4 mb-4 sticky top-0 bg-primary z-10">
-        <Link to="/profile" className="flex items-center text-white">
+        <Link href="/home/profile" className="flex items-center text-white">
           <svg
             className="w-6 h-6"
             fill="none"

@@ -100,6 +100,12 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
                                 required
                             />
+                            {errors.phone_number && (
+                            <p className="text-red-500 text-sm">
+                                {errors.phone_number}
+                            </p>
+                            )}
+
                             <div className="flex flex-col items-center">
                                 <label className="font-bold text-lg leading-10 w-full text-start">
                                     Gender

@@ -61,6 +61,8 @@ class ProfileController extends Controller
             'username' =>  'required',
             'phone_number' => 'required|numeric',
             'gender' => 'required',
+        ], [
+            'phone_number.numeric'=> 'Please enter a number',
         ]);
 
         try{

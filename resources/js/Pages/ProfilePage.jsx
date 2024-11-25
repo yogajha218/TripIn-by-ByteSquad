@@ -89,7 +89,7 @@ const ProfilePage = () => {
                             </p>
                             <div className="w-full h-[198px] grid grid-cols-1 overflow-hidden rounded-xl">
                                 <Link
-                                    href="#"
+                                    href="/faq"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
                                 >
                                     <img src="/faq.svg" alt="icon" />

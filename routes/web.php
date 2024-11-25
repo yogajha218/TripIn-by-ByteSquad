@@ -22,8 +22,6 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::post('/register', [AuthController::class, 'register']);
     route::get('/register/otp', [AuthController::class, 'otpRegisterIndex'])->name('otp.form');
     route::post('/register/otp/verify', [AuthController::class, 'verify'])->name('otp.verify');
-    route::get('/privacy-policy', [AuthController::class, 'privacyIndex']);
-    route::get('/terms-condition', [AuthController::class, 'termsIndex']);
 });
 
 // Rute untuk lupa password
@@ -49,12 +47,11 @@ route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     route::post('/profile/edit/password/send', [ProfileController::class, 'updatePassword'])->name('profile.edit.password.send');
 });
 
-Route::get('/selectseat', function () {
-    return Inertia::render('SelectSeat');
-});
-
+route::get('/privacy-policy', [AuthController::class, 'privacyIndex']);
+route::get('/terms-condition', [AuthController::class, 'termsIndex']);
 route::get('/seat', [SeatController::class, 'seatIndex'])->name('seat.index');
 route::post('/seat/store/{vehicle_id}', [SeatController::class, 'seatStore'])->name('seat.store');
+route::get('/faq', [ProfileController::class, 'faqIndex']);
 
 
 

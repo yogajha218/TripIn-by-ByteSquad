@@ -12,17 +12,26 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log as FacadesLog;   
+use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Response;
 
 class ProfileController extends Controller
-{    
+{
 
     public function profileIndex(){
-        return Inertia::render('ProfilePage');
+        return Inertia::render('ProfilePage', [
+            'auth' => [
+                'user' => Auth::user(),
+            ],
+            // Explicitly pass any flash messages
+            'flash' => [
+                'success' => session('success'),
+                // Add other flash message types as needed
+            ]
+        ]);
     }
-
+    
     public function profileUpdatePasswordIndex(){
         $user = Auth::user();
         return Inertia::render('EditProfilePassword', ['email' => $user->email]);
@@ -31,8 +40,8 @@ class ProfileController extends Controller
     public function profileEditIndex(){
         $user = Auth::user();
         return Inertia::render('EditProfilePage',  [
-            'email' => $user->email, 
-            'username' => $user->username, 
+            'email' => $user->email,
+            'username' => $user->username,
             'phone_number' => $user->phone_number,
             'gender' => $user->gender,
         ]);
@@ -49,9 +58,9 @@ class ProfileController extends Controller
             'phone_number' => 'required',
             'gender' => 'required',
         ]);
-        
+
         try{
-            $user = User::where('email', Auth::user()->email);
+            $user = User::where('email', Auth::user()->email)->first();
             if(!$user){
                 return redirect()->back()->withErrors('User not authenticated');
             } else {
@@ -63,7 +72,7 @@ class ProfileController extends Controller
 
                 $user->save();
 
-                return redirect()->back()->with('success', 'succesfully updating the data');
+                return redirect()->route('profile')->with('success', 'Profile updated successfully');
             }
 
         } catch (\Exception $e) {

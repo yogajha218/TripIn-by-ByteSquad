@@ -1,10 +1,46 @@
-import React from "react";
-import { Link } from "@inertiajs/react";
+import React, { useState, useEffect } from "react";
+import { Link, usePage } from "@inertiajs/react";
 import NavbarTripin from "@/Components/navbarTripin";
 
 const ProfilePage = () => {
+    const [notification, setNotification] = useState(null);
+    const { auth, flash = {} } = usePage().props; // Provide a default empty object
+    const { user } = auth;
+
+    // useEffect(() => {
+    //     if (flash && flash.success) {
+    //         setNotification({
+    //             type: 'success',
+    //             message: flash.success
+    //         });
+
+    //         // Auto-dismiss notification after 3 seconds
+    //         const timer = setTimeout(() => {
+    //             setNotification(null);
+    //         }, 3000);
+
+    //         // Cleanup the timer
+    //         return () => clearTimeout(timer);
+    //     }
+    // }, [flash.success]);
+
     return (
         <>
+        {/* Notification Component
+        //{notification && (
+                <div
+                    className={`
+                        fixed top-0 left-0 right-0 z-50
+                        ${notification.type === 'success' ? 'bg-primary' : 'bg-red-500'}
+                        text-white text-center py-3
+                        transition-all duration-300 ease-in-out
+                        animate-bounce
+                    `}
+                >
+                    {notification.message}
+                </div>
+            )} */}
+
             <div className="flex justify-center">
                 <div className="  h-fit w-full lg:max-w-[500px]">
                     <div className="w-full h-[220px] bg-primary">
@@ -18,10 +54,13 @@ const ProfilePage = () => {
                                 <img src="https://placehold.co/120x120" />
                             </div>
                             <p className="text-3xl font-bold text-center">
-                                John Doe
+                                {user.username}
                             </p>
                             <p className="text-sm font-thin text-center">
-                                @John Doe
+                                {user.email}
+                            </p>
+                            <p className="text-sm font-thin text-center">
+                                {user.phone_number}
                             </p>
                         </div>
                         <div className="h-max-[230px] w-max-[392px] py-3 ">

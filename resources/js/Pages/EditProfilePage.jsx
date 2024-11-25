@@ -11,7 +11,7 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-        
+
         post(route('profile.edit.send'), data, {
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
@@ -29,7 +29,7 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
             },
         });
     };
-    
+
     return (
         <div className="flex justify-center">
             <div className="  h-fit w-full lg:max-w-[500px]">
@@ -67,7 +67,7 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 name="email"
                                 placeholder="Email"
                                 className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
-                                value={email}                               
+                                value={email}
                                 disabled={true}
                                 required
                                 autoComplete="email"
@@ -81,7 +81,7 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 name="password"
                                 value="********"
                                 className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
-                                disabled={true}                             
+                                disabled={true}
                                 required
                             />
                             <a onClick={handleOtp} className="flex px-5 h-[48px] bg-white border border-slate-300 mb-8 mt-[-1.5rem] rounded-lg  items-center hover:bg-slate-50 hover:border-slate-500 hover:cursor-pointer">
@@ -104,12 +104,12 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 <label className="font-bold text-lg leading-10 w-full text-start">
                                     Gender
                                 </label>
-                                <select 
+                                <select
                                     className="w-full border border-slate-300 rounded-md"
                                     onChange={(e) => setData('gender', e.target.value)}
                                     value={data.gender}
                                 >
-                                    <option value="" disabled>Select Gender</option>
+                                    <option value="" selected disabled>Select Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>

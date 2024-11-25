@@ -1,8 +1,34 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 import NavbarTripin from "@/Components/navbarTripin";
+import { Button } from "@headlessui/react";
 
 const ProfilePage = () => {
+    const handleLogout = async () => {
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
+
+        try {
+            const response = await fetch("/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            });
+
+            if (response.ok) {
+                window.location.href = "/"; // Redirect to login after logout
+            } else {
+                alert("Logout failed, please try again");
+            }
+        } catch (error) {
+            console.error("Error during logout:", error);
+            alert("Logout failed, please try again");
+        }
+    };
+
     return (
         <>
             <div className="flex justify-center">
@@ -85,13 +111,13 @@ const ProfilePage = () => {
                                 Action
                             </p>
                             <div className="w-full h-[68px]  overflow-hidden rounded-xl mb-14">
-                                <Link
-                                    href="#"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[68px]"
+                                <button
+                                    onClick={handleLogout}
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[68px] w-full"
                                 >
                                     <img src="/logout.svg" alt="icon" />
                                     <p className="px-5">Log Out</p>
-                                </Link>
+                                </button>
                             </div>
                         </div>
                     </div>

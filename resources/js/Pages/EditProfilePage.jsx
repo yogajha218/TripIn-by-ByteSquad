@@ -109,7 +109,7 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                     onChange={(e) => setData('gender', e.target.value)}
                                     value={data.gender}
                                 >
-                                    <option value="" disabled>Select Gender</option>
+                                    <option value="" selected disabled>Select Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>

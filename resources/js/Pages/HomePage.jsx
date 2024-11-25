@@ -4,9 +4,7 @@ import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/navbarTripin";
 
-const HomePage = () => {
-    const { users } = usePage().props; // Get users from Inertia props
-    const [user, setUser] = useState({});
+const HomePage = ({credit, username, user_id}) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
@@ -21,15 +19,6 @@ const HomePage = () => {
     }
 
     useLayoutEffect(() => {
-        // Set the first user from the backend data (adjust as needed)
-        if (users && users.length > 0) {
-            const loggedInUser = users[0]; // Assuming the first user is logged in
-            setUser({
-                userName: loggedInUser.username || "Guest",
-                userCredit: loggedInUser.credit?.credit_amount || 0, // Access credit amount
-            });
-        }
-
         // Dummy data for today's and upcoming trips
         const todayCardProp = {
             name: "Shuttle Bus Tripi",
@@ -59,32 +48,7 @@ const HomePage = () => {
             setUpcomingTripsCardProp,
             setIsUpcomingTripAvailable
         );
-    }, [users]); // Run effect when users data changes
-
-    const handleLogout = async () => {
-        const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
-        ).content;
-
-        try {
-            const response = await fetch("/logout", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-            });
-
-            if (response.ok) {
-                window.location.href = "/"; // Redirect to login after logout
-            } else {
-                alert("Logout failed, please try again");
-            }
-        } catch (error) {
-            console.error("Error during logout:", error);
-            alert("Logout failed, please try again");
-        }
-    };
+    }, []); // Run effect when users data changes
 
     return (
         <>
@@ -100,7 +64,7 @@ const HomePage = () => {
                         </div>
                         <div className="mx-5">
                             <p className="font-bold text-white text-3xl">
-                                Welcome, {user.userName}
+                                Welcome, {username} 
                             </p>
                             <p className="font-semibold text-white text-lg">
                                 Enjoy Your Trip!
@@ -117,7 +81,7 @@ const HomePage = () => {
                                     alt="CreditIcon"
                                 />
                                 <p className="text-orange">
-                                    {user.userCredit} Credit Points
+                                    {credit} Credit Points
                                 </p>
                             </a>
                         </div>
@@ -125,10 +89,9 @@ const HomePage = () => {
 
                     <div className="h-full w-full px-5 py-8 ">
                         <button
-                            onClick={handleLogout}
                             className="text-white bg-primary2 py-2 rounded-lg  w-full"
                         >
-                            LOGOUT SEMENTARA
+                            Booking
                         </button>
 
                         <div className="font-semibold text-black">

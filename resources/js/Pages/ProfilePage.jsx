@@ -8,22 +8,22 @@ const ProfilePage = () => {
     const { auth, flash = {} } = usePage().props; // Provide a default empty object
     const { user } = auth;
 
-    // useEffect(() => {
-    //     if (flash && flash.success) {
-    //         setNotification({
-    //             type: 'success',
-    //             message: flash.success
-    //         });
+    useEffect(() => {
+        if (flash && flash.success) {
+            setNotification({
+                type: 'success',
+                message: flash.success
+            });
 
-    //         // Auto-dismiss notification after 3 seconds
-    //         const timer = setTimeout(() => {
-    //             setNotification(null);
-    //         }, 3000);
+            // Auto-dismiss notification after 3 seconds
+            const timer = setTimeout(() => {
+                setNotification(null);
+            }, 3000);
 
-    //         // Cleanup the timer
-    //         return () => clearTimeout(timer);
-    //     }
-    // }, [flash.success]);
+            // Cleanup the timer
+            return () => clearTimeout(timer);
+        }
+    }, [flash.success]);
 
     if (sessionStorage.getItem("reloaded") === "true") {
         sessionStorage.removeItem("reloaded"); // Remove the flag after first reload
@@ -57,8 +57,8 @@ const ProfilePage = () => {
 
     return (
         <>
-        {/* Notification Component
-        //{notification && (
+
+        {notification && (
                 <div
                     className={`
                         fixed top-0 left-0 right-0 z-50
@@ -70,7 +70,7 @@ const ProfilePage = () => {
                 >
                     {notification.message}
                 </div>
-            )} */}
+            )}
 
             <div className="flex justify-center">
                 <div className="  h-fit w-full lg:max-w-[500px]">

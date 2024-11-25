@@ -31,7 +31,7 @@ class ProfileController extends Controller
             ]
         ]);
     }
-    
+
     public function profileUpdatePasswordIndex(){
         $user = Auth::user();
         return Inertia::render('EditProfilePassword', ['email' => $user->email]);
@@ -59,7 +59,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'username' =>  'required',
-            'phone_number' => 'required',
+            'phone_number' => 'required|numeric',
             'gender' => 'required',
         ]);
 

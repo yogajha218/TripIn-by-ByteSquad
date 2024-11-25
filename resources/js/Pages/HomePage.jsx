@@ -18,6 +18,8 @@ const HomePage = ({credit, username, user_id}) => {
         }
     }
 
+    
+
     useLayoutEffect(() => {
         // Dummy data for today's and upcoming trips
         const todayCardProp = {

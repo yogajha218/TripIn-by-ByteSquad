@@ -4,7 +4,12 @@ import NavbarTripin from "@/Components/navbarTripin";
 import { Button } from "@headlessui/react";
 
 const ProfilePage = () => {
+    if (sessionStorage.getItem("reloaded") === "true") {
+        sessionStorage.removeItem("reloaded"); // Remove the flag after first reload
+    }
     const handleLogout = async () => {
+        await fetch("/sanctum/csrf-cookie");
+
         const csrfToken = document.head.querySelector(
             'meta[name="csrf-token"]'
         ).content;

@@ -14,33 +14,25 @@ use App\Models\UserOtp;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Inertia\Response;
 
 class ProfileController extends Controller
 {
 
+    // Menampilkan halaman profil user 
     public function profileIndex(){
         return Inertia::render('ProfilePage', [
             'auth' => [
                 'user' => Auth::user(),
             ],
-            // Explicitly pass any flash messages
             'flash' => [
                 'success' => session('success'),
-                // Add other flash message types as needed
             ]
         ]);
     }
-
-    public function profileUpdatePasswordIndex(){
-        $user = Auth::user();
-        return Inertia::render('EditProfilePassword', ['email' => $user->email]);
-    }
-
-    public function faqIndex(){
-        return Inertia::render('Faq');
-    }
-
+    
+    // Menampilkan halaman edit profile
     public function profileEditIndex(){
         $user = Auth::user();
         return Inertia::render('EditProfilePage',  [
@@ -51,10 +43,23 @@ class ProfileController extends Controller
         ]);
     }
 
+    // Menampilkan halaman edit password baru
+    public function profileUpdatePasswordIndex(){
+        $user = Auth::user();
+        return Inertia::render('EditProfilePassword', ['email' => $user->email]);
+    }
+
+    // Menampilkan halaman FAQ
+    public function faqIndex(){
+        return Inertia::render('Faq');
+    }
+
+    // Menampilkan halaman otp 
     public function profileOtpPasswordIndex(){
         return Inertia::render('OtpProfilePassword');
     }
 
+    // Fungsi untuk memperbarui profile
     public function profileEdit(Request $request)
     {
         $request->validate([
@@ -86,24 +91,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
-
+    // Fungsi untuk kirim email otp 
     public function sendEmailOtp(){
         $user = Auth::user();
 
@@ -124,6 +112,7 @@ class ProfileController extends Controller
                 'otp_expires_at' => now()->addMinutes(10),
             ]);
 
+            Session::put('otp_initiated', true);
             return redirect()->route('profile.edit.otp');
 
         } catch (\Exception $e) {
@@ -131,6 +120,7 @@ class ProfileController extends Controller
         }
     }
 
+    // Fungsi untuk verifikasi otp yang telah dikirim ke email
     public function verifyEmailOtp(Request $request){
         $request->validate([
             'otp' => 'required',
@@ -147,10 +137,13 @@ class ProfileController extends Controller
         }
 
         $otpRecord->delete();
+        Session::forget('otp_initiated');
 
         return response()->json(['message' => 'OTP verified successfully.']);
     }
 
+
+    // Fungsi untuk memperbarui password
     public function updatePassword(Request $request){
         $request->validate([
             'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',

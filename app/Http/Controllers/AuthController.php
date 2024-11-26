@@ -14,44 +14,56 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
 
 use function Illuminate\Log\log;
 
 class AuthController extends Controller
 {
+    // Menampilkan halaman welcome
     public function welcomeIndex(){
         return Inertia::render('LandingPage');
     }
 
+    // Menampilkan halaman autentikasi
     public function authIndex(){
         return Inertia::render('LoginPage');
     }
 
+    // Menampilkan halaman kirim email lupa password
     public function forgotPasswordEmailIndex(){
         return Inertia::render('ForgotPass_Email');
     }
 
-    public function forgotPasswordIndex(){
-        $email = session('email');
-        return Inertia::render('ForgotPass_NewPass', ['email' => $email]);
-    }
+    // Menampilkan halaman otp lupa password
     public function otpPasswordIndex(Request $request){
         $email = session('email');
         return Inertia::render('OtpPassword', ['email' => $email]);
     }
+
+    // Menampilkan halaman konfirmasi password baru
+    public function forgotPasswordIndex(){
+        $email = session('email');
+        return Inertia::render('ForgotPass_NewPass', ['email' => $email]);
+    }
+    
+    // Menampilkan halaman otp registrasi akun baru
     public function otpRegisterIndex(){
         $email = session('email');
         return Inertia::render('Otp', ['email' => $email]);
     }
 
+    // Menampikan halaman Privacy & Policy
     public function privacyIndex(){
         return Inertia::render('PrivacyPolicy');
     }
 
+    // Menampilkan halaman Terms & Condition
     public function termsIndex(){
         return Inertia::render('TermsAndCondition');
     }
 
+    // Fungsi untuk kirim email otp saat registrasi
     public function register(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
@@ -87,6 +99,7 @@ class AuthController extends Controller
                     'otp_expires_at' => now()->addMinutes(10),
                 ]);
 
+                Session::put('otp_initiated', true);
                 session(['temp_password' => $request->password]);
 
                 return redirect()->route('otp.form')->with('email', $request->email);
@@ -101,6 +114,7 @@ class AuthController extends Controller
         }
     }
 
+    // Fungsi untuk verifikasi otp yang telah dikirim saat registrasi
     public function verify(Request $request)
     {
         $request->validate([
@@ -114,7 +128,6 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid or expired OTP.'], 422);
         }
 
-        // OTP is valid, create user account
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make(session('temp_password')),
@@ -125,13 +138,14 @@ class AuthController extends Controller
             'credit_amount' => 0,
         ]);
 
-        // Delete the OTP
         $otpRecord->delete();
+        Session::forget('otp_initiated');
         session()->forget('temp_password');
 
         return redirect()->route('home')->with('success', 'Registration success!');
     }
 
+    // Fungsi untuk kirim email otp saat lupa password
     public function sendEmailPassword(Request $request) {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
@@ -159,12 +173,14 @@ class AuthController extends Controller
                 'otp_expires_at' => now()->addMinutes(10),
             ]);
 
+            Session::put('otp_initiated', true);
             session(['email' => $request->email]);
         
             return redirect()->route('password.otp')->with(['email' => $user->email]);
         }
     }
 
+    // Fungsi untuk verifikasi otp yang telah dikirim saat kirim email lupa password
     public function verifyEmailPassword(Request $request)
     {
         $request->validate([
@@ -172,28 +188,26 @@ class AuthController extends Controller
             'otp' => 'required',
         ]);
 
-        // Retrieve the OTP record for the email provided in the request
         $otpRecord = UserOtp::where('email', $request->email)->first();
 
-        // Check if the OTP record exists
         if (!$otpRecord) {
             FacadesLog::error('OTP record not found for email: ' . $request->email);
             return response()->json(['message' => 'OTP record not found.'], 404);
         }
 
-        // Check if the provided OTP matches the stored OTP
         if ($request->otp != $otpRecord->otp) {
             return response()->json(['message' => 'Invalid or expired OTP.'], 422);
         }
 
+        Session::forget('otp_initiated');
         session(['email'=>$request->email]);
 
-        // Optionally delete the OTP record after successful verification
         $otpRecord->delete();
 
         return redirect()->route('password.index');
     }
 
+    // Fungsi untuk memperbarui password 
     public function updatePassword(Request $request){
         $request->validate([
             'email' => 'required',
@@ -228,6 +242,7 @@ class AuthController extends Controller
         }
     }
 
+    // Fungsi untuk user login
     public function login(Request $request){
         $request->validate([
             'email' => 'required',
@@ -262,6 +277,8 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
     }
+
+    // Fungsi untuk user logout
     public function logout(Request $request)
     {
         Auth::logout();

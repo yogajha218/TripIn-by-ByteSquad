@@ -14,6 +14,7 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
+    // Menampilkan halaman home
     public function homeIndex(){
         $user = Auth::user();
         

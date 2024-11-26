@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\checkOtpAccess;
 use App\Http\Middleware\isLogin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,8 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'isLogin' => App\Http\Middleware\isLogin::class,
-            'isGuest' => App\Http\Middleware\isGuest::class,
+            'isLogin' => App\Http\Middleware\isLogin::class, // Untuk cek apakah user login atau tidak saat auth
+            'isGuest' => App\Http\Middleware\isGuest::class, // Untuk cek apakah user sudah login saat di home
+            'check.otp' => checkOtpAccess::class, // Untuk cek apakah user sudah mengirim email otp
          ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

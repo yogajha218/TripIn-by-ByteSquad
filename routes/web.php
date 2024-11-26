@@ -20,7 +20,7 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
     route::get('/auth', [AuthController::class, 'authIndex'])->name('auth');
     route::post('/login', [AuthController::class, 'login']);
     route::post('/register', [AuthController::class, 'register']);
-    route::get('/register/otp', [AuthController::class, 'otpRegisterIndex'])->name('otp.form');
+    route::get('/register/otp', [AuthController::class, 'otpRegisterIndex'])->name('otp.form')->middleware('check.otp:auth');
     route::post('/register/otp/verify', [AuthController::class, 'verify'])->name('otp.verify');
 });
 
@@ -28,7 +28,7 @@ route::group(['prefix' => '/', 'middleware' => 'isGuest'], function(){
 route::group(['prefix' => '/forgot-password'], function(){
     route::get('/', [AuthController::class, 'forgotPasswordIndex'])->name('password.index');
     route::get('/email', [AuthController::class, 'forgotPasswordEmailIndex']);
-    route::get('/otp', [AuthController::class, 'otpPasswordIndex'])->name('password.otp');
+    route::get('/otp', [AuthController::class, 'otpPasswordIndex'])->name('password.otp')->middleware('check.otp:auth');
     route::post('/otp/send', [AuthController::class, 'sendEmailPassword']);
     route::post('/otp/verify', [AuthController::class, 'verifyEmailPassword'])->name('password.otp.verify');
     route::post('/new-password', [AuthController::class, 'updatePassword']);
@@ -37,14 +37,18 @@ route::group(['prefix' => '/forgot-password'], function(){
 //Rute jika sudah masuk ke aplikasi
 route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     route::get('/', [HomeController::class, 'homeIndex'])->name('home');
-    route::get('/profile', [ProfileController::class, 'profileIndex'])->name('profile');
-    route::get('/profile/edit', [ProfileController::class, 'profileEditIndex'])->name('profile.edit');
-    route::post('/profile/edit/send', [ProfileController::class, 'profileEdit'])->name('profile.edit.send');
-    route::get('/profile/password/otp', [ProfileController::class, 'profileOtpPasswordIndex'])->name('profile.edit.otp');
-    route::post('/profile/edit/password/otp/send', [ProfileController::class, 'sendEmailOtp'])->name('profile.edit.otp.send');
-    route::post('/profile/edit/password/otp/verify', [ProfileController::class, 'verifyEmailOtp'])->name('profile.edit.otp.verify');
-    route::get('/profile/edit/password', [ProfileController::class, 'profileUpdatePasswordIndex'])->name('profile.edit.password');
-    route::post('/profile/edit/password/send', [ProfileController::class, 'updatePassword'])->name('profile.edit.password.send');
+
+    // Rute group untuk profille
+    route::group(['prefix' => 'profile'], function(){
+        route::get('/', [ProfileController::class, 'profileIndex'])->name('profile');
+        route::get('/edit', [ProfileController::class, 'profileEditIndex'])->name('profile.edit');
+        route::post('/edit/send', [ProfileController::class, 'profileEdit'])->name('profile.edit.send');
+        route::get('/password/otp', [ProfileController::class, 'profileOtpPasswordIndex'])->name('profile.edit.otp')->middleware('check.otp:profile');
+        route::post('/edit/password/otp/send', [ProfileController::class, 'sendEmailOtp'])->name('profile.edit.otp.send');
+        route::post('/edit/password/otp/verify', [ProfileController::class, 'verifyEmailOtp'])->name('profile.edit.otp.verify');
+        route::get('/edit/password', [ProfileController::class, 'profileUpdatePasswordIndex'])->name('profile.edit.password');
+        route::post('/edit/password/send', [ProfileController::class, 'updatePassword'])->name('profile.edit.password.send');
+    });
 });
 
 route::get('/privacy-policy', [AuthController::class, 'privacyIndex']);

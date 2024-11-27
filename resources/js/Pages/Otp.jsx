@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ButtonComponent from "@/Components/ButtonComponent";
 
 const Otp = ({ email }) => {
     const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
@@ -115,13 +116,8 @@ const Otp = ({ email }) => {
                             <p className="text-red-500 text-sm mt-2">{error}</p>
                         )}
                         {/* Confirm Button */}
-                        <button
-                            className="w-full bg-primary2 text-white py-4 rounded-xl
-                           font-semibold hover:opacity-90 transition-opacity
-                           active:scale-[0.99]"
-                        >
-                            Confirm
-                        </button>
+
+                        <ButtonComponent buttonText="confirm" />
                     </form>
                 </div>
             </div>

@@ -121,7 +121,7 @@ const ProfilePage = () => {
                                     <p className="px-[27px]">Notification</p>
                                 </Link>
                                 <Link
-                                    href="#"
+                                    href="/profile/history"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
                                 >
                                     <img src="/history.svg" alt="icon" />

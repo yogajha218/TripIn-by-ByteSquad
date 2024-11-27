@@ -59,6 +59,10 @@ class ProfileController extends Controller
         return Inertia::render('OtpProfilePassword');
     }
 
+    public function historyIndex(){
+        return Inertia::render('HistoryPage');
+    }
+
     // Fungsi untuk memperbarui profile
     public function profileEdit(Request $request)
     {

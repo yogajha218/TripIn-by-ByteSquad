@@ -46,7 +46,7 @@ class AuthController extends Controller
         $email = session('email');
         return Inertia::render('ForgotPass_NewPass', ['email' => $email]);
     }
-    
+
     // Menampilkan halaman otp registrasi akun baru
     public function otpRegisterIndex(){
         $email = session('email');
@@ -142,7 +142,7 @@ class AuthController extends Controller
         Session::forget('otp_initiated');
         session()->forget('temp_password');
 
-        return redirect()->route('home')->with('success', 'Registration success!');
+        return redirect()->route('welcome')->with('success', 'Registration successful! Please Sign In!');
     }
 
     // Fungsi untuk kirim email otp saat lupa password
@@ -175,7 +175,7 @@ class AuthController extends Controller
 
             Session::put('otp_initiated', true);
             session(['email' => $request->email]);
-        
+
             return redirect()->route('password.otp')->with(['email' => $user->email]);
         }
     }
@@ -207,7 +207,7 @@ class AuthController extends Controller
         return redirect()->route('password.index');
     }
 
-    // Fungsi untuk memperbarui password 
+    // Fungsi untuk memperbarui password
     public function updatePassword(Request $request){
         $request->validate([
             'email' => 'required',

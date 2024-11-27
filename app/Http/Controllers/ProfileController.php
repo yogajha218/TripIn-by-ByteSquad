@@ -63,6 +63,10 @@ class ProfileController extends Controller
         return Inertia::render('HistoryPage');
     }
 
+    public function historyDetailIndex(){
+        return Inertia::render('HistoryDetail');
+    }
+
     // Fungsi untuk memperbarui profile
     public function profileEdit(Request $request)
     {

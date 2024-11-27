@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ButtonComponent from "@/Components/ButtonComponent";
+import ModalComponent from "@/Components/ModalComponent";
 
 const Otp = ({ email }) => {
     const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
     const [error, setError] = useState("");
+    const [isModalHidden, setIsModalHidden] = useState(true);
+    const [modalMessage, setModalMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,8 +28,14 @@ const Otp = ({ email }) => {
                 }
             );
 
-            window.location.href = "/welcome";
-            console.log(response.data);
+            // Show success modal
+            setModalMessage("OTP verification successful! Redirecting...");
+            setIsModalHidden(false);
+
+            // Redirect after a delay to allow the user to see the message
+            setTimeout(() => {
+                window.location.href = route('auth');
+            }, 2000); // 2000 milliseconds = 2 seconds
         } catch (err) {
             if (err.response && err.response.data.message) {
                 setError(err.response.data.message);
@@ -121,6 +130,10 @@ const Otp = ({ email }) => {
                     </form>
                 </div>
             </div>
+            <ModalComponent isModalHidden={isModalHidden} setIsModalHidden={setIsModalHidden}>
+                // TODO : Tambah isi modal
+                <button onClick={() => setIsModalHidden(true)}>Close</button>
+            </ModalComponent>
         </div>
     );
 };

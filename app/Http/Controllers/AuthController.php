@@ -142,7 +142,7 @@ class AuthController extends Controller
         Session::forget('otp_initiated');
         session()->forget('temp_password');
 
-        return redirect()->route('welcome')->with('success', 'Registration successful! Please Sign In!');
+        return redirect()->route('auth')->with('success', 'Registration successful! Please Sign In!');
     }
 
     // Fungsi untuk kirim email otp saat lupa password

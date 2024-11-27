@@ -4,7 +4,7 @@ import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/navbarTripin";
 
-const HomePage = ({credit, username, user_id}) => {
+const HomePage = ({ credit, username, user_id }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
@@ -58,39 +58,37 @@ const HomePage = ({credit, username, user_id}) => {
                         <div className="h-[90px] relative pt-8 pl-5">
                             <img
                                 src="/TripInLogo.svg"
-                                className="h-12"
+                                className="h-8"
                                 alt="Logo of TripIn"
                             />
                         </div>
                         <div className="mx-5">
-                            <p className="font-bold text-white text-3xl">
-                                Welcome, {username} 
+                            <p className="font-bold text-white text-2xl sm:text-3xl">
+                                Welcome, {username}
                             </p>
-                            <p className="font-semibold text-white text-lg">
+                            <p className="font-semibold text-white text-base sm:text-lg">
                                 Enjoy Your Trip!
                             </p>
-                            <a
-                                onClick={() =>
-                                    console.log("Navigate to credit screen")
-                                }
-                                className="flex px-5 mx-5 bg-white border border-primary  mt-10 rounded-lg py-2 hover:cursor-pointer"
-                            >
-                                <img
-                                    className="mr-3"
-                                    src="/credit.svg"
-                                    alt="CreditIcon"
-                                />
-                                <p className="text-orange">
-                                    {credit} Credit Points
-                                </p>
-                            </a>
                         </div>
                     </div>
 
-                    <div className="h-full w-full px-5 py-8 ">
-                        <button
-                            className="text-white bg-primary2 py-2 rounded-lg  w-full"
+                    <div className="min-h-[100vh] h-full w-full px-5 pb-8 ">
+                        <a
+                            onClick={() =>
+                                console.log("Navigate to credit screen")
+                            }
+                            className=" flex px-5 mx-5 bg-white border border-primary relative top-[-1.5rem]  rounded-lg py-2 hover:cursor-pointer"
                         >
+                            <img
+                                className="mr-3"
+                                src="/credit.svg"
+                                alt="CreditIcon"
+                            />
+                            <p className="text-orange">
+                                {credit} Credit Points
+                            </p>
+                        </a>
+                        <button className="text-white bg-primary2 py-2 rounded-lg  mb-8 w-full">
                             Booking
                         </button>
 
@@ -114,7 +112,7 @@ const HomePage = ({credit, username, user_id}) => {
                         <div className="font-semibold text-orange my-5">
                             Upcoming's Trip
                         </div>
-                        <div className="flex justify-center mb-20">
+                        <div className="flex justify-center mb-10">
                             {isUpcomingTripAvailable ? (
                                 <CardComponent
                                     CardProp={upcomingTripsCardProp}
@@ -133,6 +131,6 @@ const HomePage = ({credit, username, user_id}) => {
             <NavbarTripin pageInfo={"HomePage"} />
         </>
     );
-}
+};
 
 export default HomePage;

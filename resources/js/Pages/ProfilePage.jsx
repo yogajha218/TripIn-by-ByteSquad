@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import NavbarTripin from "@/Components/navbarTripin";
-import { Button } from "@headlessui/react";
+import ModalComponent from "@/Components/ModalComponent";
 
 const ProfilePage = () => {
     const [notification, setNotification] = useState(null);
     const { auth, flash = {} } = usePage().props; // Provide a default empty object
     const { user } = auth;
+    const [isModalHidden, setIsModalHidden] = useState(true);
+    function modalVisibility() {
+        setIsModalHidden((prev) => !prev);
+    }
 
     useEffect(() => {
         if (flash && flash.success) {
             setNotification({
-                type: 'success',
-                message: flash.success
+                type: "success",
+                message: flash.success,
             });
 
             // Auto-dismiss notification after 3 seconds
@@ -57,13 +61,16 @@ const ProfilePage = () => {
 
     return (
         <>
-
-        {notification && (
+            {notification && (
                 <div
                     className={`
                         fixed top-0 left-0 right-0 z-50
-                        ${notification.type === 'success' ? 'bg-primary' : 'bg-red-500'}
-                        text-white text-center py-3
+                        ${
+                            notification.type === "success"
+                                ? "bg-primary"
+                                : "bg-red-500"
+                        }
+                        text-white text-center py-9
                         transition-all duration-300 ease-in-out
                         animate-bounce
                     `}
@@ -79,7 +86,7 @@ const ProfilePage = () => {
                             Profile
                         </p>
                     </div>
-                    <div className="w-full h-full bg-white mt-[-1.75rem] rounded-t-3xl px-6">
+                    <div className="w-full h-full min-h-[100dvh] bg-white mt-[-1.75rem] rounded-t-3xl px-6">
                         <div className="flex flex-col items-center">
                             <div className="w-[120px] h-[120px] rounded-full overflow-hidden mt-[-3.5rem]">
                                 <img src="https://placehold.co/120x120" />
@@ -111,7 +118,7 @@ const ProfilePage = () => {
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2"
                                 >
                                     <img src="/notif.svg" alt="icon" />
-                                    <p className="px-5">Notification</p>
+                                    <p className="px-[27px]">Notification</p>
                                 </Link>
                                 <Link
                                     href="#"
@@ -139,7 +146,7 @@ const ProfilePage = () => {
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2"
                                 >
                                     <img src="/term.svg" alt="icon" />
-                                    <p className="px-5">Term & Conditions</p>
+                                    <p className="px-6">Term & Conditions</p>
                                 </Link>
                                 <Link
                                     href="/privacy-policy"
@@ -156,7 +163,7 @@ const ProfilePage = () => {
                             </p>
                             <div className="w-full h-[68px]  overflow-hidden rounded-xl mb-14">
                                 <button
-                                    onClick={handleLogout}
+                                    onClick={modalVisibility}
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[68px] w-full"
                                 >
                                     <img src="/logout.svg" alt="icon" />
@@ -168,6 +175,32 @@ const ProfilePage = () => {
                 </div>
             </div>
             <NavbarTripin pageInfo={"ProfilePage"} />
+            <ModalComponent
+                isModalHidden={isModalHidden}
+                setIsModalHidden={setIsModalHidden}
+            >
+                <div className="    w-[300px]  sm:w-[400px]  md:h-[180px] overflow-hidden">
+                    <div className="p-8">
+                        <p className="text-black opacity-100 text-center text-2xl font-bold">
+                            Logout
+                        </p>
+                        <p className="text-black opacity-100 text-center text-base font-extralight">
+                            are you sure?
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-2">
+                        <button className=" bg-transparent text-black border-gray-500 rounded-none  border-r-0 border-l-0 text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl">
+                            cancel
+                        </button>
+                        <button
+                            className=" bg-transparent text-black border-gray-500 rounded-none border-r-0 text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </ModalComponent>
         </>
     );
 };

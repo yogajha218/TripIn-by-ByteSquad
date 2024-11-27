@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 
-const EditProfilePage = ({email, username, phone_number, gender}) => {
-    const {data, setData, post, processing, errors } = useForm({
+const EditProfilePage = ({ email, username, phone_number, gender }) => {
+    const { data, setData, post, processing, errors } = useForm({
         username: username,
         phone_number: phone_number,
         gender: gender,
@@ -10,22 +10,26 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
 
-        post(route('profile.edit.send'), data, {
+        post(route("profile.edit.send"), data, {
             headers: {
-                'X-CSRF-TOKEN': csrfToken,
+                "X-CSRF-TOKEN": csrfToken,
             },
         });
     };
 
     const handleOtp = (e) => {
         e.preventDefault();
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
 
-        post(route('profile.edit.otp.send'), {
+        post(route("profile.edit.otp.send"), {
             headers: {
-                'X-CSRF-TOKEN': csrfToken,
+                "X-CSRF-TOKEN": csrfToken,
             },
         });
     };
@@ -38,14 +42,14 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                         Edit Profile
                     </p>
                 </div>
-                <div className="w-full h-full bg-white max-h-[990px] mt-[-1.75rem] rounded-t-3xl px-6">
+                <div className="w-full h-full min-h-[100vh] bg-white  mt-[-1.75rem] rounded-t-3xl px-6">
                     <div className="flex flex-col items-center">
                         <div className="w-[120px] h-[120px] rounded-full overflow-hidden mt-[-3.5rem]">
                             <img src="https://placehold.co/120x120" />
                         </div>
                     </div>
                     <div className="h-max-[230px] w-max-[392px] py-3 ">
-                        <form className="space-y-4" onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <label className="font-bold text-lg leading-10">
                                 Name
                             </label>
@@ -54,7 +58,9 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 id="name"
                                 name="username"
                                 value={data.username}
-                                onChange={(e) => setData('username', e.target.value)}
+                                onChange={(e) =>
+                                    setData("username", e.target.value)
+                                }
                                 className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
                                 required
                             />
@@ -84,7 +90,10 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 disabled={true}
                                 required
                             />
-                            <a onClick={handleOtp} className="flex px-5 h-[48px] bg-white border border-slate-300 mb-8 mt-[-1.5rem] rounded-lg  items-center hover:bg-slate-50 hover:border-slate-500 hover:cursor-pointer">
+                            <a
+                                onClick={handleOtp}
+                                className="flex px-5 h-[48px] bg-white border border-slate-300 mb-8 mt-8 rounded-lg  items-center hover:bg-slate-50 hover:border-slate-500 hover:cursor-pointer"
+                            >
                                 <p>Change password</p>
                             </a>
                             <label className="font-bold text-lg leading-10">
@@ -95,15 +104,17 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 id="phone_number"
                                 name="phone_number"
                                 value={data.phone_number}
-                                onChange={(e) => setData('phone_number', e.target.value)}
+                                onChange={(e) =>
+                                    setData("phone_number", e.target.value)
+                                }
                                 placeholder="Your phone number"
                                 className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
                                 required
                             />
                             {errors.phone_number && (
-                            <p className="text-red-500 text-sm">
-                                {errors.phone_number}
-                            </p>
+                                <p className="text-red-500 text-sm">
+                                    {errors.phone_number}
+                                </p>
                             )}
 
                             <div className="flex flex-col items-center">
@@ -112,10 +123,14 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                                 </label>
                                 <select
                                     className="w-full border border-slate-300 rounded-md"
-                                    onChange={(e) => setData('gender', e.target.value)}
+                                    onChange={(e) =>
+                                        setData("gender", e.target.value)
+                                    }
                                     value={data.gender}
                                 >
-                                    <option value="" selected disabled>Select Gender</option>
+                                    <option value="" selected disabled>
+                                        Select Gender
+                                    </option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -123,9 +138,11 @@ const EditProfilePage = ({email, username, phone_number, gender}) => {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="text-white bg-primary2 py-2 rounded-lg w-full"
+                                className="text-white bg-primary2 py-2 rounded-lg w-full my-5"
                             >
-                                {processing ? "Processing..." : "Update Profile"}
+                                {processing
+                                    ? "Processing..."
+                                    : "Update Profile"}
                             </button>
                         </form>
                     </div>

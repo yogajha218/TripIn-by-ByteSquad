@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useForm } from "@inertiajs/react";
+import ButtonComponent from "@/Components/ButtonComponent";
 
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
@@ -52,7 +53,7 @@ const Login = () => {
             <div className="flex justify-center py-16">
                 <img
                     src="/TripInLogo.svg"
-                    className="h-12"
+                    className="h-24"
                     alt="Logo of TripIn"
                 />
             </div>
@@ -205,13 +206,11 @@ const Login = () => {
                                 </label>
                             </div>
                         )}
-                        <button
-                            type="submit"
-                            className="w-full py-3 bg-primary2 text-white rounded-lg font-medium"
-                            disabled={processing || !isFormValid}
-                        >
-                            {isSignIn ? "SIGN IN" : "SIGN UP"}
-                        </button>
+
+
+
+
+                        
                     </form>
                 </div>
             </div>

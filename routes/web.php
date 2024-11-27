@@ -6,20 +6,26 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BaseController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SeatController;
 use App\Http\Controllers\SelectSeatController;
+use App\Http\Controllers\TrackingController;
 
-route::get('/faq', [ProfileController::class, 'faqIndex']);
-route::get('/privacy-policy', [AuthController::class, 'privacyIndex']);
-route::get('/terms-condition', [AuthController::class, 'termsIndex']);
+Route::get('/', function(){
+    return redirect('/welcome');
+});
+Route::get('/faq', [BaseController::class, 'faqIndex']);
+Route::get('/privacy-policy', [BaseController::class, 'privacyIndex']);
+Route::get('/terms-condition', [BaseController::class, 'termsIndex']);
+Route::get('/tracking', [TrackingController::class, 'trackingIndex']);
+Route::get('/notification', [BaseController::class, 'notificationIndex']);
 
-route::get('/seat', [SeatController::class, 'seatIndex'])->name('seat.index');
-route::post('/seat/store/{vehicle_id}', [SeatController::class, 'seatStore'])->name('seat.store');
+
 
 // Rute untuk logout
-route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
+Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
 
 
 

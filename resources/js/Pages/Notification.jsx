@@ -1,5 +1,4 @@
 import React from "react";
-import tripinLogo from "/TripInLogo.svg";
 
 const NotificationPage = () => {
   const notifications = [
@@ -66,7 +65,7 @@ const NotificationPage = () => {
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center">
-                  <img src={tripinLogo} className="h-8" alt="TripIn Logo" />
+                  <img src="TripInLogo.svg" className="h-8" alt="TripIn Logo" />
                 </div>
                 <span className="text-sm text-gray-500">
                   {notification.date}

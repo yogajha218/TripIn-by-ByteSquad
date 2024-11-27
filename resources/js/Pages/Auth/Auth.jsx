@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useForm } from "@inertiajs/react";
 import ButtonComponent from "@/Components/ButtonComponent";
 
-const Login = () => {
+const Auth = () => {
     const [isSignIn, setIsSignIn] = useState(true);
     const [termsClicked, setTermsClicked] = useState(false);
     const [privacyClicked, setPrivacyClicked] = useState(false);
@@ -218,4 +218,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Auth;

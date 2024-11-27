@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-
-// TODO : Ubah import icon, jadi pakai local file
-import { ChevronLeft, ChevronDown } from 'lucide-react';
+import back from '/backArrow.svg';
 import Coins from '/Coins.svg';
 import Gopay from '/Gopay.svg';
+import down from '/downarrow.svg';
 
 const ConfirmationPage = ({ orderData }) => {
   // Default data if props are not provided
@@ -34,7 +33,7 @@ const ConfirmationPage = ({ orderData }) => {
   // States
   const [isExchangeEnabled, setIsExchangeEnabled] = useState(false);
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
-  
+
   // Using data from props or default data
   const data = orderData || defaultData;
   const totalPrice = data.pricing.seatPrice * data.pricing.quantity;
@@ -48,19 +47,19 @@ const ConfirmationPage = ({ orderData }) => {
     <div className="min-h-screen bg-primary">
       {/* Header */}
       <div className="px-4 py-3 flex items-center text-white">
-        <ChevronLeft className="w-6 h-6" />
+        <img src={back} className="w-6 h-6" />
         <h1 className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4">Confirmation</h1>
       </div>
 
       {/* Content */}
       <div className="bg-gray-100 min-h-screen pt-4 px-6">
         <h2 className="text-lg font-semibold mb-4">Order Details</h2>
-        
+
         {/* Shuttle Info Card */}
         <div className="bg-white rounded-lg p-4 mb-4">
           <h3 className="font-medium mb-1">{data.busInfo.name}</h3>
           <p className="text-gray-600 text-sm mb-4">{data.busInfo.plateNumber}</p>
-          
+
           {/* Time and Route - Improved Journey Section */}
           <div className="flex items-start gap-10">
             <div className="flex flex-col gap-10">
@@ -73,18 +72,18 @@ const ConfirmationPage = ({ orderData }) => {
                 <p className="text-xs text-gray-500">{data.busInfo.arrivalDate}</p>
               </div>
             </div>
-            
+
             <div className="relative flex flex-col items-center">
               <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
               <div className="w-0.5 h-20 bg-gray-300"></div>
               <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
             </div>
-            
+
             <div className="flex flex-col gap-16">
               <p className="font-medium">{data.busInfo.from}</p>
               <p className="font-medium">{data.busInfo.to}</p>
             </div>
-            
+
             <div className="ml-auto text-sm text-gray-500">
               {data.busInfo.duration}
             </div>
@@ -115,7 +114,7 @@ const ConfirmationPage = ({ orderData }) => {
               <img src={Coins} alt="Credits" className="h-4" />
               <span>Exchange {data.orderDetails.exchangePoints} CreditsPoint</span>
             </div>
-            <button 
+            <button
               onClick={() => setIsExchangeEnabled(!isExchangeEnabled)}
               className={`w-12 h-6 rounded-full transition-colors duration-200 ease-in-out relative ${
                 isExchangeEnabled ? 'bg-orange-500' : 'bg-gray-200'
@@ -133,7 +132,7 @@ const ConfirmationPage = ({ orderData }) => {
         {/* Payment Method - With Dropdown */}
         <div className="bg-white rounded-lg p-4 mb-4">
           <h3 className="font-medium mb-2">Payment Method</h3>
-          <div 
+          <div
             className="relative"
             onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
           >
@@ -142,7 +141,7 @@ const ConfirmationPage = ({ orderData }) => {
                 <img src={Gopay} alt="GoPay" className="w-6 h-6" />
                 <span>GoPay</span>
               </div>
-              <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+              <img src={down} className={`w-5 h-5 transition-transform duration-200 ${
                 isPaymentDropdownOpen ? 'transform rotate-180' : ''
               }`} />
             </div>

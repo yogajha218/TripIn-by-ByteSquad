@@ -1,6 +1,6 @@
 import React from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { ChevronLeft } from "lucide-react";
+import back from "/backArrow.svg";
 import tripinlogo from "/TripInLogo.svg";
 
 const getBadgeColor = (status) => {
@@ -37,7 +37,7 @@ const BoardingTicket = ({
       {/* Header with centered title */}
       <div className="relative h-16 flex items-center justify-center mb-8">
         <button className="absolute left-4 text-white mt-4">
-          <ChevronLeft className="w-6 h-6" />
+          <img src={back} className="w-6 h-6" />
         </button>
         <h1 className="text-white text-2xl font-bold mt-4">Boarding Ticket</h1>
       </div>

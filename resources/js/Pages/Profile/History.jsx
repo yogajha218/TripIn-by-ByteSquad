@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from "react";
 import { usePage } from "@inertiajs/react";
 import HistoryComponent from "@/Components/HistoryComponent";
 
-const HistoryPage = () => {
+const History = () => {
     const { users } = usePage().props; // Get users from Inertia props
     const [user, setUser] = useState({});
     const [isNewHistoryCardProp, setIsNewHistoryCardProp] = useState(false);
@@ -84,4 +84,4 @@ const HistoryPage = () => {
     );
 }
 
-export default HistoryPage;
+export default History;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "@inertiajs/react";
 
-const ResetPasswordEmail = () => {
+const ForgotOtpEmail = () => {
   const { data, setData, post, processing, errors } = useForm({
     email: "",
   });
@@ -91,4 +91,4 @@ const ResetPasswordEmail = () => {
   );
 };
 
-export default ResetPasswordEmail;
+export default ForgotOtpEmail;

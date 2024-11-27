@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const OtpPassword = () => {
+const ProfileOtpVerify = () => {
   const [verificationCode, setVerificationCode] = useState(['', '', '', '']);
   const [error, setError] = useState("");
 
@@ -118,4 +118,4 @@ const OtpPassword = () => {
   );
 };
 
-export default OtpPassword;
+export default ProfileOtpVerify;

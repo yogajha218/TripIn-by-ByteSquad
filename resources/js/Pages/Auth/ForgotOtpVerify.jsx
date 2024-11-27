@@ -2,7 +2,7 @@ import { Link } from '@inertiajs/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 
-const OtpPassword = ({email}) => {
+const ForgotOtpVerify = ({email}) => {
   const [verificationCode, setVerificationCode] = useState(['', '', '', '']);
   const [error, setError] = useState("");
   console.log("Email received : ", email);
@@ -129,4 +129,4 @@ const OtpPassword = ({email}) => {
   );
 };
 
-export default OtpPassword;
+export default ForgotOtpVerify;

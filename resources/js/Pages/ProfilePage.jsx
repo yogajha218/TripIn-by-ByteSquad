@@ -45,7 +45,7 @@ const ProfilePage = () => {
             });
 
             if (response.ok) {
-                window.location.href = "/"; // Redirect to login after logout
+                window.location.href = "/welcome"; // Redirect to login after logout
             } else {
                 alert("Logout failed, please try again");
             }
@@ -100,7 +100,7 @@ const ProfilePage = () => {
                             </p>
                             <div className="w-full h-[198px] grid grid-cols-1 overflow-hidden rounded-xl">
                                 <Link
-                                    href="/home/profile/edit"
+                                    href="/profile/edit"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
                                 >
                                     <img src="/profile.svg" alt="icon" />

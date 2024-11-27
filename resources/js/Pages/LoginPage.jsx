@@ -206,11 +206,11 @@ const Login = () => {
                                 </label>
                             </div>
                         )}
-
-
-
-
-                        
+                        <ButtonComponent
+                            buttonText={isSignIn ? "Sign In" : "Sign Up"}
+                            disabled={processing || !isFormValid}
+                            type="submit"
+                        />    
                     </form>
                 </div>
             </div>

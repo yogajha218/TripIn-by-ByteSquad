@@ -179,21 +179,21 @@ const ProfilePage = () => {
                 isModalHidden={isModalHidden}
                 setIsModalHidden={setIsModalHidden}
             >
-                <div className="    w-[300px]  sm:w-[400px]  md:h-[180px] overflow-hidden">
+                <div className="w-[300px] sm:w-[400px] md:h-[180px] overflow-hidden">
                     <div className="p-8">
                         <p className="text-black opacity-100 text-center text-2xl font-bold">
                             Logout
                         </p>
                         <p className="text-black opacity-100 text-center text-base font-extralight">
-                            are you sure?
+                            Are you sure?
                         </p>
                     </div>
-                    <div className="grid grid-cols-2">
-                        <button className=" bg-transparent text-black border-gray-500 rounded-none  border-r-0 border-l-0 text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl">
-                            cancel
+                    <div className="grid grid-cols-2 p-2 border-t-2">
+                        <button className=" text-black rounded-lg py-2 px-4 text-lg hover:bg-gray-200 transition-colors duration-300 sm:text-2xl">
+                            Cancel
                         </button>
                         <button
-                            className=" bg-transparent text-black border-gray-500 rounded-none border-r-0 text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl"
+                            className=" text-black rounded-lg py-2 px-4 text-lg hover:bg-gray-200 transition-colors duration-300 sm:text-2xl"
                             onClick={handleLogout}
                         >
                             Logout

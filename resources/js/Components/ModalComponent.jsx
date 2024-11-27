@@ -32,7 +32,7 @@ export const ModalComponent = ({
                 onClick={handleModal}
             >
                 <div
-                    className={`absolute z-20 bg-white rounded-lg w-fit h-fit modal text-6xl text-black font-bold ${
+                    className={`absolute z-20 bg-white rounded-lg w-fit h-fit modal  ${
                         isAnimating
                             ? "animate-slide-out"
                             : !isModalHidden

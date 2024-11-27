@@ -179,7 +179,7 @@ const ProfilePage = () => {
                 isModalHidden={isModalHidden}
                 setIsModalHidden={setIsModalHidden}
             >
-                <div className="    w-[300px]  sm:w-[400px]  md:h-[180px] overflow-hidden">
+                <div className="  flex flex-col  w-[300px]  sm:w-[400px]  h-[160px] md:h-[180px] overflow-hidden">
                     <div className="p-8">
                         <p className="text-black opacity-100 text-center text-2xl font-bold">
                             Logout
@@ -188,16 +188,18 @@ const ProfilePage = () => {
                             are you sure?
                         </p>
                     </div>
-                    <div className="grid grid-cols-2">
-                        <button className=" bg-transparent text-black border-gray-500 rounded-none  border-r-0 border-l-0 text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl">
-                            cancel
-                        </button>
-                        <button
-                            className=" bg-transparent text-black border-gray-500 rounded-none border-r-0 text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </button>
+                    <div className="h-full rounded-b-xl">
+                        <div className="grid h-full grid-cols-2">
+                            <button className=" bg-transparent text-black border-black border-t rounded-es-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl">
+                                Cancel
+                            </button>
+                            <button
+                                className=" bg-transparent text-black  border-black border-t border-l rounded-ee-lg text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </div>
                     </div>
                 </div>
             </ModalComponent>

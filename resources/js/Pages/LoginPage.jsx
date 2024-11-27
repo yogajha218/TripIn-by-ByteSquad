@@ -4,6 +4,8 @@ import ButtonComponent from "@/Components/ButtonComponent";
 
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
+    const [termsClicked, setTermsClicked] = useState(false);
+    const [privacyClicked, setPrivacyClicked] = useState(false);
     const { data, setData, post, processing, errors } = useForm({
         email: "",
         password: "",
@@ -31,6 +33,18 @@ const Login = () => {
                 },
             });
         }
+    };
+
+    const handleTermsLinkClick = (e) => {
+        e.preventDefault();
+        setTermsClicked(true);
+        window.open("/terms-condition", "_blank");
+    };
+
+    const handlePrivacyLinkClick = (e) => {
+        e.preventDefault();
+        setPrivacyClicked(true);
+        window.open("/privacy-policy", "_blank");
     };
 
     return (
@@ -154,10 +168,12 @@ const Login = () => {
                                     onChange={(e) =>
                                         setData(
                                             "termsAccepted",
-                                            e.target.checked
+                                            termsClicked &&
+                                                privacyClicked &&
+                                                e.target.checked
                                         )
                                     }
-                                    aria-checked={data.termsAccepted}
+                                    disabled={!(termsClicked && privacyClicked)}
                                 />
                                 <label
                                     htmlFor="terms"
@@ -166,14 +182,24 @@ const Login = () => {
                                     I understood the{" "}
                                     <Link
                                         href="/terms-condition"
-                                        className="text-sky-400"
+                                        onClick={handleTermsLinkClick}
+                                        className={`${
+                                            termsClicked
+                                                ? "text-green-600"
+                                                : "text-sky-400"
+                                        }`}
                                     >
                                         Terms & Conditions
                                     </Link>{" "}
                                     and{" "}
                                     <Link
                                         href="/privacy-policy"
-                                        className="text-sky-400"
+                                        onClick={handlePrivacyLinkClick}
+                                        className={`${
+                                            privacyClicked
+                                                ? "text-green-600"
+                                                : "text-sky-400"
+                                        }`}
                                     >
                                         Privacy Policy
                                     </Link>
@@ -184,7 +210,7 @@ const Login = () => {
                             buttonText={isSignIn ? "Sign In" : "Sign Up"}
                             disabled={processing || !isFormValid}
                             type="submit"
-                        />
+                        />    
                     </form>
                 </div>
             </div>

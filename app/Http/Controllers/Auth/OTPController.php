@@ -54,7 +54,7 @@ class OTPController extends Controller
         // Log the user in
 
         /* Problem Delay */
-        Auth::login($user); 
+        Auth::login($user);
 
         return redirect()->route('home')->with('status', 'Your account has been verified successfully!');
     }

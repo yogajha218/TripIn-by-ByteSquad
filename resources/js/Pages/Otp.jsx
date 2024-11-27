@@ -25,7 +25,7 @@ const Otp = ({ email }) => {
                 }
             );
 
-            window.location.href = "/";
+            window.location.href = "/welcome";
             console.log(response.data);
         } catch (err) {
             if (err.response && err.response.data.message) {

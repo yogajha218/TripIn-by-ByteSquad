@@ -20,7 +20,7 @@ use Inertia\Response;
 class ProfileController extends Controller
 {
 
-    // Menampilkan halaman profil user 
+    // Menampilkan halaman profil user
     public function profileIndex(){
         return Inertia::render('ProfilePage', [
             'auth' => [
@@ -31,7 +31,7 @@ class ProfileController extends Controller
             ]
         ]);
     }
-    
+
     // Menampilkan halaman edit profile
     public function profileEditIndex(){
         $user = Auth::user();
@@ -54,9 +54,17 @@ class ProfileController extends Controller
         return Inertia::render('Faq');
     }
 
-    // Menampilkan halaman otp 
+    // Menampilkan halaman otp
     public function profileOtpPasswordIndex(){
         return Inertia::render('OtpProfilePassword');
+    }
+
+    public function historyIndex(){
+        return Inertia::render('HistoryPage');
+    }
+
+    public function historyDetailIndex(){
+        return Inertia::render('HistoryDetail');
     }
 
     // Fungsi untuk memperbarui profile
@@ -91,7 +99,7 @@ class ProfileController extends Controller
         }
     }
 
-    // Fungsi untuk kirim email otp 
+    // Fungsi untuk kirim email otp
     public function sendEmailOtp(){
         $user = Auth::user();
 

@@ -5,13 +5,13 @@ export const ButtonComponent = ({
     textColor = "white",
     buttonColor = "primary2",
     disabled,
-    onclick,
+    onclick = () => {},
     type,
 }) => {
     return (
         <button
             type={type}
-            onclick={onclick}
+            onClick={onclick}
             className={`bg-${buttonColor} text-${textColor} text-lg w-full py-3  text-white rounded-lg font-medium`}
             disabled={disabled}
         >

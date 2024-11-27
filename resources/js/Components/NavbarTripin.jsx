@@ -69,7 +69,7 @@ const NavbarTripin = ({ pageInfo }) => {
             {activePage === "ProfilePage" ? (
                 <Link
                     onClick={handleReload}
-                    href="/home/profile"
+                    href="/profile"
                     className="flex justify-center items-center"
                 >
                     <img src="/user-active.svg" />
@@ -77,7 +77,7 @@ const NavbarTripin = ({ pageInfo }) => {
             ) : (
                 <Link
                     onClick={handleReload}
-                    href="/home/profile"
+                    href="/profile"
                     className="flex justify-center items-center"
                 >
                     <img src="/user-unactive.svg" />

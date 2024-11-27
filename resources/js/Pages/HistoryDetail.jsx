@@ -1,6 +1,10 @@
 import React from 'react';
-import { Car, ChevronLeft, CreditCard, Users, Armchair } from 'lucide-react'; // TODO : harus import
-import Gopay from '/Gopay.svg'; // TODO : ga ada logo gopay
+// import { Car, ChevronLeft, CreditCard, Users, Armchair } from 'lucide-react'; // TODO : harus import
+import Gopay from '/Gopay.svg';
+import Shuttle from '/shuttle_icon.svg';
+import Passenger from '/passenger_icon.svg';
+import Seat from '/Seat.svg';
+import back from '/backArrow.svg';
 
 const HistoryDetail = ({
   ticketInfo = {
@@ -35,7 +39,7 @@ const HistoryDetail = ({
     <div className="flex flex-col min-h-screen bg-primary">
       {/* Header */}
       <div className="flex items-center p-7 text-white">
-        <ChevronLeft className="w-6 h-6" />
+        <img src={back} className="w-6 h-6" />
         <span className="flex-1 text-center text-xl font-bold">{ticketInfo.date}</span>
       </div>
 
@@ -50,7 +54,7 @@ const HistoryDetail = ({
         {/* Bus Info Card */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex items-center gap-4 border border-gray-100">
           <div className="bg-primary2 p-2 rounded-lg">
-            <Car className="w-6 h-6 text-white" />
+            <img src={Shuttle} className="w-6 h-6 text-white" />
           </div>
           <div>
             <h2 className="font-medium">{ticketInfo.bus.name}</h2>
@@ -66,19 +70,19 @@ const HistoryDetail = ({
             <img src={Gopay} className="h-7 mr-3" />
             <span>{ticketInfo.payment.method}</span>
           </div>
-          
+
           {/* Passengers */}
           <div className="flex items-center p-4 border-b border-gray-100">
-            <Users className="w-6 h-6 text-blue-400 mr-3 ml-1" />
+            <img src={Passenger} className="w-6 h-6 text-blue-400 mr-3 ml-1" />
             <span>{ticketInfo.passengers.count} Passenger</span>
           </div>
-          
+
           {/* Seats */}
           <div className="flex items-center p-4 border-b border-gray-100">
-            <Armchair className="w-6 h-6 text-blue-400 mr-3 ml-1" />
+            < img src={Seat} className="w-6 h-6 text-blue-400 mr-3 ml-1" />
             <span>{ticketInfo.passengers.seats}</span>
           </div>
-          
+
           {/* Total Payment */}
           <div className="flex justify-between items-center p-4">
             <span className="font-medium">Total Payment</span>

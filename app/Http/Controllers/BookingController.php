@@ -23,6 +23,26 @@ class BookingController extends Controller
         return Inertia::render('Booking/PaymentStatus');
     }
 
+    public function paymentTermsIndex(){
+        return Inertia::render('Booking/PaymentTerms');
+    }
+
+    public function boardingTicketIndex(){
+        return Inertia::render('Booking/BoardingTicket');
+    }
+
+    public function busScheduleIndex(){
+        return Inertia::render('Booking/BusSchedule');
+    }
+
+    public function destinationIndex(){
+        return Inertia::render('Booking/Destination');
+    }
+
+    public function originIndex(){
+        return Inertia::render('Booking/Origin');
+    }
+
     public function seatStore(Request $request, $vehicleId){
         $vehicle = Vehicle::where('vehicle_id', $vehicleId)->first();
         FacadesLog::info('Plate : ' . $vehicle->license_plate);

@@ -1,7 +1,5 @@
 import React from "react";
-import { QRCodeSVG } from "qrcode.react";
-import back from "/backArrow.svg";
-import tripinlogo from "/TripInLogo.svg";
+// import { QRCodeSVG } from "qrcode.react";
 
 const getBadgeColor = (status) => {
   switch (status.toLowerCase()) {
@@ -37,7 +35,7 @@ const BoardingTicket = ({
       {/* Header with centered title */}
       <div className="relative h-16 flex items-center justify-center mb-8">
         <button className="absolute left-4 text-white mt-4">
-          <img src={back} className="w-6 h-6" />
+          <img src="/backArrow.svg" className="w-6 h-6" />
         </button>
         <h1 className="text-white text-2xl font-bold mt-4">Boarding Ticket</h1>
       </div>
@@ -45,7 +43,7 @@ const BoardingTicket = ({
       <div className="bg-white rounded-3xl p-6 mx-6 shadow-lg">
         {/* Logo and Status */}
         <div className="mb-6">
-          <img src={tripinlogo} alt="logo TripIn" className="h-16" />
+          <img src="/TripInLogo.svg" alt="logo TripIn" className="h-16" />
           <div className="flex items-center mt-2">
             <span className="text-gray-600">Status: </span>
             <span
@@ -132,8 +130,10 @@ const BoardingTicket = ({
 
         <div className="border-t border-gray-400" />
 
+         {/* TODO : QR Code Usage? */}
+         
         {/* QR Code */}
-        <div className="pt-6 text-center">
+        {/* <div className="pt-6 text-center">
           <div className="text-sm mb-4">Scan this code</div>
           <div className="flex justify-center mb-6">
             <QRCodeSVG
@@ -142,7 +142,7 @@ const BoardingTicket = ({
               level="H"
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

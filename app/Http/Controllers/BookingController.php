@@ -7,11 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Inertia\Inertia;
 
-class SeatController extends Controller
+class BookingController extends Controller
 {
+    // Menampilkan halaman Detail Order
+    public function OrderDetailsIndex(){
+        return Inertia::render('Booking/OrderDetails');
+    }
+
     public function seatIndex(){
         $vehicle = Vehicle::where('vehicle_id', 1)->first();
-        return Inertia::render('SelectSeat', ['plate' => $vehicle->license_plate]);
+        return Inertia::render('Booking/SelectSeat', ['plate' => $vehicle->license_plate]);
+    }
+
+    public function paymentStatusIndex(){
+        return Inertia::render('Booking/PaymentStatus');
     }
 
     public function seatStore(Request $request, $vehicleId){

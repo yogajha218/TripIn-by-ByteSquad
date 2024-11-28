@@ -3,7 +3,7 @@ import { Link, usePage } from "@inertiajs/react";
 import NavbarTripin from "@/Components/navbarTripin";
 import ModalComponent from "@/Components/ModalComponent";
 
-const ProfilePage = () => {
+const Profile = () => {
     const [notification, setNotification] = useState(null);
     const { auth, flash = {} } = usePage().props; // Provide a default empty object
     const { user } = auth;
@@ -114,7 +114,7 @@ const ProfilePage = () => {
                                     <p className="px-5">Edit Profile</p>
                                 </Link>
                                 <Link
-                                    href="#"
+                                    href="/notification"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2"
                                 >
                                     <img src="/notif.svg" alt="icon" />
@@ -174,7 +174,7 @@ const ProfilePage = () => {
                     </div>
                 </div>
             </div>
-            <NavbarTripin pageInfo={"ProfilePage"} />
+            <NavbarTripin pageInfo={"Profile"} />
             <ModalComponent
                 isModalHidden={isModalHidden}
                 setIsModalHidden={setIsModalHidden}
@@ -207,4 +207,4 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+export default Profile;

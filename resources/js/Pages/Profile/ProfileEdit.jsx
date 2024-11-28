@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 
-const EditProfilePage = ({ email, username, phone_number, gender }) => {
+const ProfileEdit = ({ email, username, phone_number, gender }) => {
     const { data, setData, post, processing, errors } = useForm({
         username: username,
         phone_number: phone_number,
@@ -152,4 +152,4 @@ const EditProfilePage = ({ email, username, phone_number, gender }) => {
     );
 };
 
-export default EditProfilePage;
+export default ProfileEdit;

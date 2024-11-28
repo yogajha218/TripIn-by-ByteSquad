@@ -1,5 +1,4 @@
 import React from 'react';
-import { Car } from 'lucide-react';
 
 const Tracking = ({ 
   shuttleInfo = {
@@ -56,7 +55,7 @@ const Tracking = ({
               <p className="text-gray-600 text-sm">{shuttleInfo.plateNumber}</p>
             </div>
             <div className="bg-gray-700 p-2 rounded-lg">
-              <Car className="w-8 h-8 text-white" />
+              <img src="shuttle_icon.svg" alt="shuttle" />
             </div>
           </div>
           

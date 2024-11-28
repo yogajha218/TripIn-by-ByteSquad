@@ -3,7 +3,7 @@ import axios from "axios";
 import ButtonComponent from "@/Components/ButtonComponent";
 import ModalComponent from "@/Components/ModalComponent";
 
-const Otp = ({ email }) => {
+const OtpRegistVerify = ({ email }) => {
     const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
     const [error, setError] = useState("");
     const [isModalHidden, setIsModalHidden] = useState(true);
@@ -138,4 +138,4 @@ const Otp = ({ email }) => {
     );
 };
 
-export default Otp;
+export default OtpRegistVerify;

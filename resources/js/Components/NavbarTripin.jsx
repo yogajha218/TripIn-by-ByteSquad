@@ -19,8 +19,8 @@ const NavbarTripin = ({ pageInfo }) => {
             case "TicketPage":
                 setActivePage("TicketPage");
                 break;
-            case "ProfilePage":
-                setActivePage("ProfilePage");
+            case "Profile":
+                setActivePage("Profile");
                 break;
         }
     }, []);
@@ -66,7 +66,7 @@ const NavbarTripin = ({ pageInfo }) => {
                     <img src="/ticket-unactive.svg" />
                 </Link>
             )}
-            {activePage === "ProfilePage" ? (
+            {activePage === "Profile" ? (
                 <Link
                     onClick={handleReload}
                     href="/profile"

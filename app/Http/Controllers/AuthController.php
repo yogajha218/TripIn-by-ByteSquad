@@ -20,47 +20,33 @@ use function Illuminate\Log\log;
 
 class AuthController extends Controller
 {
-    // Menampilkan halaman welcome
-    public function welcomeIndex(){
-        return Inertia::render('LandingPage');
-    }
 
     // Menampilkan halaman autentikasi
     public function authIndex(){
-        return Inertia::render('LoginPage');
+        return Inertia::render('Auth/Auth');
     }
 
     // Menampilkan halaman kirim email lupa password
     public function forgotPasswordEmailIndex(){
-        return Inertia::render('ForgotPass_Email');
+        return Inertia::render('Auth/ForgotOtpEmail');
     }
 
     // Menampilkan halaman otp lupa password
     public function otpPasswordIndex(Request $request){
         $email = session('email');
-        return Inertia::render('OtpPassword', ['email' => $email]);
+        return Inertia::render('Auth/ForgotOtpVerify', ['email' => $email]);
     }
 
     // Menampilkan halaman konfirmasi password baru
     public function forgotPasswordIndex(){
         $email = session('email');
-        return Inertia::render('ForgotPass_NewPass', ['email' => $email]);
+        return Inertia::render('Auth/ForgotPassword', ['email' => $email]);
     }
 
     // Menampilkan halaman otp registrasi akun baru
     public function otpRegisterIndex(){
         $email = session('email');
-        return Inertia::render('Otp', ['email' => $email]);
-    }
-
-    // Menampikan halaman Privacy & Policy
-    public function privacyIndex(){
-        return Inertia::render('PrivacyPolicy');
-    }
-
-    // Menampilkan halaman Terms & Condition
-    public function termsIndex(){
-        return Inertia::render('TermsAndCondition');
+        return Inertia::render('Auth/OtpRegisterVerify', ['email' => $email]);
     }
 
     // Fungsi untuk kirim email otp saat registrasi

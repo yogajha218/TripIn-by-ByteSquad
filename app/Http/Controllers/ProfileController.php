@@ -22,7 +22,7 @@ class ProfileController extends Controller
 
     // Menampilkan halaman profil user
     public function profileIndex(){
-        return Inertia::render('ProfilePage', [
+        return Inertia::render('Profile/Profile', [
             'auth' => [
                 'user' => Auth::user(),
             ],
@@ -35,7 +35,7 @@ class ProfileController extends Controller
     // Menampilkan halaman edit profile
     public function profileEditIndex(){
         $user = Auth::user();
-        return Inertia::render('EditProfilePage',  [
+        return Inertia::render('Profile/ProfileEdit',  [
             'email' => $user->email,
             'username' => $user->username,
             'phone_number' => $user->phone_number,
@@ -46,26 +46,14 @@ class ProfileController extends Controller
     // Menampilkan halaman edit password baru
     public function profileUpdatePasswordIndex(){
         $user = Auth::user();
-        return Inertia::render('EditProfilePassword', ['email' => $user->email]);
-    }
-
-    // Menampilkan halaman FAQ
-    public function faqIndex(){
-        return Inertia::render('Faq');
+        return Inertia::render('Profile/ProfileNewPassword', ['email' => $user->email]);
     }
 
     // Menampilkan halaman otp
     public function profileOtpPasswordIndex(){
-        return Inertia::render('OtpProfilePassword');
+        return Inertia::render('Profile/ProfileOtpVerify');
     }
 
-    public function historyIndex(){
-        return Inertia::render('HistoryPage');
-    }
-
-    public function historyDetailIndex(){
-        return Inertia::render('HistoryDetail');
-    }
 
     // Fungsi untuk memperbarui profile
     public function profileEdit(Request $request)

@@ -4,7 +4,7 @@ import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/navbarTripin";
 
-const HomePage = ({ credit, username, user_id }) => {
+const Home = ({ credit, username, user_id }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
@@ -133,4 +133,4 @@ const HomePage = ({ credit, username, user_id }) => {
     );
 };
 
-export default HomePage;
+export default Home;

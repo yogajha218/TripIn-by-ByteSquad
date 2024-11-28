@@ -1,25 +1,19 @@
 import { useForm } from "@inertiajs/react";
 import React, { useState } from "react";
 
-const ResetPasswordNew = ({email}) => {
+const ProfileNewPassword = ({email}) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const {data, setData, post, processing, errors} = useForm({
-    email: email,
     password: "",
     confirmPassword: "",
-    termsAccepted: false,
   });
-
-  console.log('New Pass Email : ', email);
 
   const handleSubmitPassword = async (e) => {
     e.preventDefault();
     const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-    console.log('New Pass : ', data.password );
-    console.log('New Pass : ', data.confirmPassword );
 
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match");
@@ -28,7 +22,7 @@ const ResetPasswordNew = ({email}) => {
     }
 
     try {
-      post('/forgot-password/new-password', data, {
+      post(route('profile.edit.password.send'), data, {
         headers: {"X-CSRF-TOKEN": csrfToken,},
       })
     } catch (err) {
@@ -77,8 +71,7 @@ const ResetPasswordNew = ({email}) => {
               type="email"
               name="email"
               id="email"
-              value={data.email}
-              onChange={(e) => setData('email', e.target.value)}
+              value={email}
               disabled
               className="w-full px-4 py-3 text-black border border-gray-300 rounded-lg mb-4 bg-gray-50"
             />
@@ -123,4 +116,4 @@ const ResetPasswordNew = ({email}) => {
   );
 };
 
-export default ResetPasswordNew;
+export default ProfileNewPassword;

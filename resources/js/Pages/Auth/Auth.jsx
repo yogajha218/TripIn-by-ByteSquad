@@ -53,37 +53,45 @@ const Auth = () => {
             <div className="flex justify-center py-16">
                 <img
                     src="/TripInLogo.svg"
-                    className="h-24"
+                    className="w-24"
                     alt="Logo of TripIn"
                 />
             </div>
 
             {/* Toggle Buttons */}
-            <div className="flex w-full">
-                <button
-                    className={`flex-1 py-3 text-center rounded-t-[30px] rounded-b-none ${
-                        isSignIn
-                            ? "bg-white text-black"
-                            : "bg-transparent text-white"
+            <div className=" relative top-[24px] flex w-full ">
+                <div
+                    className={`flex-1 h-[48px] top-4 rounded-[30px] ${
+                        isSignIn ? "bg-white" : "bg-primary"
                     }`}
-                    onClick={() => setIsSignIn(true)}
                 >
-                    Sign In
-                </button>
-                <button
-                    className={`flex-1 py-3 text-center rounded-t-[30px] rounded-b-none ${
-                        !isSignIn
-                            ? "bg-white text-black"
-                            : "bg-transparent text-white"
+                    <button
+                        className={`w-full py-3 text-center rounded-t-[30px] bg-transparent rounded-b-none ${
+                            isSignIn ? " text-black" : "text-white"
+                        }`}
+                        onClick={() => setIsSignIn(true)}
+                    >
+                        Sign In
+                    </button>
+                </div>
+                <div
+                    className={`flex-1 h-[48px] top-4 rounded-[30px] ${
+                        isSignIn ? "bg-primary" : "bg-white"
                     }`}
-                    onClick={() => setIsSignIn(false)}
                 >
-                    Sign Up
-                </button>
+                    <button
+                        className={`w-full py-3 text-center rounded-t-[30px]  bg-transparent rounded-b-none ${
+                            !isSignIn ? "text-black" : "text-white"
+                        }`}
+                        onClick={() => setIsSignIn(false)}
+                    >
+                        Sign Up
+                    </button>
+                </div>
             </div>
 
             {/* Form Container */}
-            <div className="bg-white flex-1 p-6 min-h-[calc(100vh-240px)]">
+            <div className="bg-white flex-1 px-6 py-12 min-h-[calc(100vh-240px)]">
                 <div className="max-w-md mx-auto">
                     <h2 className="text-lg font-medium mb-6 texx-black">
                         {isSignIn
@@ -210,7 +218,7 @@ const Auth = () => {
                             buttonText={isSignIn ? "Sign In" : "Sign Up"}
                             disabled={processing || !isFormValid}
                             type="submit"
-                        />    
+                        />
                     </form>
                 </div>
             </div>

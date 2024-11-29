@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ButtonComponent from "@/Components/ButtonComponent";
 import ModalComponent from "@/Components/ModalComponent";
@@ -8,7 +8,12 @@ const OtpRegistVerify = ({ email }) => {
     const [error, setError] = useState("");
     const [isModalHidden, setIsModalHidden] = useState(true);
     const [modalMessage, setModalMessage] = useState("");
-
+    const inputFocus = useRef([]);
+    useEffect(() => {
+        if (inputFocus.current[0]) {
+            inputFocus.current[0].focus();
+        }
+    }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
@@ -34,7 +39,7 @@ const OtpRegistVerify = ({ email }) => {
 
             // Redirect after a delay to allow the user to see the message
             setTimeout(() => {
-                window.location.href = route('auth');
+                window.location.href = route("auth");
             }, 2000); // 2000 milliseconds = 2 seconds
         } catch (err) {
             if (err.response && err.response.data.message) {
@@ -104,6 +109,9 @@ const OtpRegistVerify = ({ email }) => {
                         <div className="flex justify-between gap-3 mb-8">
                             {verificationCode.map((digit, index) => (
                                 <input
+                                    ref={(el) =>
+                                        (inputFocus.current[index] = el)
+                                    }
                                     key={index}
                                     type="text"
                                     inputMode="numeric"
@@ -130,8 +138,16 @@ const OtpRegistVerify = ({ email }) => {
                     </form>
                 </div>
             </div>
-            <ModalComponent isModalHidden={isModalHidden} setIsModalHidden={setIsModalHidden}>
-                <button onClick={() => setIsModalHidden(true)}>Close</button>
+            <ModalComponent
+                isModalHidden={isModalHidden}
+                setIsModalHidden={setIsModalHidden}
+            >
+                <div className="w-[225px] h-[145px] flex flex-col items-center justify-center">
+                    <img src="/success.svg" />
+                    <p className="text-sm font-normal text-center">
+                        {modalMessage}
+                    </p>
+                </div>
             </ModalComponent>
         </div>
     );

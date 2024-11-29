@@ -12,10 +12,14 @@ class Vehicle extends Model
         'license_plate',
         'seats', 
         'status',
-        'booked_seats' => 'array',
+        'booked_seats',
     ];
     protected $casts = [
         'booked_seats' => 'array',
+    ];
+
+    protected $attributes = [
+        'booked_seats' => '[]',
     ];
 
     public function driver()

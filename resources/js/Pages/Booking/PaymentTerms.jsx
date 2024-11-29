@@ -1,6 +1,4 @@
 import React from 'react';
-import tripinLogo from "/TripInLogo.svg";
-import Gopay from "/Gopay.svg";
 
 import { ChevronLeft } from 'lucide-react';
 
@@ -20,12 +18,12 @@ const Payment = () => {
       {/* Logo Section */}
       <div className="px-6 py-6 flex items-center gap-2 justify-center">
         <img
-          src={tripinLogo}
+          src="/TripInLogo.svg"
           alt="Tripin Logo"
           className="w-24 h-14 rounded-full"
         />
         <img
-          src={Gopay}
+          src="/Gopay.svg"
           alt="Chat Logo"
           className="w-10 h-10"
         />

@@ -131,7 +131,6 @@ const OtpRegistVerify = ({ email }) => {
                 </div>
             </div>
             <ModalComponent isModalHidden={isModalHidden} setIsModalHidden={setIsModalHidden}>
-                // TODO : Tambah isi modal
                 <button onClick={() => setIsModalHidden(true)}>Close</button>
             </ModalComponent>
         </div>

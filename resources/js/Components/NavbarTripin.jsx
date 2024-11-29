@@ -6,7 +6,7 @@ const NavbarTripin = ({ pageInfo }) => {
         e.preventDefault();
         sessionStorage.setItem("reloaded", "true");
         window.location.reload();
-    }
+    };
 
     useLayoutEffect(() => {
         switch (pageInfo) {
@@ -26,7 +26,7 @@ const NavbarTripin = ({ pageInfo }) => {
     }, []);
 
     return (
-        <div className=" fixed bottom-0 w-full lg:max-w-[500px] right-0 bg-primary left-1/2 translate-x-[-50%] h-16 rounded-t-xl z-40 flex justify-evenly">
+        <div className=" fixed bottom-0 w-full lg:max-w-[500px] right-0 bg-primary left-1/2 translate-x-[-50%]  h-16 rounded-t-xl z-40 flex justify-evenly">
             {activePage === "HomePage" ? (
                 <Link href="/home" className="flex justify-center items-center">
                     <img src="/home-active.svg" />

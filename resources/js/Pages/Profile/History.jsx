@@ -4,7 +4,7 @@ import HistoryComponent from "@/Components/HistoryComponent";
 
 const History = () => {
     const { users } = usePage().props; // Get users from Inertia props
-    const [user, setUser] = useState({});
+    const [user, setUser ] = useState({});
     const [isNewHistoryCardProp, setIsNewHistoryCardProp] = useState(false);
     const [isOldHistoryCardProp, setIsOldHistoryCardProp] = useState(false);
     const [newHistoryCardProp, setNewHistoryCardProp] = useState({});
@@ -50,36 +50,45 @@ const History = () => {
     }, [users]);
 
     return (
-        <div className="max-w-md mx-auto">
-            <header className="bg-primary text-white py-4 px-6">
-                <div className="flex justify-between items-center">
-                    <button onClick={() => console.log("Back button clicked")} className="text-white">
-                        &lt;
-                    </button>
-                    <h1 className="font-bold text-3xl">History</h1>
-                    <div></div>
-                </div>
-            </header>
+        <div className="flex justify-center">
+            <div className="w-full max-w-[500px] bg-white shadow-lg  overflow-hidden">
+                <header className="bg-primary text-white py-4 px-6">
+                    <div className="flex justify-between items-center">
+                        <button
+                            onClick={() => console.log("Back button clicked")}
+                            className="text-white"
+                        >
+                            &lt;
+                        </button>
+                        <h1 className="font-bold text-xl sm:text-3xl">History</h1>
+                        <div></div>
+                    </div>
+                </header>
 
-            <main className="px-4 py-6 bg-gray-100">
-                <section className="mb-6">
-                    <p className="font-semibold text-black mb-5">Sat, 9 November 2024</p>
-                    {isNewHistoryCardProp ? (
-                        <HistoryComponent CardProp={newHistoryCardProp} />
-                    ) : (
-                        <div>None</div>
-                    )}
-                </section>
+                <main className="px-4 py-6 bg-gray-100">
+                    <section className="mb-6">
+                        <p className="font-semibold text-black mb-5">
+                            Sat, 9 November 2024
+                        </p>
+                        {isNewHistoryCardProp ? (
+                            <HistoryComponent CardProp={newHistoryCardProp} />
+                        ) : (
+                            <div>None</div>
+                        )}
+                    </section>
 
-                <section>
-                    <p className="font-semibold text-black mb-5">Sun, 3 November 2024</p>
-                    {isOldHistoryCardProp ? (
-                        <HistoryComponent CardProp={oldHistoryCardProp} />
-                    ) : (
-                        <div>None</div>
-                    )}
-                </section>
-            </main>
+                    <section>
+                        <p className="font-semibold text-black mb-5">
+                            Sun, 3 November 2024
+                        </p>
+                        {isOldHistoryCardProp ? (
+                            <HistoryComponent CardProp={oldHistoryCardProp} />
+                        ) : (
+                            <div>None</div>
+                        )}
+                    </section>
+                </main>
+            </div>
         </div>
     );
 }

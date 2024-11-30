@@ -1,6 +1,6 @@
 const HistoryComponent = ({ CardProp }) => {
     return (
-        <div className="max-w-[395px] h-fit rounded-[10px] border border-[#8BAFCE80] bg-white">
+        <div className="max-w-[468px] h-fit rounded-[10px] border border-[#8BAFCE80] bg-white">
             <div className="flex px-4 pt-7 pb-3 justify-between items-center">
                 <div>
                     <img src="/shuttle_icon.svg" alt="shuttle_icon" />

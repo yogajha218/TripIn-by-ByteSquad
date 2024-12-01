@@ -8,7 +8,6 @@ class Location extends Model
 {
     protected $primaryKey = 'location_id';
     protected $table = 'locations';
-
     protected $fillable = [
         'name', 
         'address',
@@ -19,6 +18,6 @@ class Location extends Model
     public function vehicles()
     {
         return $this->belongsToMany(Vehicle::class, 'location_vehicle', 'location_id', 'vehicle_id')
-                    ->withPivot('price', 'departure_time', 'arrival_time');
+                    ->withPivot('price', 'departure_time', 'arrival_time', 'route_id');
     }
 }

@@ -18,3 +18,4 @@ Route::post('/seat/store/{vehicle_id}', [BookingController::class, 'seatStore'])
 
 Route::get('/booking', [BookingController::class, 'bookingIndex']);
 Route::post('/booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
+Route::post('/booking/route/store', [BookingController::class, 'routeStore'])->name('route.store');

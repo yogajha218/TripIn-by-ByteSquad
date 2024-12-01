@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Seats from '@/Components/Seats'
 
-const SelectSeat = (plate) => {
+const SelectSeat = ({plate}) => {
 
     const [selectedSeat, setSelectedSeat] = useState([]);
     console.log('Sended Plate : ', plate);

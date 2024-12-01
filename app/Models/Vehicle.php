@@ -30,6 +30,6 @@ class Vehicle extends Model
     public function locations()
     {
         return $this->belongsToMany(Location::class, 'location_vehicle', 'vehicle_id', 'location_id')
-                    ->withPivot('price', 'departure_time', 'arrival_time');
+                    ->withPivot('price', 'departure_time', 'arrival_time', 'route_id');
     }
 }

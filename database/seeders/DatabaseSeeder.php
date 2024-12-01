@@ -35,7 +35,17 @@ class DatabaseSeeder extends Seeder
                 'address' => 'Area Kebun, Palihan, Kec. Temon, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta',
                 'type' => 'Bandara',
                 'city' => 'Yogyakarta',
-            ]
+            ], [
+                'name' => 'Bandara Bandung',
+                'address' => 'Kota bandung 1',
+                'type' => 'Bandara',
+                'city' => 'Bandung',
+            ], [
+                'name' => 'Bandara 123',
+                'address' => 'Kota bandung 12',
+                'type' => 'Bandara',
+                'city' => 'Bandung',
+            ], 
         ]);
 
         Vehicle::insert([
@@ -66,25 +76,47 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Schedule::insert([
-            [
-                'location_id' => 1,
-                'vehicle_id' => 1,
-                'price' => 200000,
-                'departure_time' => '10:40:00',
-                'arrival_time' => '13:30:00'
-            ], [
-                'location_id' => 2,
-                'vehicle_id' => 2,
-                'price' => 180000,
-                'departure_time' => '10:40:00',
-                'arrival_time' => '13:30:00'
-            ], [
-                'location_id' => 1,
-                'vehicle_id' => 3,
-                'price' => 150000,
-                'departure_time' => '10:40:00',
-                'arrival_time' => '13:30:00'
-            ]
-        ]);
+        // Jakarta
+        [
+            'location_id' => 1,  // Bandara Soekarno Hatta
+            'vehicle_id' => 1,
+            'price' => 200000,
+            'departure_time' => '10:40:00',
+            'arrival_time' => '13:30:00'
+        ], [
+            'location_id' => 1,  // Hotel Paragon
+            'vehicle_id' => 2,
+            'price' => 180000,
+            'departure_time' => '10:40:00',
+            'arrival_time' => '13:30:00'
+        ], [
+            'location_id' => 1,  // Bandara Soekarno Hatta
+            'vehicle_id' => 3,
+            'price' => 150000,
+            'departure_time' => '10:40:00',
+            'arrival_time' => '13:30:00'
+        ],
+
+        // Yogyakarta (new entries)
+        [
+            'location_id' => 3,  // Bandara YIA
+            'vehicle_id' => 1,
+            'price' => 200000,
+            'departure_time' => '11:00:00',
+            'arrival_time' => '14:00:00'
+        ], [
+            'location_id' => 3,  // Bandara YIA
+            'vehicle_id' => 2,
+            'price' => 180000,
+            'departure_time' => '12:00:00',
+            'arrival_time' => '16:00:00'
+        ], [
+            'location_id' => 3,  // Bandara YIA
+            'vehicle_id' => 3,
+            'price' => 150000,
+            'departure_time' => '09:00:00',
+            'arrival_time' => '11:00:00'
+        ]
+    ]);
     }
 }

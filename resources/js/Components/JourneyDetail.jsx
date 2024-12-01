@@ -1,4 +1,6 @@
 import { format } from "date-fns";
+import { useState } from "react";
+import axios from "axios";
 
 const JourneyDot = () => {
     return (
@@ -13,12 +15,38 @@ const JourneyDot = () => {
 };
 
 const JourneyDetail = ({ routes, booking }) => {
+    const [selectedRoute, setSelectedRoute] = useState("");
+
+    const onClickDetail = async (e, routeId) => {
+        e.preventDefault();
+        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+        try{
+            const response = await axios.post(route('route.store'), {
+                selectedRoute: routeId,
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                }
+            })
+
+            if(response.status == 200){
+                window.location.href = "/seat"
+                // console.log("Selected Route : ", routeId);
+            }
+
+        } catch(error){
+            //
+        }
+    }
+
     return (
         <>
-            {routes.map((bus) => (
+            {routes.map((bus, index) => (
                 <div
-                    key={bus.location_id}
+                    key={index}
                     className="bg-white rounded-lg shadow-md p-4 relative"
+                    onClick={(e) => onClickDetail(e, bus.vehicles[0]?.pivot.route_id)}   
                 >
                     {/* Available Seats Badge */}
                     <div className="absolute top-4 right-4 text-blue-600 px-2 py-1 rounded-full text-xs">

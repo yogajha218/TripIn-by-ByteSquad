@@ -19,7 +19,7 @@ class BookingController extends Controller
 
     public function seatIndex(){
         $vehicle = Vehicle::where('vehicle_id', 1)->first();
-        return Inertia::render('Booking/SelectSeat', ['plate' => $vehicle->license_plate]);
+        return Inertia::render('Booking/SelectSeat', ['plate' => $vehicle->license_plate, 'route' => session('setRoute')]);
     }
 
     public function paymentStatusIndex(){
@@ -37,9 +37,8 @@ class BookingController extends Controller
     public function busScheduleIndex(){
         $city = session('bookingData.cityValue');
         $routes = Location::with(['vehicles' => function($query) {
-            $query->withPivot('price');  // Make sure to load the pivot data (price)
-        }])->where('city', $city)->get();     
-        
+            $query->withPivot('price', 'route_id');  // Make sure to load the pivot data (price)
+        }])->where("city", $city)->get();     
         
         return Inertia::render('Booking/BusSchedule', ['booking' => session('bookingData'), 'routes' => $routes]);
     }
@@ -70,6 +69,14 @@ class BookingController extends Controller
         ]);
 
         session(['bookingData' => $bookingData]);
+    }
+
+    public function routeStore(Request $request){
+        $route = $request->validate([
+            'selectedRoute' => 'required'
+        ]);
+
+        session(['setRoute' => $route]);
     }
 
     public function seatStore(Request $request, $vehicleId){

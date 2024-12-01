@@ -19,7 +19,8 @@ class BookingController extends Controller
 
     public function seatIndex(){
         $vehicle = Vehicle::where('vehicle_id', 1)->first();
-        return Inertia::render('Booking/SelectSeat', ['plate' => $vehicle->license_plate, 'route' => session('setRoute')]);
+        $seatLimit = session('bookingData.seatsValue');
+        return Inertia::render('Booking/SelectSeat', ['plate' => $vehicle->license_plate, 'seatLimit' => $seatLimit]);
     }
 
     public function paymentStatusIndex(){

@@ -27,8 +27,9 @@ class Vehicle extends Model
         return $this->hasOne(Driver::class, 'vehicle_id');
     }
 
-    public function trips()
+    public function locations()
     {
-        return $this->hasMany(Trip::class, 'vehicle_id');
+        return $this->belongsToMany(Location::class, 'location_vehicle', 'vehicle_id', 'location_id')
+                    ->withPivot('price', 'departure_time', 'arrival_time');
     }
 }

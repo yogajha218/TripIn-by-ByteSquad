@@ -9,8 +9,16 @@ class Location extends Model
     protected $primaryKey = 'location_id';
     protected $table = 'locations';
 
-    public function trips()
+    protected $fillable = [
+        'name', 
+        'address',
+        'type',
+        'city',
+    ];
+
+    public function vehicles()
     {
-        return $this->hasMany(Trip::class, 'location_id');
+        return $this->belongsToMany(Vehicle::class, 'location_vehicle', 'location_id', 'vehicle_id')
+                    ->withPivot('price', 'departure_time', 'arrival_time');
     }
 }

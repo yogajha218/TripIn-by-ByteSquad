@@ -5,25 +5,19 @@ const SelectOriginBooking = ({
     isSelectOrigin,
     setIsSelectOrigin,
     setOrigin,
+    locations,
 }) => {
-    // data Mock
-    const locations = [
-        { id: 1, type: "Bandara", name: "Bandara Soekarno Hatta" },
-        { id: 2, type: "Bandara", name: "Bandara Halim Perdana Kusuma" },
-        { id: 3, type: "Hotel", name: "Hotel Aryaduta jakarta" },
-        { id: 4, type: "Hotel", name: "Hotel Grand Hyatt Jakarta" },
-        { id: 5, type: "Hotel", name: "Hotel The Ritz" },
-        { id: 6, type: "Hotel", name: "Hotel Raffles Jakarta" },
-    ];
+    
     const goBack = () => {
         setIsSelectOrigin(false);
     };
+
     const handleSelectLocation = (location) => {
         let locationName = location.name;
         setOrigin(locationName);
-
         goBack();
     };
+
     return (
         <>
             <div className="flex justify-center">
@@ -58,28 +52,28 @@ const SelectOriginBooking = ({
                             </button>
                         </form>
                         <div className="my-4">
-                            {locations.map((location, index) => (
+                            {locations.map((loc, index) => (
                                 <div
                                     className="w-full h-fit flex justify-between px-1 cursor-pointer border-b"
                                     key={index}
                                     onClick={() =>
-                                        handleSelectLocation(location)
+                                        handleSelectLocation(loc)
                                     }
                                 >
                                     <img
                                         className="size-[46px] self-start"
                                         src={
-                                            location.type === "Bandara"
+                                            loc.type === "Bandara"
                                                 ? "/airplane.svg"
                                                 : "/bed.svg"
                                         }
                                     />
                                     <div className="flex flex-col ">
                                         <p className="text-xs font-thin text-end">
-                                            {location.type}
+                                            {loc.type} - {loc.city}
                                         </p>
                                         <p className="text-2xl font-semibold">
-                                            {location.name}
+                                            {loc.name}
                                         </p>
                                     </div>
                                 </div>

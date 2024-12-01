@@ -19,6 +19,4 @@ Route::post('/seat/store/{vehicle_id}', [BookingController::class, 'seatStore'])
 Route::get('/Booking', function() {
     return Inertia::render('Booking/Booking');
 });
-Route::get('/Booking/select-origin', function() {
-    return Inertia::render('Booking/SelectOriginBooking');
-});
+

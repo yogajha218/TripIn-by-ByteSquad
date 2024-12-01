@@ -1,8 +1,15 @@
 import { useState, useEffect, useRef } from "react";
+import { format } from "date-fns";
+import { usePage } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import ButtonComponent from "@/Components/ButtonComponent";
 import ModalComponent from "@/Components/ModalComponent";
+import CalendarComponent from "@/Components/CalenderComponent";
 // import OptionComponent from "@/Components/OptionComponent";
 const Booking = () => {
+    const { props } = usePage();
+    const { location } = props;
     const cityOptions = ["Jakarta", "Bali", "Bandung", "Yogyakarta"];
     const numberOfSeatsOption = [
         "1 seat",
@@ -19,6 +26,21 @@ const Booking = () => {
     const inputRef = useRef();
     const numberOfseatsBooked = useRef();
     const [isModalHidden, setIsModalHidden] = useState(true);
+    const [selectedDay, setSelectedDay] = useState(null); // state to hold the selected day
+    const [tempSelectedDay, setTempSelectedDay] = useState(null); // Local state to temporarily store the selected day
+
+    // Function to update the selected day
+    const handleDaySelection = (day) => {
+        setTempSelectedDay(day); // Store temporarily selected day
+    };
+
+    // Function to confirm the selected day
+    const handleConfirmSelection = () => {
+        if (tempSelectedDay) {
+            setSelectedDay(tempSelectedDay); // Update the final selected day
+            setTempSelectedDay(null); // Clear the temporary selection
+        }
+    };
     function modalVisibility() {
         setIsModalHidden((prev) => !prev);
     }
@@ -51,6 +73,8 @@ const Booking = () => {
         console.log(`ini bukan input ref ${cityValue}`);
         console.log(inputRef.current.value);
         console.log(`seat value ${seatsValue}`);
+        console.log(props);
+        console.log(location);
     }, [cityValue, seatsValue]);
     return (
         <>
@@ -148,7 +172,9 @@ const Booking = () => {
                                 />
                                 <div
                                     onClick={() => {
-                                        console.log("blink-blink");
+                                        router.visit("/Booking/select-origin", {
+                                            preserveState: true,
+                                        });
                                     }}
                                     className="flex-1 border-b-2  border-black h-fit mx-5"
                                 >
@@ -159,13 +185,12 @@ const Booking = () => {
                                     </div>
                                     <div className="flex-1 flex justify-between">
                                         <input
-                                            ref={inputRef}
-                                            className={`border-none text-lg font-light p-0 ${
-                                                cityValue !== "select a city"
-                                                    ? "text-black"
-                                                    : "text-gray-400"
-                                            }`}
-                                            value={"Select Origin"}
+                                            className={`border-none text-lg font-light p-0 `}
+                                            value={
+                                                location?.name === null
+                                                    ? "select origin"
+                                                    : location?.name
+                                            }
                                             disabled={true}
                                             onChange={(e) =>
                                                 setCityvalue(e.target.value)
@@ -207,7 +232,14 @@ const Booking = () => {
                                                     ? "text-black"
                                                     : "text-gray-400"
                                             }`}
-                                            value={"Calender"}
+                                            value={
+                                                selectedDay
+                                                    ? format(
+                                                          selectedDay,
+                                                          "MMMM d, yyyy"
+                                                      ) // Format date as "Month Day, Year"
+                                                    : "None"
+                                            }
                                             disabled={true}
                                             onChange={(e) =>
                                                 setCityvalue(e.target.value)
@@ -311,7 +343,27 @@ const Booking = () => {
                 setIsModalHidden={setIsModalHidden}
                 isModalHidden={isModalHidden}
             >
-                <div className="size-80"></div>
+                <div className="flex flex-col px-5">
+                    {/* <h1>
+                        Selected Day:{" "}
+                        {selectedDay
+                            ? format(selectedDay, "MMMM d, yyyy") // Format date as "Month Day, Year"
+                            : "None"}
+                    </h1> */}
+                    <CalendarComponent
+                        selectedDay={selectedDay}
+                        tempSelectedDay={tempSelectedDay}
+                        onDaySelection={handleDaySelection}
+                    />
+
+                    <ButtonComponent
+                        buttonText={"Save"}
+                        onclick={() => {
+                            handleConfirmSelection();
+                            modalVisibility();
+                        }}
+                    />
+                </div>
             </ModalComponent>
         </>
     );

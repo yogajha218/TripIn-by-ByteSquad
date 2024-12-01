@@ -16,6 +16,9 @@ Route::get('/seat', [BookingController::class, 'seatIndex'])->name('seat.index')
 Route::post('/seat/store/{vehicle_id}', [BookingController::class, 'seatStore'])->name('seat.store');
 
 
-Route::get('/example', function() {
+Route::get('/Booking', function() {
     return Inertia::render('Booking/Booking');
+});
+Route::get('/Booking/select-origin', function() {
+    return Inertia::render('Booking/SelectOriginBooking');
 });

@@ -21,6 +21,8 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@heroicons/react": "^2.2.0",
+        "date-fns": "^4.1.0",
         "lucide-react": "^0.462.0"
     }
 }

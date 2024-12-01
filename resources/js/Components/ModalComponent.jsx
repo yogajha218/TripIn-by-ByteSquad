@@ -39,6 +39,7 @@ export const ModalComponent = ({
                             ? "animate-slide-in"
                             : ""
                     }`}
+                    onClick={(e) => e.stopPropagation()}
                 >
                     {children}
                 </div>

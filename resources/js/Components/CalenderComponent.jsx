@@ -50,7 +50,7 @@ export default function CalendarComponent({
 
     return (
         <div>
-            <div className="w-[390px] h-[400px]">
+            <div className="md:w-[390px] min-size-[260px] md:h-[390px]">
                 <div className="h-full p-5">
                     <div className="flex items-center">
                         <h2 className="flex-auto font-semibold text-gray-900">
@@ -79,7 +79,7 @@ export default function CalendarComponent({
                             />
                         </button>
                     </div>
-                    <div className="grid grid-cols-7 mt-8 text-xs leading-6 text-center text-gray-500">
+                    <div className="grid grid-cols-7 mt-8 text-base md:text-xs leading-6 text-center text-gray-500">
                         <div>S</div>
                         <div>M</div>
                         <div>T</div>
@@ -88,7 +88,7 @@ export default function CalendarComponent({
                         <div>F</div>
                         <div>S</div>
                     </div>
-                    <div className="grid grid-cols-7 mt-2 text-md">
+                    <div className="grid grid-cols-7 mt-2 text-sm md:text-base">
                         {days.slice(0, 35).map((day, dayIdx) => {
                             const rowIdx = Math.floor(dayIdx / 7);
                             return (

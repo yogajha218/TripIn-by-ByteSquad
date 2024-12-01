@@ -1,9 +1,12 @@
 import React from "react";
-import { router } from "@inertiajs/react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 
-const SelectOriginBooking = () => {
-    // data MOck
+const SelectOriginBooking = ({
+    isSelectOrigin,
+    setIsSelectOrigin,
+    setOrigin,
+}) => {
+    // data Mock
     const locations = [
         { id: 1, type: "Bandara", name: "Bandara Soekarno Hatta" },
         { id: 2, type: "Bandara", name: "Bandara Halim Perdana Kusuma" },
@@ -12,24 +15,27 @@ const SelectOriginBooking = () => {
         { id: 5, type: "Hotel", name: "Hotel The Ritz" },
         { id: 6, type: "Hotel", name: "Hotel Raffles Jakarta" },
     ];
+    const goBack = () => {
+        setIsSelectOrigin(false);
+    };
     const handleSelectLocation = (location) => {
-        // Navigate to the destination page with the selected location
-        console.log(location);
-        router.visit("/Booking", {
-            method: "get", // Optional, defaults to 'get'
-            props: { location }, // Pass the location as data
-        });
+        let locationName = location.name;
+        setOrigin(locationName);
+
+        goBack();
     };
     return (
         <>
             <div className="flex justify-center">
                 <div className="lg:w-[500px] w-full bg-primary">
-                    <div className="h-[108px] flex items-center px-4">
+                    <div className="h-[108px] flex items-center  px-3 relative">
                         <ChevronLeftIcon
                             strokeWidth={2}
-                            className="size-6 text-white cursor-pointer"
+                            className="size-6 text-white cursor-pointer absolute"
                             aria-hidden="true"
-                            onClick={() => history.back()}
+                            onClick={() => {
+                                goBack();
+                            }}
                         />
                         <p className="w-full text-2xl font-semibold text-center text-white">
                             Select origin

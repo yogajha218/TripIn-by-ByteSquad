@@ -31,6 +31,11 @@ class DatabaseSeeder extends Seeder
                 'type' => 'Hotel',
                 'city' => 'Jakarta'
             ], [
+                'name' => 'Hotel Arya Duta',
+                'address' => 'Jl. Prajurit KKO Usman dan Harun No.44-48, Kota Jakarta Pusat, DKI Jakarta',
+                'type' => 'Hotel',
+                'city' => 'Jakarta'
+            ], [
                 'name' => 'Bandara YIA',
                 'address' => 'Area Kebun, Palihan, Kec. Temon, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta',
                 'type' => 'Bandara',
@@ -45,23 +50,23 @@ class DatabaseSeeder extends Seeder
                 'address' => 'Kota bandung 12',
                 'type' => 'Bandara',
                 'city' => 'Bandung',
-            ], 
+            ],
         ]);
 
         Vehicle::insert([
             [
                 'license_plate' => 'B 1234 BX',
                 'seats' => 20,
-                'status' => 'Tersedia', 
+                'status' => 'Tersedia',
             ], [
                 'license_plate' => 'B 2255 RD',
                 'seats' => 22,
-                'status' => 'Tersedia', 
+                'status' => 'Tersedia',
             ], [
                 'license_plate' => 'B 6565 VC',
                 'seats' => 20,
-                'status' => 'Tersedia', 
-            ],  
+                'status' => 'Tersedia',
+            ],
         ]);
 
         Driver::insert([

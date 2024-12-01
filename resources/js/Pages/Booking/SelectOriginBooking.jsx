@@ -1,13 +1,7 @@
 import React from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 
-const SelectOriginBooking = ({
-    isSelectOrigin,
-    setIsSelectOrigin,
-    setOrigin,
-    locations,
-}) => {
-    
+const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
     const goBack = () => {
         setIsSelectOrigin(false);
     };
@@ -56,9 +50,7 @@ const SelectOriginBooking = ({
                                 <div
                                     className="w-full h-fit flex justify-between px-1 cursor-pointer border-b"
                                     key={index}
-                                    onClick={() =>
-                                        handleSelectLocation(loc)
-                                    }
+                                    onClick={() => handleSelectLocation(loc)}
                                 >
                                     <img
                                         className="size-[46px] self-start"

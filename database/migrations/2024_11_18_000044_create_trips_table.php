@@ -14,18 +14,14 @@ return new class extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->id('trip_id')->autoIncrement();
             $table->string('origin');
-            $table->timestamp('departure_time');
-            $table->timestamp('arrival_time')->nullable();
-            $table->decimal('price', 10, 2);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('booking_id');
-            $table->unsignedBigInteger('location_id');
-            $table->unsignedBigInteger('vehicle_id');
+            $table->unsignedBigInteger('route_id');
 
+            $table->foreign('route_id')->references('route_id')->on('location_vehicle')->onDelete('cascade');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');            
             $table->foreign('booking_id')->references('booking_id')->on('bookings')->onDelete('cascade');            
-            $table->foreign('location_id')->references('location_id')->on('locations')->onDelete('cascade');            
-            $table->foreign('vehicle_id')->references('vehicle_id')->on('vehicles')->onDelete('cascade');            
+                       
         });
     }
 

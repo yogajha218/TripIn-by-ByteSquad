@@ -8,6 +8,10 @@ class Driver extends Model
 {
     protected $primaryKey = 'driver_id';
     protected $table = 'drivers';
+    protected $fillable = [
+        'name',
+        'vehicle_id',
+    ];
 
     public function vehicle()
     {

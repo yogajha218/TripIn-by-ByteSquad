@@ -45,6 +45,16 @@ class DatabaseSeeder extends Seeder
                 'address' => 'Kota bandung 12',
                 'type' => 'Bandara',
                 'city' => 'Bandung',
+            ], [
+                'name' => 'Bandara Bali',
+                'address' => 'Kota Bali mawar',
+                'type' => 'Bandara',
+                'city' => 'Bali',
+            ], [
+                'name' => 'Bandara Adisucipto',
+                'address' => 'Jl. Adisucipto',
+                'type' => 'Bandara',
+                'city' => 'Yogyakarta',
             ], 
         ]);
 

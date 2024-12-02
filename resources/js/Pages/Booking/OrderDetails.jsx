@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import back from '/backArrow.svg';
-import Coins from '/Coins.svg';
-import Gopay from '/Gopay.svg';
-import down from '/downarrow.svg';
+// import Coins from '/Coins.svg';
 
-const ConfirmationPage = ({ orderData }) => {
+const ConfirmationPage = ({ orderData, routeData }) => {
   // Default data if props are not provided
   const defaultData = {
     busInfo: {
@@ -38,6 +35,8 @@ const ConfirmationPage = ({ orderData }) => {
   const data = orderData || defaultData;
   const totalPrice = data.pricing.seatPrice * data.pricing.quantity;
 
+  console.log('Received Route Data : ', routeData);
+
   // Format currency
   const formatCurrency = (amount) => {
     return `Rp${amount.toLocaleString('id-ID')}`;
@@ -47,7 +46,7 @@ const ConfirmationPage = ({ orderData }) => {
     <div className="min-h-screen bg-primary">
       {/* Header */}
       <div className="px-4 py-3 flex items-center text-white">
-        <img src={back} className="w-6 h-6" />
+        <img src="/backArrow.svg" className="w-6 h-6" />
         <h1 className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4">Confirmation</h1>
       </div>
 
@@ -111,7 +110,7 @@ const ConfirmationPage = ({ orderData }) => {
         <div className="bg-white rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src={Coins} alt="Credits" className="h-4" />
+              <img src="#" alt="Credits" className="h-4" />
               <span>Exchange {data.orderDetails.exchangePoints} CreditsPoint</span>
             </div>
             <button
@@ -138,17 +137,17 @@ const ConfirmationPage = ({ orderData }) => {
           >
             <div className="flex items-center justify-between p-2 border rounded cursor-pointer">
               <div className="flex items-center gap-2">
-                <img src={Gopay} alt="GoPay" className="w-6 h-6" />
+                <img src="/Gopay.svg" alt="GoPay" className="w-6 h-6" />
                 <span>GoPay</span>
               </div>
-              <img src={down} className={`w-5 h-5 transition-transform duration-200 ${
+              <img src="/downarrow.svg" className={`w-5 h-5 transition-transform duration-200 ${
                 isPaymentDropdownOpen ? 'transform rotate-180' : ''
               }`} />
             </div>
             {isPaymentDropdownOpen && (
               <div className="absolute w-full bg-white border rounded-lg mt-1 shadow-lg z-10">
                 <div className="p-2 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                  <img src={Gopay} alt="GoPay" className="w-6 h-6" />
+                  <img src="/Gopay.svg" alt="GoPay" className="w-6 h-6" />
                   <span>GoPay</span>
                 </div>
               </div>

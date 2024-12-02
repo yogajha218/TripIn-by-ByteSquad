@@ -31,8 +31,7 @@ const JourneyDetail = ({ routes, booking }) => {
             })
 
             if(response.status == 200){
-                window.location.href = "/seat"
-                // console.log("Selected Route : ", routeId);
+                window.location.href = "/seat";
             }
 
         } catch(error){

@@ -71,7 +71,7 @@ const SelectSeat = ({plate, seatLimit}) => {
             if(response.ok){
                 const result = await response.json();
                 alert(result.message);
-                window.location.href = '/seat';
+                window.location.href = '/order-detail';
             } else {
                 const error = await response.json();
                 alert(error.message);

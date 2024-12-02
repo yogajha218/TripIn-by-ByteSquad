@@ -18,9 +18,10 @@ class BookingController extends Controller
     }
 
     public function seatIndex(){
-        $vehicle = Vehicle::where('vehicle_id', 1)->first();
         $seatLimit = session('bookingData.seatsValue');
-        return Inertia::render('Booking/SelectSeat', ['plate' => $vehicle->license_plate, 'seatLimit' => $seatLimit]);
+        $plate = session('setRoute');
+
+        return Inertia::render('Booking/SelectSeat', ['plate' => $plate, 'seatLimit' => $seatLimit]);
     }
 
     public function paymentStatusIndex(){
@@ -35,14 +36,27 @@ class BookingController extends Controller
         return Inertia::render('Booking/BoardingTicket');
     }
 
-    public function busScheduleIndex(){
+    public function busScheduleIndex()
+    {
         $city = session('bookingData.cityValue');
+
+        // Fetch locations with associated vehicles and pivot data
         $routes = Location::with(['vehicles' => function($query) {
-            $query->withPivot('price', 'route_id');  // Make sure to load the pivot data (price)
-        }])->where("city", $city)->get();     
-        
-        return Inertia::render('Booking/BusSchedule', ['booking' => session('bookingData'), 'routes' => $routes]);
+                $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time'); 
+            }])
+            ->where('city', $city)
+            ->where("name", '!=', session('bookingData.origin'))
+            ->get();
+
+       
+
+        // Return the filtered data to the Inertia frontend
+        return Inertia::render('Booking/BusSchedule', [
+            'booking' => session('bookingData'),
+            'routes' => $routes,
+        ]);
     }
+
 
     public function destinationIndex(){
         return Inertia::render('Booking/Destination');
@@ -74,38 +88,63 @@ class BookingController extends Controller
 
     public function routeStore(Request $request){
         $route = $request->validate([
-            'selectedRoute' => 'required'
+            'selectedRoute' => 'required',
+            'selectedRoute.routeId' => 'required',
+            'selectedRoute.plate' => 'required'
         ]);
 
         session(['setRoute' => $route]);
     }
 
-    public function seatStore(Request $request, $vehicleId){
-        $vehicle = Vehicle::where('vehicle_id', $vehicleId)->first();
+    public function seatStore(Request $request, $plate) {
+        // Find the vehicle by its ID
+        $vehicle = Vehicle::where('license_plate', $plate)->first();
+
+        if (!$vehicle) {
+            return response()->json(['message' => 'Vehicle not found'], 404);
+        }
+
+        // Log incoming request data for debugging
         FacadesLog::info('Plate : ' . $vehicle->license_plate);
         FacadesLog::info('Total Seats : ' . $vehicle->seats);
-        FacadesLog::info('seats received : ' . json_encode($request->input('seats')));
+        FacadesLog::info('Seats received : ' . json_encode($request->input('seats')));
         FacadesLog::info('Request Data: ' . json_encode($request->all()));
 
+        // Validate the incoming request
         $validated = $request->validate([
             'seats' => 'required|array|min:1',
             'seats.*' => 'integer|min:1|max:' . $vehicle->seats,
         ]);
-            
-            // Log validated data
+
+        // Log validated data
         FacadesLog::info('Validated : ' . json_encode($validated));
 
+        // Get the booked seats from the vehicle
         $bookedSeats = $vehicle->booked_seats ?? [];
 
-        foreach($validated as $seat){
-            if(in_array($seat, $bookedSeats)){
-                return response()->json(['message' => "Seat {$seat} is already booked"], 400);
-            }
+        // Check for already booked seats
+        $alreadyBookedSeats = array_intersect($validated['seats'], $bookedSeats);
+
+        if (!empty($alreadyBookedSeats)) {
+            return response()->json(['message' => 'The following seats are already booked: ' . implode(', ', $alreadyBookedSeats)], 400);
         }
 
+        // If all selected seats are available, proceed to book them
         $vehicle->booked_seats = array_merge($bookedSeats, $validated['seats']);
         $vehicle->save();
 
         return response()->json(['message' => 'Seats successfully booked']);
+    }
+
+    public function fetchBookedSeats($licensePlate) {
+        // Find the vehicle by its license plate
+        $vehicle = Vehicle::where('license_plate', $licensePlate)->first();
+
+        if (!$vehicle) {
+            return response()->json(['message' => 'Vehicle not found'], 404);
+        }
+
+        // Return the booked seats
+        return response()->json(['booked_seats' => $vehicle->booked_seats]);
     }
 }

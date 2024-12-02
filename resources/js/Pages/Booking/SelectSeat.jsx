@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Seats from '@/Components/Seats'
+import axios from 'axios';
 
 const SelectSeat = ({plate, seatLimit}) => {
 
     const [selectedSeat, setSelectedSeat] = useState([]);
-    console.log('Sended Plate : ', plate);
+    const [bookedSeats, setBookedSeats] = useState([]);
+    // console.log('Sended Plate : ', plate);
     console.log('Seat Limit : ', seatLimit);
+    console.log('Get plate : ', plate.selectedRoute.plate);
 
     // Example seat numbers
     const seats = [
@@ -16,6 +19,22 @@ const SelectSeat = ({plate, seatLimit}) => {
         { type: 'null' }, { number: 13 }, { number: 14 }, { number: 15 }, // Row 5
         { number: 16 }, { number: 17 }, { number: 18 }, { number: 19 }  // Row 6
     ];
+
+    useEffect(() => {
+        const fetchBookedSeats = async () => {
+            try{
+                const response = await axios.get(`/seat/booked-seat/${plate.selectedRoute.plate}`);
+                setBookedSeats(response.data.booked_seats);
+            } catch (error) {
+                console.error('Error fetching booked seats:', error);
+                alert('Failed to fetch booked seats. Please try again.');
+            }
+        };
+
+        if(plate){
+            fetchBookedSeats();
+        }
+    }, [plate]);
 
     // Selecting multiple seats and putting the selected seats into the state
     const handleSeatClick = (seatNumber) => {
@@ -38,7 +57,7 @@ const SelectSeat = ({plate, seatLimit}) => {
         const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
 
         try{
-            const response = await fetch(route('seat.store', 1), {
+            const response = await fetch(route('seat.store', plate.selectedRoute.plate), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Ensure that the content-type is set to JSON
@@ -137,7 +156,7 @@ const SelectSeat = ({plate, seatLimit}) => {
                                             <Seats
                                             key={index}
                                             number={seat.number}
-                                            isSelected={selectedSeat.includes(seat.number)}
+                                            isBooked={Array.isArray(bookedSeats) && bookedSeats.includes(seat.number)}                                            isSelected={selectedSeat.includes(seat.number)}
                                             onClick={() => handleSeatClick(seat.number)}
                                             />
                                         )

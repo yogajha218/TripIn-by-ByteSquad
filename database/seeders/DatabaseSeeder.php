@@ -41,18 +41,18 @@ class DatabaseSeeder extends Seeder
                 'type' => 'Bandara',
                 'city' => 'Yogyakarta',
             ], [
-                'name' => 'Bandara Bandung',
-                'address' => 'Kota bandung 1',
+                'name' => 'Bandar Udara Internasional Husein Sastranegara',
+                'address' => 'Jl. Pajajaran Dalam, Husen Sastranegara, Kota Bandung, Jawa Barat',
                 'type' => 'Bandara',
                 'city' => 'Bandung',
             ], [
-                'name' => 'Bandara 123',
-                'address' => 'Kota bandung 12',
-                'type' => 'Bandara',
+                'name' => 'Verona Palace Hotel',
+                'address' => 'Jl. Surya Sumantri, Sukagalih, Kota Bandung, Jawa Barat ',
+                'type' => 'Hotel',
                 'city' => 'Bandung',
             ], [
-                'name' => 'Bandara Bali',
-                'address' => 'Kota Bali mawar',
+                'name' => 'Bandara Internasional I Gusti Ngurah Rai',
+                'address' => 'Jalan Raya Gusti Ngurah Rai, Kec. Kuta, Kabupaten Badung, Bali',
                 'type' => 'Bandara',
                 'city' => 'Bali',
             ], [
@@ -60,7 +60,32 @@ class DatabaseSeeder extends Seeder
                 'address' => 'Jl. Adisucipto',
                 'type' => 'Bandara',
                 'city' => 'Yogyakarta',
-            ],
+            ], [
+                'name' => 'Platinum Adisucipto Hotel',
+                'address' => 'Maguwoharjo, Kabupaten Sleman, Yogyakarta',
+                'type' => 'Hotel',
+                'city' => 'Yogyakarta',
+            ], [
+                'name' => 'Grand Diamond Hotel Yogyakarta',
+                'address' => 'Jl. Laksda Adisucipto, Maguwoharjo, Kabupaten Sleman, Daerah Istimewa Yogyakarta',
+                'type' => 'Hotel',
+                'city' => 'Yogyakarta',
+            ], [
+                'name' => 'Platinum Hotel Jimbaran Beach Bali',
+                'address' => 'Jimbaran, Jl. Pantai Kedonganan, Kedonganan, Bali',
+                'type' => 'Hotel',
+                'city' => 'Bali',
+            ], [
+                'name' => 'Aryaduta Bali',
+                'address' => 'Jl. Kartika Plaza, Lingkungan Segara, Kuta, Kabupaten Badung, Bali',
+                'type' => 'Hotel',
+                'city' => 'Bali',
+            ], [
+                'name' => 'Ibis Yogyakarta International Airport Kulon Progo',
+                'address' => 'Jl. Wates - Purworejo , Seling, Kulon Progo, Daerah Istimewa Yogyakarta ',
+                'type' => 'Hotel',
+                'city' => 'Yogyakarta',
+            ]
         ]);
 
         Vehicle::insert([
@@ -105,7 +130,7 @@ class DatabaseSeeder extends Seeder
             'departure_time' => '10:40:00',
             'arrival_time' => '13:30:00'
         ], [
-            'location_id' => 3,  // Bandara Soekarno Hatta
+            'location_id' => 3,  // Hotel Arya Duta
             'vehicle_id' => 3,
             'price' => 150000,
             'departure_time' => '10:40:00',
@@ -114,37 +139,67 @@ class DatabaseSeeder extends Seeder
 
         // Yogyakarta (new entries)
         [
-            'location_id' => 3,  // Bandara YIA
+            'location_id' => 4,  // Bandara YIA
             'vehicle_id' => 1,
             'price' => 200000,
             'departure_time' => '11:00:00',
             'arrival_time' => '14:00:00'
         ], [
-            'location_id' => 3,  // Bandara YIA
+            'location_id' => 9,  // Platinum Adistujipto hotel
             'vehicle_id' => 2,
             'price' => 180000,
             'departure_time' => '12:00:00',
             'arrival_time' => '16:00:00'
         ], [
-            'location_id' => 3,  // Bandara YIA
+            'location_id' => 8,  //Bandara Adistujipto
             'vehicle_id' => 3,
             'price' => 150000,
             'departure_time' => '09:00:00',
             'arrival_time' => '11:00:00'
         ], [
-            'location_id' => 8,  // Adisutjipto
+            'location_id' => 10,  //Platinum Aditsujipto Hotel
+            'vehicle_id' => 3,
+            'price' => 200000,
+            'departure_time' => '09:00:00',
+            'arrival_time' => '11:00:00'
+        ], [
+            'location_id' => 13,  //Ibis Yogyakarta International Airport Kulon Progo
+            'vehicle_id' => 3,
+            'price' => 300000,
+            'departure_time' => '09:00:00',
+            'arrival_time' => '11:00:00'
+        ],
+
+        // Bandung (new entries)
+        [
+            'location_id' => 5,  // Bandar Udara Internasional Husein Sastranegara
             'vehicle_id' => 1,
             'price' => 200000,
             'departure_time' => '11:00:00',
             'arrival_time' => '14:00:00'
         ], [
-            'location_id' => 8,  // Aditsujipto
+            'location_id' => 6,  // Verona Palace Hotel
+            'vehicle_id' => 2,
+            'price' => 180000,
+            'departure_time' => '12:00:00',
+            'arrival_time' => '16:00:00'
+        ],
+
+        // Bali (new entries)
+        [
+            'location_id' => 7,  // Bandara Internasional I Gusti Ngurah Rai
+            'vehicle_id' => 1,
+            'price' => 200000,
+            'departure_time' => '11:00:00',
+            'arrival_time' => '14:00:00'
+        ], [
+            'location_id' => 11,  // Platinum Hotel Jimbaran Beach Bali
             'vehicle_id' => 2,
             'price' => 180000,
             'departure_time' => '12:00:00',
             'arrival_time' => '16:00:00'
         ], [
-            'location_id' => 8,  // Aditsujipto
+            'location_id' => 12,  // Arya Duta Bali
             'vehicle_id' => 3,
             'price' => 150000,
             'departure_time' => '09:00:00',

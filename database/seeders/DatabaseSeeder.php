@@ -150,7 +150,7 @@ class DatabaseSeeder extends Seeder
             'departure_time' => '11:00:00',
             'arrival_time' => '14:00:00'
         ], [
-            'location_id' => 9,  // Platinum Adistujipto hotel
+            'location_id' => 10,  // Platinum Adistujipto hotel
             'vehicle_id' => 2,
             'price' => 180000,
             'departure_time' => '12:00:00',
@@ -162,17 +162,29 @@ class DatabaseSeeder extends Seeder
             'departure_time' => '09:00:00',
             'arrival_time' => '11:00:00'
         ], [
-            'location_id' => 10,  //Platinum Aditsujipto Hotel
+            'location_id' => 11,  //Grand Diamond Hotel Yogyakarta
             'vehicle_id' => 3,
             'price' => 200000,
             'departure_time' => '09:00:00',
             'arrival_time' => '11:00:00'
         ], [
-            'location_id' => 13,  //Ibis Yogyakarta International Airport Kulon Progo
+            'location_id' => 14,  //Ibis Yogyakarta International Airport Kulon Progo
             'vehicle_id' => 3,
             'price' => 300000,
             'departure_time' => '09:00:00',
             'arrival_time' => '11:00:00'
+        ], [
+            'location_id' => 4,  // Bandara YIA
+            'vehicle_id' => 3,
+            'price' => 150000,
+            'departure_time' => '09:00:00',
+            'arrival_time' => '11:00:00'
+        ], [
+            'location_id' => 9,  // Ambarukmo
+            'vehicle_id' => 1,
+            'price' => 210000,
+            'departure_time' => '10:00:00',
+            'arrival_time' => '12:00:00'
         ],
 
         // Bandung (new entries)
@@ -198,23 +210,17 @@ class DatabaseSeeder extends Seeder
             'departure_time' => '11:00:00',
             'arrival_time' => '14:00:00'
         ], [
-            'location_id' => 11,  // Platinum Hotel Jimbaran Beach Bali
+            'location_id' => 12,  // Platinum Hotel Jimbaran Beach Bali
             'vehicle_id' => 2,
             'price' => 180000,
             'departure_time' => '12:00:00',
             'arrival_time' => '16:00:00'
         ], [
-            'location_id' => 7,  // Bandara YIA
+            'location_id' => 13,  // Arya Duta Bali
             'vehicle_id' => 3,
             'price' => 150000,
             'departure_time' => '09:00:00',
             'arrival_time' => '11:00:00'
-        ], [
-            'location_id' => 8,  // Ambarukmo
-            'vehicle_id' => 1,
-            'price' => 210000,
-            'departure_time' => '10:00:00',
-            'arrival_time' => '12:00:00'
         ]
     ]);
     }

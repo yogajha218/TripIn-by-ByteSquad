@@ -80,7 +80,7 @@ const Profile = () => {
             )}
 
             <div className="flex justify-center">
-                <div className="  h-fit w-full lg:max-w-[500px]">
+                <div className="  h-fit w-full lg:max-w-[400px]">
                     <div className="w-full h-[220px] bg-primary">
                         <p className="text-white font-semibold text-3xl pt-16 text-center">
                             Profile
@@ -108,21 +108,21 @@ const Profile = () => {
                             <div className="w-full h-[198px] grid grid-cols-1 overflow-hidden rounded-xl">
                                 <Link
                                     href="/profile/edit"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-slate-500"
                                 >
                                     <img src="/profile.svg" alt="icon" />
                                     <p className="px-5">Edit Profile</p>
                                 </Link>
                                 <Link
                                     href="/notification"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2 hover:bg-slate-500"
                                 >
                                     <img src="/notif.svg" alt="icon" />
                                     <p className="px-[27px]">Notification</p>
                                 </Link>
                                 <Link
                                     href="/profile/history"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-slate-500"
                                 >
                                     <img src="/history.svg" alt="icon" />
                                     <p className="px-5">History</p>
@@ -136,21 +136,22 @@ const Profile = () => {
                             <div className="w-full h-[198px] grid grid-cols-1 overflow-hidden rounded-xl">
                                 <Link
                                     href="/faq"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-slate-500"
                                 >
                                     <img src="/faq.svg" alt="icon" />
                                     <p className="px-5">FAQ</p>
                                 </Link>
                                 <Link
                                     href="/terms-condition"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2 hover:bg-slate-500"
                                 >
                                     <img src="/term.svg" alt="icon" />
                                     <p className="px-6">Term & Conditions</p>
                                 </Link>
                                 <Link
                                     href="/privacy-policy"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium
+                                    hover:bg-slate-500"
                                 >
                                     <img src="/privacy.svg" alt="icon" />
                                     <p className="px-5">Privacy Policy</p>
@@ -179,7 +180,7 @@ const Profile = () => {
                 isModalHidden={isModalHidden}
                 setIsModalHidden={setIsModalHidden}
             >
-                <div className="  flex flex-col  w-[300px]  sm:w-[400px]  h-[160px] md:h-[180px] overflow-hidden">
+                <div className="  flex flex-col  w-[300px]  sm:w-[360px]  h-[160px] md:h-[180px] overflow-hidden">
                     <div className="p-8">
                         <p className="text-black opacity-100 text-center text-2xl font-bold">
                             Logout
@@ -190,11 +191,14 @@ const Profile = () => {
                     </div>
                     <div className="h-full rounded-b-xl">
                         <div className="grid h-full grid-cols-2">
-                            <button className=" bg-transparent text-black border-black border-t rounded-es-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl">
+                            <button
+                                className=" bg-transparent text-black border-black border-t rounded-es-lg hover:bg-yellow-500 hover:text-white transition-colors duration-500 sm:text-2xl"
+                                onClick={modalVisibility}
+                            >
                                 Cancel
                             </button>
                             <button
-                                className=" bg-transparent text-black  border-black border-t border-l rounded-ee-lg text-lg hover:bg-slate-100 transition-colors duration-500 sm:text-2xl"
+                                className=" bg-transparent text-black  border-black border-t border-l rounded-ee-lg text-lg hover:bg-red-500 hover:text-white transition-colors duration-500 sm:text-2xl"
                                 onClick={handleLogout}
                             >
                                 Logout

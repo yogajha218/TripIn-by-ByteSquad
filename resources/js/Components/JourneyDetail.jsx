@@ -19,35 +19,42 @@ const JourneyDetail = ({ routes, booking }) => {
 
     const onClickDetail = async (e, routeId) => {
         e.preventDefault();
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
 
-        try{
-            const response = await axios.post(route('route.store'), {
-                selectedRoute: routeId,
-            }, {
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
+        try {
+            const response = await axios.post(
+                route("route.store"),
+                {
+                    selectedRoute: routeId,
+                },
+                {
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
                 }
-            })
+            );
 
-            if(response.status == 200){
-                window.location.href = "/seat"
+            if (response.status == 200) {
+                window.location.href = "/seat";
                 // console.log("Selected Route : ", routeId);
             }
-
-        } catch(error){
+        } catch (error) {
             //
         }
-    }
+    };
 
     return (
         <>
-            {routes.map((bus) => (
+            {routes.map((bus) =>
                 bus.vehicles.map((vehicle) => (
                     <div
                         key={vehicle.pivot.route_id} // Use route_id from the pivot
-                        className="bg-white rounded-lg shadow-md p-4 relative"
-                        onClick={(e) => onClickDetail(e, vehicle.pivot.route_id)}
+                        className="bg-white rounded-lg shadow-md p-4 relative border border-gray-300"
+                        onClick={(e) =>
+                            onClickDetail(e, vehicle.pivot.route_id)
+                        }
                     >
                         {/* Available Seats Badge */}
                         <div className="absolute top-4 right-4 text-blue-600 px-2 py-1 rounded-full text-xs">
@@ -128,8 +135,7 @@ const JourneyDetail = ({ routes, booking }) => {
                         </div>
                     </div>
                 ))
-            ))}
-
+            )}
         </>
     );
 };

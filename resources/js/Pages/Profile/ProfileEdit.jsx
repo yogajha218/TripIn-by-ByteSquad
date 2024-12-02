@@ -36,7 +36,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
 
     return (
         <div className="flex justify-center">
-            <div className="  h-fit w-full lg:max-w-[500px]">
+            <div className="  h-fit w-full lg:max-w-[400px]">
                 <div className="w-full h-[220px] bg-primary ">
                     <p className="text-white font-semibold text-3xl pt-16 text-center">
                         Edit Profile

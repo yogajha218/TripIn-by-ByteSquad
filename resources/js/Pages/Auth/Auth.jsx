@@ -50,7 +50,7 @@ const Auth = () => {
     return (
         <>
             <div className="lg:flex lg:justify-center ">
-                <div className="min-h-screen bg-primary flex flex-col lg:w-[460px]">
+                <div className="min-h-screen bg-primary flex flex-col lg:w-[400px]">
                     {/* Logo Container */}
                     <div className="flex justify-center py-16">
                         <img
@@ -108,7 +108,7 @@ const Auth = () => {
                                     id="email"
                                     name="email"
                                     placeholder="Email"
-                                    className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                                    className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black "
                                     value={data.email}
                                     onChange={(e) =>
                                         setData("email", e.target.value)

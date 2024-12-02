@@ -14,7 +14,14 @@ class BookingController extends Controller
 {
     // Menampilkan halaman Detail Order
     public function OrderDetailsIndex(){
-        return Inertia::render('Booking/OrderDetails');
+        $data = Location::with(['vehicles' => function($query){
+            $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time');
+        }])->first();
+        FacadesLog::info('Data : ' . json_encode($data));
+
+        return Inertia::render('Booking/OrderDetails', [
+            'routeData' => $data,
+        ]);
     }
 
     public function seatIndex(){

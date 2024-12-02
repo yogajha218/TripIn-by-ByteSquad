@@ -55,6 +55,11 @@ class DatabaseSeeder extends Seeder
                 'address' => 'Jl. Adisucipto',
                 'type' => 'Bandara',
                 'city' => 'Yogyakarta',
+            ], [
+                'name' => 'Hotel Ambarukmo',
+                'address' => 'Jl. Adisucipto',
+                'type' => 'Hotel',
+                'city' => 'Yogyakarta',
             ], 
         ]);
 
@@ -121,11 +126,17 @@ class DatabaseSeeder extends Seeder
             'departure_time' => '12:00:00',
             'arrival_time' => '16:00:00'
         ], [
-            'location_id' => 3,  // Bandara YIA
+            'location_id' => 7,  // Bandara YIA
             'vehicle_id' => 3,
             'price' => 150000,
             'departure_time' => '09:00:00',
             'arrival_time' => '11:00:00'
+        ], [
+            'location_id' => 8,  // Ambarukmo
+            'vehicle_id' => 1,
+            'price' => 210000,
+            'departure_time' => '10:00:00',
+            'arrival_time' => '12:00:00'
         ]
     ]);
     }

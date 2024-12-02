@@ -17,13 +17,13 @@ const JourneyDot = () => {
 const JourneyDetail = ({ routes, booking }) => {
     const [selectedRoute, setSelectedRoute] = useState("");
 
-    const onClickDetail = async (e, routeId) => {
+    const onClickDetail = async (e, routeId, plate) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
 
         try{
             const response = await axios.post(route('route.store'), {
-                selectedRoute: routeId,
+                selectedRoute: {routeId, plate},
             }, {
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
@@ -36,7 +36,7 @@ const JourneyDetail = ({ routes, booking }) => {
             }
 
         } catch(error){
-            //
+            
         }
     }
 
@@ -47,7 +47,7 @@ const JourneyDetail = ({ routes, booking }) => {
                     <div
                         key={vehicle.pivot.route_id} // Use route_id from the pivot
                         className="bg-white rounded-lg shadow-md p-4 relative"
-                        onClick={(e) => onClickDetail(e, vehicle.pivot.route_id)}
+                        onClick={(e) => onClickDetail(e, vehicle.pivot.route_id, vehicle.license_plate)}
                     >
                         {/* Available Seats Badge */}
                         <div className="absolute top-4 right-4 text-blue-600 px-2 py-1 rounded-full text-xs">

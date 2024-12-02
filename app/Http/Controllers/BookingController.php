@@ -35,14 +35,27 @@ class BookingController extends Controller
         return Inertia::render('Booking/BoardingTicket');
     }
 
-    public function busScheduleIndex(){
+    public function busScheduleIndex()
+    {
         $city = session('bookingData.cityValue');
+
+        // Fetch locations with associated vehicles and pivot data
         $routes = Location::with(['vehicles' => function($query) {
-            $query->withPivot('price', 'route_id');  // Make sure to load the pivot data (price)
-        }])->where("city", $city)->get();     
-        
-        return Inertia::render('Booking/BusSchedule', ['booking' => session('bookingData'), 'routes' => $routes]);
+                $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time'); 
+            }])
+            ->where('city', $city)
+            ->where("name", '!=', session('bookingData.origin'))
+            ->get();
+
+       
+
+        // Return the filtered data to the Inertia frontend
+        return Inertia::render('Booking/BusSchedule', [
+            'booking' => session('bookingData'),
+            'routes' => $routes,
+        ]);
     }
+
 
     public function destinationIndex(){
         return Inertia::render('Booking/Destination');

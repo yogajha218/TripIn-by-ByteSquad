@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Seats from '@/Components/Seats'
 
-const SelectSeat = ({plate}) => {
+const SelectSeat = ({plate, seatLimit}) => {
 
     const [selectedSeat, setSelectedSeat] = useState([]);
     console.log('Sended Plate : ', plate);
+    console.log('Seat Limit : ', seatLimit);
 
     // Example seat numbers
     const seats = [
@@ -19,11 +20,16 @@ const SelectSeat = ({plate}) => {
     // Selecting multiple seats and putting the selected seats into the state
     const handleSeatClick = (seatNumber) => {
         if (selectedSeat.includes(seatNumber)) {
-          // Remove the seat from the selected seats array
-          setSelectedSeat(selectedSeat.filter((seat) => seat !== seatNumber));
+            // Remove the seat from the selected seats array
+            setSelectedSeat(selectedSeat.filter((seat) => seat !== seatNumber));
         } else {
-          // Add the seat to the selected seats array
-          setSelectedSeat([...selectedSeat, seatNumber]);
+            if (selectedSeat.length < seatLimit) {
+                // Add the seat to the selected seats array if within limit
+                setSelectedSeat([...selectedSeat, seatNumber]);
+            } else {
+                // Notify the user if they exceed the seat limit
+                alert(`You can only select up to ${seatLimit} seats.`);
+            }
         }
     };
 
@@ -115,7 +121,7 @@ const SelectSeat = ({plate}) => {
                     <div className="flex justify-center items-center">
                         <div className="mt-[20px]">
                             <div className="flex justify-center">
-                                <h1 className="font-bold text-lg">Seat Limit: 5</h1>
+                                <h1 className="font-bold text-lg">Seat Limit: {seatLimit}</h1>
                             </div>
                             <div className="mt-3 w-[300px] h-[430px] bg-[#8BAFCE] rounded-[15px]">
                                 <div className="flex flex-col items-center py-5">

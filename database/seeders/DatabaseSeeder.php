@@ -51,6 +51,17 @@ class DatabaseSeeder extends Seeder
                 'type' => 'Bandara',
                 'city' => 'Bandung',
             ],
+            ], [
+                'name' => 'Bandara Bali',
+                'address' => 'Kota Bali mawar',
+                'type' => 'Bandara',
+                'city' => 'Bali',
+            ], [
+                'name' => 'Bandara Adisucipto',
+                'address' => 'Jl. Adisucipto',
+                'type' => 'Bandara',
+                'city' => 'Yogyakarta',
+            ],
         ]);
 
         Vehicle::insert([

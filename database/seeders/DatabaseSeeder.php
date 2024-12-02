@@ -100,24 +100,12 @@ class DatabaseSeeder extends Seeder
             'arrival_time' => '13:30:00'
         ], [
             'location_id' => 2,  // Hotel Paragon
-            'vehicle_id' => 1,
-            'price' => 180000,
-            'departure_time' => '10:40:00',
-            'arrival_time' => '13:30:00'
-        ], [
-            'location_id' => 3,  // Hotel Arya Duta
-            'vehicle_id' => 1,
-            'price' => 180000,
-            'departure_time' => '10:40:00',
-            'arrival_time' => '13:30:00'
-        ],[
-            'location_id' => 2,  // Hotel Paragon
             'vehicle_id' => 2,
             'price' => 180000,
             'departure_time' => '10:40:00',
             'arrival_time' => '13:30:00'
         ], [
-            'location_id' => 1,  // Bandara Soekarno Hatta
+            'location_id' => 3,  // Bandara Soekarno Hatta
             'vehicle_id' => 3,
             'price' => 150000,
             'departure_time' => '10:40:00',

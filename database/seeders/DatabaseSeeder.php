@@ -50,7 +50,6 @@ class DatabaseSeeder extends Seeder
                 'address' => 'Kota bandung 12',
                 'type' => 'Bandara',
                 'city' => 'Bandung',
-            ],
             ], [
                 'name' => 'Bandara Bali',
                 'address' => 'Kota Bali mawar',
@@ -100,7 +99,19 @@ class DatabaseSeeder extends Seeder
             'departure_time' => '10:40:00',
             'arrival_time' => '13:30:00'
         ], [
-            'location_id' => 1,  // Hotel Paragon
+            'location_id' => 2,  // Hotel Paragon
+            'vehicle_id' => 1,
+            'price' => 180000,
+            'departure_time' => '10:40:00',
+            'arrival_time' => '13:30:00'
+        ], [
+            'location_id' => 3,  // Hotel Arya Duta
+            'vehicle_id' => 1,
+            'price' => 180000,
+            'departure_time' => '10:40:00',
+            'arrival_time' => '13:30:00'
+        ],[
+            'location_id' => 2,  // Hotel Paragon
             'vehicle_id' => 2,
             'price' => 180000,
             'departure_time' => '10:40:00',
@@ -128,6 +139,24 @@ class DatabaseSeeder extends Seeder
             'arrival_time' => '16:00:00'
         ], [
             'location_id' => 3,  // Bandara YIA
+            'vehicle_id' => 3,
+            'price' => 150000,
+            'departure_time' => '09:00:00',
+            'arrival_time' => '11:00:00'
+        ], [
+            'location_id' => 8,  // Adisutjipto
+            'vehicle_id' => 1,
+            'price' => 200000,
+            'departure_time' => '11:00:00',
+            'arrival_time' => '14:00:00'
+        ], [
+            'location_id' => 8,  // Aditsujipto
+            'vehicle_id' => 2,
+            'price' => 180000,
+            'departure_time' => '12:00:00',
+            'arrival_time' => '16:00:00'
+        ], [
+            'location_id' => 8,  // Aditsujipto
             'vehicle_id' => 3,
             'price' => 150000,
             'departure_time' => '09:00:00',

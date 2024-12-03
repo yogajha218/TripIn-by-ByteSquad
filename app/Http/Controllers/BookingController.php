@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\Schedule;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Inertia\Inertia;
 
@@ -14,13 +15,22 @@ class BookingController extends Controller
 {
     // Menampilkan halaman Detail Order
     public function OrderDetailsIndex(){
-        $data = Location::with(['vehicles' => function($query){
-            $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time');
-        }])->first();
+        $routeId = session('setRoute.selectedRoute.routeId');
+        $user = Auth::user();
+        $seatNumber = session('seatNumber');
+        $data = Location::whereHas('vehicles', function($query) use ($routeId) {
+            $query->where('route_id', $routeId);
+                })->with(['vehicles' => function($query) use ($routeId) {
+                    $query->withPivot('route_id')->where('route_id', $routeId);
+                }])->get();
+        FacadesLog::info('received route_id :' . session('setRoute.selectedRoute.routeId'));
         FacadesLog::info('Data : ' . json_encode($data));
 
         return Inertia::render('Booking/OrderDetails', [
-            'routeData' => $data,
+            'routeData' => $data, 
+            'bookingData' => session('bookingData'),
+            'user' => $user,
+            'seatNumber' => $seatNumber,
         ]);
     }
 
@@ -111,12 +121,6 @@ class BookingController extends Controller
             return response()->json(['message' => 'Vehicle not found'], 404);
         }
 
-        // Log incoming request data for debugging
-        FacadesLog::info('Plate : ' . $vehicle->license_plate);
-        FacadesLog::info('Total Seats : ' . $vehicle->seats);
-        FacadesLog::info('Seats received : ' . json_encode($request->input('seats')));
-        FacadesLog::info('Request Data: ' . json_encode($request->all()));
-
         // Validate the incoming request
         $validated = $request->validate([
             'seats' => 'required|array|min:1',
@@ -136,9 +140,12 @@ class BookingController extends Controller
             return response()->json(['message' => 'The following seats are already booked: ' . implode(', ', $alreadyBookedSeats)], 400);
         }
 
-        // If all selected seats are available, proceed to book them
+         // If all selected seats are available, proceed to book them
         $vehicle->booked_seats = array_merge($bookedSeats, $validated['seats']);
+        FacadesLog::info('seat : '. json_encode($validated));
         $vehicle->save();
+        session(['seatNumber' => json_encode($validated['seats'])]);
+        
 
         return response()->json(['message' => 'Seats successfully booked']);
     }
@@ -153,5 +160,9 @@ class BookingController extends Controller
 
         // Return the booked seats
         return response()->json(['booked_seats' => $vehicle->booked_seats]);
+    }
+
+    public function orderStore(){
+
     }
 }

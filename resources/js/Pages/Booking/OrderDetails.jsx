@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
+import { format, parse, parseISO } from 'date-fns';
 // import Coins from '/Coins.svg';
 
-const ConfirmationPage = ({ orderData, routeData }) => {
+const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
   // Default data if props are not provided
   const defaultData = {
     busInfo: {
       name: "Shuttle Bus Tripin",
-      plateNumber: "B 1234 XYZ",
+      plateNumber: routeData[0]?.vehicles[0]?.license_plate,
       duration: "2 h 45 m",
-      departureTime: "10.00",
-      departureDate: "Sat, 10 Nov 2024",
-      arrivalTime: "12.45",
-      arrivalDate: "Sat, 10 Nov 2024",
-      from: "Jakarta",
-      to: "Bandung"
+      departureTime: routeData[0]?.vehicles[0]?.pivot.departure_time,
+      departureDate: format(parseISO(bookingData.selectedDay), "EEE, d MMM yyyy"),
+      arrivalTime: routeData[0]?.vehicles[0]?.pivot.arrival_time,
+      arrivalDate: format(parseISO(bookingData.selectedDay), "EEE, d MMM yyyy"),
+      from: bookingData.origin,
+      to: routeData[0]?.name,
+
     },
     orderDetails: {
-      name: "Jennifer Kim",
-      seatNumber: 9,
+      name: user?.username ?? "user1",
+      seatNumber: seatNumber,
+      totalSeats: bookingData.seatsValue,
       potentialPoints: 70,
       exchangePoints: 1000
     },
@@ -32,10 +35,13 @@ const ConfirmationPage = ({ orderData, routeData }) => {
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
 
   // Using data from props or default data
-  const data = orderData || defaultData;
+  const data = defaultData;
   const totalPrice = data.pricing.seatPrice * data.pricing.quantity;
 
   console.log('Received Route Data : ', routeData);
+  console.log('Received Booking Data : ', bookingData);
+  console.log('Received user data :', user);
+  console.log('Received seat number :', seatNumber);
 
   // Format currency
   const formatCurrency = (amount) => {
@@ -93,8 +99,8 @@ const ConfirmationPage = ({ orderData, routeData }) => {
         <div className="bg-white rounded-lg p-4 mb-4">
           <div className="flex justify-between items-center mb-2">
             <div>
-              <h3 className="font-medium mb-1">ORDER NAME</h3>
-              <p className="text-gray-700">{data.orderDetails.name}</p>
+              <h3 className="font-medium mb-1">{data.orderDetails.name}</h3>
+              <p className="text-gray-700">Seat x{data.orderDetails.totalSeats}</p>
             </div>
             <div className="text-right">
               <p className="text-sm text-gray-500">Seat Number</p>

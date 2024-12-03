@@ -97,6 +97,8 @@ class BookingController extends Controller
         ]);
 
         session(['bookingData' => $bookingData]);
+
+        return response()->json(['message' => 'Booking stored successfully']);
     }
 
     public function routeStore(Request $request){
@@ -108,10 +110,11 @@ class BookingController extends Controller
         ]);
 
         session(['setRoute' => $route]);
+
+        return response()->json(['message' => 'Route stored successfully']);
     }
 
     public function seatStore(Request $request, $plate) {
-        FacadesLog::info('Departure : ' . session('setRoute.selectedRoute.departure'));
 
         // Find the vehicle by its ID
         $vehicle = Vehicle::where('license_plate', $plate)->first();
@@ -127,9 +130,6 @@ class BookingController extends Controller
                 'seats.*' => 'integer|min:1|max:' . $vehicle->seats,
             ]);
 
-            // Debug
-            FacadesLog::info('Validated : ' . json_encode($validated));
-
             // Get the booked seats from the vehicle
             $bookedSeats = $vehicle->booked_seats ?? [];
 
@@ -141,10 +141,7 @@ class BookingController extends Controller
             }
 
             // If all selected seats are available, proceed to book them
-            $vehicle->booked_seats = array_merge($bookedSeats, $validated['seats']);
-
-            // Debug
-            FacadesLog::info('seat : '. json_encode($validated));
+            $vehicle->booked_seats = array_merge($bookedSeats, $validated['seats']);  
 
             $vehicle->save();
             session(['seatNumber' => json_encode($validated['seats'])]);
@@ -152,8 +149,8 @@ class BookingController extends Controller
             return response()->json(['message' => 'Seats successfully booked']);
 
         } catch (\Exception $e) {
-            FacadesLog::info("Error on try block : " . $e->getMessage());
-            return redirect()->back();
+
+            return redirect()->back()->withErrors(['error' => 'An error occurred. Please try again later']);
         }       
     }
 
@@ -185,6 +182,8 @@ class BookingController extends Controller
             return response()->json(['booked_seats' => $flattenedBookedSeats]);
         } catch(\Exception $e) {
             FacadesLog::info("Error on try block : " . $e->getMessage());
+
+            return response()->json(['message' => 'An error occurred. Please try again later']);
         }
     }
 }

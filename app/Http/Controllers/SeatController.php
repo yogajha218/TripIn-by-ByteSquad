@@ -48,6 +48,8 @@ class SeatController extends Controller
         }
 
         try {
+            session(['seatNumber' => json_encode($validated['seats'])]);
+
             // Define the criteria for finding an existing record
             $criteria = [
                 'vehicle_id' => $vehicle->vehicle_id,

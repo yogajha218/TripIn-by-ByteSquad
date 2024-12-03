@@ -3,6 +3,7 @@ import { format, parse, parseISO } from 'date-fns';
 // import Coins from '/Coins.svg';
 
 const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
+
   // Default data if props are not provided
   const defaultData = {
     busInfo: {
@@ -89,9 +90,6 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
               <p className="font-medium">{data.busInfo.to}</p>
             </div>
 
-            <div className="ml-auto text-sm text-gray-500">
-              {data.busInfo.duration}
-            </div>
           </div>
         </div>
 

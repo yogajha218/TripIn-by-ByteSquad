@@ -10,6 +10,7 @@ const SelectSeat = ({plate, seatLimit}) => {
     console.log('Seat Limit : ', seatLimit);
     console.log('Get plate : ', plate.selectedRoute.plate);
     console.log('Get route_id : ', plate.selectedRoute.routeId);
+    console.log('Departure : ', plate.selectedRoute.departure);
 
     // Example seat numbers
     const seats = [

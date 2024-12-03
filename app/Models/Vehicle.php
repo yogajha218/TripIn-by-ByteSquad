@@ -12,14 +12,6 @@ class Vehicle extends Model
         'license_plate',
         'seats', 
         'status',
-        'booked_seats',
-    ];
-    protected $casts = [
-        'booked_seats' => 'array',
-    ];
-
-    protected $attributes = [
-        'booked_seats' => '[]',
     ];
 
     public function driver()
@@ -32,4 +24,10 @@ class Vehicle extends Model
         return $this->belongsToMany(Location::class, 'location_vehicle', 'vehicle_id', 'location_id')
                     ->withPivot('price', 'departure_time', 'arrival_time', 'route_id');
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(SeatBooking::class);
+    }
+
 }

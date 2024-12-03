@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Driver;
 use App\Models\Location;
 use App\Models\Schedule;
+use App\Models\SeatBooking;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,8 +24,6 @@ class BookingController extends Controller
                 })->with(['vehicles' => function($query) use ($routeId) {
                     $query->withPivot('route_id')->where('route_id', $routeId);
                 }])->get();
-        FacadesLog::info('received route_id :' . session('setRoute.selectedRoute.routeId'));
-        FacadesLog::info('Data : ' . json_encode($data));
 
         return Inertia::render('Booking/OrderDetails', [
             'routeData' => $data, 
@@ -65,15 +64,12 @@ class BookingController extends Controller
             ->where("name", '!=', session('bookingData.origin'))
             ->get();
 
-       
-
         // Return the filtered data to the Inertia frontend
         return Inertia::render('Booking/BusSchedule', [
             'booking' => session('bookingData'),
             'routes' => $routes,
         ]);
     }
-
 
     public function destinationIndex(){
         return Inertia::render('Booking/Destination');
@@ -107,13 +103,16 @@ class BookingController extends Controller
         $route = $request->validate([
             'selectedRoute' => 'required',
             'selectedRoute.routeId' => 'required',
-            'selectedRoute.plate' => 'required'
+            'selectedRoute.plate' => 'required',
+            'selectedRoute.departure' => 'required',
         ]);
 
         session(['setRoute' => $route]);
     }
 
     public function seatStore(Request $request, $plate) {
+        FacadesLog::info('Departure : ' . session('setRoute.selectedRoute.departure'));
+
         // Find the vehicle by its ID
         $vehicle = Vehicle::where('license_plate', $plate)->first();
 
@@ -121,48 +120,71 @@ class BookingController extends Controller
             return response()->json(['message' => 'Vehicle not found'], 404);
         }
 
-        // Validate the incoming request
-        $validated = $request->validate([
-            'seats' => 'required|array|min:1',
-            'seats.*' => 'integer|min:1|max:' . $vehicle->seats,
-        ]);
+        try{
+            // Validate the incoming request
+            $validated = $request->validate([
+                'seats' => 'required|array|min:1',
+                'seats.*' => 'integer|min:1|max:' . $vehicle->seats,
+            ]);
 
-        // Log validated data
-        FacadesLog::info('Validated : ' . json_encode($validated));
+            // Debug
+            FacadesLog::info('Validated : ' . json_encode($validated));
 
-        // Get the booked seats from the vehicle
-        $bookedSeats = $vehicle->booked_seats ?? [];
+            // Get the booked seats from the vehicle
+            $bookedSeats = $vehicle->booked_seats ?? [];
 
-        // Check for already booked seats
-        $alreadyBookedSeats = array_intersect($validated['seats'], $bookedSeats);
+            // Check for already booked seats
+            $alreadyBookedSeats = array_intersect($validated['seats'], $bookedSeats);
 
-        if (!empty($alreadyBookedSeats)) {
-            return response()->json(['message' => 'The following seats are already booked: ' . implode(', ', $alreadyBookedSeats)], 400);
-        }
+            if (!empty($alreadyBookedSeats)) {
+                return response()->json(['message' => 'The following seats are already booked: ' . implode(', ', $alreadyBookedSeats)], 400);
+            }
 
-         // If all selected seats are available, proceed to book them
-        $vehicle->booked_seats = array_merge($bookedSeats, $validated['seats']);
-        FacadesLog::info('seat : '. json_encode($validated));
-        $vehicle->save();
-        session(['seatNumber' => json_encode($validated['seats'])]);
-        
+            // If all selected seats are available, proceed to book them
+            $vehicle->booked_seats = array_merge($bookedSeats, $validated['seats']);
 
-        return response()->json(['message' => 'Seats successfully booked']);
+            // Debug
+            FacadesLog::info('seat : '. json_encode($validated));
+
+            $vehicle->save();
+            session(['seatNumber' => json_encode($validated['seats'])]);
+
+            return response()->json(['message' => 'Seats successfully booked']);
+
+        } catch (\Exception $e) {
+            FacadesLog::info("Error on try block : " . $e->getMessage());
+            return redirect()->back();
+        }       
     }
 
     public function fetchBookedSeats($licensePlate) {
+        $date = session('bookingData.selectedDay');
+        $formattedDate = date('Y-m-d', strtotime($date)); // Format to Y-m-d if necessary
+
         // Find the vehicle by its license plate
         $vehicle = Vehicle::where('license_plate', $licensePlate)->first();
+
+        $departureTime = session('setRoute.selectedRoute.departure'); // You can also pass this as a parameter if needed
 
         if (!$vehicle) {
             return response()->json(['message' => 'Vehicle not found'], 404);
         }
 
-        // Return the booked seats
-        return response()->json(['booked_seats' => $vehicle->booked_seats]);
-    }
+        try{
+            $bookedSeats = SeatBooking::where('vehicle_id', $vehicle->vehicle_id)
+                ->where('departure_time', $departureTime) // Optional: Filter by departure time if needed
+                ->where('departure_date', $formattedDate)
+                ->pluck('seat_number') // Get the seat_number column
+                ->toArray();
 
-    public function orderStore(){
-
+            $flattenedBookedSeats = [];
+            foreach ($bookedSeats as $seats) {
+                $flattenedBookedSeats = array_merge($flattenedBookedSeats, $seats);
+            }
+            // Return the booked seats
+            return response()->json(['booked_seats' => $flattenedBookedSeats]);
+        } catch(\Exception $e) {
+            FacadesLog::info("Error on try block : " . $e->getMessage());
+        }
     }
 }

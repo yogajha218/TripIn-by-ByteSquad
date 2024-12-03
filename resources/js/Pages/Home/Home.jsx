@@ -1,4 +1,5 @@
 import { useLayoutEffect, useState } from "react";
+import { BellIcon } from "@heroicons/react/24/solid";
 import { usePage } from "@inertiajs/react";
 import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
@@ -54,7 +55,11 @@ const Home = ({ credit, username, user_id }) => {
         <>
             <div className=" flex justify-center ">
                 <div className="h-fit w-full lg:max-w-[400px] bg-white">
-                    <div className="h-[222px] bg-primary rounded-b-3xl">
+                    <div className="h-[222px] bg-primary rounded-b-3xl relative">
+                        <div className="absolute top-8 right-5">
+                            <BellIcon className="size-8 text-white cursor-pointer relative z-40"></BellIcon>
+                            <div className="rounded-full bg-primary2 size-2 absolute top-1 right-1 z-50"></div>
+                        </div>
                         <div className="h-[90px] relative pt-8 pl-5">
                             <img
                                 src="/TripInLogo.svg"

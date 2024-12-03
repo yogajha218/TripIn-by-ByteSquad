@@ -23,25 +23,16 @@ const JourneyDetail = ({ routes, booking }) => {
             'meta[name="csrf-token"]'
         ).content;
 
-<<<<<<< HEAD
         try {
             const response = await axios.post(
                 route("route.store"),
                 {
-                    selectedRoute: routeId,
+                    selectedRoute: { routeId, plate },
                 },
                 {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },
-=======
-        try{
-            const response = await axios.post(route('route.store'), {
-                selectedRoute: {routeId, plate},
-            }, {
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
->>>>>>> 6c3428f5b47964ba2f80f152e0b7dcb1faee7482
                 }
             );
 
@@ -49,15 +40,7 @@ const JourneyDetail = ({ routes, booking }) => {
                 window.location.href = "/seat";
                 // console.log("Selected Route : ", routeId);
             }
-<<<<<<< HEAD
-        } catch (error) {
-            //
-=======
-
-        } catch(error){
-            
->>>>>>> 6c3428f5b47964ba2f80f152e0b7dcb1faee7482
-        }
+        } catch (error) {}
     };
 
     return (
@@ -66,15 +49,14 @@ const JourneyDetail = ({ routes, booking }) => {
                 bus.vehicles.map((vehicle) => (
                     <div
                         key={vehicle.pivot.route_id} // Use route_id from the pivot
-<<<<<<< HEAD
-                        className="bg-white rounded-lg shadow-md p-4 relative border border-gray-300"
-                        onClick={(e) =>
-                            onClickDetail(e, vehicle.pivot.route_id)
-                        }
-=======
                         className="bg-white rounded-lg shadow-md p-4 relative"
-                        onClick={(e) => onClickDetail(e, vehicle.pivot.route_id, vehicle.license_plate)}
->>>>>>> 6c3428f5b47964ba2f80f152e0b7dcb1faee7482
+                        onClick={(e) =>
+                            onClickDetail(
+                                e,
+                                vehicle.pivot.route_id,
+                                vehicle.license_plate
+                            )
+                        }
                     >
                         {/* Available Seats Badge */}
                         <div className="absolute top-4 right-4 text-blue-600 px-2 py-1 rounded-full text-xs">

@@ -7,3 +7,5 @@ use illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
     Route::get('/', [HomeController::class, 'homeIndex'])->name('home');
 });
+
+Route::get('/ticket', [HomeController::class, 'ticketIndex']);

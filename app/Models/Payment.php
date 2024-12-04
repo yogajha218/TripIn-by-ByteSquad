@@ -3,11 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Builder\FallbackBuilder;
 
 class Payment extends Model
 {
     protected $primaryKey = 'payment_id';
     protected $table = 'payments';
+    public $timestamps = false;
+
+    public $fillable = [
+        'amount', 
+        'payment_time', 
+        'booking_id',
+    ];
 
     public function user()
     {

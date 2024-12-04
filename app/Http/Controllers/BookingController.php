@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
+use App\Models\Payment;
 use App\Models\Schedule;
 use App\Models\SeatBooking;
 use App\Models\Trip;
@@ -249,6 +250,12 @@ class BookingController extends Controller
                 'origin' => session('bookingData.cityValue'),
                 'booking_id' => $booking->booking_id,
                 'route_id' => session('setRoute.selectedRoute.routeId'),
+            ]);
+
+            Payment::create([
+               'amount' => $request->amount,
+               'payment_time' => now(),
+               'booking_id' => $booking->booking_id, 
             ]);
 
             session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber']);

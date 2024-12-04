@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { format, parse, parseISO } from 'date-fns';
+import { format, parse, parseISO, set } from 'date-fns';
+import axios from 'axios';
 // import Coins from '/Coins.svg';
 
-const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
+const ConfirmationPage = ({ user, routeData, bookingData, seatNumber, seatCount}) => {
+  const [snapToken, setSnapToken] = useState(null);
 
   // Default data if props are not provided
   const defaultData = {
@@ -22,12 +24,12 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
       name: user?.username ?? "user1",
       seatNumber: seatNumber,
       totalSeats: bookingData.seatsValue,
-      potentialPoints: 70,
+      potentialPoints: null,
       exchangePoints: 1000
     },
     pricing: {
-      seatPrice: 120000,
-      quantity: 1
+      seatPrice: parseFloat(routeData[0]?.vehicles[0]?.pivot.price),
+      quantity: seatCount,
     }
   };
 
@@ -38,6 +40,7 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
   // Using data from props or default data
   const data = defaultData;
   const totalPrice = data.pricing.seatPrice * data.pricing.quantity;
+  defaultData.orderDetails.potentialPoints = totalPrice * 0.05;
 
   console.log('Received Route Data : ', routeData);
   console.log('Received Booking Data : ', bookingData);
@@ -48,6 +51,59 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
   const formatCurrency = (amount) => {
     return `Rp${amount.toLocaleString('id-ID')}`;
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+    try{
+      const response = await axios.post('/order-detail/store', {
+        amount: totalPrice,
+      }, {
+        headers: {
+          "X-CSRF-TOKEN": csrfToken,
+        }
+      });
+
+      const {snap_token} = response.data;
+      console.log(snap_token);
+      setSnapToken(snap_token)
+
+      // Use Midtrans Snap to show the payment modal
+      window.snap.pay(snap_token, {
+          onSuccess: function (result) {
+          alert('Payment Success! ' + JSON.stringify(result));
+          window.location.href =  "/order-detail";
+        },
+          onPending: function (result) {
+          alert('Payment Pending! ' + JSON.stringify(result));
+        },
+          onError: function (result) {
+          alert('Payment Error! ' + JSON.stringify(result));
+        },
+        onClose: function () {
+          alert('You closed the popup without completing the payment.');
+        }
+      });
+
+    } catch (error) {
+      // Handle specific error scenarios
+      if (error.response) {
+        // The request was made, and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Server Error:', error.response.data);
+        alert(error.response.data.message || 'An error occurred on the server.');
+      } else if (error.request) {
+        // The request was made, but no response was received
+        console.error('Network Error:', error.request);
+        alert('Network error. Please check your internet connection and try again.');
+      } else {
+        // Something happened in setting up the request that triggered an error
+        console.error('Error:', error.message);
+        alert('An unexpected error occurred. Please try again.');
+      }
+    }
+  } 
 
   return (
     <div className="min-h-screen bg-primary">
@@ -163,8 +219,12 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
         <div className="bg-white rounded-lg p-4 mb-20">
           <h3 className="font-medium mb-2">Price Details</h3>
           <div className="flex justify-between mb-2">
-            <p>Seat (x{data.pricing.quantity})</p>
+            <p>Seat (x1)</p>
             <p>{formatCurrency(data.pricing.seatPrice)}</p>
+          </div>
+          <div className='flex justify-between mb-2'>
+            <p >Total seat</p>
+            <p >(x{data.pricing.quantity})</p>
           </div>
           <div className="flex justify-between font-semibold pt-2 border-t">
             <p>Total Price</p>
@@ -174,9 +234,11 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber }) => {
 
         {/* Order Button */}
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white">
-          <button className="w-full bg-[#2d3748] text-white py-3 rounded-lg font-semibold">
+          <button className="w-full bg-[#2d3748] text-white py-3 rounded-lg font-semibold" onClick={handleSubmit}>
             ORDER NOW
           </button>
+
+          {snapToken && <p>Snap Token: {snapToken}</p>}
         </div>
       </div>
     </div>

@@ -2,18 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
 use App\Models\Schedule;
 use App\Models\SeatBooking;
+use App\Models\Trip;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Midtrans\Config;
+use Midtrans\Snap;
 use Inertia\Inertia;
 
 class BookingController extends Controller
 {
+    public function __construct()
+    {
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$clientKey = env('MIDTRANS_CLIENT_KEY');
+        Config::$isProduction = false;
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+    }
+
     // Menampilkan halaman Detail Order
     public function OrderDetailsIndex(){
         $routeId = session('setRoute.selectedRoute.routeId');
@@ -30,6 +43,7 @@ class BookingController extends Controller
             'bookingData' => session('bookingData'),
             'user' => $user,
             'seatNumber' => $seatNumber,
+            'seatCount' => session('seatCount'),
         ]);
     }
 
@@ -114,46 +128,6 @@ class BookingController extends Controller
         return response()->json(['message' => 'Route stored successfully']);
     }
 
-    public function seatStore(Request $request, $plate) {
-
-        // Find the vehicle by its ID
-        $vehicle = Vehicle::where('license_plate', $plate)->first();
-
-        if (!$vehicle) {
-            return response()->json(['message' => 'Vehicle not found'], 404);
-        }
-
-        try{
-            // Validate the incoming request
-            $validated = $request->validate([
-                'seats' => 'required|array|min:1',
-                'seats.*' => 'integer|min:1|max:' . $vehicle->seats,
-            ]);
-
-            // Get the booked seats from the vehicle
-            $bookedSeats = $vehicle->booked_seats ?? [];
-
-            // Check for already booked seats
-            $alreadyBookedSeats = array_intersect($validated['seats'], $bookedSeats);
-
-            if (!empty($alreadyBookedSeats)) {
-                return response()->json(['message' => 'The following seats are already booked: ' . implode(', ', $alreadyBookedSeats)], 400);
-            }
-
-            // If all selected seats are available, proceed to book them
-            $vehicle->booked_seats = array_merge($bookedSeats, $validated['seats']);  
-
-            $vehicle->save();
-            session(['seatNumber' => json_encode($validated['seats'])]);
-
-            return response()->json(['message' => 'Seats successfully booked']);
-
-        } catch (\Exception $e) {
-
-            return redirect()->back()->withErrors(['error' => 'An error occurred. Please try again later']);
-        }       
-    }
-
     public function fetchBookedSeats($licensePlate) {
         $date = session('bookingData.selectedDay');
         $formattedDate = date('Y-m-d', strtotime($date)); // Format to Y-m-d if necessary
@@ -184,6 +158,107 @@ class BookingController extends Controller
             FacadesLog::info("Error on try block : " . $e->getMessage());
 
             return response()->json(['message' => 'An error occurred. Please try again later']);
+        }
+    }
+
+    public function storeData(Request $request){
+        $routeId = session('setRoute.selectedRoute.routeId');
+        $vehicle = session('vehicle');
+
+        $location = Location::whereHas('vehicles', function($query) use ($routeId) {
+            $query->where('route_id', $routeId);
+                })->with(['vehicles' => function($query) use ($routeId) {
+                    $query->withPivot('route_id')->where('route_id', $routeId);
+                }])->first();
+
+        $user = Auth::user();
+        FacadesLog::info('User : ' . $user);
+
+        $transaction_details = [
+            'order_id' => uniqid(),
+            'gross_amount' => $request->amount,
+        ];
+
+        $item_details = [
+            [
+                'id' => $location->vehicles[0]->pivot->route_id,
+                'price' => $location->vehicles[0]->pivot->price,
+                'quantity' => session('seatCount'),
+                'name' => 'Gopay Payment' 
+            ]
+        ];
+
+        $billing_address = [
+            'first_name' => $user->username,
+            'phone' => $user->phone_number,
+            'country_code' => 'IDN',
+        ];
+
+        $customer_details = [
+            'first_name' => $user->username,
+            'email' => $user->email,
+            'phone' => $user->phone_number,
+            'biling_address' => $billing_address,
+        ];
+
+        $transaction_data = [
+            'transaction_details' => $transaction_details,
+            'item_details' => $item_details,
+            'customer_details' => $customer_details,
+            'callbacks' => [
+                'finish' => url('/home'), // Route where you want to redirect the user
+            ],
+        ];
+
+        try{
+            $snap_token = Snap::getSnapToken($transaction_data);
+
+            $date = session('bookingData.selectedDay');
+            $formattedDate = date('Y-m-d', strtotime($date));
+            $seatNumber = session('seatNumber');
+
+            $criteria = [
+                'vehicle_id' => $vehicle->vehicle_id,
+                'location_id' => $location->location_id,
+                'departure_time' => session('setRoute.selectedRoute.departure'),
+                'departure_date' => $formattedDate, 
+            ];
+
+            $booking = Booking::create([
+                'seat_total' => session('seatCount'),
+                'booking_time' => now(), 
+                'status' => 'Valid',
+                'price' => $request->amount,
+                'user_id' => $user->user_id,
+            ]);
+
+            $existingBooking = SeatBooking::where($criteria)->first();
+
+            if($existingBooking){
+                $existingBooking = $existingBooking->seat_number;
+                $newSeats = array_merge($existingBooking, $seatNumber);
+                $existingBooking->seat_number = array_unique($newSeats);
+                $existingBooking->save();
+            } else {
+                SeatBooking::create(array_merge($criteria, [
+                    'seat_number' => $seatNumber,
+                ]));
+            }
+
+            Trip::create([
+                'origin' => session('bookingData.cityValue'),
+                'booking_id' => $booking->booking_id,
+                'route_id' => session('setRoute.selectedRoute.routeId'),
+            ]);
+
+            session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber']);
+
+            return response()->json(['snap_token' => $snap_token]);
+
+        } catch (\Exception $e){
+            FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
+
+            return response()->json(['message', 'Something wrong, please try again later']);
         }
     }
 }

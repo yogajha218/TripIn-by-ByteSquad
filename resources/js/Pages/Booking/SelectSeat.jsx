@@ -5,6 +5,7 @@ import axios from 'axios';
 const SelectSeat = ({plate, seatLimit}) => {
 
     const [selectedSeat, setSelectedSeat] = useState([]);
+    const [selectedSeatCount, setSelectedSeatCount] = useState(0);
     const [bookedSeats, setBookedSeats] = useState([]);
     // console.log('Sended Plate : ', plate);
     console.log('Seat Limit : ', seatLimit);
@@ -43,10 +44,12 @@ const SelectSeat = ({plate, seatLimit}) => {
         if (selectedSeat.includes(seatNumber)) {
             // Remove the seat from the selected seats array
             setSelectedSeat(selectedSeat.filter((seat) => seat !== seatNumber));
+            setSelectedSeatCount(selectedSeatCount - 1);
         } else {
             if (selectedSeat.length < seatLimit) {
                 // Add the seat to the selected seats array if within limit
                 setSelectedSeat([...selectedSeat, seatNumber]);
+                setSelectedSeatCount(selectedSeatCount + 1);
             } else {
                 // Notify the user if they exceed the seat limit
                 alert(`You can only select up to ${seatLimit} seats.`);
@@ -65,7 +68,7 @@ const SelectSeat = ({plate, seatLimit}) => {
                     'Content-Type': 'application/json', // Ensure that the content-type is set to JSON
                     'X-CSRF-TOKEN' : csrfToken,
                 },
-                body: JSON.stringify({seats: selectedSeat}),
+                body: JSON.stringify({seats: selectedSeat, seatCount : selectedSeatCount}),
             })
 
             console.log('Response Status: ', response.status); // Log the status code

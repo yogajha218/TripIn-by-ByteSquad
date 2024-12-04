@@ -47,35 +47,43 @@ class SeatController extends Controller
             ]);
         }
 
-        try {
-            session(['seatNumber' => json_encode($validated['seats'])]);
+        session([
+            'seatNumber' => json_encode($validated['seats']), 
+            'seatCount' => $request->seatCount,
+            'vehicle' => $vehicle,
+        ]);
 
-            // Define the criteria for finding an existing record
-            $criteria = [
-                'vehicle_id' => $vehicle->vehicle_id,
-                'location_id' => $location->location_id,
-                'departure_time' => session('setRoute.selectedRoute.departure'),
-                'departure_date' => $formattedDate,
-            ];
+        // try {
+            
 
-            // Check if a record already exists
-            $existingBooking = SeatBooking::where($criteria)->first();
+        //     FacadesLog::info('Seat Count : ' . session('seatCount'));
 
-            if ($existingBooking) {
-                // If it exists, merge the new seats with existing ones
-                $existingSeats = $existingBooking->seat_number; // Decode existing seats
-                $newSeats = array_merge($existingSeats, $validated['seats']); // Merge new seats
-                $existingBooking->seat_number = array_unique($newSeats); // Remove duplicates and encode back to JSON
-                $existingBooking->save(); // Save the updated record
-            } else {
-                // If it doesn't exist, create a new record
-                SeatBooking::create(array_merge($criteria, [
-                    'seat_number' => $validated['seats'],
-                ]));
-            }
-        } catch (\Exception $e) {
-            FacadesLog::info('Error saving seats : ' . $e->getMessage());
-        }
+        //     // Define the criteria for finding an existing record
+        //     $criteria = [
+        //         'vehicle_id' => $vehicle->vehicle_id,
+        //         'location_id' => $location->location_id,
+        //         'departure_time' => session('setRoute.selectedRoute.departure'),
+        //         'departure_date' => $formattedDate,
+        //     ];
+
+        //     // Check if a record already exists
+        //     $existingBooking = SeatBooking::where($criteria)->first();
+
+        //     if ($existingBooking) {
+        //         // If it exists, merge the new seats with existing ones
+        //         $existingSeats = $existingBooking->seat_number; // Decode existing seats
+        //         $newSeats = array_merge($existingSeats, $validated['seats']); // Merge new seats
+        //         $existingBooking->seat_number = array_unique($newSeats); // Remove duplicates and encode back to JSON
+        //         $existingBooking->save(); // Save the updated record
+        //     } else {
+        //         // If it doesn't exist, create a new record
+        //         SeatBooking::create(array_merge($criteria, [
+        //             'seat_number' => $validated['seats'],
+        //         ]));
+        //     }
+        // } catch (\Exception $e) {
+        //     FacadesLog::info('Error saving seats : ' . $e->getMessage());
+        // }
 
         return response()->json(['message' => 'Seats successfully booked']); 
     }

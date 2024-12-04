@@ -23,5 +23,7 @@
     </head>
     <body class="font-poppins antialiased">
         @inertia
+
+        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
     </body>
 </html>

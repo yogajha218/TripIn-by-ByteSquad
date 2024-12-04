@@ -17,7 +17,7 @@ const JourneyDot = () => {
 const JourneyDetail = ({ routes, booking }) => {
     const [selectedRoute, setSelectedRoute] = useState("");
 
-    const onClickDetail = async (e, routeId, plate) => {
+    const onClickDetail = async (e, routeId, plate, departure) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
             'meta[name="csrf-token"]'
@@ -27,7 +27,7 @@ const JourneyDetail = ({ routes, booking }) => {
             const response = await axios.post(
                 route("route.store"),
                 {
-                    selectedRoute: { routeId, plate },
+                    selectedRoute: { routeId, plate, departure },
                 },
                 {
                     headers: {
@@ -38,9 +38,28 @@ const JourneyDetail = ({ routes, booking }) => {
 
             if (response.status == 200) {
                 window.location.href = "/seat";
-                // console.log("Selected Route : ", routeId);
             }
-        } catch (error) {}
+        } catch (error) {
+            if (error.response) {
+                // The request was made, and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.error("Server Error:", error.response.data);
+                alert(
+                    error.response.data.message ||
+                        "An error occurred on the server."
+                );
+            } else if (error.request) {
+                // The request was made, but no response was received
+                console.error("Network Error:", error.request);
+                alert(
+                    "Network error. Please check your internet connection and try again."
+                );
+            } else {
+                // Something happened in setting up the request that triggered an error
+                console.error("Error:", error.message);
+                alert("An unexpected error occurred. Please try again.");
+            }
+        }
     };
 
     return (
@@ -54,7 +73,8 @@ const JourneyDetail = ({ routes, booking }) => {
                             onClickDetail(
                                 e,
                                 vehicle.pivot.route_id,
-                                vehicle.license_plate
+                                vehicle.license_plate,
+                                vehicle.pivot.departure_time
                             )
                         }
                     >

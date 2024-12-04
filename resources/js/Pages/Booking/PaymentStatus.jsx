@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import checkmark from "/Checkmark.svg";
-import down from "/downarrow.svg";
-import back from "/backArrow.svg";
 
 const PaymentStatus = () => {
   const [paymentData, setPaymentData] = useState({
@@ -47,7 +44,7 @@ const PaymentStatus = () => {
       <div className="bg-primary p-6">
         <div className="relative flex items-center justify-center">
           <button className="absolute left-0 p-1 bg-transparent">
-            <img src={back} className="w-6 h-6 text-white" />
+            <img src="/backArrow.svg" className="w-6 h-6 text-white" />
           </button>
           <h1 className="text-2xl font-bold text-white">Gopay</h1>
         </div>
@@ -58,7 +55,7 @@ const PaymentStatus = () => {
         {/* Success Icon */}
         <div className="flex justify-center mb-4">
           <div className="bg-green-500 rounded-full p-4">
-            <img src={checkmark} className="w-8 h-8 text-white" />
+            <img src="/Checkmark.svg" className="w-8 h-8 text-white" />
           </div>
         </div>
 
@@ -92,7 +89,7 @@ const PaymentStatus = () => {
               className="w-full flex justify-between items-center bg-transparent text-black"
             >
               <h3 className="font-medium">How to Pay With Gopay</h3>
-              <img src={down}
+              <img src="/downarrow.svg"
                 className={`w-5 h-5 transition-transform duration-200 ${
                   isHowToPayOpen ? "transform rotate-180" : ""
                 }`}

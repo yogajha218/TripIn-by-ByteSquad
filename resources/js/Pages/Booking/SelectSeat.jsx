@@ -9,6 +9,8 @@ const SelectSeat = ({plate, seatLimit}) => {
     // console.log('Sended Plate : ', plate);
     console.log('Seat Limit : ', seatLimit);
     console.log('Get plate : ', plate.selectedRoute.plate);
+    console.log('Get route_id : ', plate.selectedRoute.routeId);
+    console.log('Departure : ', plate.selectedRoute.departure);
 
     // Example seat numbers
     const seats = [
@@ -71,7 +73,7 @@ const SelectSeat = ({plate, seatLimit}) => {
             if(response.ok){
                 const result = await response.json();
                 alert(result.message);
-                window.location.href = '/seat';
+                window.location.href = '/order-detail';
             } else {
                 const error = await response.json();
                 alert(error.message);
@@ -79,8 +81,21 @@ const SelectSeat = ({plate, seatLimit}) => {
 
             
         } catch(error){
-            console.error('Error saving seats : ', error);
-            alert('An error occurred, Please Try Again!');
+            // Handle specific error scenarios
+            if (error.response) {
+                // The request was made, and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.error('Server Error:', error.response.data);
+                alert(error.response.data.message || 'An error occurred on the server.');
+            } else if (error.request) {
+                // The request was made, but no response was received
+                console.error('Network Error:', error.request);
+                alert('Network error. Please check your internet connection and try again.');
+            } else {
+                // Something happened in setting up the request that triggered an error
+                console.error('Error:', error.message);
+                alert('An unexpected error occurred. Please try again.');
+            }
         }
 
         console.log(selectedSeat);

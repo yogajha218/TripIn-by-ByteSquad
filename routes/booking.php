@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\SeatController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,3 +22,7 @@ Route::get('/seat/booked-seat/{plate}', [BookingController::class, 'fetchBookedS
 Route::get('/booking', [BookingController::class, 'bookingIndex']);
 Route::post('/booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
 Route::post('/booking/route/store', [BookingController::class, 'routeStore'])->name('route.store');
+
+Route::post('/create-transaction/send', [MidtransController::class, 'createTransaction']);
+Route::get('/create-transaction', [MidtransController::class, 'transactionIndex']);
+

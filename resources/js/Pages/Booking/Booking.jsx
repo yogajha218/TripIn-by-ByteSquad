@@ -201,12 +201,21 @@ const Booking = () => {
                                                 Origin
                                             </p>
                                         </div>
-                                        <div className="flex-1 flex justify-between">
+                                        <div className="flex-1 flex justify-between relative">
                                             <input
-                                                className="border-none text-sm font-light p-0 w-full"
+                                                className="border-none text-sm font-light p-0 w-full relative -z-10"
                                                 value={origin}
                                                 disabled={true}
                                             />
+                                            <div
+                                                className={`absolute text-sm font-light ${
+                                                    origin === "select origin"
+                                                        ? "text-gray-400"
+                                                        : "text-black"
+                                                }`}
+                                            >
+                                                {origin}
+                                            </div>
                                         </div>
                                         <div
                                             className={`text-3xl transition-transform duration-300 font-bold cursor-pointer absolute top-4 right-5 -rotate-90`}

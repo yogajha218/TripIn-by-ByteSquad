@@ -17,8 +17,7 @@ class HomeController extends Controller
 {
     // Menampilkan halaman home
     public function homeIndex(){
-        $user = Auth::user();
-        
+        $user = Auth::user();        
         return Inertia::render('Home/Home', [
             'credit' => $user->credit->credit_amount, 
             'username' => $user->username,

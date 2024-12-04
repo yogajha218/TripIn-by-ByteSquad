@@ -65,6 +65,14 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber, seatCount}
         }
       });
 
+      if(response.status == 200){
+        await axios.post('order-detail/store/finish', {
+          headers: {
+            "X-CSRF-TOKEN": csrfToken,
+          }
+        });
+      }
+
       const {snap_token} = response.data;
       console.log(snap_token);
       setSnapToken(snap_token)
@@ -73,7 +81,6 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber, seatCount}
       window.snap.pay(snap_token, {
           onSuccess: function (result) {
           alert('Payment Success! ' + JSON.stringify(result));
-          window.location.href =  "/order-detail";
         },
           onPending: function (result) {
           alert('Payment Pending! ' + JSON.stringify(result));

@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('status');
             $table->unsignedBigInteger('user_id');
             $table->decimal('price', 10, 2);
+            $table->string('booking_code');
 
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');            
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

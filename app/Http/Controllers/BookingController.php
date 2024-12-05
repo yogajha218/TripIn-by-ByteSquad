@@ -10,6 +10,7 @@ use App\Models\Schedule;
 use App\Models\SeatBooking;
 use App\Models\Trip;
 use App\Models\Vehicle;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
@@ -56,7 +57,10 @@ class BookingController extends Controller
     }
 
     public function paymentStatusIndex(){
-        return Inertia::render('Booking/PaymentStatus');
+        $user = User::with(["bookings", function($query){
+            $query->where("booking_id", session('bookingId'));
+        }])->first();
+        return Inertia::render('Booking/PaymentStatus', ['user' => $user]);
     }
 
     public function paymentTermsIndex(){
@@ -253,7 +257,10 @@ class BookingController extends Controller
             'status' => 'Valid',
             'price' => $tempBooking['amount'],
             'user_id' => $tempBooking['user_id'],
+            'booking_code' => $this->generateBookingCode(),
             ]);
+
+            session(["bookingId" => $booking->booking_id]);
 
             $existingBooking = SeatBooking::where($criteria)->first();
 
@@ -289,5 +296,20 @@ class BookingController extends Controller
         }
 
         return response()->json(['redirect' => route('home')]);
+    }
+
+    public function generateBookingCode($length = 8)
+    {
+        // Define the characters to use
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $bookingCode = '';
+
+        // Generate the booking code
+        for ($i = 0; $i < $length; $i++) {
+            $randomIndex = random_int(0, strlen($characters) - 1);
+            $bookingCode .= $characters[$randomIndex];
+        }
+
+        return $bookingCode;
     }
 }

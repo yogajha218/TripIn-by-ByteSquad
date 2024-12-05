@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CheckIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 
-const PaymentStatus = () => {
+const PaymentStatus = ({user}) => {
     const [paymentData, setPaymentData] = useState({
         user: "yoga",
         gopayAccount: "081234567890",
@@ -11,6 +11,7 @@ const PaymentStatus = () => {
         paymentMethod: "Gopay",
         totalPrice: 120000,
     });
+    console.log(user);
 
     const [isHowToPayOpen, setIsHowToPayOpen] = useState(false);
     const [countdown, setCountdown] = useState(paymentData.timeLeft);

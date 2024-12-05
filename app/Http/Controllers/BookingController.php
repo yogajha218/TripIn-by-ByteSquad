@@ -40,7 +40,7 @@ class BookingController extends Controller
                 }])->get();
 
         return Inertia::render('Booking/OrderDetails', [
-            'routeData' => $data, 
+            'routeData' => $data,
             'bookingData' => session('bookingData'),
             'user' => $user,
             'seatNumber' => $seatNumber,
@@ -73,7 +73,7 @@ class BookingController extends Controller
 
         // Fetch locations with associated vehicles and pivot data
         $routes = Location::with(['vehicles' => function($query) {
-                $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time'); 
+                $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time');
             }])
             ->where('city', $city)
             ->where("name", '!=', session('bookingData.origin'))
@@ -94,7 +94,7 @@ class BookingController extends Controller
         $location = Location::all();
         $driver = Driver::where('driver_id', 1)->with('vehicle')->first();
         $routes = Vehicle::with('locations')->where('vehicle_id', 1)->first();
-        
+
         return Inertia::render('Booking/Booking', ['location' => $location, 'driver' => $driver, 'routes' => $routes]);
     }
 
@@ -185,7 +185,7 @@ class BookingController extends Controller
                 'id' => $location->vehicles[0]->pivot->route_id,
                 'price' => $location->vehicles[0]->pivot->price,
                 'quantity' => session('seatCount'),
-                'name' => 'Gopay Payment' 
+                'name' => 'Gopay Payment'
             ]
         ];
 
@@ -249,7 +249,7 @@ class BookingController extends Controller
         try{
             $booking = Booking::create([
             'seat_total' => $tempBooking['seat_count'],
-            'booking_time' => now(), 
+            'booking_time' => now(),
             'status' => 'Valid',
             'price' => $tempBooking['amount'],
             'user_id' => $tempBooking['user_id'],
@@ -279,7 +279,7 @@ class BookingController extends Controller
                 Payment::create([
                 'amount' => $tempBooking['amount'],
                 'payment_time' => now(),
-                'booking_id' => $booking->booking_id, 
+                'booking_id' => $booking->booking_id,
             ]);
 
             session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
@@ -287,7 +287,7 @@ class BookingController extends Controller
         } catch(\Exception $e){
             FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
         }
-        
+
         return response()->json(['redirect' => route('home')]);
     }
 }

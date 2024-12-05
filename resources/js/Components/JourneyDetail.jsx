@@ -37,7 +37,7 @@ const JourneyDetail = ({ routes, booking }) => {
             );
 
             if (response.status == 200) {
-                window.location.href = "/seat";
+                window.location.href = "/booking/seat";
             }
         } catch (error) {
             if (error.response) {
@@ -86,7 +86,7 @@ const JourneyDetail = ({ routes, booking }) => {
                         {/* Bus Details */}
                         <div className="flex items-center space-x-4">
                             <img
-                                src="Shuttle_Icon.svg"
+                                src="/Shuttle_Icon.svg"
                                 alt="Bus"
                                 className="w-16 h-16 rounded-md object-cover"
                             />

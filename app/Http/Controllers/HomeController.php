@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -17,7 +18,15 @@ class HomeController extends Controller
 {
     // Menampilkan halaman home
     public function homeIndex(){
-        $user = Auth::user();        
+        session()->forget('bookingCode');
+        $user = Auth::user();  
+        Session::forget([
+            'booking_done',
+            'schedule_done',
+            'seat_done',
+            'order_done',
+        ]);
+        
         return Inertia::render('Home/Home', [
             'credit' => $user->credit->credit_amount, 
             'username' => $user->username,

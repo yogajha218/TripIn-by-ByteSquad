@@ -71,7 +71,7 @@ const ConfirmationPage = ({
 
         try {
             const response = await axios.post(
-                "/order-detail/store",
+                "/booking/order-detail/store",
                 {
                     amount: totalPrice,
                 },
@@ -83,7 +83,7 @@ const ConfirmationPage = ({
             );
 
             if (response.status == 200) {
-                await axios.post("order-detail/store/finish", {
+                await axios.post("/booking/order-detail/store/finish", {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },

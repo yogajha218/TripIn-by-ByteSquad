@@ -3,28 +3,38 @@
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\SeatController;
+use App\Http\Middleware\BookingProgress;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/order-detail', [BookingController::class, 'orderDetailsIndex']);
-Route::get('/payment-status', [BookingController::class, 'paymentStatusIndex']);
+Route::group(['prefix' => '/booking', 'middleware' => 'isLogin'], function(){
+    Route::get('/', [BookingController::class, 'bookingIndex'])->name('booking.index');
+    Route::post('/store', [BookingController::class, 'bookingStore'])->name('booking.store');
+    Route::get('/destination', [BookingController::class, 'destinationIndex']);
+    Route::get('/origin', [BookingController::class, 'originIndex']);
+    
+    Route::group(['middleware' => 'booking.progress:schedule'], function(){
+        Route::get('/bus-schedule', [BookingController::class, 'busScheduleIndex'])->name('schedule');
+        Route::post('/route/store', [BookingController::class, 'routeStore'])->name('route.store');
+    });
+
+    Route::group(['middleware' => 'booking.progress:seat'], function(){
+        Route::get('/seat', [BookingController::class, 'seatIndex'])->name('seat.index');
+        Route::post('/seat/store/{vehicle_id}', [SeatController::class, 'seatCheck'])->name('seat.store');
+        Route::get('/seat/booked-seat/{plate}', [BookingController::class, 'fetchBookedSeats'])->name('fetch.seat');
+    });
+
+    Route::group(['middleware' => 'booking.progress:order'], function(){
+        Route::post('/order-detail/store', [BookingController::class, 'storeData'])->name('order.store');
+        Route::get('/order-detail', [BookingController::class, 'orderDetailsIndex'])->name('order.index');
+    });
+
+    Route::group(['middleware' => 'booking.progress:status'], function(){
+        Route::get('/payment-status', [BookingController::class, 'paymentStatusIndex'])->name('order.status');
+        Route::post('/order-detail/store/finish', [BookingController::class, 'finishPayment'])->name('order.finish');
+    });
+
+});
 Route::get('/payment-terms', [BookingController::class, 'paymentTermsIndex']);
 Route::get('/boarding-ticket', [BookingController::class, 'boardingTicketIndex']);
-Route::get('/bus-schedule', [BookingController::class, 'busScheduleIndex'])->name('schedule');
-Route::get('/destination', [BookingController::class, 'destinationIndex']);
-Route::get('/origin', [BookingController::class, 'originIndex']);
 
-Route::get('/seat', [BookingController::class, 'seatIndex'])->name('seat.index');
-// Route::post('/seat/store/{vehicle_id}', [BookingController::class, 'seatStore'])->name('seat.store');
-Route::post('/seat/store/{vehicle_id}', [SeatController::class, 'seatCheck'])->name('seat.store');
-Route::get('/seat/booked-seat/{plate}', [BookingController::class, 'fetchBookedSeats'])->name('fetch.seat');
-
-Route::get('/booking', [BookingController::class, 'bookingIndex']);
-Route::post('/booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
-Route::post('/booking/route/store', [BookingController::class, 'routeStore'])->name('route.store');
-
-Route::post('/create-transaction/send', [MidtransController::class, 'createTransaction']);
-Route::get('/create-transaction', [MidtransController::class, 'transactionIndex']);
-
-Route::post('/order-detail/store', [BookingController::class, 'storeData'])->name('order.store');
-Route::post('/order-detail/store/finish', [BookingController::class, 'finishPayment'])->name('order.finish');

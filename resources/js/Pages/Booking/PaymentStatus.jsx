@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { CheckIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 
-const PaymentStatus = () => {
+const PaymentStatus = ({user, booking}) => {
     const [paymentData, setPaymentData] = useState({
-        user: "yoga",
-        gopayAccount: "081234567890",
-        timeLeft: 60,
-        date: new Date().toLocaleDateString("en-GB"),
-        transactionNo: `A${Math.random().toString(36).substr(2, 16)}`,
+        user: user.username,
+        gopayAccount: user.phone_number ?? "+62xxxxxxxxxxx",
+        date: "123",
+        transactionNo: booking.booking_code,
         paymentMethod: "Gopay",
-        totalPrice: 120000,
+        totalPrice: booking.price,
     });
-
-    const [isHowToPayOpen, setIsHowToPayOpen] = useState(false);
-    const [countdown, setCountdown] = useState(paymentData.timeLeft);
-
-    useEffect(() => {
-        if (countdown <= 0) return;
-
-        const timer = setInterval(() => {
-            setCountdown((prev) => prev - 1);
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, [countdown]);
+    console.log("User Data : ", user);
+    console.log("Booking Data : ", booking);
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat("id-ID", {

@@ -10,9 +10,11 @@ use App\Models\Schedule;
 use App\Models\SeatBooking;
 use App\Models\Trip;
 use App\Models\Vehicle;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Session;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Inertia\Inertia;
@@ -40,7 +42,7 @@ class BookingController extends Controller
                 }])->get();
 
         return Inertia::render('Booking/OrderDetails', [
-            'routeData' => $data, 
+            'routeData' => $data,
             'bookingData' => session('bookingData'),
             'user' => $user,
             'seatNumber' => $seatNumber,
@@ -56,7 +58,10 @@ class BookingController extends Controller
     }
 
     public function paymentStatusIndex(){
-        return Inertia::render('Booking/PaymentStatus');
+        $user = Auth::user();
+        $booking = Booking::where('booking_code', session('bookingCode'))->first();
+
+        return Inertia::render('Booking/PaymentStatus', ['user' => $user, 'booking' => $booking]);
     }
 
     public function paymentTermsIndex(){
@@ -73,7 +78,7 @@ class BookingController extends Controller
 
         // Fetch locations with associated vehicles and pivot data
         $routes = Location::with(['vehicles' => function($query) {
-                $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time'); 
+                $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time');
             }])
             ->where('city', $city)
             ->where("name", '!=', session('bookingData.origin'))
@@ -94,7 +99,7 @@ class BookingController extends Controller
         $location = Location::all();
         $driver = Driver::where('driver_id', 1)->with('vehicle')->first();
         $routes = Vehicle::with('locations')->where('vehicle_id', 1)->first();
-        
+
         return Inertia::render('Booking/Booking', ['location' => $location, 'driver' => $driver, 'routes' => $routes]);
     }
 
@@ -112,6 +117,7 @@ class BookingController extends Controller
         ]);
 
         session(['bookingData' => $bookingData]);
+        Session::put('booking_done', true);
 
         return response()->json(['message' => 'Booking stored successfully']);
     }
@@ -124,6 +130,8 @@ class BookingController extends Controller
             'selectedRoute.departure' => 'required',
         ]);
 
+        Session::forget('booking_done');
+        Session::put('schedule_done', true);
         session(['setRoute' => $route]);
 
         return response()->json(['message' => 'Route stored successfully']);
@@ -173,7 +181,6 @@ class BookingController extends Controller
                 }])->first();
 
         $user = Auth::user();
-        FacadesLog::info('User : ' . $user);
 
         $transaction_details = [
             'order_id' => uniqid(),
@@ -185,7 +192,7 @@ class BookingController extends Controller
                 'id' => $location->vehicles[0]->pivot->route_id,
                 'price' => $location->vehicles[0]->pivot->price,
                 'quantity' => session('seatCount'),
-                'name' => 'Gopay Payment' 
+                'name' => 'Gopay Payment'
             ]
         ];
 
@@ -207,7 +214,7 @@ class BookingController extends Controller
             'item_details' => $item_details,
             'customer_details' => $customer_details,
             'callbacks' => [
-                'finish' => route('home'), // Route where you want to redirect the user
+                'finish' => route('order.status'), // Route where you want to redirect the user
             ],
         ];
 
@@ -226,6 +233,9 @@ class BookingController extends Controller
                 'route_id' => $routeId,
                 'city_value' => session('bookingData.cityValue'),
             ]]);
+
+            Session::forget('seat_done');
+            Session::put('order_done', true);
 
             return response()->json(['snap_token' => $snap_token]);
 
@@ -249,11 +259,14 @@ class BookingController extends Controller
         try{
             $booking = Booking::create([
             'seat_total' => $tempBooking['seat_count'],
-            'booking_time' => now(), 
+            'booking_time' => now(),
             'status' => 'Valid',
             'price' => $tempBooking['amount'],
             'user_id' => $tempBooking['user_id'],
+            'booking_code' => $this->generateBookingCode(),
             ]);
+
+            session(["bookingCode" => $booking->booking_code]);
 
             $existingBooking = SeatBooking::where($criteria)->first();
 
@@ -279,7 +292,8 @@ class BookingController extends Controller
                 Payment::create([
                 'amount' => $tempBooking['amount'],
                 'payment_time' => now(),
-                'booking_id' => $booking->booking_id, 
+                'booking_id' => $booking->booking_id,
+                'user_id' => $tempBooking['user_id'],
             ]);
 
             session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
@@ -287,7 +301,22 @@ class BookingController extends Controller
         } catch(\Exception $e){
             FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
         }
-        
+
         return response()->json(['redirect' => route('home')]);
+    }
+
+    public function generateBookingCode($length = 8)
+    {
+        // Define the characters to use
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $bookingCode = '';
+
+        // Generate the booking code
+        for ($i = 0; $i < $length; $i++) {
+            $randomIndex = random_int(0, strlen($characters) - 1);
+            $bookingCode .= $characters[$randomIndex];
+        }
+
+        return $bookingCode;
     }
 }

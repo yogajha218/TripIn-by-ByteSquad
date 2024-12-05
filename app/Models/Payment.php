@@ -15,6 +15,7 @@ class Payment extends Model
         'amount', 
         'payment_time', 
         'booking_id',
+        'user_id'
     ];
 
     public function user()

@@ -26,7 +26,7 @@ const SelectSeat = ({plate, seatLimit}) => {
     useEffect(() => {
         const fetchBookedSeats = async () => {
             try{
-                const response = await axios.get(`/seat/booked-seat/${plate.selectedRoute.plate}`);
+                const response = await axios.get(`/booking/seat/booked-seat/${plate.selectedRoute.plate}`);
                 setBookedSeats(response.data.booked_seats);
             } catch (error) {
                 console.error('Error fetching booked seats:', error);
@@ -76,7 +76,7 @@ const SelectSeat = ({plate, seatLimit}) => {
             if(response.ok){
                 const result = await response.json();
                 alert(result.message);
-                window.location.href = '/order-detail';
+                window.location.href = '/booking/order-detail';
             } else {
                 const error = await response.json();
                 alert(error.message);

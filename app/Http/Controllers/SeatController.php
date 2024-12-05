@@ -7,6 +7,7 @@ use App\Models\SeatBooking;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class SeatController extends Controller
@@ -53,37 +54,8 @@ class SeatController extends Controller
             'vehicle' => $vehicle,
         ]);
 
-        // try {
-            
-
-        //     FacadesLog::info('Seat Count : ' . session('seatCount'));
-
-        //     // Define the criteria for finding an existing record
-        //     $criteria = [
-        //         'vehicle_id' => $vehicle->vehicle_id,
-        //         'location_id' => $location->location_id,
-        //         'departure_time' => session('setRoute.selectedRoute.departure'),
-        //         'departure_date' => $formattedDate,
-        //     ];
-
-        //     // Check if a record already exists
-        //     $existingBooking = SeatBooking::where($criteria)->first();
-
-        //     if ($existingBooking) {
-        //         // If it exists, merge the new seats with existing ones
-        //         $existingSeats = $existingBooking->seat_number; // Decode existing seats
-        //         $newSeats = array_merge($existingSeats, $validated['seats']); // Merge new seats
-        //         $existingBooking->seat_number = array_unique($newSeats); // Remove duplicates and encode back to JSON
-        //         $existingBooking->save(); // Save the updated record
-        //     } else {
-        //         // If it doesn't exist, create a new record
-        //         SeatBooking::create(array_merge($criteria, [
-        //             'seat_number' => $validated['seats'],
-        //         ]));
-        //     }
-        // } catch (\Exception $e) {
-        //     FacadesLog::info('Error saving seats : ' . $e->getMessage());
-        // }
+        Session::forget('schedule_done');
+        Session::put('seat_done', true);
 
         return response()->json(['message' => 'Seats successfully booked']); 
     }

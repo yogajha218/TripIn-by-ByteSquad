@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\BookingProgress;
 use App\Http\Middleware\checkOtpAccess;
 use App\Http\Middleware\isLogin;
 use Illuminate\Foundation\Application;
@@ -36,7 +37,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'isLogin' => App\Http\Middleware\isLogin::class, // Untuk cek apakah user login atau tidak saat auth
             'isGuest' => App\Http\Middleware\isGuest::class, // Untuk cek apakah user sudah login saat di home
             'check.otp' => checkOtpAccess::class, // Untuk cek apakah user sudah mengirim email otp
-         ]);
+            'booking.progress' => BookingProgress::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

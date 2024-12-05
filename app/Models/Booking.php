@@ -11,10 +11,11 @@ class Booking extends Model
     public $timestamps = false;
     protected $fillable = [
         'seat_total',
-        'booking_time', 
-        'status', 
+        'booking_time',
+        'status',
         'user_id',
         'price',
+        'booking_code',
     ];
 
     public function user()

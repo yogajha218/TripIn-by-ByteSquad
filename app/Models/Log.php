@@ -8,7 +8,8 @@ class Log extends Model
 {
     protected $primaryKey = 'log_id';
     protected $table = 'logs';
-
+    public $timestamps = false;
+    
     public function trip()
     {
         return $this->belongsTo(Trip::class, 'trip_id');

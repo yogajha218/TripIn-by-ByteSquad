@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
+use App\Models\Payment;
 use App\Models\Schedule;
 use App\Models\SeatBooking;
 use App\Models\Trip;
@@ -206,52 +207,25 @@ class BookingController extends Controller
             'item_details' => $item_details,
             'customer_details' => $customer_details,
             'callbacks' => [
-                'finish' => url('/home'), // Route where you want to redirect the user
+                'finish' => route('home'), // Route where you want to redirect the user
             ],
         ];
 
         try{
             $snap_token = Snap::getSnapToken($transaction_data);
 
-            $date = session('bookingData.selectedDay');
-            $formattedDate = date('Y-m-d', strtotime($date));
-            $seatNumber = session('seatNumber');
-
-            $criteria = [
+            session(['temp_booking' => [
+                'amount' => $request->amount,
+                'user_id' => $user->user_id,
+                'seat_count' => session('seatCount'),
                 'vehicle_id' => $vehicle->vehicle_id,
                 'location_id' => $location->location_id,
                 'departure_time' => session('setRoute.selectedRoute.departure'),
-                'departure_date' => $formattedDate, 
-            ];
-
-            $booking = Booking::create([
-                'seat_total' => session('seatCount'),
-                'booking_time' => now(), 
-                'status' => 'Valid',
-                'price' => $request->amount,
-                'user_id' => $user->user_id,
-            ]);
-
-            $existingBooking = SeatBooking::where($criteria)->first();
-
-            if($existingBooking){
-                $existingBooking = $existingBooking->seat_number;
-                $newSeats = array_merge($existingBooking, $seatNumber);
-                $existingBooking->seat_number = array_unique($newSeats);
-                $existingBooking->save();
-            } else {
-                SeatBooking::create(array_merge($criteria, [
-                    'seat_number' => $seatNumber,
-                ]));
-            }
-
-            Trip::create([
-                'origin' => session('bookingData.cityValue'),
-                'booking_id' => $booking->booking_id,
-                'route_id' => session('setRoute.selectedRoute.routeId'),
-            ]);
-
-            session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber']);
+                'departure_date' => date('Y-m-d', strtotime(session('bookingData.selectedDay'))),
+                'seat_number' => session('seatNumber'),
+                'route_id' => $routeId,
+                'city_value' => session('bookingData.cityValue'),
+            ]]);
 
             return response()->json(['snap_token' => $snap_token]);
 
@@ -260,5 +234,60 @@ class BookingController extends Controller
 
             return response()->json(['message', 'Something wrong, please try again later']);
         }
+    }
+
+    public function finishPayment(Request $request){
+        $tempBooking = session('temp_booking');
+
+        $criteria = [
+            'vehicle_id' => $tempBooking['vehicle_id'],
+            'location_id' => $tempBooking['location_id'],
+            'departure_time' => $tempBooking['departure_time'],
+            'departure_date' => $tempBooking['departure_date'],
+        ];
+
+        try{
+            $booking = Booking::create([
+            'seat_total' => $tempBooking['seat_count'],
+            'booking_time' => now(), 
+            'status' => 'Valid',
+            'price' => $tempBooking['amount'],
+            'user_id' => $tempBooking['user_id'],
+            ]);
+
+            $existingBooking = SeatBooking::where($criteria)->first();
+
+            if ($existingBooking) {
+                // If there is an existing booking, merge the new seat numbers
+                $existingSeats = $existingBooking->seat_number;
+                $newSeats = array_merge($existingSeats, $tempBooking['seat_number']);
+                $existingBooking->seat_number = array_unique($newSeats);
+                $existingBooking->save();
+            } else {
+                // If no existing booking, create a new seat booking
+                SeatBooking::create(array_merge($criteria, [
+                    'seat_number' => $tempBooking['seat_number'],
+                ]));
+            }
+
+            Trip::create([
+                'origin' => $tempBooking['city_value'],
+                'booking_id' => $booking->booking_id,
+                'route_id' => $tempBooking['route_id'],
+            ]);
+
+                Payment::create([
+                'amount' => $tempBooking['amount'],
+                'payment_time' => now(),
+                'booking_id' => $booking->booking_id, 
+            ]);
+
+            session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
+
+        } catch(\Exception $e){
+            FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
+        }
+        
+        return response()->json(['redirect' => route('home')]);
     }
 }

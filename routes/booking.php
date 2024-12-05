@@ -27,3 +27,4 @@ Route::post('/create-transaction/send', [MidtransController::class, 'createTrans
 Route::get('/create-transaction', [MidtransController::class, 'transactionIndex']);
 
 Route::post('/order-detail/store', [BookingController::class, 'storeData'])->name('order.store');
+Route::post('/order-detail/store/finish', [BookingController::class, 'finishPayment'])->name('order.finish');

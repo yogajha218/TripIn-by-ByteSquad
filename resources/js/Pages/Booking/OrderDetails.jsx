@@ -82,6 +82,14 @@ const ConfirmationPage = ({
                 }
             );
 
+            if (response.status == 200) {
+                await axios.post("order-detail/store/finish", {
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                });
+            }
+
             const { snap_token } = response.data;
             console.log(snap_token);
             setSnapToken(snap_token);
@@ -90,7 +98,6 @@ const ConfirmationPage = ({
             window.snap.pay(snap_token, {
                 onSuccess: function (result) {
                     alert("Payment Success! " + JSON.stringify(result));
-                    window.location.href = "/order-detail";
                 },
                 onPending: function (result) {
                     alert("Payment Pending! " + JSON.stringify(result));
@@ -133,10 +140,7 @@ const ConfirmationPage = ({
             {/* Header */}
             <div className="px-4 py-3 flex items-center text-white">
                 <img src="/backArrow.svg" className="w-6 h-6" />
-                <h1
-                    className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4 cursor-pointer"
-                    onClick={() => history.back()}
-                >
+                <h1 className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4">
                     Confirmation
                 </h1>
             </div>
@@ -218,11 +222,7 @@ const ConfirmationPage = ({
                 <div className="bg-white rounded-lg p-4 mb-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <img
-                                src="/credit.svg"
-                                alt="Credits"
-                                className="h-4"
-                            />
+                            <img src="#" alt="Credits" className="h-4" />
                             <span>
                                 Exchange {data.orderDetails.exchangePoints}{" "}
                                 CreditsPoint

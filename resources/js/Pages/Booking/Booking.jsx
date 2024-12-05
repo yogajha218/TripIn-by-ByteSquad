@@ -107,13 +107,13 @@ const Booking = () => {
             {!isSelectOrigin ? (
                 <div className="flex justify-center">
                     <div className="lg:w-[400px] w-full bg-primary">
-                        <div className="h-[108px] flex items-center justify-center relative px-3 ">
+                        <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary ">
                             <ChevronLeftIcon className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"></ChevronLeftIcon>
                             <p className="w-fit text-2xl font-medium text-white mx-2 cursor-default select-none">
                                 Booking
                             </p>
                         </div>
-                        <div className="bg-white min-h-[100vh] w-full p-5 rounded-t-2xl select-none">
+                        <div className="bg-white min-h-[100vh] w-full p-5 rounded-t-xl select-none">
                             {/* City Selection Dropdown */}
                             <form className="mt-8">
                                 <div className="flex relative items-center cursor-pointer ">
@@ -201,12 +201,21 @@ const Booking = () => {
                                                 Origin
                                             </p>
                                         </div>
-                                        <div className="flex-1 flex justify-between">
+                                        <div className="flex-1 flex justify-between relative">
                                             <input
-                                                className="border-none text-sm font-light p-0 w-full"
+                                                className="border-none text-sm font-light p-0 w-full relative -z-10"
                                                 value={origin}
                                                 disabled={true}
                                             />
+                                            <div
+                                                className={`absolute text-sm font-light ${
+                                                    origin === "select origin"
+                                                        ? "text-gray-400"
+                                                        : "text-black"
+                                                }`}
+                                            >
+                                                {origin}
+                                            </div>
                                         </div>
                                         <div
                                             className={`text-3xl transition-transform duration-300 font-bold cursor-pointer absolute top-4 right-5 -rotate-90`}

@@ -15,7 +15,7 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
     return (
         <>
             <div className="flex justify-center">
-                <div className="lg:w-[500px] w-full bg-primary">
+                <div className="lg:w-[400px] w-full bg-primary">
                     <div className="h-[108px] flex items-center  px-3 relative">
                         <ChevronLeftIcon
                             strokeWidth={2}
@@ -25,12 +25,15 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
                                 goBack();
                             }}
                         />
-                        <p className="w-full text-2xl font-semibold text-center text-white">
+                        <p className="w-full text-2xl font-medium text-center text-white">
                             Select origin
                         </p>
                     </div>
-                    <div className=" bg-white min-h-[100vh] w-full pt-4 px-10">
-                        <form method="GET" className="flex justify-center mb-6">
+                    <div className=" bg-white min-h-[100vh] w-full pt-4 px-10 rounded-t-2xl">
+                        <form
+                            method="GET"
+                            className="flex justify-center mt-6 mb-8"
+                        >
                             <input
                                 name="title"
                                 type="text"
@@ -61,10 +64,10 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
                                         }
                                     />
                                     <div className="flex flex-col ">
-                                        <p className="text-xs font-thin text-end">
+                                        <p className="text-xs font-extralight text-end">
                                             {loc.type} - {loc.city}
                                         </p>
-                                        <p className="text-2xl font-semibold">
+                                        <p className="text-sm font-semibold">
                                             {loc.name}
                                         </p>
                                     </div>

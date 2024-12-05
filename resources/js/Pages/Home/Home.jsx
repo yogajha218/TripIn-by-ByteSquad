@@ -53,7 +53,7 @@ const Home = ({ credit, username, user_id }) => {
     return (
         <>
             <div className=" flex justify-center ">
-                <div className="h-fit w-full lg:max-w-[500px] bg-white">
+                <div className="h-fit w-full lg:max-w-[400px] bg-white">
                     <div className="h-[222px] bg-primary rounded-b-3xl">
                         <div className="h-[90px] relative pt-8 pl-5">
                             <img

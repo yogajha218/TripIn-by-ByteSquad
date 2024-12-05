@@ -16,16 +16,19 @@ const Schedule = ({ booking, routes }) => {
     return (
         <>
             <div className="flex justify-center">
-                <div className="min-h-screen bg-blue-50 flex flex-col lg:w-[500px]">
+                <div className="min-h-screen bg-white flex flex-col w-full lg:w-[400px]">
                     {/* Header */}
-                    <header className="bg-primary text-white p-6 shadow-md">
-                        <div className="flex items-center justify-center relative">
-                            <ChevronLeftIcon className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"></ChevronLeftIcon>
+                    <header className="bg-primary  h-[108px] text-white py-6 shadow-md">
+                        <div className="flex   relative justify-center">
+                            <ChevronLeftIcon
+                                className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
+                                onClick={() => history.back()}
+                            ></ChevronLeftIcon>
                             <div>
-                                <h1 className="text-xl font-bold text-center">
+                                <h1 className="text-xl font-bold text-center w-full">
                                     {booking.cityValue}
                                 </h1>
-                                <div className="flex items-center space-x-2 mt-2 text-sm">
+                                <div className="flex items-center space-x-2 mt-2 text-sm w-full">
                                     <span>
                                         {format(
                                             booking.selectedDay,

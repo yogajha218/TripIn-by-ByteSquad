@@ -126,19 +126,19 @@ class DatabaseSeeder extends Seeder
             'location_id' => 1,  // Bandara Soekarno Hatta
             'vehicle_id' => 1,
             'price' => 200000,
-            'departure_time' => '10:40:00',
-            'arrival_time' => '13:30:00'
+            'departure_time' => '10:00:00',
+            'arrival_time' => '12:00:00'
         ], [
             'location_id' => 2,  // Hotel Paragon
             'vehicle_id' => 2,
             'price' => 180000,
-            'departure_time' => '10:40:00',
-            'arrival_time' => '13:30:00'
+            'departure_time' => '10:30:00',
+            'arrival_time' => '13:00:00'
         ], [
             'location_id' => 3,  // Hotel Arya Duta
             'vehicle_id' => 3,
             'price' => 150000,
-            'departure_time' => '10:40:00',
+            'departure_time' => '11:00:00',
             'arrival_time' => '13:30:00'
         ],
 
@@ -147,44 +147,44 @@ class DatabaseSeeder extends Seeder
             'location_id' => 4,  // Bandara YIA
             'vehicle_id' => 1,
             'price' => 200000,
-            'departure_time' => '11:00:00',
-            'arrival_time' => '14:00:00'
+            'departure_time' => '11:30:00',
+            'arrival_time' => '14:30:00'
         ], [
             'location_id' => 10,  // Platinum Adistujipto hotel
             'vehicle_id' => 2,
             'price' => 180000,
-            'departure_time' => '12:00:00',
-            'arrival_time' => '16:00:00'
+            'departure_time' => '12:15:00',
+            'arrival_time' => '16:15:00'
         ], [
-            'location_id' => 8,  //Bandara Adistujipto
+            'location_id' => 8,  // Bandara Adistujipto
             'vehicle_id' => 3,
             'price' => 150000,
-            'departure_time' => '09:00:00',
-            'arrival_time' => '11:00:00'
+            'departure_time' => '09:30:00',
+            'arrival_time' => '11:30:00'
         ], [
-            'location_id' => 11,  //Grand Diamond Hotel Yogyakarta
+            'location_id' => 11,  // Grand Diamond Hotel Yogyakarta
             'vehicle_id' => 3,
             'price' => 200000,
-            'departure_time' => '09:00:00',
-            'arrival_time' => '11:00:00'
+            'departure_time' => '10:00:00',
+            'arrival_time' => '12:00:00'
         ], [
-            'location_id' => 14,  //Ibis Yogyakarta International Airport Kulon Progo
+            'location_id' => 14,  // Ibis Yogyakarta International Airport Kulon Progo
             'vehicle_id' => 3,
             'price' => 300000,
-            'departure_time' => '09:00:00',
-            'arrival_time' => '11:00:00'
+            'departure_time' => '10:45:00',
+            'arrival_time' => '12:45:00'
         ], [
             'location_id' => 4,  // Bandara YIA
             'vehicle_id' => 3,
             'price' => 150000,
-            'departure_time' => '09:00:00',
-            'arrival_time' => '11:00:00'
+            'departure_time' => '11:15:00',
+            'arrival_time' => '13:15:00'
         ], [
             'location_id' => 9,  // Ambarukmo
             'vehicle_id' => 1,
             'price' => 210000,
-            'departure_time' => '10:00:00',
-            'arrival_time' => '12:00:00'
+            'departure_time' => '10:20:00',
+            'arrival_time' => '12:20:00'
         ],
 
         // Bandung (new entries)
@@ -192,14 +192,14 @@ class DatabaseSeeder extends Seeder
             'location_id' => 5,  // Bandar Udara Internasional Husein Sastranegara
             'vehicle_id' => 1,
             'price' => 200000,
-            'departure_time' => '11:00:00',
-            'arrival_time' => '14:00:00'
+            'departure_time' => '11:10:00',
+            'arrival_time' => '14:10:00'
         ], [
             'location_id' => 6,  // Verona Palace Hotel
             'vehicle_id' => 2,
             'price' => 180000,
-            'departure_time' => '12:00:00',
-            'arrival_time' => '16:00:00'
+            'departure_time' => '12:30:00',
+            'arrival_time' => '16:30:00'
         ],
 
         // Bali (new entries)
@@ -207,20 +207,20 @@ class DatabaseSeeder extends Seeder
             'location_id' => 7,  // Bandara Internasional I Gusti Ngurah Rai
             'vehicle_id' => 1,
             'price' => 200000,
-            'departure_time' => '11:00:00',
-            'arrival_time' => '14:00:00'
+            'departure_time' => '11:45:00',
+            'arrival_time' => '14:45:00'
         ], [
             'location_id' => 12,  // Platinum Hotel Jimbaran Beach Bali
             'vehicle_id' => 2,
             'price' => 180000,
-            'departure_time' => '12:00:00',
-            'arrival_time' => '16:00:00'
+            'departure_time' => '12:50:00',
+            'arrival_time' => '16:50:00'
         ], [
             'location_id' => 13,  // Arya Duta Bali
             'vehicle_id' => 3,
             'price' => 150000,
-            'departure_time' => '09:00:00',
-            'arrival_time' => '11:00:00'
+            'departure_time' => '09:15:00',
+            'arrival_time' => '11:15:00'
         ]
     ]);
     }

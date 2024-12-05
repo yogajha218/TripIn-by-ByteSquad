@@ -8,6 +8,12 @@ class Trip extends Model
 {
     protected $primaryKey = 'trip_id';
     protected $table = 'trips';
+    public $timestamps = false;
+    protected $fillable = [
+        'origin', 
+        'booking_id', 
+        'route_id',
+    ];
 
     public function user()
     {

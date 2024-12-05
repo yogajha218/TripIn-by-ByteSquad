@@ -5,11 +5,13 @@ import axios from 'axios';
 const SelectSeat = ({plate, seatLimit}) => {
 
     const [selectedSeat, setSelectedSeat] = useState([]);
+    const [selectedSeatCount, setSelectedSeatCount] = useState(0);
     const [bookedSeats, setBookedSeats] = useState([]);
     // console.log('Sended Plate : ', plate);
     console.log('Seat Limit : ', seatLimit);
     console.log('Get plate : ', plate.selectedRoute.plate);
     console.log('Get route_id : ', plate.selectedRoute.routeId);
+    console.log('Departure : ', plate.selectedRoute.departure);
 
     // Example seat numbers
     const seats = [
@@ -42,10 +44,12 @@ const SelectSeat = ({plate, seatLimit}) => {
         if (selectedSeat.includes(seatNumber)) {
             // Remove the seat from the selected seats array
             setSelectedSeat(selectedSeat.filter((seat) => seat !== seatNumber));
+            setSelectedSeatCount(selectedSeatCount - 1);
         } else {
             if (selectedSeat.length < seatLimit) {
                 // Add the seat to the selected seats array if within limit
                 setSelectedSeat([...selectedSeat, seatNumber]);
+                setSelectedSeatCount(selectedSeatCount + 1);
             } else {
                 // Notify the user if they exceed the seat limit
                 alert(`You can only select up to ${seatLimit} seats.`);
@@ -64,7 +68,7 @@ const SelectSeat = ({plate, seatLimit}) => {
                     'Content-Type': 'application/json', // Ensure that the content-type is set to JSON
                     'X-CSRF-TOKEN' : csrfToken,
                 },
-                body: JSON.stringify({seats: selectedSeat}),
+                body: JSON.stringify({seats: selectedSeat, seatCount : selectedSeatCount}),
             })
 
             console.log('Response Status: ', response.status); // Log the status code
@@ -80,8 +84,21 @@ const SelectSeat = ({plate, seatLimit}) => {
 
             
         } catch(error){
-            console.error('Error saving seats : ', error);
-            alert('An error occurred, Please Try Again!');
+            // Handle specific error scenarios
+            if (error.response) {
+                // The request was made, and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.error('Server Error:', error.response.data);
+                alert(error.response.data.message || 'An error occurred on the server.');
+            } else if (error.request) {
+                // The request was made, but no response was received
+                console.error('Network Error:', error.request);
+                alert('Network error. Please check your internet connection and try again.');
+            } else {
+                // Something happened in setting up the request that triggered an error
+                console.error('Error:', error.message);
+                alert('An unexpected error occurred. Please try again.');
+            }
         }
 
         console.log(selectedSeat);

@@ -8,6 +8,14 @@ class Booking extends Model
 {
     protected $primaryKey = 'booking_id';
     protected $table = 'bookings';
+    public $timestamps = false;
+    protected $fillable = [
+        'seat_total',
+        'booking_time', 
+        'status', 
+        'user_id',
+        'price',
+    ];
 
     public function user()
     {

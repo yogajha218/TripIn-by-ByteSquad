@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\SeatController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,8 +15,16 @@ Route::get('/destination', [BookingController::class, 'destinationIndex']);
 Route::get('/origin', [BookingController::class, 'originIndex']);
 
 Route::get('/seat', [BookingController::class, 'seatIndex'])->name('seat.index');
-Route::post('/seat/store/{vehicle_id}', [BookingController::class, 'seatStore'])->name('seat.store');
+// Route::post('/seat/store/{vehicle_id}', [BookingController::class, 'seatStore'])->name('seat.store');
+Route::post('/seat/store/{vehicle_id}', [SeatController::class, 'seatCheck'])->name('seat.store');
 Route::get('/seat/booked-seat/{plate}', [BookingController::class, 'fetchBookedSeats'])->name('fetch.seat');
+
 Route::get('/booking', [BookingController::class, 'bookingIndex']);
 Route::post('/booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
 Route::post('/booking/route/store', [BookingController::class, 'routeStore'])->name('route.store');
+
+Route::post('/create-transaction/send', [MidtransController::class, 'createTransaction']);
+Route::get('/create-transaction', [MidtransController::class, 'transactionIndex']);
+
+Route::post('/order-detail/store', [BookingController::class, 'storeData'])->name('order.store');
+Route::post('/order-detail/store/finish', [BookingController::class, 'finishPayment'])->name('order.finish');

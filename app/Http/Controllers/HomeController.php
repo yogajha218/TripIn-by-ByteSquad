@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Http\Request;
@@ -16,13 +17,24 @@ class HomeController extends Controller
 {
     // Menampilkan halaman home
     public function homeIndex(){
-        $user = Auth::user();
-        
+        $user = Auth::user();        
         return Inertia::render('Home/Home', [
             'credit' => $user->credit->credit_amount, 
             'username' => $user->username,
             'user_id' => $user->user_id
         ]);
+    }
+
+    public function ticketIndex(){
+        $user = Auth::user();
+        $bookings = Booking::with('user')
+            ->with('trips')
+            ->with('vehicles')
+            ->get();
+        
+        FacadesLog::info('Booking : ' . $bookings);
+
+        return Inertia::render('Home/MyTicket', ['bookings' => $bookings]);
     }
 
 }

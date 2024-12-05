@@ -17,36 +17,51 @@ const JourneyDot = () => {
 const JourneyDetail = ({ routes, booking }) => {
     const [selectedRoute, setSelectedRoute] = useState("");
 
-    const onClickDetail = async (e, routeId, plate) => {
+    const onClickDetail = async (e, routeId, plate, departure) => {
         e.preventDefault();
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
 
         try{
             const response = await axios.post(route('route.store'), {
-                selectedRoute: {routeId, plate},
-            }, {
+                selectedRoute: {routeId, plate, departure},
+            },{ 
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                 }
-            })
+            });
 
             if(response.status == 200){
                 window.location.href = "/seat";
             }
 
         } catch(error){
-            
+            if (error.response) {
+                // The request was made, and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.error('Server Error:', error.response.data);
+                alert(error.response.data.message || 'An error occurred on the server.');
+            } else if (error.request) {
+                // The request was made, but no response was received
+                console.error('Network Error:', error.request);
+                alert('Network error. Please check your internet connection and try again.');
+            } else {
+                // Something happened in setting up the request that triggered an error
+                console.error('Error:', error.message);
+                alert('An unexpected error occurred. Please try again.');
+            }            
         }
-    }
+    };
 
     return (
         <>
-            {routes.map((bus) => (
+            {routes.map((bus) =>
                 bus.vehicles.map((vehicle) => (
                     <div
                         key={vehicle.pivot.route_id} // Use route_id from the pivot
                         className="bg-white rounded-lg shadow-md p-4 relative"
-                        onClick={(e) => onClickDetail(e, vehicle.pivot.route_id, vehicle.license_plate)}
+                        onClick={(e) => onClickDetail(e, vehicle.pivot.route_id, vehicle.license_plate, vehicle.pivot.departure_time)}
                     >
                         {/* Available Seats Badge */}
                         <div className="absolute top-4 right-4 text-blue-600 px-2 py-1 rounded-full text-xs">
@@ -127,8 +142,7 @@ const JourneyDetail = ({ routes, booking }) => {
                         </div>
                     </div>
                 ))
-            ))}
-
+            )}
         </>
     );
 };

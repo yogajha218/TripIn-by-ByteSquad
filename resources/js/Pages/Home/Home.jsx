@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { usePage } from "@inertiajs/react";
+import { BellIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/navbarTripin";
@@ -54,7 +54,13 @@ const Home = ({ credit, username, user_id }) => {
         <>
             <div className=" flex justify-center ">
                 <div className="h-fit w-full lg:max-w-[400px] bg-white">
-                    <div className="h-[222px] bg-primary rounded-b-3xl">
+                    <div className="h-[222px] bg-primary rounded-b-3xl relative">
+                        <div className="absolute top-8 right-5">
+                            <BellIcon
+                                className={`size-8 text-white cursor-pointer relative z-40 `}
+                            ></BellIcon>
+                            <div className="rounded-full bg-primary2 size-2 absolute top-1 right-1 z-50"></div>
+                        </div>
                         <div className="h-[90px] relative pt-8 pl-5">
                             <img
                                 src="/TripInLogo.svg"
@@ -87,6 +93,7 @@ const Home = ({ credit, username, user_id }) => {
                             <p className="text-orange">
                                 {credit} Credit Points
                             </p>
+                            <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 hover:translate-x-2"></ChevronRightIcon>
                         </a>
                         <button className="text-white bg-primary2 py-2 rounded-lg  mb-8 w-full">
                             Booking

@@ -93,6 +93,7 @@ const Booking = () => {
     function handleCityOptions(city) {
         setSelectedCity(city);
         setCityValue(city);
+        setOrigin("select origin"); // Reset origin when city changes
         setIsCityOptionsHidden(true); // Hide city options after selection
     }
 
@@ -102,13 +103,23 @@ const Booking = () => {
         setIsSeatsOptionHidden(true); // Hide seat options after selection
     }
 
+    const handleOriginSelect = () => {
+        // Only allow selecting origin if a city is selected
+        if (cityValue !== "Select a city") {
+            setIsSelectOrigin(true);
+        } else {
+            // Optionally, show an error or alert
+            alert("Please select a city first");
+        }
+    };
+
     return (
         <>
             {!isSelectOrigin ? (
                 <div className="flex justify-center">
                     <div className="lg:w-[400px] w-full bg-primary">
                         <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary ">
-                            <ChevronLeftIcon className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"></ChevronLeftIcon>
+                            <ChevronLeftIcon onClick={() => window.location.href = '/home'} className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"></ChevronLeftIcon>
                             <p className="w-fit text-2xl font-medium text-white mx-2 cursor-default select-none">
                                 Booking
                             </p>
@@ -189,7 +200,7 @@ const Booking = () => {
                                 {/* Select Origin */}
                                 <div
                                     className="flex mt-5 relative items-center cursor-pointer"
-                                    onClick={() => setIsSelectOrigin(true)}
+                                    onClick={handleOriginSelect}
                                 >
                                     <img
                                         src="/select-origin.svg"

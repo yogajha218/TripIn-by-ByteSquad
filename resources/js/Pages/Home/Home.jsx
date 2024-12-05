@@ -95,7 +95,9 @@ const Home = ({ credit, username, user_id }) => {
                             </p>
                             <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 hover:translate-x-2"></ChevronRightIcon>
                         </a>
-                        <button className="text-white bg-primary2 py-2 rounded-lg  mb-8 w-full">
+                        <button
+                        onClick={() => window.location.href = route('booking.index')}
+                        className="text-white bg-primary2 py-2 rounded-lg  mb-8 w-full">
                             Booking
                         </button>
 

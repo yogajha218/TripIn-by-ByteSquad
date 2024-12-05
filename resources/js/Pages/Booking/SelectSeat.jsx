@@ -82,7 +82,7 @@ const SelectSeat = ({plate, seatLimit}) => {
                 alert(error.message);
             }
 
-            
+
         } catch(error){
             // Handle specific error scenarios
             if (error.response) {
@@ -122,9 +122,9 @@ const SelectSeat = ({plate, seatLimit}) => {
                             {/* Title Page */}
                             <p className='text-3xl font-extrabold'>Select Seat</p>
                             {/* Destination */}
-                            <p className='text-lg font-semibold'>Jakarta - Bandung</p>
+                            <p className='text-lg font-semibold'></p>
                         </div>
-                        
+
                     </div>
                     {/* Seat Information */}
                     <div className="flex justify-center mt-10">
@@ -135,7 +135,7 @@ const SelectSeat = ({plate, seatLimit}) => {
                                 </div>
                                 <p className='ml-1.5 text-white text-center text-md font-bold'>Available</p>
                             </div>
-                            
+
                             {/* Filled */}
                             <div className="flex">
                                 <div className="w-[20px] h-[20px] bg-[#394867] border border-gray">
@@ -191,7 +191,7 @@ const SelectSeat = ({plate, seatLimit}) => {
                             Save
                         </button>
                     </div>
-                </form>   
+                </form>
             </div>
         </div>
     </div>

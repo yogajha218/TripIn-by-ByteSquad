@@ -40,7 +40,7 @@ const ConfirmationPage = ({ user, routeData, bookingData, seatNumber, seatCount}
   // Using data from props or default data
   const data = defaultData;
   const totalPrice = data.pricing.seatPrice * data.pricing.quantity;
-  defaultData.orderDetails.potentialPoints = totalPrice * 0.05;
+  defaultData.orderDetails.potentialPoints = totalPrice * 0.02;
 
   console.log('Received Route Data : ', routeData);
   console.log('Received Booking Data : ', bookingData);

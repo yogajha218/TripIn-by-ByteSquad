@@ -18,8 +18,7 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
                 <div className="lg:w-[400px] w-full bg-primary">
                     <div className="h-[108px] flex items-center  px-3 relative">
                         <ChevronLeftIcon
-                            strokeWidth={2}
-                            className="size-6 text-white cursor-pointer absolute"
+                            className="size-8 text-white cursor-pointer absolute"
                             aria-hidden="true"
                             onClick={() => {
                                 goBack();

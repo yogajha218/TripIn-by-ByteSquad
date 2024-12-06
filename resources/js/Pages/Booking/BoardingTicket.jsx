@@ -13,7 +13,7 @@ const BoardingTicket = ({booking, user}) => {
     departureDate : booking.trips[0].selected_day,
     departureCity : booking.trips[0].city,
     departureStation : booking.trips[0].origin,
-    arrivalTime : booking.trips[0].schedule.departure_time,
+    arrivalTime : booking.trips[0].schedule.arrival_time,
     arrivalDate : booking.trips[0].selected_day,
     arrivalCity : booking.trips[0].schedule.location.city,
     arrivalStation : booking.trips[0].schedule.location.name,

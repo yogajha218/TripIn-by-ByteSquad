@@ -156,7 +156,7 @@ class BookingController extends Controller
 
             $flattenedBookedSeats = [];
             foreach ($bookedSeats as $seats) {
-                $flattenedBookedSeats = array_merge($flattenedBookedSeats, $seats);
+                $flattenedBookedSeats = array_merge($flattenedBookedSeats, json_decode($seats));
             }
             // Return the booked seats
             return response()->json(['booked_seats' => $flattenedBookedSeats]);

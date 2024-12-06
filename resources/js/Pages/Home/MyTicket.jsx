@@ -23,6 +23,12 @@ const MyTicket = ({bookings}) => {
     },
   }));
 
+  const onClick = async (e, ticket_id) => {
+    e.preventDefault();
+    // console.log('selected booking_id', ticket_id);
+    window.location.href = `/ticket/${ticket_id}/boarding-ticket`;
+  }
+
   return (
     <div className="bg-white min-h-screen pb-16">
       {/* Header */}
@@ -48,7 +54,7 @@ const MyTicket = ({bookings}) => {
                   {ticket.plateNumber}
                 </span>
               </div>
-              <button onClick={() => window.location.href = route('boarding')} className="text-blue-400 bg-transparent text-sm">
+              <button onClick={(e) => onClick(e, ticket.id)} className="text-blue-400 bg-transparent text-sm">
                 View Details
               </button>
             </div>

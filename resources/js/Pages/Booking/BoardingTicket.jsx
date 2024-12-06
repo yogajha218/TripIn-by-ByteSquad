@@ -1,35 +1,39 @@
 import React from "react";
 // import { QRCodeSVG } from "qrcode.react";
 
-const getBadgeColor = (status) => {
-  switch (status.toLowerCase()) {
-    case "valid":
-      return "bg-green-100 text-green-800";
-    case "used":
-      return "bg-gray-100 text-gray-800";
-    case "expired":
-      return "bg-red-100 text-red-800";
-    default:
-      return "bg-gray-100 text-gray-800";
-  }
-};
+const BoardingTicket = ({booking, user}) => {
+  console.log('bookings : ', booking);
 
-const BoardingTicket = ({
-  status = "valid",
-  busName = "Shuttle Bus Tripin",
-  plateNumber = "B 1234 CD",
-  bookingCode = "728VAML",
-  departureTime = "10.00",
-  departureDate = "Sat, 10 Nov 2024",
-  departureCity = "Jakarta",
-  departureStation = "Kampung Rambutan",
-  arrivalTime = "12.45",
-  arrivalDate = "Sat, 10 Nov 2024",
-  arrivalCity = "Bandung",
-  arrivalStation = "Cileunyi",
-  passenger = "Jennifer Kim",
-  seatNumber = "5",
-}) => {
+  const tickets = {
+    status : booking.status,
+    busName : "Shuttle Bus Tripin",
+    plateNumber : booking.trips[0]?.schedule.vehicle.license_plate,
+    bookingCode : booking.booking_code,
+    departureTime : booking.trips[0].schedule.departure_time,
+    departureDate : booking.trips[0].selected_day,
+    departureCity : booking.trips[0].city,
+    departureStation : booking.trips[0].origin,
+    arrivalTime : booking.trips[0].schedule.departure_time,
+    arrivalDate : booking.trips[0].selected_day,
+    arrivalCity : booking.trips[0].schedule.location.city,
+    arrivalStation : booking.trips[0].schedule.location.name,
+    passenger : user ?? "user",
+    seatNumber : booking.trips[0]?.schedule.vehicle.seat_booking.seat_number,
+  };
+
+  const getBadgeColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "valid":
+        return "bg-green-100 text-green-800";
+      case "used":
+        return "bg-gray-100 text-gray-800";
+      case "expired":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-primary">
       {/* Header with centered title */}
@@ -47,9 +51,9 @@ const BoardingTicket = ({
           <div className="flex items-center mt-2">
             <span className="text-gray-600">Status: </span>
             <span
-              className={`${getBadgeColor(status)} px-2 py-0.5 rounded ml-1`}
+              className={`${getBadgeColor(tickets.status)} px-2 py-0.5 rounded ml-1`}
             >
-              {status}
+              {tickets.status}
             </span>
           </div>
         </div>
@@ -57,10 +61,10 @@ const BoardingTicket = ({
         {/* Bus Info */}
         <div className="mb-6">
           <div className="text-lg font-medium">
-            {busName} ({plateNumber})
+            {tickets.busName} ({tickets.plateNumber})
           </div>
           <div className="text-gray-600 text-sm">
-            Booking code : {bookingCode}
+            Booking code : {tickets.bookingCode}
           </div>
         </div>
 
@@ -72,8 +76,8 @@ const BoardingTicket = ({
           <div className="flex items-start mb-16 relative">
             {/* Time and Date */}
             <div className="w-36">
-              <div className="text-xl font-bold">{departureTime}</div>
-              <div className="text-sm text-gray-500">{departureDate}</div>
+              <div className="text-xl font-bold">{tickets.departureTime}</div>
+              <div className="text-sm text-gray-500">{tickets.departureDate}</div>
             </div>
 
             {/* Journey Line - Top Dot */}
@@ -83,8 +87,8 @@ const BoardingTicket = ({
 
             {/* City and Station */}
             <div className="flex-1 ml-9">
-              <div className="font-medium">{departureCity}</div>
-              <div className="text-sm text-gray-500">{departureStation}</div>
+              <div className="font-medium">{tickets.departureCity}</div>
+              <div className="text-sm text-gray-500">{tickets.departureStation}</div>
             </div>
           </div>
 
@@ -95,8 +99,8 @@ const BoardingTicket = ({
           <div className="flex items-start relative">
             {/* Time and Date */}
             <div className="w-32">
-              <div className="text-xl font-bold">{arrivalTime}</div>
-              <div className="text-sm text-gray-500">{arrivalDate}</div>
+              <div className="text-xl font-bold">{tickets.arrivalTime}</div>
+              <div className="text-sm text-gray-500">{tickets.arrivalDate}</div>
             </div>
 
             {/* Journey Line - Bottom Dot */}
@@ -106,8 +110,8 @@ const BoardingTicket = ({
 
             {/* City and Station */}
             <div className="flex-1 ml-5">
-              <div className="font-medium">{arrivalCity}</div>
-              <div className="text-sm text-gray-500">{arrivalStation}</div>
+              <div className="font-medium">{tickets.arrivalCity}</div>
+              <div className="text-sm text-gray-500">{tickets.arrivalStation}</div>
             </div>
           </div>
         </div>
@@ -118,11 +122,14 @@ const BoardingTicket = ({
           <div className="flex justify-between">
             <div>
               <div className="text-sm text-gray-500">Passenger</div>
-              <div className="font-medium mt-1">{passenger}</div>
+              <div className="font-medium mt-1">{tickets.passenger}</div>
             </div>
             <div>
               <div className="text-sm text-gray-500">
-                Seat Number: {seatNumber}
+                Seat Number:
+              </div>
+              <div className="font-medium mt-1">
+                {tickets.seatNumber}
               </div>
             </div>
           </div>
@@ -137,7 +144,7 @@ const BoardingTicket = ({
           <div className="text-sm mb-4">Scan this code</div>
           <div className="flex justify-center mb-6">
             <QRCodeSVG
-              value={`TRIPIN-${bookingCode}-${seatNumber}`}
+              value={`TRIPIN-${tickets.bookingCode}-${tickets.seatNumber}`}
               size={160}
               level="H"
             />

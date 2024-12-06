@@ -68,9 +68,6 @@ class BookingController extends Controller
         return Inertia::render('Booking/PaymentTerms');
     }
 
-    public function boardingTicketIndex(){
-        return Inertia::render('Booking/BoardingTicket');
-    }
 
     public function busScheduleIndex()
     {

@@ -10,5 +10,5 @@ Route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
 });
 
 Route::get('/ticket', [HomeController::class, 'ticketIndex']);
-Route::get('/boarding-ticket', [BookingController::class, 'boardingTicketIndex'])->name('boarding');
+Route::get('/ticket/{ticket_id}/boarding-ticket', [HomeController::class, 'boardingTicketIndex'])->name('boarding');
 

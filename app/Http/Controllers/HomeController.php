@@ -54,4 +54,22 @@ class HomeController extends Controller
         return Inertia::render('Home/MyTicket', ['bookings' => $bookings]);
     }
 
+    
+    public function boardingTicketIndex($bookingId){
+        $user = Auth::user();
+        FacadesLog::info('passed booking_id : ' . $bookingId);
+        try{
+            $bookings = Booking::with(['user', 'trips.schedule.vehicle.seat_booking', 'trips.schedule.location'])
+                ->where('user_id', $user->user_id)
+                ->where('booking_id', $bookingId) // Assuming you want bookings for the authenticated user
+                ->first();
+
+            FacadesLog::info('Selected Booking : ' . $bookings);    
+        }catch(\Exception $e){
+            FacadesLog::error('Error : ' . $e->getMessage());
+        }
+        
+        return Inertia::render('Booking/BoardingTicket', ['booking' => $bookings, 'user' => $user->username]);
+    }
+
 }

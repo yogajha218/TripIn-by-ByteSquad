@@ -30,4 +30,8 @@ class Vehicle extends Model
         return $this->hasMany(SeatBooking::class);
     }
 
+    public function seat_booking(){
+        return $this->belongsTo(SeatBooking::class, 'vehicle_id');
+    }
+
 }

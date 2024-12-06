@@ -117,14 +117,17 @@ const Booking = () => {
         <>
             {!isSelectOrigin ? (
                 <div className="flex justify-center">
-                    <div className="lg:w-[400px] w-full bg-primary">
+                    <div className="lg:w-[400px] w-full bg-primary ">
                         <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary ">
-                            <ChevronLeftIcon onClick={() => window.location.href = '/home'} className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"></ChevronLeftIcon>
+                            <ChevronLeftIcon
+                                onClick={() => (window.location.href = "/home")}
+                                className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
+                            ></ChevronLeftIcon>
                             <p className="w-fit text-2xl font-medium text-white mx-2 cursor-default select-none">
                                 Booking
                             </p>
                         </div>
-                        <div className="bg-white min-h-[100vh] w-full p-5 rounded-t-xl select-none">
+                        <div className="bg-white min-h-[100vh] w-full p-5 rounded-t-xl select-none relative">
                             {/* City Selection Dropdown */}
                             <form className="mt-8">
                                 <div className="flex relative items-center cursor-pointer ">
@@ -350,7 +353,8 @@ const Booking = () => {
                                     </div>
                                 </div>
                             </form>
-                            <div className="mt-80">
+
+                            <div className="fixed bottom-0 left-0 lg:left-1/2 lg:-translate-x-1/2  w-full lg:w-[380px] p-2">
                                 <ButtonComponent
                                     type="submit"
                                     buttonText={"Search"}

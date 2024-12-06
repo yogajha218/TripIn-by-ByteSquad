@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { format, parse, parseISO, set } from "date-fns";
+import { ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 // import Coins from '/Coins.svg';
 
@@ -136,191 +137,208 @@ const ConfirmationPage = ({
     };
 
     return (
-        <div className="min-h-screen bg-primary">
-            {/* Header */}
-            <div className="px-4 py-3 flex items-center text-white">
-                <img src="/backArrow.svg" className="w-6 h-6" />
-                <h1 className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4">
-                    Confirmation
-                </h1>
-            </div>
+        <>
+            <div className="lg:flex lg:justify-center">
+                <div className="min-h-screen bg-primary lg:max-w-[400px]">
+                    {/* Header */}
+                    <div className="px-4 py-3 flex items-center text-white">
+                        <ChevronLeftIcon className="size-8 text-white"></ChevronLeftIcon>
 
-            {/* Content */}
-            <div className="bg-gray-100 min-h-screen pt-4 px-6">
-                <h2 className="text-lg font-semibold mb-4">Order Details</h2>
-
-                {/* Shuttle Info Card */}
-                <div className="bg-white rounded-lg p-4 mb-4">
-                    <h3 className="font-medium mb-1">{data.busInfo.name}</h3>
-                    <p className="text-gray-600 text-sm mb-4">
-                        {data.busInfo.plateNumber}
-                    </p>
-
-                    {/* Time and Route - Improved Journey Section */}
-                    <div className="flex items-start gap-10">
-                        <div className="flex flex-col gap-10">
-                            <div>
-                                <p className="font-semibold">
-                                    {data.busInfo.departureTime}
-                                </p>
-                                <p className="text-xs text-gray-500">
-                                    {data.busInfo.departureDate}
-                                </p>
-                            </div>
-                            <div>
-                                <p className="font-semibold">
-                                    {data.busInfo.arrivalTime}
-                                </p>
-                                <p className="text-xs text-gray-500">
-                                    {data.busInfo.arrivalDate}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="relative flex flex-col items-center">
-                            <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
-                            <div className="w-0.5 h-20 bg-gray-300"></div>
-                            <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
-                        </div>
-
-                        <div className="flex flex-col gap-16">
-                            <p className="font-medium">{data.busInfo.from}</p>
-                            <p className="font-medium">{data.busInfo.to}</p>
-                        </div>
+                        <h1 className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4">
+                            Confirmation
+                        </h1>
                     </div>
-                </div>
 
-                {/* Order Name Card - Updated Layout */}
-                <div className="bg-white rounded-lg p-4 mb-4">
-                    <div className="flex justify-between items-center mb-2">
-                        <div>
+                    {/* Content */}
+                    <div className="bg-white min-h-screen pt-4 px-6">
+                        <h2 className="text-lg font-semibold mb-4">
+                            Order Details
+                        </h2>
+
+                        {/* Shuttle Info Card */}
+                        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 mb-4">
                             <h3 className="font-medium mb-1">
-                                {data.orderDetails.name}
+                                {data.busInfo.name}
                             </h3>
-                            <p className="text-gray-700">
-                                Seat x{data.orderDetails.totalSeats}
+                            <p className="text-gray-600 text-sm mb-4">
+                                {data.busInfo.plateNumber}
                             </p>
-                        </div>
-                        <div className="text-right">
-                            <p className="text-sm text-gray-500">Seat Number</p>
-                            <p className="font-medium">
-                                {data.orderDetails.seatNumber}
-                            </p>
-                        </div>
-                    </div>
-                    <div className="bg-gray-50 rounded p-2 text-sm">
-                        <p>
-                            Potential gain{" "}
-                            <span className="text-orange-500">
-                                {data.orderDetails.potentialPoints} CreditPoint
-                            </span>
-                        </p>
-                    </div>
-                </div>
 
-                {/* Exchange Points Toggle - With Functionality */}
-                <div className="bg-white rounded-lg p-4 mb-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <img src="#" alt="Credits" className="h-4" />
-                            <span>
-                                Exchange {data.orderDetails.exchangePoints}{" "}
-                                CreditsPoint
-                            </span>
-                        </div>
-                        <button
-                            onClick={() =>
-                                setIsExchangeEnabled(!isExchangeEnabled)
-                            }
-                            className={`w-12 h-6 rounded-full transition-colors duration-200 ease-in-out relative ${
-                                isExchangeEnabled
-                                    ? "bg-orange-500"
-                                    : "bg-gray-200"
-                            }`}
-                        >
-                            <div
-                                className={`w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ease-in-out absolute top-0.5 ${
-                                    isExchangeEnabled
-                                        ? "translate-x-6"
-                                        : "translate-x-0.5"
-                                }`}
-                            />
-                        </button>
-                    </div>
-                </div>
+                            {/* Time and Route - Improved Journey Section */}
+                            <div className="flex items-start gap-10">
+                                <div className="flex flex-col gap-10">
+                                    <div>
+                                        <p className="font-semibold">
+                                            {data.busInfo.departureTime}
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            {data.busInfo.departureDate}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">
+                                            {data.busInfo.arrivalTime}
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            {data.busInfo.arrivalDate}
+                                        </p>
+                                    </div>
+                                </div>
 
-                {/* Payment Method - With Dropdown */}
-                <div className="bg-white rounded-lg p-4 mb-4">
-                    <h3 className="font-medium mb-2">Payment Method</h3>
-                    <div
-                        className="relative"
-                        onClick={() =>
-                            setIsPaymentDropdownOpen(!isPaymentDropdownOpen)
-                        }
-                    >
-                        <div className="flex items-center justify-between p-2 border rounded cursor-pointer">
-                            <div className="flex items-center gap-2">
-                                <img
-                                    src="/Gopay.svg"
-                                    alt="GoPay"
-                                    className="w-6 h-6"
-                                />
-                                <span>GoPay</span>
-                            </div>
-                            <img
-                                src="/downarrow.svg"
-                                className={`w-5 h-5 transition-transform duration-200 ${
-                                    isPaymentDropdownOpen
-                                        ? "transform rotate-180"
-                                        : ""
-                                }`}
-                            />
-                        </div>
-                        {isPaymentDropdownOpen && (
-                            <div className="absolute w-full bg-white border rounded-lg mt-1 shadow-lg z-10">
-                                <div className="p-2 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                                    <img
-                                        src="/Gopay.svg"
-                                        alt="GoPay"
-                                        className="w-6 h-6"
-                                    />
-                                    <span>GoPay</span>
+                                <div className="relative flex flex-col items-center">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
+                                    <div className="w-0.5 h-20 bg-gray-300"></div>
+                                    <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
+                                </div>
+
+                                <div className="flex flex-col gap-16">
+                                    <p className="font-medium">
+                                        {data.busInfo.from}
+                                    </p>
+                                    <p className="font-medium">
+                                        {data.busInfo.to}
+                                    </p>
                                 </div>
                             </div>
-                        )}
-                    </div>
-                </div>
+                        </div>
 
-                {/* Price Details */}
-                <div className="bg-white rounded-lg p-4 mb-20">
-                    <h3 className="font-medium mb-2">Price Details</h3>
-                    <div className="flex justify-between mb-2">
-                        <p>Seat (x1)</p>
-                        <p>{formatCurrency(data.pricing.seatPrice)}</p>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                        <p>Total seat</p>
-                        <p>(x{data.pricing.quantity})</p>
-                    </div>
-                    <div className="flex justify-between font-semibold pt-2 border-t">
-                        <p>Total Price</p>
-                        <p>{formatCurrency(totalPrice)}</p>
-                    </div>
-                </div>
+                        {/* Order Name Card - Updated Layout */}
+                        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 mb-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <div>
+                                    <h3 className="font-medium mb-1">
+                                        {data.orderDetails.name}
+                                    </h3>
+                                    <p className="text-gray-700">
+                                        Seat x{data.orderDetails.totalSeats}
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm text-gray-500">
+                                        Seat Number
+                                    </p>
+                                    <p className="font-medium">
+                                        {data.orderDetails.seatNumber}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex justify-between bg-gray-50 rounded p-2 text-sm">
+                                <p className="self-start">Potential gain </p>
+                                <p className="text-orange-500 self-end">
+                                    {`${data.orderDetails.potentialPoints} CP`}
+                                </p>
+                            </div>
+                        </div>
 
-                {/* Order Button */}
-                <div className="fixed bottom-0 left-0 right-0 p-4 bg-white">
-                    <button
-                        className="w-full bg-[#2d3748] text-white py-3 rounded-lg font-semibold"
-                        onClick={handleSubmit}
-                    >
-                        ORDER NOW
-                    </button>
+                        {/* Exchange Points Toggle - With Functionality */}
+                        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 mb-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <img
+                                        src="/credit.svg"
+                                        alt="Credits"
+                                        className="h-4"
+                                    />
+                                    <span>
+                                        {`Exchange ${data.orderDetails.potentialPoints} CP`}
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={() =>
+                                        setIsExchangeEnabled(!isExchangeEnabled)
+                                    }
+                                    className={`w-12 h-6 rounded-full transition-colors duration-200 ease-in-out relative ${
+                                        isExchangeEnabled
+                                            ? "bg-orange-500"
+                                            : "bg-gray-200"
+                                    }`}
+                                >
+                                    <div
+                                        className={`w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ease-in-out absolute top-0.5 ${
+                                            isExchangeEnabled
+                                                ? "translate-x-6"
+                                                : "translate-x-0.5"
+                                        }`}
+                                    />
+                                </button>
+                            </div>
+                        </div>
 
-                    {snapToken && <p>Snap Token: {snapToken}</p>}
+                        {/* Payment Method - With Dropdown */}
+                        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 mb-4">
+                            <h3 className="font-medium mb-2">Payment Method</h3>
+                            <div
+                                className="relative"
+                                onClick={() =>
+                                    setIsPaymentDropdownOpen(
+                                        !isPaymentDropdownOpen
+                                    )
+                                }
+                            >
+                                <div className="flex items-center justify-between p-2 border rounded cursor-pointer">
+                                    <div className="flex items-center gap-2">
+                                        <img
+                                            src="/gopay_icon.svg"
+                                            alt="GoPay"
+                                            className="w-6 h-6"
+                                        />
+                                        <span>GoPay</span>
+                                    </div>
+                                    <ChevronDownIcon
+                                        className={`size-5 text-black transition-transform duration-200 ${
+                                            isPaymentDropdownOpen
+                                                ? "transform rotate-180"
+                                                : ""
+                                        }`}
+                                    />
+                                </div>
+                                {isPaymentDropdownOpen && (
+                                    <div className="absolute w-full bg-white border rounded-lg mt-1 shadow-lg z-10">
+                                        <div className="p-2 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
+                                            <img
+                                                src="/gopay_icon.svg"
+                                                alt="GoPay"
+                                                className="w-6 h-6"
+                                            />
+                                            <span>GoPay</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Price Details */}
+                        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 mb-20">
+                            <h3 className="font-medium mb-2">Price Details</h3>
+                            <div className="flex justify-between mb-2">
+                                <p>Seat (x1)</p>
+                                <p>{formatCurrency(data.pricing.seatPrice)}</p>
+                            </div>
+                            <div className="flex justify-between mb-2">
+                                <p>Total seat</p>
+                                <p>(x{data.pricing.quantity})</p>
+                            </div>
+                            <div className="flex justify-between font-semibold pt-2 border-t">
+                                <p>Total Price</p>
+                                <p>{formatCurrency(totalPrice)}</p>
+                            </div>
+                        </div>
+
+                        {/* Order Button */}
+                        <div className="fixed bottom-0 left-0 lg:translate-x-[-50%] lg:left-1/2 right-0 p-4 bg-white lg:w-[400px]">
+                            <button
+                                className="w-full bg-[#2d3748] text-white py-3 rounded-lg font-semibold"
+                                onClick={handleSubmit}
+                            >
+                                ORDER NOW
+                            </button>
+
+                            {snapToken && <p>Snap Token: {snapToken}</p>}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

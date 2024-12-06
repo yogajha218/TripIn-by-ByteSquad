@@ -4,7 +4,7 @@ const popularDestinations = ["Jakarta", "Bali", "Bandung", "Yogyakarta"];
 const CarouselDashboard = () => {
     return (
         <>
-            <div className="flex lg:w-full h-[120px]   overflow-scroll flex-nowrap  gap-2 flex-row items-center hide-scrollbar">
+            <div className="flex lg:w-full h-[120px]   overflow-scroll flex-nowrap  gap-2 flex-row items-center hide-scrollbar scroll-smooth">
                 {popularDestinations.map((destination, index) => (
                     <div
                         key={index}

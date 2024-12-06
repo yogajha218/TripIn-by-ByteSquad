@@ -18,6 +18,10 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
+    public function notificationIndex(){
+        return Inertia::render('Home/Notification');
+    }
+
     // Menampilkan halaman home
     public function homeIndex(){
         session()->forget('bookingCode');

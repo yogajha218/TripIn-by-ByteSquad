@@ -41,8 +41,8 @@ const Tracking = ({
 }) => {
     return (
         <>
-            <div className="flex justify-center">
-                <div className="flex flex-col h-screen bg-white lg:w-[400px] mb-14">
+            <div className="lg:flex lg:justify-center">
+                <div className=" h-screen bg-white lg:w-[400px] mb-14">
                     {/* Header */}
                     <div className="bg-primary p-6">
                         <h1 className="text-2xl font-bold text-white text-center">

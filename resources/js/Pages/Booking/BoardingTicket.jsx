@@ -1,5 +1,5 @@
 import React from "react";
-// import { QRCodeSVG } from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 
 const BoardingTicket = ({booking, user}) => {
   console.log('bookings : ', booking);
@@ -140,7 +140,7 @@ const BoardingTicket = ({booking, user}) => {
          {/* TODO : QR Code Usage? */}
          
         {/* QR Code */}
-        {/* <div className="pt-6 text-center">
+        <div className="pt-6 text-center">
           <div className="text-sm mb-4">Scan this code</div>
           <div className="flex justify-center mb-6">
             <QRCodeSVG
@@ -149,7 +149,7 @@ const BoardingTicket = ({booking, user}) => {
               level="H"
             />
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomeController;
 use illuminate\Support\Facades\Route;
 
@@ -9,3 +10,5 @@ Route::group(['prefix' => 'home', 'middleware' => 'isLogin'], function(){
 });
 
 Route::get('/ticket', [HomeController::class, 'ticketIndex']);
+Route::get('/boarding-ticket', [BookingController::class, 'boardingTicketIndex'])->name('boarding');
+

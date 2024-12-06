@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Location;
+use App\Models\Schedule;
 use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Http\Request;
@@ -36,13 +38,19 @@ class HomeController extends Controller
 
     public function ticketIndex(){
         $user = Auth::user();
-        $bookings = Booking::with('user')
-            ->with('trips')
-            ->with('vehicles')
-            ->get();
-        
-        FacadesLog::info('Booking : ' . $bookings);
 
+        try{
+
+            $bookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])
+                ->where('user_id', $user->user_id) // Assuming you want bookings for the authenticated user
+                ->get();          
+   
+            FacadesLog::info('User : ' . $user);
+            FacadesLog::info('Booking : ' . $bookings);
+        } catch(\Exception $e){
+            FacadesLog::error('Error : ' . $e->getMessage());
+        }
+    
         return Inertia::render('Home/MyTicket', ['bookings' => $bookings]);
     }
 

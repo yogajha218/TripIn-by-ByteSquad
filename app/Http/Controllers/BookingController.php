@@ -231,7 +231,9 @@ class BookingController extends Controller
                 'departure_date' => date('Y-m-d', strtotime(session('bookingData.selectedDay'))),
                 'seat_number' => session('seatNumber'),
                 'route_id' => $routeId,
-                'city_value' => session('bookingData.cityValue'),
+                'origin' => session('bookingData.origin'),
+                'selected_day' => session('bookingData.selectedDay'),
+                'city' => session('bookingData.cityValue'),
             ]]);
 
             Session::forget('seat_done');
@@ -284,9 +286,11 @@ class BookingController extends Controller
             }
 
             Trip::create([
-                'origin' => $tempBooking['city_value'],
+                'origin' => $tempBooking['origin'],
+                'city' => $tempBooking['city'],
                 'booking_id' => $booking->booking_id,
                 'route_id' => $tempBooking['route_id'],
+                'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
             ]);
 
                 Payment::create([

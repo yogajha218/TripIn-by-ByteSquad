@@ -36,5 +36,4 @@ Route::group(['prefix' => '/booking', 'middleware' => 'isLogin'], function(){
 
 });
 Route::get('/payment-terms', [BookingController::class, 'paymentTermsIndex']);
-Route::get('/boarding-ticket', [BookingController::class, 'boardingTicketIndex']);
 

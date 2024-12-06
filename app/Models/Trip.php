@@ -13,6 +13,8 @@ class Trip extends Model
         'origin', 
         'booking_id', 
         'route_id',
+        'selected_day',
+        'city',
     ];
 
     public function user()
@@ -23,5 +25,9 @@ class Trip extends Model
     public function booking()
     {
         return $this->belongsTo(Booking::class, 'booking_id');
+    }
+
+    public function schedule(){
+        return $this->belongsTo(Schedule::class, 'route_id');
     }
 }

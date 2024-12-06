@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id('trip_id')->autoIncrement();
+            $table->string('city');
             $table->string('origin');
+            $table->date('selected_day');
             $table->unsignedBigInteger('booking_id');
             $table->unsignedBigInteger('route_id');
 

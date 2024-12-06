@@ -2,46 +2,26 @@ import React from 'react';
 import { Ticket, CircleDot } from 'lucide-react';
 
 const MyTicket = ({bookings}) => {
-  console.log(bookings);
+  console.log("Bookings : ", bookings);
 
-  const tickets = [
-    {
-      id: bookings.booking_id,
-      plateNumber: 'B 1234 XYZ',
-      bookingCode: '728VAML',
-      isPaid: true,
-      departure: {
-        time: '10.00',
-        date: 'Sat, 10 Nov 2024',
-        city: 'Jakarta',
-        terminal: 'Kampung Rambutan'
-      },
-      arrival: {
-        time: '12.45',
-        date: 'Sat, 10 Nov 2024',
-        city: 'Bandung',
-        terminal: 'Cileunyi'
-      }
+  const tickets = bookings.map((booking) => ({
+    id: booking.booking_id,
+    plateNumber: booking.trips[0]?.schedule.vehicle.license_plate,
+    bookingCode: booking.booking_code,
+    isPaid: true,
+    departure: {
+      time: booking.trips[0]?.schedule.departure_time,
+      date: booking.trips[0]?.selected_day,
+      city: booking.trips[0]?.city,
+      place: booking.trips[0]?.origin,
     },
-    {
-      id: bookings.booking_id,
-      plateNumber: 'D 5678 ABC',
-      bookingCode: '729VAML',
-      isPaid: true,
-      departure: {
-        time: '14.00',
-        date: 'Sat, 10 Nov 2024',
-        city: 'Bandung',
-        terminal: 'Cileunyi'
-      },
-      arrival: {
-        time: '16.45',
-        date: 'Sat, 10 Nov 2024',
-        city: 'Jakarta',
-        terminal: 'Kampung Rambutan'
-      }
-    }
-  ];
+    arrival: {
+      time: booking.trips[0]?.schedule.arrival_time,
+      date: booking.trips[0]?.selected_day,
+      city: booking.trips[0]?.schedule.location.city,
+      place: booking.trips[0]?.schedule.location.name,
+    },
+  }));
 
   return (
     <div className="bg-white min-h-screen pb-16">
@@ -68,7 +48,7 @@ const MyTicket = ({bookings}) => {
                   {ticket.plateNumber}
                 </span>
               </div>
-              <button className="text-blue-400 bg-transparent text-sm">
+              <button onClick={() => window.location.href = route('boarding')} className="text-blue-400 bg-transparent text-sm">
                 View Details
               </button>
             </div>
@@ -90,7 +70,7 @@ const MyTicket = ({bookings}) => {
                   <div className="text-sm text-gray-500">{ticket.departure.date}</div>
                   <div className="mt-2">
                     <div className="font-medium">{ticket.departure.city}</div>
-                    <div className="text-sm text-gray-500">{ticket.departure.terminal}</div>
+                    <div className="text-sm text-gray-500">{ticket.departure.place}</div>
                   </div>
                 </div>
               </div>
@@ -106,7 +86,7 @@ const MyTicket = ({bookings}) => {
                   <div className="text-sm text-gray-500">{ticket.arrival.date}</div>
                   <div className="mt-2">
                     <div className="font-medium">{ticket.arrival.city}</div>
-                    <div className="text-sm text-gray-500">{ticket.arrival.terminal}</div>
+                    <div className="text-sm text-gray-500">{ticket.arrival.place}</div>
                   </div>
                 </div>
               </div>

@@ -1,15 +1,19 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect,useEffect, useState } from "react";
 import { BellIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/navbarTripin";
 
-const Home = ({ credit, username, user_id }) => {
+const Home = ({ credit, username, user_id, booking }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
-    const [todayTripCardProp, setTodayTripCardProp] = useState({});
+    const [todayTripCardProp, setTodayTripCardProp] = useState([]);
     const [upcomingTripsCardProp, setUpcomingTripsCardProp] = useState({});
+    const {todays, upcomings} = booking; // Destructure the booking props (from backend) to get today and upcoming
+
+    console.log("Today Booking : ", todays); // Debug data today 
+    console.log("Upcoming Booking : ", upcomings); // Debug data upcoming
 
     function checkIsCardDataEmpty(datas, setTrip, setVisible) {
         if (Object.keys(datas).length !== 0) {
@@ -18,25 +22,30 @@ const Home = ({ credit, username, user_id }) => {
         }
     }
 
-    useLayoutEffect(() => {
-        // Dummy data for today's and upcoming trips
-        const todayCardProp = {
+    const todayCardProp = todays.map((today) => ({
+            id: today.booking_id,
             name: "Shuttle Bus Tripi",
-            plateNumber: "BHXXX12345JJ",
-            origin: "Bandar Udara Internasional Haji Muhammad Sulaiman Sepinggan",
-            destination: "The Trans Luxury Hotel Bandung",
+            plateNumber: today.trips[0]?.schedule.vehicle.license_plate,
+            origin: today.trips[0]?.origin,
+            destination: today.trips[0]?.schedule.location.name,
             status: "On Trip",
-            price: "120.000/PAX",
-        };
+            price: today.price,
+        }));
 
-        const upcomingCardProp = {
+       
+        const upcomingCardProp = upcomings.map((upcoming) =>({
+            id: upcoming.booking_id,
             name: "Shuttle Bus Tripi",
-            plateNumber: "BHXXX12345JJ",
-            origin: "Bandar Udara Internasional Haji Muhammad Sulaiman Sepinggan",
-            destination: "The Trans Luxury Hotel Bandung",
+            plateNumber: upcoming.trips[0]?.schedule.vehicle.license_plate,
+            origin: upcoming.trips[0]?.origin,
+            destination: upcoming.trips[0]?.schedule.location.name,
             status: "On Trip",
-            price: "120.000/PAX",
-        };
+            price: upcoming.price,
+        }));
+
+    useEffect(() => {
+        // Dummy data for today's and upcoming trips
+        
 
         checkIsCardDataEmpty(
             todayCardProp,
@@ -48,7 +57,7 @@ const Home = ({ credit, username, user_id }) => {
             setUpcomingTripsCardProp,
             setIsUpcomingTripAvailable
         );
-    }, []); // Run effect when users data changes
+    }, [booking]); // Run effect when users data changes
 
     return (
         <>
@@ -110,13 +119,15 @@ const Home = ({ credit, username, user_id }) => {
                         <div className="font-semibold text-black mb-5">
                             Today's Trip
                         </div>
+                        
                         <div className="flex justify-center">
                             {isTripAvailable ? (
-                                <CardComponent CardProp={todayTripCardProp} />
+                                <CardComponent CardProp={todayCardProp} />
                             ) : (
                                 <div>none</div>
                             )}
                         </div>
+                        
 
                         <div className="font-semibold text-orange my-5">
                             Upcoming's Trip
@@ -124,7 +135,7 @@ const Home = ({ credit, username, user_id }) => {
                         <div className="flex justify-center mb-10">
                             {isUpcomingTripAvailable ? (
                                 <CardComponent
-                                    CardProp={upcomingTripsCardProp}
+                                    CardProp={upcomingCardProp}
                                 />
                             ) : (
                                 <div className="pb-9 justify-center items-center flex flex-col">

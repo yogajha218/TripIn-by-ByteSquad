@@ -22,17 +22,40 @@ class HomeController extends Controller
     public function homeIndex(){
         session()->forget('bookingCode');
         $user = Auth::user();  
+        $currentDate = now()->format('Y-m-d');
         Session::forget([
             'booking_done',
             'schedule_done',
             'seat_done',
             'order_done',
         ]);
+
+        $todayBookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])
+            ->where('user_id', $user->user_id) // Assuming you want bookings for the authenticated user
+            ->whereHas('trips', function($query) use ($currentDate){
+                $query->where('selected_day', $currentDate);
+            })
+            ->get(); 
+
+        $upcomingBookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])
+            ->where('user_id', $user->user_id) // Assuming you want bookings for the authenticated user
+            ->whereHas('trips', function($query) use ($currentDate){
+                $query->where('selected_day', '>' , $currentDate);
+            })
+            ->get();
+
+        FacadesLog::info('Today Bookings: ' . $todayBookings);
+        FacadesLog::info('Upcoming Bookings: ' . $upcomingBookings);
+        FacadesLog::info(now()->format('Y-m-d'));
         
         return Inertia::render('Home/Home', [
             'credit' => $user->credit->credit_amount, 
             'username' => $user->username,
-            'user_id' => $user->user_id
+            'user_id' => $user->user_id,
+            'booking' => [
+                'upcomings' => $upcomingBookings,
+                'todays' => $todayBookings,
+            ]
         ]);
     }
 

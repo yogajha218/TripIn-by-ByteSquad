@@ -234,6 +234,7 @@ class BookingController extends Controller
                 'origin' => session('bookingData.origin'),
                 'selected_day' => session('bookingData.selectedDay'),
                 'city' => session('bookingData.cityValue'),
+                'credit' => $request->credit,
             ]]);
 
             Session::forget('seat_done');
@@ -260,6 +261,9 @@ class BookingController extends Controller
         ];
 
         try{
+            $user->credit->credit_amount += $tempBooking['credit'];
+            $user->credit->save();
+
             $booking = Booking::create([
             'seat_total' => $tempBooking['seat_count'],
             'booking_time' => now(),

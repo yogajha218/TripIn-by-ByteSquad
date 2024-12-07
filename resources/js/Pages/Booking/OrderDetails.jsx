@@ -75,6 +75,7 @@ const ConfirmationPage = ({
                 "/booking/order-detail/store",
                 {
                     amount: totalPrice,
+                    credit: defaultData.orderDetails.potentialPoints,
                 },
                 {
                     headers: {

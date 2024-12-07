@@ -16,6 +16,11 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
     console.log("Upcoming Booking : ", upcomings); // Debug data upcoming
     console.log("Notif Status: ", notification_status); // Debug data credit
 
+    const formattedCredit = new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(credit);
+
     function checkIsCardDataEmpty(datas, setTrip, setVisible) {
         if (Object.keys(datas).length !== 0) {
             setVisible(true);
@@ -102,7 +107,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                                 alt="CreditIcon"
                             />
                             <p className="text-orange">
-                                {credit} Credit Points
+                                {formattedCredit} Credit Points
                             </p>
                             <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 hover:translate-x-2"></ChevronRightIcon>
                         </a>

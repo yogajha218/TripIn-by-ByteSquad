@@ -307,7 +307,7 @@ class BookingController extends Controller
             ];
             
             Notification::send($user, new paymentCompleted($ticketDetails));
-            $notification = $user->notifications->latest()->first();
+            $notification = $user->notifications->sortByDesc('created_at')->first();
             if ($notification) {
                 // Dispatch the delete job
                 DeleteNotificationJob::dispatch($notification->id)->delay(now()->addMinutes(5));

@@ -1,7 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { format } from "date-fns";
 
 const NotificationPage = ({ notifications }) => {
+  useEffect(() => {
+    // Call API to mark all notifications as read
+    const markAllAsRead = async () => {
+      try {
+        await axios.post('/notifications/read'); // Adjust the endpoint as needed
+        console.log('All notifications marked as read.');
+      } catch (error) {
+        console.error('Error marking notifications as read:', error);
+      }
+    };
+
+    markAllAsRead();
+  }, []);
+
   return (
     <div className="min-h-screen bg-primary">
       {/* Header */}

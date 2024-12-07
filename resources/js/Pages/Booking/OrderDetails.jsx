@@ -10,6 +10,7 @@ const ConfirmationPage = ({
     bookingData,
     seatNumber,
     seatCount,
+    credit,
 }) => {
     const [snapToken, setSnapToken] = useState(null);
 
@@ -37,7 +38,7 @@ const ConfirmationPage = ({
             seatNumber: seatNumber,
             totalSeats: bookingData.seatsValue,
             potentialPoints: null,
-            exchangePoints: 1000,
+            exchangePoints: credit,
         },
         pricing: {
             seatPrice: parseFloat(routeData[0]?.vehicles[0]?.pivot.price),
@@ -51,13 +52,17 @@ const ConfirmationPage = ({
 
     // Using data from props or default data
     const data = defaultData;
-    const totalPrice = data.pricing.seatPrice * data.pricing.quantity;
+    let totalPrice = data.pricing.seatPrice * data.pricing.quantity;
     defaultData.orderDetails.potentialPoints = totalPrice * 0.05;
+    let creditStatus = false;
 
-    console.log("Received Route Data : ", routeData);
-    console.log("Received Booking Data : ", bookingData);
-    console.log("Received user data :", user);
-    console.log("Received seat number :", seatNumber);
+
+    if(isExchangeEnabled){
+        creditStatus = true;
+        totalPrice = data.pricing.seatPrice * data.pricing.quantity - credit;
+    }
+
+    console.log(creditStatus);
 
     // Format currency
     const formatCurrency = (amount) => {
@@ -76,6 +81,7 @@ const ConfirmationPage = ({
                 {
                     amount: totalPrice,
                     credit: defaultData.orderDetails.potentialPoints,
+                    credit_status: creditStatus,
                 },
                 {
                     headers: {
@@ -241,7 +247,7 @@ const ConfirmationPage = ({
                                         className="h-4"
                                     />
                                     <span>
-                                        {`Exchange ${data.orderDetails.potentialPoints} CP`}
+                                        {`Exchange ${data.orderDetails.exchangePoints} CP`}
                                     </span>
                                 </div>
                                 <button

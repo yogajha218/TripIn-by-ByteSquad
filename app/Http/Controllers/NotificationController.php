@@ -19,11 +19,9 @@ class NotificationController extends Controller
     public function markAllAsRead()
     {
         $user = Auth::user();
-        FacadesLog::info('Latest Notification : ' . $user->notifications->sortByDesc('created_at')->first());
 
         try{
             $user->unreadNotifications->markAsRead();
-            FacadesLog::info('Notif Data: ' . $user->unreadNotifications);
         } catch(\Exception $e){
             FacadesLog::info('Error Notif : ' . $e->getMessage());
         }

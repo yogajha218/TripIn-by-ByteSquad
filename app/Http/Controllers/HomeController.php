@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
+use function PHPUnit\Framework\isEmpty;
+
 class HomeController extends Controller
 {
     public function notificationIndex(){
@@ -30,6 +32,17 @@ class HomeController extends Controller
         session()->forget('bookingCode');
         $user = Auth::user();  
         $currentDate = now()->format('Y-m-d');
+        $notification = $user->unreadNotifications;
+
+        if($notification->isEmpty()){
+            $notificationStatus = "read";
+        }else{
+            $notificationStatus = "unread";
+        }
+
+        FacadesLog::info('Notification: ' . $notification);
+        FacadesLog::info('Notification Status : ' . $notificationStatus);
+
         Session::forget([
             'booking_done',
             'schedule_done',
@@ -50,10 +63,6 @@ class HomeController extends Controller
                 $query->where('selected_day', '>' , $currentDate);
             })
             ->get();
-
-        FacadesLog::info('Today Bookings: ' . $todayBookings);
-        FacadesLog::info('Upcoming Bookings: ' . $upcomingBookings);
-        FacadesLog::info(now()->format('Y-m-d'));
         
         return Inertia::render('Home/Home', [
             'credit' => $user->credit->credit_amount, 
@@ -62,7 +71,8 @@ class HomeController extends Controller
             'booking' => [
                 'upcomings' => $upcomingBookings,
                 'todays' => $todayBookings,
-            ]
+            ],
+            'notification_status' => $notificationStatus,
         ]);
     }
 

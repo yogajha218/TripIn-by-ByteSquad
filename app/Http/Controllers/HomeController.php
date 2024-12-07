@@ -19,7 +19,10 @@ use Inertia\Inertia;
 class HomeController extends Controller
 {
     public function notificationIndex(){
-        return Inertia::render('Home/Notification');
+        $user = Auth::user();
+        $notification = $user->notifications;
+
+        return Inertia::render('Home/Notification', ['notifications' => $notification]);
     }
 
     // Menampilkan halaman home

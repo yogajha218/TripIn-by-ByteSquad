@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DeleteNotificationJob;
 use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Session;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Inertia\Inertia;
+use App\Notifications\paymentCompleted;
+use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
 {
@@ -247,6 +250,7 @@ class BookingController extends Controller
 
     public function finishPayment(Request $request){
         $tempBooking = session('temp_booking');
+        $user = Auth::user();
 
         $criteria = [
             'vehicle_id' => $tempBooking['vehicle_id'],
@@ -297,6 +301,18 @@ class BookingController extends Controller
                 'user_id' => $tempBooking['user_id'],
             ]);
 
+            $ticketDetails = [
+                'ticket_id' => $tempBooking['route_id'],
+                'amount' => $tempBooking['amount'],
+            ];
+            
+            Notification::send($user, new paymentCompleted($ticketDetails));
+            $notification = $user->notifications->latest()->first();
+            if ($notification) {
+                // Dispatch the delete job
+                DeleteNotificationJob::dispatch($notification->id)->delay(now()->addMinutes(5));
+            }
+
             session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
 
         } catch(\Exception $e){
@@ -320,4 +336,6 @@ class BookingController extends Controller
 
         return $bookingCode;
     }
+
+    
 }

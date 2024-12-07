@@ -64,6 +64,7 @@ const Home = ({ credit, username, user_id, booking }) => {
                     <div className="h-[222px] bg-primary rounded-b-3xl relative">
                         <div className="absolute top-8 right-5">
                             <BellIcon
+                                onClick={() => window.location.href = route('notification')}
                                 className={`size-8 text-white cursor-pointer relative z-40 `}
                             ></BellIcon>
                             <div className="rounded-full bg-primary2 size-2 absolute top-1 right-1 z-50"></div>

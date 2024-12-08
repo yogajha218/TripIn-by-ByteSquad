@@ -254,7 +254,27 @@ class BookingController extends Controller
     }
 
     public function finishPayment(Request $request){
+        $status = $request->input('status', 'cancelled');
+
+        // If payment is not successful, do not insert data
+        if ($status !== 'success') {
+            // Clear the temporary booking session
+            session()->forget(['seatCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
+
+            return response()->json([
+                'message' => 'Payment not completed',
+                'redirect' => route('home')
+            ]);
+        }
         $tempBooking = session('temp_booking');
+
+        if (!$tempBooking) {
+            return response()->json([
+                'message' => 'No booking data found',
+                'redirect' => route('home')
+            ]);
+        }
+
         $user = Auth::user();
 
         $criteria = [
@@ -265,7 +285,7 @@ class BookingController extends Controller
         ];
 
         try{
-            
+
             if($tempBooking['credit']['status'] == true){
                 $user->credit->credit_amount -= $user->credit->credit_amount;
             }
@@ -317,7 +337,7 @@ class BookingController extends Controller
                 'ticket_id' => $tempBooking['route_id'],
                 'amount' => $tempBooking['amount'],
             ];
-            
+
             Notification::send($user, new paymentCompleted($ticketDetails));
             $notification = $user->notifications->sortByDesc('created_at')->first();
             if ($notification) {
@@ -325,10 +345,11 @@ class BookingController extends Controller
                 DeleteNotificationJob::dispatch($notification->id)->delay(now()->addMinutes(5));
             }
 
-            session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
+            session()->forget(['seatCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
 
         } catch(\Exception $e){
             FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
+            session()->forget(['seatCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
         }
 
         return response()->json(['redirect' => route('home')]);
@@ -349,5 +370,5 @@ class BookingController extends Controller
         return $bookingCode;
     }
 
-    
+
 }

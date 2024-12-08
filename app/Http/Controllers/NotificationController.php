@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log as FacadesLog;
 
 class NotificationController extends Controller
 {
@@ -14,14 +16,16 @@ class NotificationController extends Controller
         return Inertia::render('Home/Notification');
     }
 
-    public function markAsRead(Request $request, $id)
+    public function markAllAsRead()
     {
-        $notification = Auth::user()->notifications->find($id);
+        $user = Auth::user();
 
-        if ($notification) {
-            $notification->markAsRead();
+        try{
+            $user->unreadNotifications->markAsRead();
+        } catch(\Exception $e){
+            FacadesLog::info('Error Notif : ' . $e->getMessage());
         }
 
-        return redirect()->back();
+        return response()->json(['message' => 'All notification marked as read']);
     }
 }

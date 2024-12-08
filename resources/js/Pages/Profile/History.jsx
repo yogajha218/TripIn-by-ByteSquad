@@ -60,7 +60,7 @@ const History = () => {
 
     return (
         <>
-            <div className="flex justify-center">
+            <div className="lg:flex lg:justify-center">
                 <div className="">
                     <header className="bg-primary h-[108px] w-full ">
                         <div className="flex text-white justify-center items-center relative  h-full ">

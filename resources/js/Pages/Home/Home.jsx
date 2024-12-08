@@ -4,7 +4,7 @@ import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/navbarTripin";
 
-const Home = ({ credit, username, user_id, booking }) => {
+const Home = ({ credit, username, user_id, booking, notification_status }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
@@ -14,6 +14,12 @@ const Home = ({ credit, username, user_id, booking }) => {
 
     console.log("Today Booking : ", todays); // Debug data today
     console.log("Upcoming Booking : ", upcomings); // Debug data upcoming
+    console.log("Notif Status: ", notification_status); // Debug data credit
+
+    const formattedCredit = new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(credit);
 
     function checkIsCardDataEmpty(datas, setTrip, setVisible) {
         if (Object.keys(datas).length !== 0) {
@@ -67,7 +73,9 @@ const Home = ({ credit, username, user_id, booking }) => {
                                 onClick={() => window.location.href = route('notification')}
                                 className={`size-8 text-white cursor-pointer relative z-40 `}
                             ></BellIcon>
-                            <div className="rounded-full bg-primary2 size-2 absolute top-1 right-1 z-50"></div>
+                            {notification_status == "unread" && (
+                                <div className="rounded-full bg-primary2 size-2 absolute top-1 right-1 z-50"></div>
+                            )}
                         </div>
                         <div className="h-[90px] relative pt-8 pl-5">
                             <img
@@ -99,7 +107,7 @@ const Home = ({ credit, username, user_id, booking }) => {
                                 alt="CreditIcon"
                             />
                             <p className="text-orange">
-                                {credit} Credit Points
+                                {formattedCredit} Credit Points
                             </p>
                             <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 hover:translate-x-2"></ChevronRightIcon>
                         </a>

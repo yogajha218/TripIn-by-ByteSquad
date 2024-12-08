@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
+use function PHPUnit\Framework\isEmpty;
+
 class HomeController extends Controller
 {
     public function notificationIndex(){
@@ -30,6 +32,14 @@ class HomeController extends Controller
         session()->forget('bookingCode');
         $user = Auth::user();  
         $currentDate = now()->format('Y-m-d');
+        $notification = $user->unreadNotifications;
+
+        if($notification->isEmpty()){
+            $notificationStatus = "read";
+        }else{
+            $notificationStatus = "unread";
+        }
+
         Session::forget([
             'booking_done',
             'schedule_done',
@@ -50,10 +60,6 @@ class HomeController extends Controller
                 $query->where('selected_day', '>' , $currentDate);
             })
             ->get();
-
-        FacadesLog::info('Today Bookings: ' . $todayBookings);
-        FacadesLog::info('Upcoming Bookings: ' . $upcomingBookings);
-        FacadesLog::info(now()->format('Y-m-d'));
         
         return Inertia::render('Home/Home', [
             'credit' => $user->credit->credit_amount, 
@@ -62,7 +68,8 @@ class HomeController extends Controller
             'booking' => [
                 'upcomings' => $upcomingBookings,
                 'todays' => $todayBookings,
-            ]
+            ],
+            'notification_status' => $notificationStatus,
         ]);
     }
 
@@ -74,9 +81,7 @@ class HomeController extends Controller
             $bookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])
                 ->where('user_id', $user->user_id) // Assuming you want bookings for the authenticated user
                 ->get();          
-   
-            FacadesLog::info('User : ' . $user);
-            FacadesLog::info('Booking : ' . $bookings);
+
         } catch(\Exception $e){
             FacadesLog::error('Error : ' . $e->getMessage());
         }
@@ -87,14 +92,12 @@ class HomeController extends Controller
     
     public function boardingTicketIndex($bookingId){
         $user = Auth::user();
-        FacadesLog::info('passed booking_id : ' . $bookingId);
         try{
             $bookings = Booking::with(['user', 'trips.schedule.vehicle.seat_booking', 'trips.schedule.location'])
                 ->where('user_id', $user->user_id)
                 ->where('booking_id', $bookingId) // Assuming you want bookings for the authenticated user
                 ->first();
 
-            FacadesLog::info('Selected Booking : ' . $bookings);    
         }catch(\Exception $e){
             FacadesLog::error('Error : ' . $e->getMessage());
         }

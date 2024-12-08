@@ -50,6 +50,7 @@ class BookingController extends Controller
             'user' => $user,
             'seatNumber' => $seatNumber,
             'seatCount' => session('seatCount'),
+            'credit' => $user->credit->credit_amount,
         ]);
     }
 
@@ -234,6 +235,10 @@ class BookingController extends Controller
                 'origin' => session('bookingData.origin'),
                 'selected_day' => session('bookingData.selectedDay'),
                 'city' => session('bookingData.cityValue'),
+                'credit' => [
+                    'amount' => $request->credit,
+                    'status' => $request->credit_status,
+                ],
             ]]);
 
             Session::forget('seat_done');
@@ -260,6 +265,13 @@ class BookingController extends Controller
         ];
 
         try{
+            
+            if($tempBooking['credit']['status'] == true){
+                $user->credit->credit_amount -= $user->credit->credit_amount;
+            }
+            $user->credit->credit_amount += $tempBooking['credit']['amount'];
+            $user->credit->save();
+
             $booking = Booking::create([
             'seat_total' => $tempBooking['seat_count'],
             'booking_time' => now(),
@@ -307,7 +319,7 @@ class BookingController extends Controller
             ];
             
             Notification::send($user, new paymentCompleted($ticketDetails));
-            $notification = $user->notifications->latest()->first();
+            $notification = $user->notifications->sortByDesc('created_at')->first();
             if ($notification) {
                 // Dispatch the delete job
                 DeleteNotificationJob::dispatch($notification->id)->delay(now()->addMinutes(5));

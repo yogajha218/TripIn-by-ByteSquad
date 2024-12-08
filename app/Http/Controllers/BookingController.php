@@ -254,28 +254,9 @@ class BookingController extends Controller
     }
 
     public function finishPayment(Request $request){
-        $status = $request->input('status', 'cancelled');
-
-        // If payment is not successful, do not insert data
-        if ($status !== 'success') {
-            // Clear the temporary booking session
-            session()->forget(['seatCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
-
-            return response()->json([
-                'message' => 'Payment not completed',
-                'redirect' => route('home')
-            ]);
-        }
         $tempBooking = session('temp_booking');
-
-        if (!$tempBooking) {
-            return response()->json([
-                'message' => 'No booking data found',
-                'redirect' => route('home')
-            ]);
-        }
-
         $user = Auth::user();
+
 
         $criteria = [
             'vehicle_id' => $tempBooking['vehicle_id'],
@@ -349,7 +330,6 @@ class BookingController extends Controller
 
         } catch(\Exception $e){
             FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
-            session()->forget(['seatCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
         }
 
         return response()->json(['redirect' => route('home')]);

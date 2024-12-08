@@ -19,12 +19,7 @@ const TestPayment = ({token}) => {
             // Use Midtrans Snap to show the payment modal
             window.snap.pay(snap_token, {
                 onSuccess: function (result) {
-                    axios.post(route('/order-detail/store/finish'), {
-                        status: 'success',
-                        result: result
-                    }).then(response => {
-                        alert('Payment Success! ' + JSON.stringify(result))
-                    });
+                    alert('Payment Success! ' + JSON.stringify(result));
                 },
                 onPending: function (result) {
                     alert('Payment Pending! ' + JSON.stringify(result));

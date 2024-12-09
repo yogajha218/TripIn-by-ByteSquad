@@ -164,7 +164,7 @@ class BookingController extends Controller
 
             $flattenedBookedSeats = [];
             foreach ($bookedSeats as $seats) {
-                $flattenedBookedSeats = array_merge($flattenedBookedSeats, json_decode($seats));
+                $flattenedBookedSeats = array_merge($flattenedBookedSeats, $seats);
             }
             // Return the booked seats
             return response()->json(['booked_seats' => $flattenedBookedSeats]);
@@ -260,6 +260,7 @@ class BookingController extends Controller
     public function finishPayment(Request $request){
         $tempBooking = session('temp_booking');
         $user = Auth::user();
+        FacadesLog::info('Seat Booked : ' . $tempBooking['seat_number']);
 
 
         $criteria = [
@@ -293,13 +294,13 @@ class BookingController extends Controller
             if ($existingBooking) {
                 // If there is an existing booking, merge the new seat numbers
                 $existingSeats = $existingBooking->seat_number;
-                $newSeats = array_merge($existingSeats, $tempBooking['seat_number']);
-                $existingBooking->seat_number = array_unique($newSeats);
+                $newSeats = array_merge($existingSeats, json_decode($tempBooking['seat_number']));
+                $existingBooking->seat_number = $newSeats;
                 $existingBooking->save();
             } else {
                 // If no existing booking, create a new seat booking
                 SeatBooking::create(array_merge($criteria, [
-                    'seat_number' => $tempBooking['seat_number'],
+                    'seat_number' => json_decode($tempBooking['seat_number']),
                 ]));
             }
 

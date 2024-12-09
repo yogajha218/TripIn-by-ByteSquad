@@ -44,7 +44,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
         plateNumber: upcoming.trips[0]?.schedule.vehicle.license_plate,
         origin: upcoming.trips[0]?.origin,
         destination: upcoming.trips[0]?.schedule.location.name,
-        status: "On Trip",
+        status: "Upcoming Trip",
         price: upcoming.price,
     }));
 

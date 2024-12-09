@@ -5,6 +5,22 @@ import NavbarTripin from "@/Components/NavbarTripin";
 const MyTicket = ({ bookings }) => {
     console.log("Bookings : ", bookings);
 
+    // Check if bookings is null or empty
+    // if (!bookings || bookings.length === 0) {
+    //     return (
+    //         <>
+    //             <div className="lg:flex lg:justify-center">
+    //                 <div className="bg-white min-h-screen pb-16 lg:w-[400px] flex items-center justify-center">
+    //                     <h1 className="text-xl font-semibold text-gray-600">
+    //                         No tickets available.
+    //                     </h1>
+    //                 </div>
+    //             </div>
+    //             <NavbarTripin pageInfo="TicketPage"></NavbarTripin>
+    //         </>
+    //     );
+    // }
+
     const tickets = bookings.map((booking) => ({
         id: booking.booking_id,
         plateNumber: booking.trips[0]?.schedule.vehicle.license_plate,

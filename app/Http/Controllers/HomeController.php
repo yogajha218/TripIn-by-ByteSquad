@@ -75,12 +75,18 @@ class HomeController extends Controller
 
     public function ticketIndex(){
         $user = Auth::user();
+        $bookings = []; // Initialize bookings as an empty array
 
         try{
 
             $bookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])
-                ->where('user_id', $user->user_id) // Assuming you want bookings for the authenticated user
-                ->get();          
+            ->where('user_id', $user->user_id)
+            ->whereHas('trips', function ($query) {
+                $query->where('is_expired', false); // Only include trips that are not expired
+            })
+            ->get();          
+
+            FacadesLog::info('Tiket Data : ' . $bookings);
 
         } catch(\Exception $e){
             FacadesLog::error('Error : ' . $e->getMessage());

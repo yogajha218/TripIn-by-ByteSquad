@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CheckIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 
 const PaymentStatus = ({user, booking}) => {
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
     const [paymentData, setPaymentData] = useState({
         user: user.username,
         gopayAccount: user.phone_number ?? "+62xxxxxxxxxxx",
@@ -27,6 +28,24 @@ const PaymentStatus = ({user, booking}) => {
         const hidden = number.slice(0, -4).replace(/./g, "x");
         return hidden + visible;
     };
+
+    // useEffect(() => {
+    //     const finishPayment = async () => {
+    //         try{
+    //             const response = await axios.post("/booking/order-detail/store/finish", {
+    //                 headers: {
+    //                     "X-CSRF-TOKEN": csrfToken,
+    //                 },
+    //             });
+
+    //             console.log("POST Response : ", response.data);
+    //         } catch (error){
+    //             console.log("Error with POST request " , error)
+    //         }
+    //     };
+
+    //     finishPayment();
+    // }, []);
 
     return (
         <>

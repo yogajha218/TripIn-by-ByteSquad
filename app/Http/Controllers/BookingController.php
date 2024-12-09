@@ -72,6 +72,10 @@ class BookingController extends Controller
         return Inertia::render('Booking/PaymentTerms');
     }
 
+    public function dummyIndex(){
+        return Inertia::render('Booking/Dummy');
+    }
+
 
     public function busScheduleIndex()
     {
@@ -215,7 +219,7 @@ class BookingController extends Controller
             'item_details' => $item_details,
             'customer_details' => $customer_details,
             'callbacks' => [
-                'finish' => route('order.status'), // Route where you want to redirect the user
+                'finish' => route('order.dummy'), // Route where you want to redirect the user
             ],
         ];
 

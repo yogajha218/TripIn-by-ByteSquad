@@ -19,7 +19,6 @@ Route::get('/', function(){
 Route::get('/faq', [BaseController::class, 'faqIndex']);
 Route::get('/privacy-policy', [BaseController::class, 'privacyIndex']);
 Route::get('/terms-condition', [BaseController::class, 'termsIndex']);
-Route::get('/tracking', [TrackingController::class, 'trackingIndex']);
 Route::get('/notification', [BaseController::class, 'notificationIndex']);
 
 

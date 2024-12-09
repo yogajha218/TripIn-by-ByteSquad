@@ -90,13 +90,6 @@ const ConfirmationPage = ({
                 }
             );
 
-            if (response.status == 200) {
-                await axios.post("/booking/order-detail/store/finish", {
-                    headers: {
-                        "X-CSRF-TOKEN": csrfToken,
-                    },
-                });
-            }
 
             const { snap_token } = response.data;
             console.log(snap_token);

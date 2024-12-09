@@ -12,6 +12,7 @@ class SeatBooking extends Model
     protected $fillable = [
         'vehicle_id',
         'location_id',
+        'trip_id',
         'seat_number',
         'departure_time',
         'departure_date',

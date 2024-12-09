@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id('seat_booking_id')->autoIncrement();
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->unsignedBigInteger('location_id')->nullable();
+            $table->unsignedBigInteger('trip_id');
             $table->json('seat_number')->nullable();
             $table->Time('departure_time')->nullable();
             $table->date('departure_date');
 
+            $table->foreign('trip_id')->references('trip_id')->on('trips');
             $table->foreign('vehicle_id')->references('vehicle_id')->on('vehicles')->onDelete('cascade');
             $table->foreign('location_id')->references('location_id')->on('locations')->onDelete('cascade');
         });

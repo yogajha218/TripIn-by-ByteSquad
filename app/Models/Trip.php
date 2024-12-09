@@ -8,13 +8,13 @@ class Trip extends Model
 {
     protected $primaryKey = 'trip_id';
     protected $table = 'trips';
-    public $timestamps = false;
     protected $fillable = [
         'origin', 
         'booking_id', 
         'route_id',
         'selected_day',
         'city',
+        'driver',
     ];
 
     public function user()
@@ -30,4 +30,10 @@ class Trip extends Model
     public function schedule(){
         return $this->belongsTo(Schedule::class, 'route_id');
     }
+
+    public function log(){
+        return $this->belongsTo(Log::class, 'trip_id');
+    }
+
+   
 }

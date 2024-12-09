@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id('log_id')->autoIncrement();
             $table->unsignedBigInteger('trip_id');
-            $table->unsignedBigInteger('payment_id');
+            $table->string('departure');
+            $table->string('arrival');
+            $table->date('departure_date');
+            $table->boolean('delete_seat')->default(false);
 
             $table->foreign('trip_id')->references('trip_id')->on('trips')->onDelete('cascade');
-            $table->foreign('payment_id')->references('payment_id')->on('payments')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

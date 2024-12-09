@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\DeleteNotificationJob;
+use App\Jobs\UpdateDayExpired;
 use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
@@ -179,6 +180,8 @@ class BookingController extends Controller
         $routeId = session('setRoute.selectedRoute.routeId');
         $vehicle = session('vehicle');
 
+        FacadesLog::info('Vehicle : ' . $vehicle);
+
         $location = Location::whereHas('vehicles', function($query) use ($routeId) {
             $query->where('route_id', $routeId);
                 })->with(['vehicles' => function($query) use ($routeId) {
@@ -243,6 +246,7 @@ class BookingController extends Controller
                     'amount' => $request->credit,
                     'status' => $request->credit_status,
                 ],
+                'driver' => $vehicle->driver->name,
             ]]);
 
             Session::forget('seat_done');
@@ -251,7 +255,7 @@ class BookingController extends Controller
             return response()->json(['snap_token' => $snap_token]);
 
         } catch (\Exception $e){
-            FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
+            FacadesLog::info('Error Inserting on Store Data : ' . $e->getMessage());
 
             return response()->json(['message', 'Something wrong, please try again later']);
         }
@@ -260,7 +264,8 @@ class BookingController extends Controller
     public function finishPayment(Request $request){
         $tempBooking = session('temp_booking');
         $user = Auth::user();
-        FacadesLog::info('Seat Booked : ' . $tempBooking['seat_number']);
+
+        FacadesLog::info('Driver : ' . $tempBooking['driver']);
 
         $criteria = [
             'vehicle_id' => $tempBooking['vehicle_id'],
@@ -278,15 +283,25 @@ class BookingController extends Controller
             $user->credit->save();
 
             $booking = Booking::create([
-            'seat_total' => $tempBooking['seat_count'],
-            'booking_time' => now(),
-            'status' => 'Valid',
-            'price' => $tempBooking['amount'],
-            'user_id' => $tempBooking['user_id'],
-            'booking_code' => $this->generateBookingCode(),
+                'seat_total' => $tempBooking['seat_count'],
+                'seat_number' => json_decode($tempBooking['seat_number']),
+                'booking_time' => now(),
+                'status' => 'Valid',
+                'price' => $tempBooking['amount'],
+                'user_id' => $tempBooking['user_id'],
+                'booking_code' => $this->generateBookingCode(),
             ]);
 
             session(["bookingCode" => $booking->booking_code]);
+
+            $trip = Trip::create([
+                'origin' => $tempBooking['origin'],
+                'city' => $tempBooking['city'],
+                'booking_id' => $booking->booking_id,
+                'route_id' => $tempBooking['route_id'],
+                'driver' => $tempBooking['driver'],
+                'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
+            ]);
 
             $existingBooking = SeatBooking::where($criteria)->first();
 
@@ -300,18 +315,11 @@ class BookingController extends Controller
                 // If no existing booking, create a new seat booking
                 SeatBooking::create(array_merge($criteria, [
                     'seat_number' => json_decode($tempBooking['seat_number']),
+                    'trip_id' => $trip->trip_id,
                 ]));
             }
 
-            Trip::create([
-                'origin' => $tempBooking['origin'],
-                'city' => $tempBooking['city'],
-                'booking_id' => $booking->booking_id,
-                'route_id' => $tempBooking['route_id'],
-                'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
-            ]);
-
-                Payment::create([
+            Payment::create([
                 'amount' => $tempBooking['amount'],
                 'payment_time' => now(),
                 'booking_id' => $booking->booking_id,
@@ -330,10 +338,12 @@ class BookingController extends Controller
                 DeleteNotificationJob::dispatch($notification->id)->delay(now()->addMinutes(5));
             }
 
+            UpdateDayExpired::dispatch();
+
             session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
 
         } catch(\Exception $e){
-            FacadesLog::info('Error Inserting on DB : ' . $e->getMessage());
+            FacadesLog::info('Error Inserting on Finish Payment : ' . $e->getMessage());
         }
 
         return response()->json(['redirect' => route('home')]);

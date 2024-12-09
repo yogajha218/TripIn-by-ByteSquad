@@ -16,9 +16,10 @@ return new class extends Migration
             $table->integer('seat_total');
             $table->timestamp('booking_time');
             $table->string('status');
-            $table->unsignedBigInteger('user_id');
             $table->decimal('price', 10, 2);
             $table->string('booking_code');
+            $table->unsignedBigInteger('user_id');
+            $table->json('seat_number');
 
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();

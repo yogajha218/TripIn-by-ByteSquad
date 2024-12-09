@@ -16,6 +16,15 @@ class Booking extends Model
         'user_id',
         'price',
         'booking_code',
+        'seat_number',
+    ];
+
+    protected $casts = [
+        'seat_number' => 'array',
+    ];
+
+    protected $attributes = [
+        'seat_number' => '[]',
     ];
 
     public function user()

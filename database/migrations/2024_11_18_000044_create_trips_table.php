@@ -18,7 +18,10 @@ return new class extends Migration
             $table->date('selected_day');
             $table->unsignedBigInteger('booking_id');
             $table->unsignedBigInteger('route_id');
+            $table->string('driver')->nullable();
             $table->boolean('is_expired')->default(false);
+            $table->timestamps();
+            
 
             $table->foreign('route_id')->references('route_id')->on('location_vehicle');
             $table->foreign('booking_id')->references('booking_id')->on('bookings');     

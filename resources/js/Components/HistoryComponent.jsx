@@ -1,18 +1,23 @@
 const HistoryComponent = ({ CardProp }) => {
     const handleClick = (id) => {
-        console.log('Clicked with log id : ', id);
+        console.log("Clicked with log id : ", id);
         window.location.href = `/profile/history/${id}/detail`;
     };
 
     return (
-        <div onClick={() => handleClick(CardProp.logId)} className="max-w-[395px] h-fit rounded-[10px] border border-[#8BAFCE80] bg-white">
+        <div
+            onClick={() => handleClick(CardProp.logId)}
+            className="max-w-[395px] h-fit rounded-[10px] border border-[#8BAFCE80] bg-white"
+        >
             <div className="flex px-4 pt-7 pb-3 justify-between items-center">
                 <div>
                     <img src="/shuttle_icon.svg" alt="shuttle_icon" />
                 </div>
                 <div className="flex-row justify-start items-start h-fit ml-2">
                     <h3 className="text-lg font-bold">{CardProp.name}</h3>
-                    <p className="text-black">Booking Code: {CardProp.bookingCode}</p>
+                    <p className="text-black">
+                        Booking Code: {CardProp.bookingCode}
+                    </p>
                 </div>
                 <div className="text-right">
                     <p className="text-sm text-primary">{CardProp.seat}</p>

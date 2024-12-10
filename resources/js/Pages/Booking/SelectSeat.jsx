@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Seats from "@/Components/Seats";
 import axios from "axios";
+<<<<<<< HEAD
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+=======
+>>>>>>> eed456d1502b28579def5666896c9d131765a934
 
 const SelectSeat = ({ plate, seatLimit }) => {
     const [selectedSeat, setSelectedSeat] = useState([]);
@@ -136,6 +139,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
     };
 
     return (
+<<<<<<< HEAD
         <>
             <div className="lg:flex lg:justify-center">
                 <div className="lg:max-w-[400px] md:min-w-[360px] mx-auto">
@@ -161,6 +165,21 @@ const SelectSeat = ({ plate, seatLimit }) => {
                                     {/* Destination */}
                                     <p className="text-lg font-semibold"></p>
                                 </div>
+=======
+        <div>
+            <div className="lg:max-w-[400px] md:min-w-[360px] mx-auto">
+                <div className=" min-h-screen relative min-w-[360px] bg-white">
+                    {/* Header */}
+                    <div className="h-[205px] bg-primary">
+                        <div className="mx-5 pt-14 flex">
+                            {/* Back Arrow */}
+                            <div className="ml-2">
+                                <img
+                                    src="/backArrow.svg"
+                                    alt="Back Arrow"
+                                    className="cursor-pointer"
+                                />
+>>>>>>> eed456d1502b28579def5666896c9d131765a934
                             </div>
                             {/* Seat Information */}
                             <div className="flex justify-center ">
@@ -173,6 +192,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
                                         </p>
                                     </div>
 
+<<<<<<< HEAD
                                     {/* Filled */}
                                     <div className="flex items-center">
                                         <div className="size-3 bg-primary2 border border-gray"></div>
@@ -187,11 +207,108 @@ const SelectSeat = ({ plate, seatLimit }) => {
                                         <p className="ml-1.5 text-white text-center text-sm font-semibold">
                                             Selected
                                         </p>
+=======
+                            {/* Title */}
+                            <div className="ml-[85px] text-white">
+                                {/* Title Page */}
+                                <p className="text-3xl font-extrabold">
+                                    Select Seat
+                                </p>
+                                {/* Destination */}
+                                <p className="text-lg font-semibold"></p>
+                            </div>
+                        </div>
+                        {/* Seat Information */}
+                        <div className="flex justify-center mt-10">
+                            <div className="flex flex-row gap-4 items-center">
+                                {/* Available */}
+                                <div className="flex">
+                                    <div className="w-[20px] h-[20px] bg-white border border-gray"></div>
+                                    <p className="ml-1.5 text-white text-center text-md font-bold">
+                                        Available
+                                    </p>
+                                </div>
+
+                                {/* Filled */}
+                                <div className="flex">
+                                    <div className="w-[20px] h-[20px] bg-[#394867] border border-gray"></div>
+                                    <p className="ml-1.5 text-white text-center text-md font-bold">
+                                        Filled
+                                    </p>
+                                </div>
+
+                                {/* Selected */}
+                                <div className="flex">
+                                    <div className="w-[20px] h-[20px] bg-[#009EF7] border border-gray"></div>
+                                    <p className="ml-1.5 text-white text-center text-md font-bold">
+                                        Selected
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleSubmit}>
+                        {/* Seats */}
+                        <div className="flex justify-center items-center">
+                            <div className="mt-[20px]">
+                                <div className="flex justify-center">
+                                    <h1 className="font-bold text-lg">
+                                        Seat Limit: {seatLimit}
+                                    </h1>
+                                </div>
+                                <div className="mt-3 w-[300px] h-[430px] bg-[#8BAFCE] rounded-[15px]">
+                                    <div className="flex flex-col items-center py-5">
+                                        <div className="grid grid-cols-4 gap-4 p-4">
+                                            {seats.map((seat, index) =>
+                                                seat.type ===
+                                                "steeringWheel" ? (
+                                                    <div
+                                                        key={index}
+                                                        className="w-12 h-12 flex items-center justify-center"
+                                                    >
+                                                        <img
+                                                            src="/steeringWheel.svg"
+                                                            alt="Steering Wheel"
+                                                            className="w-10 h-10"
+                                                        />
+                                                    </div>
+                                                ) : seat.type === "null" ? (
+                                                    <div
+                                                        key={index}
+                                                        className=""
+                                                    ></div>
+                                                ) : (
+                                                    <Seats
+                                                        key={index}
+                                                        number={seat.number}
+                                                        isBooked={
+                                                            Array.isArray(
+                                                                bookedSeats
+                                                            ) &&
+                                                            bookedSeats.includes(
+                                                                seat.number
+                                                            )
+                                                        }
+                                                        isSelected={selectedSeat.includes(
+                                                            seat.number
+                                                        )}
+                                                        onClick={() =>
+                                                            handleSeatClick(
+                                                                seat.number
+                                                            )
+                                                        }
+                                                    />
+                                                )
+                                            )}
+                                        </div>
+>>>>>>> eed456d1502b28579def5666896c9d131765a934
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+<<<<<<< HEAD
                         <form onSubmit={handleSubmit}>
                             {/* Seats */}
                             <div className="flex justify-center items-center">
@@ -262,6 +379,18 @@ const SelectSeat = ({ plate, seatLimit }) => {
                 </div>
             </div>
         </>
+=======
+                        {/* Save Button */}
+                        <div className="mt-10 flex justify-center">
+                            <button className="w-[350px] h-[45px] bg-[#394867] text-white rounded-[10px]">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+>>>>>>> eed456d1502b28579def5666896c9d131765a934
     );
 };
 

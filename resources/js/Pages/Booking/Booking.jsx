@@ -117,8 +117,8 @@ const Booking = () => {
         <>
             {!isSelectOrigin ? (
                 <div className="flex justify-center">
-                    <div className="lg:w-[400px] w-full bg-primary ">
-                        <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary ">
+                    <div className="lg:w-[400px] min-h-screen bg-white ">
+                        <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary rounded-b-md ">
                             <ChevronLeftIcon
                                 onClick={() => (window.location.href = "/home")}
                                 className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
@@ -127,9 +127,9 @@ const Booking = () => {
                                 Booking
                             </p>
                         </div>
-                        <div className="bg-white min-h-[100vh] w-full p-5 rounded-t-xl select-none relative">
+                        <div className="bg-white h-4/5  w-full p-5 rounded-t-xl select-none relative">
                             {/* City Selection Dropdown */}
-                            <form className="mt-8">
+                            <form className="mt-8 ">
                                 <div className="flex relative items-center cursor-pointer ">
                                     <img
                                         src="/select-city.svg"
@@ -145,7 +145,7 @@ const Booking = () => {
                                         className="flex-1 border-b-2 border-black h-fit mx-5"
                                     >
                                         <div className="w-fit">
-                                            <p className="w-fit text-lg font-bold">
+                                            <p className="w-fit text-lg font-medium">
                                                 City
                                             </p>
                                         </div>
@@ -211,7 +211,7 @@ const Booking = () => {
                                     />
                                     <div className="flex-1 border-b-2 border-black h-fit mx-5">
                                         <div className="w-fit">
-                                            <p className="w-fit text-lg font-bold">
+                                            <p className="w-fit text-lg font-medium">
                                                 Origin
                                             </p>
                                         </div>
@@ -249,7 +249,7 @@ const Booking = () => {
                                     />
                                     <div className="flex-1 border-b-2 border-black h-fit mx-5">
                                         <div className="w-fit">
-                                            <p className="w-fit text-lg font-bold">
+                                            <p className="w-fit text-lg font-medium">
                                                 Departure Date
                                             </p>
                                         </div>
@@ -294,7 +294,7 @@ const Booking = () => {
                                     />
                                     <div className="flex-1 border-b-2 border-black h-fit mx-5">
                                         <div className="w-fit">
-                                            <p className="w-fit text-lg font-bold">
+                                            <p className="w-fit text-lg font-medium">
                                                 Seats
                                             </p>
                                         </div>
@@ -353,8 +353,7 @@ const Booking = () => {
                                     </div>
                                 </div>
                             </form>
-
-                            <div className="fixed bottom-0 left-0 lg:left-1/2 lg:-translate-x-1/2  w-full lg:w-[380px] p-2">
+                            <div className=" bottom-0 w-4/5">
                                 <ButtonComponent
                                     type="submit"
                                     buttonText={"Search"}

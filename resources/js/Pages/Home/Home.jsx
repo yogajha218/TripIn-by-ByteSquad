@@ -16,7 +16,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
     console.log("Upcoming Booking : ", upcomings); // Debug data upcoming
     console.log("Notif Status: ", notification_status); // Debug data credit
 
-    const formattedCredit = new Intl.NumberFormat('id-ID', {
+    const formattedCredit = new Intl.NumberFormat("id-ID", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     }).format(credit);
@@ -70,7 +70,10 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                     <div className="h-[222px] bg-primary rounded-b-3xl relative">
                         <div className="absolute top-8 right-5">
                             <BellIcon
-                                onClick={() => window.location.href = route('notification')}
+                                onClick={() =>
+                                    (window.location.href =
+                                        route("notification"))
+                                }
                                 className={`size-8 text-white cursor-pointer relative z-40 `}
                             ></BellIcon>
                             {notification_status == "unread" && (
@@ -147,16 +150,17 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         <div className="grid gap-4">
                             <div className="grid mb-10 gap-4">
                                 {isUpcomingTripAvailable ? (
-                                    <CardComponent CardProp={upcomingCardProp} />
+                                    <CardComponent
+                                        CardProp={upcomingCardProp}
+                                    />
                                 ) : (
                                     <div className="pb-9 justify-center items-center flex flex-col">
                                         <img src="/tayo-bus.svg" />
                                         <p>no tayo trip available</p>
                                     </div>
                                 )}
-                            </div>    
+                            </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>

@@ -28,7 +28,9 @@ const History = ({ logs }) => {
                     destination: log.arrival,
                     destinationTime: log.trip.schedule.arrival_time, // Placeholder
                     duration: "2 h 45 m", // Placeholder
-                    price: `Rp${parseInt(log.trip.booking.price).toLocaleString("id-ID")}`,
+                    price: `Rp${parseInt(log.trip.booking.price).toLocaleString(
+                        "id-ID"
+                    )}`,
                 });
                 return acc;
             }, {});
@@ -38,8 +40,8 @@ const History = ({ logs }) => {
 
     return (
         <>
-            <div className="flex justify-center">
-                <div>
+            <div className="lg:flex lg:justify-center">
+                <div className="lg:w-[400px]">
                     <header className="bg-primary h-[108px] w-full">
                         <div className="flex text-white justify-center items-center relative h-full">
                             <ChevronLeftIcon
@@ -56,12 +58,15 @@ const History = ({ logs }) => {
                         {Object.entries(groupedLogs).map(([date, entries]) => (
                             <section key={date} className="mb-6">
                                 <p className="font-semibold text-black mb-5">
-                                    {new Date(date).toLocaleDateString("en-US", {
-                                        weekday: "short",
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric",
-                                    })}
+                                    {new Date(date).toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            weekday: "short",
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric",
+                                        }
+                                    )}
                                 </p>
                                 {entries.map((entry, index) => (
                                     <HistoryComponent

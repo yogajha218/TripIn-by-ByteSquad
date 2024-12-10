@@ -18,7 +18,7 @@ const BoardingTicket = ({booking, user}) => {
     arrivalCity : booking.trips[0].schedule.location.city,
     arrivalStation : booking.trips[0].schedule.location.name,
     passenger : user ?? "user",
-    seatNumber : booking.trips[0]?.schedule.vehicle.seat_booking.seat_number,
+    seatNumber : booking.seat_number.join(', '),
   };
 
   const getBadgeColor = (status) => {

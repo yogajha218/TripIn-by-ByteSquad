@@ -1,31 +1,33 @@
 import React from "react";
 import NavbarTripin from "@/Components/NavbarTripin";
 
-const Tracking = ({
-    shuttleInfo = {
+const Tracking = ({ routes }) => {
+    console.log("Route Data: ", routes);
+
+    const shuttleInfo = {
         busName: "Shuttle Bus Tripin",
-        plateNumber: "B 1234 CD",
+        plateNumber: routes.trips[0]?.schedule.vehicle.license_plate,
         estimatedArrival: {
-            start: "18.00",
-            end: "18.15",
+            start: routes.trips[0]?.schedule.departure_time,
+            end: routes.trips[0]?.schedule.arrival_time,
         },
         currentStopIndex: 2,
         stops: [
             {
-                label: "Bandara Soekarno Hatta",
-                time: "13.00",
+                label: routes.trips[0]?.origin,
+                time: routes.trips[0]?.schedule.departure_time,
             },
             {
                 label: "On The Way",
                 time: "",
             },
             {
-                label: "Hotel Dude",
-                time: "16.00",
+                label: routes.trips[0]?.schedule.location.name,
+                time: routes.trips[0]?.schedule.arrival_time,
             },
         ],
-    },
-}) => {
+    };
+
     return (
         <>
             <div className="lg:flex lg:justify-center">
@@ -43,7 +45,7 @@ const Tracking = ({
                         <div className="bg-white rounded-lg p-4 shadow-md border border-gray-100">
                             <div className="flex justify-between items-center mb-2">
                                 <div>
-                                    <h2 className="font-medium">
+                                    <h2 className="fonfont-medium">
                                         {shuttleInfo.busName}
                                     </h2>
                                     <p className="text-gray-600 text-sm">
@@ -57,8 +59,15 @@ const Tracking = ({
 
                             <p className="mb-4">
                                 Estimated arrived:{" "}
-                                {shuttleInfo.estimatedArrival.start} -{" "}
-                                {shuttleInfo.estimatedArrival.end}
+                                {shuttleInfo.estimatedArrival.start
+                                    .split(":")
+                                    .slice(0, 2)
+                                    .join(":")}{" "}
+                                {"-"}
+                                {shuttleInfo.estimatedArrival.end
+                                    .split(":")
+                                    .slice(0, 2)
+                                    .join(":")}
                             </p>
 
                             {/* Journey Progress */}
@@ -85,7 +94,10 @@ const Tracking = ({
                                                             : ""
                                                     }`}
                                                 >
-                                                    {stop.time}
+                                                    {stop.time
+                                                        .split(":")
+                                                        .slice(0, 2)
+                                                        .join(":")}
                                                 </span>
                                             </div>
 

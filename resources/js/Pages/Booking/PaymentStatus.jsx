@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import { CheckIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 
 const PaymentStatus = ({ user, booking }) => {
-<<<<<<< HEAD
     const csrfToken = document.head.querySelector(
         'meta[name="csrf-token"]'
     ).content;
-=======
->>>>>>> eed456d1502b28579def5666896c9d131765a934
     const [paymentData, setPaymentData] = useState({
         user: user.username,
         gopayAccount: user.phone_number ?? "+62xxxxxxxxxxx",
@@ -54,16 +51,17 @@ const PaymentStatus = ({ user, booking }) => {
 
     return (
         <>
-<<<<<<< HEAD
-            <div className="flex justify-center">
-                <div className="min-h-screen bg-white lg:w-[400px] relative">
-=======
             <div className="lg:flex lg:justify-center">
                 <div className="min-h-screen bg-white lg:w-[400px]">
->>>>>>> eed456d1502b28579def5666896c9d131765a934
                     {/* Header */}
                     <div className="bg-primary p-6">
                         <div className="relative flex items-center justify-center">
+                            <button className="absolute left-0 p-1 bg-transparent">
+                                <img
+                                    src="/backArrow.svg"
+                                    className="w-6 h-6 text-white"
+                                />
+                            </button>
                             <h1 className="text-2xl font-bold text-white">
                                 Gopay
                             </h1>
@@ -130,19 +128,6 @@ const PaymentStatus = ({ user, booking }) => {
                         </div>
 
                         {/* Transaction Details Card */}
-<<<<<<< HEAD
-                    </div>
-                    {/* Back Button */}
-                    <div className="absolute bottom-3 w-full px-5">
-                        <button
-                            onClick={() =>
-                                (window.location.href = route("home"))
-                            }
-                            className="w-full bg-primary2 text-white py-3 rounded-lg font-medium"
-                        >
-                            BACK TO HOME
-                        </button>
-=======
 
                         {/* Back Button */}
                         <div>
@@ -155,7 +140,6 @@ const PaymentStatus = ({ user, booking }) => {
                                 BACK TO HOME
                             </button>
                         </div>
->>>>>>> eed456d1502b28579def5666896c9d131765a934
                     </div>
                 </div>
             </div>

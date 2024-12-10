@@ -19,11 +19,7 @@ const BoardingTicket = ({ booking, user }) => {
         arrivalCity: booking.trips[0].schedule.location.city,
         arrivalStation: booking.trips[0].schedule.location.name,
         passenger: user ?? "user",
-<<<<<<< HEAD
         seatNumber: booking.seat_number.join(", "),
-=======
-        seatNumber: booking.trips[0]?.schedule.vehicle.seat_booking.seat_number,
->>>>>>> eed456d1502b28579def5666896c9d131765a934
     };
 
     const getBadgeColor = (status) => {
@@ -44,17 +40,19 @@ const BoardingTicket = ({ booking, user }) => {
             <div className="lg:flex lg:justify-center">
                 <div className="min-h-screen bg-primary lg:w-[400px]">
                     {/* Header with centered title */}
-<<<<<<< HEAD
-                    <div className="relative h-16 flex items-center justify-center py-5">
+                    <div className="relative h-16 flex items-center justify-center mb-8">
                         <ChevronLeftIcon
-                            className="size-8 absolute left-3 cursor-pointer text-white "
-                            onClick={() => history.back()}
-                        />
-                        <h1 className="text-white text-2xl font-medium ">
+                            className="size-8 text-white cursor-pointer absolute left-4 top-6"
+                            onClick={() => {
+                                history.back();
+                            }}
+                        ></ChevronLeftIcon>
+                        <h1 className="text-white text-2xl font-medium mt-4">
                             Boarding Ticket
                         </h1>
                     </div>
-                    <div className="flex justify-center my-6">
+
+                    <div className="flex justify-center mb-5">
                         <div className="bg-white rounded-xl p-6 mx-6 shadow-lg max-w-[400px]">
                             {/* Logo and Status */}
                             <div className="mb-6">
@@ -173,84 +171,14 @@ const BoardingTicket = ({ booking, user }) => {
                                         <div className="font-medium mt-1">
                                             {tickets.seatNumber}
                                         </div>
-=======
-                    <div className="relative h-16 flex items-center justify-center mb-8">
-                        <ChevronLeftIcon
-                            className="size-8 text-white cursor-pointer absolute left-4 top-6"
-                            onClick={() => {
-                                history.back();
-                            }}
-                        ></ChevronLeftIcon>
-                        <h1 className="text-white text-2xl font-bold mt-4">
-                            Boarding Ticket
-                        </h1>
-                    </div>
-
-                    <div className="bg-white rounded-3xl p-6 mx-6 shadow-lg">
-                        {/* Logo and Status */}
-                        <div className="mb-6">
-                            <img
-                                src="/TripInLogo.svg"
-                                alt="logo TripIn"
-                                className="h-16"
-                            />
-                            <div className="flex items-center mt-2">
-                                <span className="text-gray-600">Status: </span>
-                                <span
-                                    className={`${getBadgeColor(
-                                        tickets.status
-                                    )} px-2 py-0.5 rounded ml-1`}
-                                >
-                                    {tickets.status}
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Bus Info */}
-                        <div className="mb-6">
-                            <div className="text-lg font-medium">
-                                {tickets.busName} ({tickets.plateNumber})
-                            </div>
-                            <div className="text-gray-600 text-sm">
-                                Booking code : {tickets.bookingCode}
-                            </div>
-                        </div>
-
-                        <div className="border-t border-gray-400" />
-
-                        {/* Journey Section */}
-                        <div className="relative py-6">
-                            {/* Departure */}
-                            <div className="flex items-start mb-16 relative">
-                                {/* Time and Date */}
-                                <div className="w-36">
-                                    <div className="text-xl font-bold">
-                                        {tickets.departureTime}
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        {tickets.departureDate}
-                                    </div>
-                                </div>
-
-                                {/* Journey Line - Top Dot */}
-                                <div className="mx-2 mt-2">
-                                    <div className="w-2 h-2 rounded-full bg-black" />
-                                </div>
-
-                                {/* City and Station */}
-                                <div className="flex-1 ml-9">
-                                    <div className="font-medium">
-                                        {tickets.departureCity}
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        {tickets.departureStation}
->>>>>>> eed456d1502b28579def5666896c9d131765a934
                                     </div>
                                 </div>
                             </div>
 
-<<<<<<< HEAD
-                            <div className="border-t border-gray-400" />
+                            <div className="border-t border-dashed border-gray-400 relative">
+                                <div className="size-5 rounded-full bg-primary absolute -top-3 -left-8"></div>
+                                <div className="size-5 rounded-full bg-primary absolute -top-3 -right-8"></div>
+                            </div>
 
                             {/* TODO : QR Code Usage? */}
 
@@ -268,78 +196,6 @@ const BoardingTicket = ({ booking, user }) => {
                                 </div>
                             </div>
                         </div>
-=======
-                            {/* Vertical Line */}
-                            <div className="absolute left-[9.7rem] top-8 w-0.5 h-28 bg-black" />
-
-                            {/* Arrival */}
-                            <div className="flex items-start relative">
-                                {/* Time and Date */}
-                                <div className="w-32">
-                                    <div className="text-xl font-bold">
-                                        {tickets.arrivalTime}
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        {tickets.arrivalDate}
-                                    </div>
-                                </div>
-
-                                {/* Journey Line - Bottom Dot */}
-                                <div className="mx-6 mt-2">
-                                    <div className="w-2 h-2 rounded-full bg-black" />
-                                </div>
-
-                                {/* City and Station */}
-                                <div className="flex-1 ml-5">
-                                    <div className="font-medium">
-                                        {tickets.arrivalCity}
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        {tickets.arrivalStation}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="border-t border-gray-400" />
-
-                        {/* Passenger Info */}
-                        <div className="py-6">
-                            <div className="flex justify-between">
-                                <div>
-                                    <div className="text-sm text-gray-500">
-                                        Passenger
-                                    </div>
-                                    <div className="font-medium mt-1">
-                                        {tickets.passenger}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-sm text-gray-500">
-                                        Seat Number:
-                                    </div>
-                                    <div className="font-medium mt-1">
-                                        {tickets.seatNumber}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="border-t border-gray-400" />
-
-                        {/* TODO : QR Code Usage? */}
-
-                        {/* QR Code */}
-                        <div className="pt-6 text-center">
-                            <div className="text-sm mb-4">Scan this code</div>
-                            <div className="flex justify-center mb-6">
-                                <QRCodeSVG
-                                    value={`TRIPIN-${tickets.bookingCode}-${tickets.seatNumber}`}
-                                    size={160}
-                                    level="H"
-                                />
-                            </div>
-                        </div>
->>>>>>> eed456d1502b28579def5666896c9d131765a934
                     </div>
                 </div>
             </div>

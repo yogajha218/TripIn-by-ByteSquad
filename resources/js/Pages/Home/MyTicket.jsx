@@ -105,7 +105,10 @@ const MyTicket = ({ bookings }) => {
                                         </div>
                                         <div className="text-black">
                                             <div className="text-xl font-semibold">
-                                                {ticket.departure.time}
+                                                {ticket.departure.time
+                                                    .split(":")
+                                                    .slice(0, 2)
+                                                    .join(":")}
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 {ticket.departure.date}
@@ -131,7 +134,10 @@ const MyTicket = ({ bookings }) => {
                                         </div>
                                         <div className="text-black">
                                             <div className="text-xl font-semibold">
-                                                {ticket.arrival.time}
+                                                {ticket.arrival.time
+                                                    .split(":")
+                                                    .slice(0, 2)
+                                                    .join(":")}
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 {ticket.arrival.date}

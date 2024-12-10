@@ -7,8 +7,8 @@ use illuminate\Support\Facades\Route;
 // Rute group untuk profille
 Route::group(['prefix' => 'profile'], function(){
     Route::get('/', [ProfileController::class, 'profileIndex'])->name('profile');
-    Route::get('/history', [BaseController::class, 'historyIndex']);
-    Route::get('/history/detail', [BaseController::class, 'historyDetailIndex']);
+    Route::get('/history', [BaseController::class, 'historyIndex'])->name('history.index');
+    Route::get('/history/{log_id}/detail', [BaseController::class, 'historyDetailIndex'])->name('history.detail');
     Route::get('/edit', [ProfileController::class, 'profileEditIndex'])->name('profile.edit');
     Route::post('/edit/send', [ProfileController::class, 'profileEdit'])->name('profile.edit.send');
     Route::get('/password/otp', [ProfileController::class, 'profileOtpPasswordIndex'])->name('profile.edit.otp');

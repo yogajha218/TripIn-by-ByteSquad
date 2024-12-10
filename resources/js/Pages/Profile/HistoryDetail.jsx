@@ -1,45 +1,43 @@
 import React from 'react';
 // import { Car, ChevronLeft, CreditCard, Users, Armchair } from 'lucide-react'; // TODO : harus import
-import Gopay from '/Gopay.svg';
-import Shuttle from '/shuttle_icon.svg';
-import Passenger from '/passenger_icon.svg';
-import Seat from '/Seat.svg';
-import back from '/backArrow.svg';
 
-const HistoryDetail = ({
-  ticketInfo = {
-    date: "3 Nov 2024, 10:00 WIB",
-    bookingCode: "782VAML",
-    bus: {
-      name: "Shuttle Bus Tripin",
-      plateNumber: "B 1234 XYZ"
-    },
-    payment: {
-      method: "Gopay",
-      total: 240000
-    },
-    passengers: {
-      count: 2,
-      seats: "Seat 10 dan Seat 12"
-    },
-    journey: {
-      duration: "2 h 45 m",
-      from: {
-        city: "Jakarta",
-        time: "10:00"
+
+const HistoryDetail = ({log}) => {
+  console.log('Log data: ', log);
+
+  const ticketInfo = {
+      date: log.departure_date,
+      bookingCode: log.trip.booking.booking_code,
+      bus: {
+        name: "Shuttle Bus Tripin",
+        plateNumber: log.trip.schedule.vehicle.license_plate,
       },
-      to: {
-        city: "Bandung",
-        time: "12:45"
+      payment: {
+        method: "Gopay",
+        total: 240000
+      },
+      passengers: {
+        count: log.trip.booking.seat_total,
+        seats: `Seat ${log.trip.booking.seat_number.join(", ")}`
+      },
+      journey: {
+        duration: "2 h 45 m",
+        from: {
+          city: log.trip.origin,
+          time: log.trip.schedule.departure_time,
+        },
+        to: {
+          city: log.trip.schedule.location.name,
+          time: log.trip.schedule.arrival_time
+        }
       }
-    }
   }
-}) => {
+
   return (
     <div className="flex flex-col min-h-screen bg-primary">
       {/* Header */}
       <div className="flex items-center p-7 text-white">
-        <img src={back} className="w-6 h-6" />
+        <img src='/backArrow.svg' className="w-6 h-6" />
         <span className="flex-1 text-center text-xl font-bold">{ticketInfo.date}</span>
       </div>
 
@@ -54,7 +52,7 @@ const HistoryDetail = ({
         {/* Bus Info Card */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex items-center gap-4 border border-gray-100">
           <div className="bg-primary2 p-2 rounded-lg">
-            <img src={Shuttle} className="w-6 h-6 text-white" />
+            <img src='/shuttle_icon.svg' className="w-6 h-6 text-white" />
           </div>
           <div>
             <h2 className="font-medium">{ticketInfo.bus.name}</h2>
@@ -67,19 +65,19 @@ const HistoryDetail = ({
         <div className="bg-white rounded-lg shadow-md border border-gray-100 mb-6">
           {/* Payment Method */}
           <div className="flex items-center p-4 border-b border-gray-100">
-            <img src={Gopay} className="h-7 mr-3" />
+            <img src='/Gopay.svg' className="h-7 mr-3" />
             <span>{ticketInfo.payment.method}</span>
           </div>
 
           {/* Passengers */}
           <div className="flex items-center p-4 border-b border-gray-100">
-            <img src={Passenger} className="w-6 h-6 text-blue-400 mr-3 ml-1" />
+            <img src='/Passenger.svg' className="w-6 h-6 text-blue-400 mr-3 ml-1" />
             <span>{ticketInfo.passengers.count} Passenger</span>
           </div>
 
           {/* Seats */}
           <div className="flex items-center p-4 border-b border-gray-100">
-            < img src={Seat} className="w-6 h-6 text-blue-400 mr-3 ml-1" />
+            < img src='/Seat.svg' className="w-6 h-6 text-blue-400 mr-3 ml-1" />
             <span>{ticketInfo.passengers.seats}</span>
           </div>
 
@@ -94,9 +92,6 @@ const HistoryDetail = ({
         <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-100">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-medium">Travel Itinerary</h3>
-            <span className="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full">
-              {ticketInfo.journey.duration}
-            </span>
           </div>
 
           <div className="space-y-6">

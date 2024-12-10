@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -29,12 +30,15 @@ class BaseController extends Controller
 
     // Menampilkan halaman history
     public function historyIndex(){
-        return Inertia::render('Profile/History');
+        $logs = Log::with('trip.booking', 'trip.schedule')->get();
+
+        return Inertia::render('Profile/History', ['logs' => $logs]);
     }
 
     // Menampilkan halaman detail history
-    public function historyDetailIndex(){
-        return Inertia::render('Profile/HistoryDetail');
+    public function historyDetailIndex($log_id){
+        $log = Log::with('trip.booking', 'trip.schedule.vehicle', 'trip.schedule.location')->where('log_id', $log_id)->first();
+        return Inertia::render('Profile/HistoryDetail', ['log' => $log]);
     }
 
     // Menampilkan halaman notifikasi

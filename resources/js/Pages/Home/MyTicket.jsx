@@ -74,7 +74,7 @@ const MyTicket = ({ bookings }) => {
                             <div className="p-4">
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="flex items-center gap-2">
-                                        <h2 className="font-semibold text-black">
+                                        <h2 className="font-semibold text-black text-[12px] sm:text-base">
                                             Shuttle Bus Tripin
                                         </h2>
                                         <span className="text-xs bg-gray-200 px-2 py-1 rounded text-gray-600">

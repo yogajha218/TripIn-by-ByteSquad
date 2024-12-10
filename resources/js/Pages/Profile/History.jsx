@@ -38,10 +38,10 @@ const History = ({ logs }) => {
 
     return (
         <>
-            <div className="flex justify-center">
-                <div>
-                    <header className="bg-primary h-[108px] w-full">
-                        <div className="flex text-white justify-center items-center relative h-full">
+            <div className="lg:flex lg:justify-center">
+                <div className="">
+                    <header className="bg-primary h-[108px] w-full ">
+                        <div className="flex text-white justify-center items-center relative  h-full ">
                             <ChevronLeftIcon
                                 className="size-6 cursor-pointer absolute top-1/2 translate-y-[-50%] left-3"
                                 onClick={() => history.back()}

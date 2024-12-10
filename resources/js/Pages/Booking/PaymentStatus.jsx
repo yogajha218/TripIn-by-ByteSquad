@@ -49,7 +49,7 @@ const PaymentStatus = ({user, booking}) => {
 
     return (
         <>
-            <div className="flex justify-center">
+            <div className="lg:flex lg:justify-center">
                 <div className="min-h-screen bg-white lg:w-[400px]">
                     {/* Header */}
                     <div className="bg-primary p-6">
@@ -129,7 +129,12 @@ const PaymentStatus = ({user, booking}) => {
 
                         {/* Back Button */}
                         <div>
-                            <button onClick={() => window.location.href = route('home')} className="w-full bg-primary2 text-white py-3 rounded-lg font-medium">
+                            <button
+                                onClick={() =>
+                                    (window.location.href = route("home"))
+                                }
+                                className="w-full bg-primary2 text-white py-3 rounded-lg font-medium"
+                            >
                                 BACK TO HOME
                             </button>
                         </div>

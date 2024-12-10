@@ -12,7 +12,9 @@ const HistoryComponent = ({ CardProp }) => {
                 </div>
                 <div className="flex-row justify-start items-start h-fit ml-2">
                     <h3 className="text-lg font-bold">{CardProp.name}</h3>
-                    <p className="text-black">Booking Code: {CardProp.bookingCode}</p>
+                    <p className="text-black">
+                        Booking Code: {CardProp.bookingCode}
+                    </p>
                 </div>
                 <div className="text-right">
                     <p className="text-sm text-primary">{CardProp.seat}</p>

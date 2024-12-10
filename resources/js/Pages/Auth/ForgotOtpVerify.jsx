@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 const ForgotOtpVerify = ({ email }) => {
     const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
     const [error, setError] = useState("");
@@ -73,24 +73,21 @@ const ForgotOtpVerify = ({ email }) => {
             <div className="flex justify-center">
                 <div className="flex flex-col min-h-screen bg-primary lg:w-[400px]">
                     {/* Top Section */}
-                    <div className="relative w-full py-16">
+                    <div className="relative w-full py-20">
                         {/* Back Button */}
-                        <ChevronLeftIcon
-                            className="size-8 absolute text-white top-4 left-5 cursor-pointer"
-                            onClick={handleBack}
-                        ></ChevronLeftIcon>
+
                         {/* Logo Section */}
                         <div className="flex-none flex justify-center px-4">
                             <img
                                 src="/TripInLogo.svg"
-                                className="w-24 object-contain"
+                                className="w-36 object-contain"
                                 alt="Logo of TripIn"
                             />
                         </div>
                     </div>
 
                     {/* Verification Content */}
-                    <div className="flex-grow bg-white rounded-t-3xl p-6">
+                    <div className="flex-grow bg-white rounded-t-lg p-6">
                         <div className="max-w-md mx-auto p-2">
                             <h1 className="text-2xl font-semibold text-black mb-2">
                                 Let’s Verify Your Account!
@@ -144,6 +141,15 @@ const ForgotOtpVerify = ({ email }) => {
                                 >
                                     Confirm
                                 </button>
+                                <div
+                                    className="flex justify-center items-center gap-1 p-5 cursor-pointer"
+                                    onClick={() => history.back()}
+                                >
+                                    <ArrowLeftIcon className="text-primary2 size-3"></ArrowLeftIcon>
+                                    <p className="text-sm text-primary2">
+                                        go back
+                                    </p>
+                                </div>
                             </form>
                         </div>
                     </div>

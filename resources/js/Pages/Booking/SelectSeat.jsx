@@ -138,7 +138,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="lg:w-[400px] md:min-w-[360px] mx-auto">
+                <div className="lg:max-w-[400px] md:min-w-[360px] mx-auto">
                     <div className="min-h-screen relative min-w-[360px] bg-white ">
                         {/* Header */}
                         <div className="h-[108px] bg-primary rounded-b-xl relative ">
@@ -146,7 +146,10 @@ const SelectSeat = ({ plate, seatLimit }) => {
                                 {/* Back Arrow */}
                                 <ChevronLeftIcon
                                     className="size-6 text-white absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                                    onClick={() => history.back()}
+                                    onClick={() =>
+                                        (window.location.href =
+                                            "/booking/bus-schedule")
+                                    }
                                 ></ChevronLeftIcon>
 
                                 {/* Title */}
@@ -172,7 +175,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
 
                                     {/* Filled */}
                                     <div className="flex items-center">
-                                        <div className="size-3 bg-[#394867] border border-gray"></div>
+                                        <div className="size-3 bg-primary2 border border-gray"></div>
                                         <p className="ml-1.5 text-white text-center text-sm font-semibold">
                                             Filled
                                         </p>
@@ -250,7 +253,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
 
                             {/* Save Button */}
                             <div className="mt-2 py-3 flex justify-center px-3  w-full">
-                                <button className=" w-full h-[45px] bg-[#394867] text-white rounded-[10px]">
+                                <button className=" w-full h-[45px] bg-primary2 text-white rounded-[10px]">
                                     Save
                                 </button>
                             </div>

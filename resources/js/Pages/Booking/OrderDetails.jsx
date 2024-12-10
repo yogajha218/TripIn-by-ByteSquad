@@ -56,8 +56,7 @@ const ConfirmationPage = ({
     defaultData.orderDetails.potentialPoints = totalPrice * 0.05;
     let creditStatus = false;
 
-
-    if(isExchangeEnabled){
+    if (isExchangeEnabled) {
         creditStatus = true;
         totalPrice = data.pricing.seatPrice * data.pricing.quantity - credit;
     }
@@ -89,7 +88,6 @@ const ConfirmationPage = ({
                     },
                 }
             );
-
 
             const { snap_token } = response.data;
             console.log(snap_token);
@@ -141,10 +139,14 @@ const ConfirmationPage = ({
             <div className="lg:flex lg:justify-center">
                 <div className="min-h-screen bg-primary lg:max-w-[400px]">
                     {/* Header */}
-                    <div className="px-4 py-3 flex items-center text-white">
-                        <ChevronLeftIcon className="size-8 text-white"></ChevronLeftIcon>
 
-                        <h1 className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4">
+                    <div className="px-4 py-3 flex items-center text-white">
+                        <ChevronLeftIcon
+                            className="size-8 text-white cursor-pointer"
+                            onClick={() => (window.location.href = "/booking")}
+                        ></ChevronLeftIcon>
+
+                        <h1 className="text-2xl font-medium flex-1 text-center mr-6 mt-4 mb-4">
                             Confirmation
                         </h1>
                     </div>
@@ -169,7 +171,10 @@ const ConfirmationPage = ({
                                 <div className="flex flex-col gap-10">
                                     <div>
                                         <p className="font-semibold">
-                                            {data.busInfo.departureTime}
+                                            {data.busInfo.departureTime
+                                                .split(":")
+                                                .slice(0, 2)
+                                                .join(":")}
                                         </p>
                                         <p className="text-xs text-gray-500">
                                             {data.busInfo.departureDate}
@@ -177,7 +182,10 @@ const ConfirmationPage = ({
                                     </div>
                                     <div>
                                         <p className="font-semibold">
-                                            {data.busInfo.arrivalTime}
+                                            {data.busInfo.arrivalTime
+                                                .split(":")
+                                                .slice(0, 2)
+                                                .join(":")}
                                         </p>
                                         <p className="text-xs text-gray-500">
                                             {data.busInfo.arrivalDate}
@@ -186,9 +194,9 @@ const ConfirmationPage = ({
                                 </div>
 
                                 <div className="relative flex flex-col items-center">
-                                    <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
-                                    <div className="w-0.5 h-20 bg-gray-300"></div>
-                                    <div className="w-2.5 h-2.5 rounded-full bg-black"></div>
+                                    <div className="size-3 rounded-full bg-blue-500"></div>
+                                    <div className="w-1 h-20 bg-blue-300"></div>
+                                    <div className="size-2.5 rounded-full bg-blue-500 ring-4 ring-blue-200"></div>
                                 </div>
 
                                 <div className="flex flex-col gap-16">
@@ -327,7 +335,7 @@ const ConfirmationPage = ({
                         {/* Order Button */}
                         <div className="fixed bottom-0 left-0 lg:translate-x-[-50%] lg:left-1/2 right-0 p-4 bg-white lg:w-[400px]">
                             <button
-                                className="w-full bg-[#2d3748] text-white py-3 rounded-lg font-semibold"
+                                className="w-full bg-primary2 text-white py-3 rounded-lg font-semibold"
                                 onClick={handleSubmit}
                             >
                                 ORDER NOW

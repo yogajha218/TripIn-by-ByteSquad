@@ -12,29 +12,16 @@ const Tracking = ({
         currentStopIndex: 2,
         stops: [
             {
-                time: "17.30",
-                date: "Sat, 09 Nov",
-                location: "Farm House Susu Lembang",
+                label: "Bandara Soekarno Hatta",
+                time: "13.00",
             },
             {
-                time: "17.45",
-                date: "Sat, 09 Nov",
-                location: "Cengkereng Transit Hotel",
+                label: "On The Way",
+                time: "",
             },
             {
-                time: "17.50",
-                date: "Sat, 09 Nov",
-                location: "Jalan Kwangya",
-            },
-            {
-                time: "17.55",
-                date: "Sat, 09 Nov",
-                location: "ICE BSD",
-            },
-            {
-                time: "18.00",
-                date: "Sat, 09 Nov",
-                location: "Monumen Nasional",
+                label: "Hotel Dude",
+                time: "16.00",
             },
         ],
     },
@@ -44,8 +31,8 @@ const Tracking = ({
             <div className="lg:flex lg:justify-center">
                 <div className=" h-screen bg-white lg:w-[400px] mb-14">
                     {/* Header */}
-                    <div className="bg-primary p-6">
-                        <h1 className="text-2xl font-bold text-white text-center">
+                    <div className="bg-primary p-6 rounded-b-2xl h-[108px]">
+                        <h1 className="text-2xl font-semibold text-white text-center pt-6">
                             Track Shuttle
                         </h1>
                     </div>
@@ -94,25 +81,22 @@ const Tracking = ({
                                                 <span
                                                     className={`font-medium ${
                                                         isCurrent
-                                                            ? "text-green-600"
+                                                            ? "text-blue-600"
                                                             : ""
                                                     }`}
                                                 >
                                                     {stop.time}
-                                                </span>
-                                                <span className="text-xs text-gray-500">
-                                                    {stop.date}
                                                 </span>
                                             </div>
 
                                             {/* Progress Line */}
                                             <div className="flex flex-col items-center">
                                                 <div
-                                                    className={`w-3 h-3 rounded-full ${
+                                                    className={`w-3 h-3 rounded-full  ${
                                                         isCurrent
-                                                            ? "bg-green-600 ring-4 ring-green-100"
+                                                            ? "bg-blue-500 ring-4 ring-blue-100 animate-pulse"
                                                             : isCompleted
-                                                            ? "bg-green-500"
+                                                            ? "bg-blue-500 "
                                                             : "bg-gray-300"
                                                     }`}
                                                 />
@@ -122,9 +106,9 @@ const Tracking = ({
                                                     <div
                                                         className={`w-0.5 h-16 ${
                                                             isCompleted
-                                                                ? "bg-green-500"
+                                                                ? "bg-blue-500"
                                                                 : isCurrent
-                                                                ? "bg-gradient-to-b from-green-500 to-gray-300"
+                                                                ? "bg-gradient-to-b from-blue-500 to-gray-300"
                                                                 : "bg-gray-300"
                                                         }`}
                                                     />
@@ -132,22 +116,30 @@ const Tracking = ({
                                             </div>
 
                                             {/* Location */}
-                                            <div className="flex-1 pb-4">
+                                            <div className="flex-1 pb-4 relative">
                                                 <p
                                                     className={`font-medium ${
                                                         isCurrent
-                                                            ? "text-green-600"
+                                                            ? "text-blue-600"
                                                             : isCompleted
                                                             ? "text-gray-700"
                                                             : "text-gray-500"
                                                     }`}
                                                 >
-                                                    {stop.location}
+                                                    {stop.label}
                                                 </p>
-                                                {isCurrent && (
-                                                    <span className="inline-block mt-1 text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">
-                                                        Current Location
+                                                {isCurrent ? (
+                                                    <span className="inline-block mt-1 text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-sm absolute">
+                                                        Current Position
                                                     </span>
+                                                ) : isCompleted ? (
+                                                    <span className="inline-block mt-1 text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded-sm absolute">
+                                                        Passed
+                                                    </span>
+                                                ) : (
+                                                    <>
+                                                        <div> yellow</div>
+                                                    </>
                                                 )}
                                             </div>
                                         </div>

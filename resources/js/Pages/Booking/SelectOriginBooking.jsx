@@ -15,8 +15,8 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
     return (
         <>
             <div className="flex justify-center">
-                <div className="lg:w-[400px] w-full bg-primary">
-                    <div className="h-[108px] flex items-center  px-3 relative">
+                <div className="lg:w-[400px] w-full bg-white ">
+                    <div className="h-[108px] flex items-center  px-3 relative bg-primary rounded-b-md">
                         <ChevronLeftIcon
                             className="size-8 text-white cursor-pointer absolute"
                             aria-hidden="true"
@@ -28,26 +28,26 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
                             Select origin
                         </p>
                     </div>
-                    <div className=" bg-white min-h-[100vh] w-full pt-4 px-10 rounded-t-2xl">
+                    <div className=" bg-white min-h-[100vh] w-full pt-4 px-5 ">
                         <form
                             method="GET"
-                            className="flex justify-center mt-6 mb-8"
+                            className="flex justify-center mt-2 mb-8"
                         >
                             <input
                                 name="title"
                                 type="text"
                                 placeholder="Search for location..."
-                                className="w-3/4 px-4 py-2 border rounded-s-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                                className="w-3/4 px-4 py-2 border rounded-s-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                                 id="searchInput"
                             />
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-[#547592] text-white rounded-e-lg hover:bg-[#415A71] focus:outline-none focus:ring-2 focus:ring-primary2"
+                                className="px-4 py-2 bg-[#547592] text-white rounded-e-md hover:bg-[#415A71] focus:outline-none focus:ring-2 focus:ring-primary2"
                             >
                                 Search
                             </button>
                         </form>
-                        <div className="my-4">
+                        <div className="my-2">
                             {locations.map((loc, index) => (
                                 <div
                                     className="w-full h-fit flex justify-between px-1 cursor-pointer border-b"
@@ -66,7 +66,7 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
                                         <p className="text-xs font-extralight text-end">
                                             {loc.type} - {loc.city}
                                         </p>
-                                        <p className="text-sm font-semibold">
+                                        <p className="text-sm font-semibold flex flex-wrap max-w-[240px] text-right">
                                             {loc.name}
                                         </p>
                                     </div>

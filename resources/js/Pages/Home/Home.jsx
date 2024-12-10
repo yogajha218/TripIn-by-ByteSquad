@@ -88,10 +88,10 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             />
                         </div>
                         <div className="mx-5">
-                            <p className="font-bold text-white text-2xl sm:text-3xl">
+                            <p className="font-semibold text-white text-2xl sm:text-3xl">
                                 Welcome, {username}
                             </p>
-                            <p className="font-semibold text-white text-base sm:text-lg">
+                            <p className="font-medium text-white text-base sm:text-lg">
                                 Enjoy Your Trip!
                             </p>
                         </div>
@@ -109,8 +109,8 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                                 src="/credit.svg"
                                 alt="CreditIcon"
                             />
-                            <p className="text-orange">
-                                {formattedCredit} Credit Points
+                            <p className="text-orange text-sm absolute left-14 top-1/2 -translate-y-1/2">
+                                {formattedCredit} CP
                             </p>
                             <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 hover:translate-x-2"></ChevronRightIcon>
                         </a>

@@ -88,73 +88,79 @@ const Profile = () => {
                     </div>
                     <div className="w-full h-full min-h-[100dvh] bg-white mt-[-1.75rem] rounded-t-3xl px-6">
                         <div className="flex flex-col items-center">
-                            <div className="w-[120px] h-[120px] rounded-full overflow-hidden mt-[-3.5rem]">
+                            <div className="w-[120px] h-[120px] rounded-full ring-4 ring-blue-300 overflow-hidden mt-[-3.5rem]">
                                 <img src="https://placehold.co/120x120" />
                             </div>
-                            <p className="text-3xl font-bold text-center">
+                            <p className="text-3xl font-semibold text-center">
                                 {user.username}
                             </p>
-                            <p className="text-sm font-thin text-center">
+                            <p className="text-sm font-light  text-center">
                                 {user.email}
                             </p>
-                            <p className="text-sm font-thin text-center">
+                            <p className="text-xs font-light text-center">
                                 {user.phone_number}
                             </p>
                         </div>
                         <div className="h-max-[230px] w-max-[392px] py-3 ">
-                            <p className="font-bold text-lg leading-10">
+                            <p className="pl-2 font-medium text-lg leading-10">
                                 Account
                             </p>
-                            <div className="w-full h-[198px] grid grid-cols-1 overflow-hidden rounded-xl">
+                            <div className="w-full h-[158px] grid grid-cols-1 overflow-hidden rounded-md">
                                 <Link
                                     href="/profile/edit"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-slate-500"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium  hover:bg-primary hover:text-white"
                                 >
                                     <img src="/profile.svg" alt="icon" />
-                                    <p className="px-5">Edit Profile</p>
+                                    <p className="px-5 text-sm">Edit Profile</p>
                                 </Link>
                                 <Link
                                     href="/notification"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2 hover:bg-slate-500"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2  hover:bg-primary hover:text-white"
                                 >
                                     <img src="/notif.svg" alt="icon" />
-                                    <p className="px-[27px]">Notification</p>
+                                    <p className="px-[27px] text-sm">
+                                        Notification
+                                    </p>
                                 </Link>
                                 <Link
                                     href="/profile/history"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-slate-500"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium  hover:bg-primary hover:text-white"
                                 >
                                     <img src="/history.svg" alt="icon" />
-                                    <p className="px-5">History</p>
+                                    <p className="px-5 text-sm">History</p>
                                 </Link>
                             </div>
                         </div>
                         <div className="h-max-[230px] w-max-[392px] py-3 ">
-                            <p className="font-bold text-lg leading-10">
+                            <p className="pl-2 font-medium text-lg leading-10">
                                 About
                             </p>
-                            <div className="w-full h-[198px] grid grid-cols-1 overflow-hidden rounded-xl">
+                            <div className="w-full h-[158px] grid grid-cols-1 overflow-hidden rounded-md">
                                 <Link
                                     href="/faq"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-slate-500"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-primary hover:text-white"
                                 >
                                     <img src="/faq.svg" alt="icon" />
-                                    <p className="px-5">FAQ</p>
+                                    <p className="px-5 text-sm">FAQ</p>
                                 </Link>
                                 <Link
                                     href="/terms-condition"
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2 hover:bg-slate-500"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2 hover:bg-primary hover:text-white"
                                 >
                                     <img src="/term.svg" alt="icon" />
-                                    <p className="px-6">Term & Conditions</p>
+                                    <p className="px-6 text-sm">
+                                        Term & Conditions
+                                    </p>
                                 </Link>
                                 <Link
                                     href="/privacy-policy"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium
-                                    hover:bg-slate-500"
+                                     hover:bg-primary hover:text-white"
                                 >
                                     <img src="/privacy.svg" alt="icon" />
-                                    <p className="px-5">Privacy Policy</p>
+                                    <p className="px-5 text-sm">
+                                        Privacy Policy
+                                    </p>
                                 </Link>
                             </div>
                         </div>
@@ -162,13 +168,13 @@ const Profile = () => {
                             <p className="font-bold text-lg leading-10">
                                 Action
                             </p>
-                            <div className="w-full h-[68px]  overflow-hidden rounded-xl mb-14">
+                            <div className="w-full h-[52px]  overflow-hidden rounded-md mb-16">
                                 <button
                                     onClick={modalVisibility}
-                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[68px] w-full"
+                                    className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[52px] w-full  hover:bg-primary hover:text-white"
                                 >
                                     <img src="/logout.svg" alt="icon" />
-                                    <p className="px-5">Log Out</p>
+                                    <p className="px-5 text-sm">Log Out</p>
                                 </button>
                             </div>
                         </div>
@@ -181,8 +187,8 @@ const Profile = () => {
                 setIsModalHidden={setIsModalHidden}
             >
                 <div className="  flex flex-col  w-[300px]  sm:w-[360px]  h-[160px] md:h-[180px] overflow-hidden">
-                    <div className="p-8">
-                        <p className="text-black opacity-100 text-center text-2xl font-bold">
+                    <div className="p-6 sm:p-8">
+                        <p className="text-red-400 opacity-100 text-center text-2xl font-semibold">
                             Logout
                         </p>
                         <p className="text-black opacity-100 text-center text-base font-extralight">
@@ -192,13 +198,13 @@ const Profile = () => {
                     <div className="h-full rounded-b-xl">
                         <div className="grid h-full grid-cols-2">
                             <button
-                                className=" bg-transparent text-black border-black border-t rounded-es-lg hover:bg-yellow-500 hover:text-white transition-colors duration-500 sm:text-2xl"
+                                className=" bg-transparent text-black border-black border-t rounded-es-lg hover:bg-yellow-500 hover:text-white transition-colors duration-200 sm:text-lg"
                                 onClick={modalVisibility}
                             >
                                 Cancel
                             </button>
                             <button
-                                className=" bg-transparent text-black  border-black border-t border-l rounded-ee-lg text-lg hover:bg-red-500 hover:text-white transition-colors duration-500 sm:text-2xl"
+                                className=" bg-transparent text-black  border-black border-t border-l rounded-ee-lg hover:bg-red-500 hover:text-white transition-colors duration-200 sm:text-lg "
                                 onClick={handleLogout}
                             >
                                 Logout

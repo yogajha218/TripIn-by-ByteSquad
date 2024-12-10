@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "@inertiajs/react";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 const ForgotOtpEmail = () => {
     const { data, setData, post, processing, errors } = useForm({
@@ -40,24 +40,20 @@ const ForgotOtpEmail = () => {
     return (
         <>
             <div className="flex justify-center">
-                <div className="min-h-screen bg-primary  lg:w-[400px]">
-                    <div className="relative w-full py-16">
-                        <ChevronLeftIcon
-                            className="size-8 absolute cursor-pointer text-white top-4 left-5 "
-                            onClick={handleBack}
-                        ></ChevronLeftIcon>
+                <div className="min-h-screen bg-primary  lg:w-[400px] relative">
+                    <div className="relative w-full  py-20 bg-primary rounded-b-xl">
                         <div className="flex justify-center w-full">
                             <div className="flex items-center">
                                 <img
                                     src="/TripInLogo.svg"
-                                    className="w-24 object-contain"
+                                    className="w-36 "
                                     alt="Logo of TripIn"
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-t-3xl pt-8 pb-4 h-full">
+                    <div className="bg-white rounded-t-xl pt-5 pb-4 h-full">
                         <div className="px-6 md:max-w-xl lg:max-w-2xl mx-auto">
                             {error && (
                                 <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-lg text-sm">
@@ -92,6 +88,18 @@ const ForgotOtpEmail = () => {
                                 </button>
                             </form>
                         </div>
+                    </div>
+                    <div
+                        className="absolute cursor-pointer  p-2 w-fit bottom-44 -translate-y-1/2 left-1/2 -translate-x-1/2 flex justify-center gap-1 bg-white items-center  rounded-md"
+                        onClick={handleBack}
+                    >
+                        <ArrowLeftIcon
+                            className="size-4 cursor-pointer text-primary2"
+                            onClick={handleBack}
+                        ></ArrowLeftIcon>
+                        <p className="text-primary2 text-sm">
+                            go back to sign in
+                        </p>
                     </div>
                 </div>
             </div>

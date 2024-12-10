@@ -18,7 +18,7 @@ const Schedule = ({ booking, routes }) => {
             <div className="flex justify-center">
                 <div className="min-h-screen bg-white flex flex-col w-full lg:w-[400px]">
                     {/* Header */}
-                    <header className="bg-primary  h-[108px] text-white py-6 shadow-md">
+                    <header className="bg-primary h-[108px] text-white py-6 shadow-md rounded-b-md">
                         <div className="flex   relative justify-center">
                             <ChevronLeftIcon
                                 className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"

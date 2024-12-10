@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { CheckIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 
-const PaymentStatus = ({user, booking}) => {
-    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+const PaymentStatus = ({ user, booking }) => {
+    const csrfToken = document.head.querySelector(
+        'meta[name="csrf-token"]'
+    ).content;
     const [paymentData, setPaymentData] = useState({
         user: user.username,
         gopayAccount: user.phone_number ?? "+62xxxxxxxxxxx",
@@ -50,16 +52,10 @@ const PaymentStatus = ({user, booking}) => {
     return (
         <>
             <div className="flex justify-center">
-                <div className="min-h-screen bg-white lg:w-[400px]">
+                <div className="min-h-screen bg-white lg:w-[400px] relative">
                     {/* Header */}
                     <div className="bg-primary p-6">
                         <div className="relative flex items-center justify-center">
-                            <button className="absolute left-0 p-1 bg-transparent">
-                                <img
-                                    src="/backArrow.svg"
-                                    className="w-6 h-6 text-white"
-                                />
-                            </button>
                             <h1 className="text-2xl font-bold text-white">
                                 Gopay
                             </h1>
@@ -126,13 +122,17 @@ const PaymentStatus = ({user, booking}) => {
                         </div>
 
                         {/* Transaction Details Card */}
-
-                        {/* Back Button */}
-                        <div>
-                            <button onClick={() => window.location.href = route('home')} className="w-full bg-primary2 text-white py-3 rounded-lg font-medium">
-                                BACK TO HOME
-                            </button>
-                        </div>
+                    </div>
+                    {/* Back Button */}
+                    <div className="absolute bottom-3 w-full px-5">
+                        <button
+                            onClick={() =>
+                                (window.location.href = route("home"))
+                            }
+                            className="w-full bg-primary2 text-white py-3 rounded-lg font-medium"
+                        >
+                            BACK TO HOME
+                        </button>
                     </div>
                 </div>
             </div>

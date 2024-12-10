@@ -8,7 +8,7 @@ const CardComponent = ({ CardProp = [] }) => {
             {CardProp.map((data) => (
                 <div
                     key={data.id}
-                    className="lg:max-w-[440px]  w-full h-fit rounded-[10px] border border-[#8BAFCE80] bg-white "
+                    className="lg:max-w-[440px]  w-full h-fit rounded-[10px] border border-[#8BAFCE80] bg-white shadow-md"
                 >
                     <div className="flex px-4 pt-7 pb-3 items-center">
                         <div>

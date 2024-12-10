@@ -116,12 +116,12 @@ const Booking = () => {
     return (
         <>
             {!isSelectOrigin ? (
-                <div className="flex justify-center">
+                <div className="lg:flex lg:justify-center">
                     <div className="lg:w-[400px] min-h-screen bg-white ">
                         <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary rounded-b-md ">
                             <ChevronLeftIcon
                                 onClick={() => (window.location.href = "/home")}
-                                className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
+                                className="size-8 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
                             ></ChevronLeftIcon>
                             <p className="w-fit text-2xl font-medium text-white mx-2 cursor-default select-none">
                                 Booking
@@ -129,7 +129,7 @@ const Booking = () => {
                         </div>
                         <div className="bg-white h-4/5  w-full p-5 rounded-t-xl select-none relative">
                             {/* City Selection Dropdown */}
-                            <form className="mt-8 ">
+                            <form className=" ">
                                 <div className="flex relative items-center cursor-pointer ">
                                     <img
                                         src="/select-city.svg"
@@ -217,19 +217,19 @@ const Booking = () => {
                                         </div>
                                         <div className="flex-1 flex justify-between relative">
                                             <input
-                                                className="border-none text-sm font-light p-0 w-full relative -z-10"
+                                                className="text-sm font-light    border-none p-0 w-[240px]"
                                                 value={origin}
                                                 disabled={true}
                                             />
-                                            <div
-                                                className={`absolute text-sm font-light ${
+                                            {/* <div
+                                                className={`absolute overflow-hidden w-[240px] text-sm font-light ${
                                                     origin === "select origin"
                                                         ? "text-gray-400"
                                                         : "text-black"
                                                 }`}
                                             >
                                                 {origin}
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div
                                             className={`text-3xl transition-transform duration-300 font-bold cursor-pointer absolute top-4 right-5 -rotate-90`}
@@ -353,7 +353,7 @@ const Booking = () => {
                                     </div>
                                 </div>
                             </form>
-                            <div className=" bottom-0 w-4/5">
+                            <div className="relative top-48">
                                 <ButtonComponent
                                     type="submit"
                                     buttonText={"Search"}

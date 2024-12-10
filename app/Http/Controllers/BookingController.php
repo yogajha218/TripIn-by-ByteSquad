@@ -275,7 +275,7 @@ class BookingController extends Controller
         ];
 
         try{
-            
+
             if($tempBooking['credit']['status'] == true){
                 $user->credit->credit_amount -= $user->credit->credit_amount;
             }
@@ -330,7 +330,7 @@ class BookingController extends Controller
                 'ticket_id' => $tempBooking['route_id'],
                 'amount' => $tempBooking['amount'],
             ];
-            
+
             Notification::send($user, new paymentCompleted($ticketDetails));
             $notification = $user->notifications->sortByDesc('created_at')->first();
             if ($notification) {
@@ -364,5 +364,5 @@ class BookingController extends Controller
         return $bookingCode;
     }
 
-    
+
 }

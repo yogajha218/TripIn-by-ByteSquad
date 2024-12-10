@@ -141,13 +141,17 @@ const ConfirmationPage = ({
             <div className="lg:flex lg:justify-center">
                 <div className="min-h-screen bg-primary lg:max-w-[400px]">
                     {/* Header */}
-                    <div className="px-4 py-3 flex items-center text-white">
-                        <ChevronLeftIcon className="size-8 text-white"></ChevronLeftIcon>
+
+                    <div onClick={() => (window.location.href = "/booking")} className="px-4 py-3 flex items-center text-white">
+                        <ChevronLeftIcon className="size-8 text-white cursor-pointer"></ChevronLeftIcon>
+
 
                         <h1 className="text-2xl font-semibold flex-1 text-center mr-6 mt-4 mb-4">
                             Confirmation
                         </h1>
+
                     </div>
+
 
                     {/* Content */}
                     <div className="bg-white min-h-screen pt-4 px-6">

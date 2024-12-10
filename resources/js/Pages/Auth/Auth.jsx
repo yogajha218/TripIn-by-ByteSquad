@@ -6,6 +6,7 @@ const Auth = () => {
     const [isSignIn, setIsSignIn] = useState(true);
     const [termsClicked, setTermsClicked] = useState(false);
     const [privacyClicked, setPrivacyClicked] = useState(false);
+    const [termsCheckError, setTermsCheckError] = useState(false);
     const { data, setData, post, processing, errors } = useForm({
         email: "",
         password: "",
@@ -45,6 +46,16 @@ const Auth = () => {
         e.preventDefault();
         setPrivacyClicked(true);
         window.open("/privacy-policy", "_blank");
+    };
+
+    const handleTermsCheckboxChange = (e) => {
+        if (!termsClicked || !privacyClicked) {
+            setTermsCheckError(true);
+            setData("termsAccepted", false);
+        } else {
+            setTermsCheckError(false);
+            setData("termsAccepted", e.target.checked);
+        }
     };
 
     return (
@@ -173,57 +184,51 @@ const Auth = () => {
                                     </div>
                                 )}
 
-                                {!isSignIn && (
-                                    <div className="flex items-start space-x-2">
-                                        <input
-                                            type="checkbox"
-                                            id="terms"
-                                            className="mt-1"
-                                            checked={data.termsAccepted}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "termsAccepted",
-                                                    termsClicked &&
-                                                        privacyClicked &&
-                                                        e.target.checked
-                                                )
-                                            }
-                                            disabled={
-                                                !(
-                                                    termsClicked &&
-                                                    privacyClicked
-                                                )
-                                            }
-                                        />
-                                        <label
-                                            htmlFor="terms"
-                                            className="text-sm text-black"
-                                        >
-                                            I understood the{" "}
-                                            <Link
-                                                href="/terms-condition"
-                                                onClick={handleTermsLinkClick}
-                                                className={`${
-                                                    termsClicked
-                                                        ? "text-green-600"
-                                                        : "text-sky-400"
-                                                }`}
+                                    {!isSignIn && (
+                                    <div>
+                                        <div className="flex items-start space-x-2">
+                                            <input
+                                                type="checkbox"
+                                                id="terms"
+                                                className="mt-1"
+                                                checked={data.termsAccepted}
+                                                onChange={handleTermsCheckboxChange}
+                                            />
+                                            <label
+                                                htmlFor="terms"
+                                                className="text-sm text-black"
                                             >
-                                                Terms & Conditions
-                                            </Link>{" "}
-                                            and{" "}
-                                            <Link
-                                                href="/privacy-policy"
-                                                onClick={handlePrivacyLinkClick}
-                                                className={`${
-                                                    privacyClicked
-                                                        ? "text-green-600"
-                                                        : "text-sky-400"
-                                                }`}
-                                            >
-                                                Privacy Policy
-                                            </Link>
-                                        </label>
+                                                I understood the{" "}
+                                                <Link
+                                                    href="/terms-condition"
+                                                    onClick={handleTermsLinkClick}
+                                                    className={`${
+                                                        termsClicked
+                                                            ? "text-green-600"
+                                                            : "text-sky-400"
+                                                    }`}
+                                                >
+                                                    Terms & Conditions
+                                                </Link>{" "}
+                                                and{" "}
+                                                <Link
+                                                    href="/privacy-policy"
+                                                    onClick={handlePrivacyLinkClick}
+                                                    className={`${
+                                                        privacyClicked
+                                                            ? "text-green-600"
+                                                            : "text-sky-400"
+                                                    }`}
+                                                >
+                                                    Privacy Policy
+                                                </Link>
+                                            </label>
+                                        </div>
+                                        {termsCheckError && (
+                                            <p className="text-red-500 text-sm mt-2">
+                                                Please read the Terms & Conditions and Privacy Policy first
+                                            </p>
+                                        )}
                                     </div>
                                 )}
                                 <ButtonComponent

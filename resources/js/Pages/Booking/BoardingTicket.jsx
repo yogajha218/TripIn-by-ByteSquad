@@ -38,7 +38,7 @@ const BoardingTicket = ({booking, user}) => {
     <div className="min-h-screen bg-primary">
       {/* Header with centered title */}
       <div className="relative h-16 flex items-center justify-center mb-8">
-        <button className="absolute left-4 text-white mt-4">
+        <button onClick={() => (window.location.href = "/ticket")} className="absolute left-4 text-white mt-4">
           <img src="/backArrow.svg" className="w-6 h-6" />
         </button>
         <h1 className="text-white text-2xl font-bold mt-4">Boarding Ticket</h1>
@@ -138,7 +138,7 @@ const BoardingTicket = ({booking, user}) => {
         <div className="border-t border-gray-400" />
 
          {/* TODO : QR Code Usage? */}
-         
+
         {/* QR Code */}
         <div className="pt-6 text-center">
           <div className="text-sm mb-4">Scan this code</div>

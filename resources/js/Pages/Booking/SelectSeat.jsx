@@ -113,7 +113,7 @@ const SelectSeat = ({plate, seatLimit}) => {
                 <div className="h-[205px] bg-primary">
                     <div className="mx-5 pt-14 flex">
                         {/* Back Arrow */}
-                        <div className="ml-2">
+                        <div onClick={() => (window.location.href = "/booking/bus-schedule")} className="ml-2">
                             <img src="/backArrow.svg" alt="Back Arrow" className='cursor-pointer'/>
                         </div>
 

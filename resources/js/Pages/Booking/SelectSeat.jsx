@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import Seats from "@/Components/Seats";
 import axios from "axios";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
@@ -41,7 +41,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
         { number: 19 }, // Row 6
     ];
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const fetchBookedSeats = async () => {
             try {
                 const response = await axios.get(

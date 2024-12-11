@@ -13,7 +13,11 @@ const CarouselDashboard = () => {
                         <p className="absolute text-white shadow-md px-3 py-2 font-semibold">
                             {destination}
                         </p>
-                        <img src={`/${destination}.png`} alt="" />
+                        <img
+                            src={`/${destination}.png`}
+                            alt=""
+                            loading="lazy"
+                        />
                     </div>
                 ))}
             </div>

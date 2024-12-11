@@ -340,8 +340,6 @@ const ConfirmationPage = ({
                             >
                                 ORDER NOW
                             </button>
-
-                            {snapToken && <p>Snap Token: {snapToken}</p>}
                         </div>
                     </div>
                 </div>

@@ -97,7 +97,10 @@ const BoardingTicket = ({ booking, user }) => {
                                     {/* Time and Date */}
                                     <div className="w-36">
                                         <div className="text-xl font-bold">
-                                            {tickets.departureTime}
+                                            {tickets.departureTime
+                                                .split(":")
+                                                .slice(0, 2)
+                                                .join(":")}
                                         </div>
                                         <div className="text-sm text-gray-500">
                                             {tickets.departureDate}
@@ -128,7 +131,10 @@ const BoardingTicket = ({ booking, user }) => {
                                     {/* Time and Date */}
                                     <div className="w-32">
                                         <div className="text-xl font-bold">
-                                            {tickets.arrivalTime}
+                                            {tickets.arrivalTime
+                                                .split(":")
+                                                .slice(0, 2)
+                                                .join(":")}
                                         </div>
                                         <div className="text-sm text-gray-500">
                                             {tickets.arrivalDate}

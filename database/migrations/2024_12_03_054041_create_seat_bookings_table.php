@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->unsignedBigInteger('location_id')->nullable();
             $table->unsignedBigInteger('trip_id');
-            $table->json('seat_number')->nullable();
+            $table->jsonb('seat_number')->nullable();
             $table->Time('departure_time')->nullable();
             $table->date('departure_date');
 

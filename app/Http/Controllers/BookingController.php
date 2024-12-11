@@ -151,7 +151,7 @@ class BookingController extends Controller
         // Find the vehicle by its license plate
         $vehicle = Vehicle::where('license_plate', $licensePlate)->first();
 
-        $departureTime = session('setRoute.selectedRoute.departure'); // You can also pass this as a parameter if needed
+        $departureTime = session('setRoute.selectedRoute.departure'); 
 
         if (!$vehicle) {
             return response()->json(['message' => 'Vehicle not found'], 404);
@@ -276,6 +276,8 @@ class BookingController extends Controller
             'departure_date' => $tempBooking['departure_date'],
         ];
 
+        $existingBooking = SeatBooking::where($criteria)->lockForUpdate()->first();
+
         try{
 
             DB::beginTransaction();
@@ -307,7 +309,6 @@ class BookingController extends Controller
                 'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
             ]);
 
-            $existingBooking = SeatBooking::where($criteria)->lockForUpdate()->first();
 
             if ($existingBooking) {
                 // If there is an existing booking, merge the new seat numbers

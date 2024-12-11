@@ -17,6 +17,9 @@ class TrackingController extends Controller
                 ->whereHas('trips', function($query){
                     $query->where('selected_day', Carbon::today());
                 })
+                ->whereHas('trips.schedule', function($query){
+                    $query->where('departure_time', now()->format('H:i:s'));
+                })
                 ->first();
 
         return Inertia::render('Tracking', ['routes' => $routes]);

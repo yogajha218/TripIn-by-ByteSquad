@@ -21,6 +21,7 @@ use Midtrans\Config;
 use Midtrans\Snap;
 use Inertia\Inertia;
 use App\Notifications\paymentCompleted;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -78,7 +79,6 @@ class BookingController extends Controller
         return Inertia::render('Booking/Dummy');
     }
 
-
     public function busScheduleIndex()
     {
         $city = session('bookingData.cityValue');
@@ -111,7 +111,6 @@ class BookingController extends Controller
     }
 
     public function originIndex(){
-
         return Inertia::render('Booking/Origin');
     }
 
@@ -178,87 +177,92 @@ class BookingController extends Controller
     }
 
     public function storeData(Request $request){
-        $routeId = session('setRoute.selectedRoute.routeId');
-        $vehicle = session('vehicle');
+        $lock = Cache::lock('store-data-lock', 2);
 
-        FacadesLog::info('Vehicle : ' . $vehicle);
+        if($lock->get()){
+            try{
+                $routeId = session('setRoute.selectedRoute.routeId');
+                $vehicle = session('vehicle');
 
-        $location = Location::whereHas('vehicles', function($query) use ($routeId) {
-            $query->where('route_id', $routeId);
-                })->with(['vehicles' => function($query) use ($routeId) {
-                    $query->withPivot('route_id')->where('route_id', $routeId);
-                }])->first();
+                FacadesLog::info('Vehicle : ' . $vehicle);
 
-        $user = Auth::user();
+                $location = Location::whereHas('vehicles', function($query) use ($routeId) {
+                    $query->where('route_id', $routeId);
+                        })->with(['vehicles' => function($query) use ($routeId) {
+                            $query->withPivot('route_id')->where('route_id', $routeId);
+                        }])->first();
 
-        $transaction_details = [
-            'order_id' => uniqid(),
-            'gross_amount' => $request->amount,
-        ];
+                $user = Auth::user();
 
-        $item_details = [
-            [
-                'id' => $location->vehicles[0]->pivot->route_id,
-                'price' => $location->vehicles[0]->pivot->price,
-                'quantity' => session('seatCount'),
-                'name' => 'Gopay Payment'
-            ]
-        ];
+                $transaction_details = [
+                    'order_id' => uniqid(),
+                    'gross_amount' => $request->amount,
+                ];
 
-        $billing_address = [
-            'first_name' => $user->username,
-            'phone' => $user->phone_number,
-            'country_code' => 'IDN',
-        ];
+                $item_details = [
+                    [
+                        'id' => $location->vehicles[0]->pivot->route_id,
+                        'price' => $location->vehicles[0]->pivot->price,
+                        'quantity' => session('seatCount'),
+                        'name' => 'Gopay Payment'
+                    ]
+                ];
 
-        $customer_details = [
-            'first_name' => $user->username,
-            'email' => $user->email,
-            'phone' => $user->phone_number,
-            'biling_address' => $billing_address,
-        ];
+                $billing_address = [
+                    'first_name' => $user->username,
+                    'phone' => $user->phone_number,
+                    'country_code' => 'IDN',
+                ];
 
-        $transaction_data = [
-            'transaction_details' => $transaction_details,
-            'item_details' => $item_details,
-            'customer_details' => $customer_details,
-            'callbacks' => [
-                'finish' => route('order.dummy'), // Route where you want to redirect the user
-            ],
-        ];
+                $customer_details = [
+                    'first_name' => $user->username,
+                    'email' => $user->email,
+                    'phone' => $user->phone_number,
+                    'biling_address' => $billing_address,
+                ];
 
-        try{
-            $snap_token = Snap::getSnapToken($transaction_data);
+                $transaction_data = [
+                    'transaction_details' => $transaction_details,
+                    'item_details' => $item_details,
+                    'customer_details' => $customer_details,
+                    'callbacks' => [
+                        'finish' => route('order.dummy'), // Route where you want to redirect the user
+                    ],
+                ];
 
-            session(['temp_booking' => [
-                'amount' => $request->amount,
-                'user_id' => $user->user_id,
-                'seat_count' => session('seatCount'),
-                'vehicle_id' => $vehicle->vehicle_id,
-                'location_id' => $location->location_id,
-                'departure_time' => session('setRoute.selectedRoute.departure'),
-                'departure_date' => date('Y-m-d', strtotime(session('bookingData.selectedDay'))),
-                'seat_number' => session('seatNumber'),
-                'route_id' => $routeId,
-                'origin' => session('bookingData.origin'),
-                'selected_day' => session('bookingData.selectedDay'),
-                'city' => session('bookingData.cityValue'),
-                'credit' => [
-                    'amount' => $request->credit,
-                    'status' => $request->credit_status,
-                ],
-                'driver' => $vehicle->driver->name,
-            ]]);
+                $snap_token = Snap::getSnapToken($transaction_data);
 
-            Session::forget('seat_done');
-            Session::put('order_done', true);
+                session(['temp_booking' => [
+                    'amount' => $request->amount,
+                    'user_id' => $user->user_id,
+                    'seat_count' => session('seatCount'),
+                    'vehicle_id' => $vehicle->vehicle_id,
+                    'location_id' => $location->location_id,
+                    'departure_time' => session('setRoute.selectedRoute.departure'),
+                    'departure_date' => date('Y-m-d', strtotime(session('bookingData.selectedDay'))),
+                    'seat_number' => session('seatNumber'),
+                    'route_id' => $routeId,
+                    'origin' => session('bookingData.origin'),
+                    'selected_day' => session('bookingData.selectedDay'),
+                    'city' => session('bookingData.cityValue'),
+                    'credit' => [
+                        'amount' => $request->credit,
+                        'status' => $request->credit_status,
+                    ],
+                    'driver' => $vehicle->driver->name,
+                ]]);
 
-            return response()->json(['snap_token' => $snap_token]);
+                Session::forget('seat_done');
+                Session::put('order_done', true);
 
-        } catch (\Exception $e){
-            FacadesLog::info('Error Inserting on Store Data : ' . $e->getMessage());
+                return response()->json(['snap_token' => $snap_token]);
 
-            return response()->json(['message', 'Something wrong, please try again later']);
+            } catch (\Exception $e){
+                FacadesLog::info('Error Inserting on Store Data : ' . $e->getMessage());
+                return response()->json(['message', 'Something wrong, please try again later']);
+            }
+        }else{
+            return response()->json(['message' => 'Request is being processed']);
         }
     }
 
@@ -308,7 +312,6 @@ class BookingController extends Controller
                 'driver' => $tempBooking['driver'],
                 'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
             ]);
-
 
             if ($existingBooking) {
                 // If there is an existing booking, merge the new seat numbers
@@ -370,6 +373,4 @@ class BookingController extends Controller
 
         return $bookingCode;
     }
-
-
 }

@@ -89,7 +89,10 @@ const Profile = () => {
                     <div className="w-full h-full min-h-[100dvh] bg-white mt-[-1.75rem] rounded-t-3xl px-6">
                         <div className="flex flex-col items-center">
                             <div className="w-[120px] h-[120px] rounded-full ring-4 ring-blue-300 overflow-hidden mt-[-3.5rem]">
-                                <img src="https://placehold.co/120x120" />
+                                <img
+                                    src="https://placehold.co/120x120"
+                                    loading="lazy"
+                                />
                             </div>
                             <p className="text-3xl font-semibold text-center">
                                 {user.username}
@@ -110,14 +113,22 @@ const Profile = () => {
                                     href="/profile/edit"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium  hover:bg-primary hover:text-white"
                                 >
-                                    <img src="/profile.svg" alt="icon" />
+                                    <img
+                                        src="/profile.svg"
+                                        alt="icon"
+                                        loading="lazy"
+                                    />
                                     <p className="px-5 text-sm">Edit Profile</p>
                                 </Link>
                                 <Link
                                     href="/notification"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2  hover:bg-primary hover:text-white"
                                 >
-                                    <img src="/notif.svg" alt="icon" />
+                                    <img
+                                        src="/notif.svg"
+                                        alt="icon"
+                                        loading="lazy"
+                                    />
                                     <p className="px-[27px] text-sm">
                                         Notification
                                     </p>
@@ -126,7 +137,11 @@ const Profile = () => {
                                     href="/profile/history"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium  hover:bg-primary hover:text-white"
                                 >
-                                    <img src="/history.svg" alt="icon" />
+                                    <img
+                                        src="/history.svg"
+                                        alt="icon"
+                                        loading="lazy"
+                                    />
                                     <p className="px-5 text-sm">History</p>
                                 </Link>
                             </div>
@@ -140,14 +155,22 @@ const Profile = () => {
                                     href="/faq"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium hover:bg-primary hover:text-white"
                                 >
-                                    <img src="/faq.svg" alt="icon" />
+                                    <img
+                                        src="/faq.svg"
+                                        alt="icon"
+                                        loading="lazy"
+                                    />
                                     <p className="px-5 text-sm">FAQ</p>
                                 </Link>
                                 <Link
                                     href="/terms-condition"
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium border-y-2 hover:bg-primary hover:text-white"
                                 >
-                                    <img src="/term.svg" alt="icon" />
+                                    <img
+                                        src="/term.svg"
+                                        alt="icon"
+                                        loading="lazy"
+                                    />
                                     <p className="px-6 text-sm">
                                         Term & Conditions
                                     </p>
@@ -157,7 +180,11 @@ const Profile = () => {
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium
                                      hover:bg-primary hover:text-white"
                                 >
-                                    <img src="/privacy.svg" alt="icon" />
+                                    <img
+                                        src="/privacy.svg"
+                                        alt="icon"
+                                        loading="lazy"
+                                    />
                                     <p className="px-5 text-sm">
                                         Privacy Policy
                                     </p>
@@ -173,7 +200,11 @@ const Profile = () => {
                                     onClick={modalVisibility}
                                     className="bg-[#DADADA59] flex flex-row items-center px-5 text-lg font-medium h-[52px] w-full  hover:bg-primary hover:text-white"
                                 >
-                                    <img src="/logout.svg" alt="icon" />
+                                    <img
+                                        src="/logout.svg"
+                                        alt="icon"
+                                        loading="lazy"
+                                    />
                                     <p className="px-5 text-sm">Log Out</p>
                                 </button>
                             </div>

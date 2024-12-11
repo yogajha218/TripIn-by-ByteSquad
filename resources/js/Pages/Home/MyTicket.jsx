@@ -1,6 +1,7 @@
 import React from "react";
 import { Ticket, CircleDot } from "lucide-react";
 import NavbarTripin from "@/Components/NavbarTripin";
+import { format } from "date-fns";
 
 const MyTicket = ({ bookings }) => {
     console.log("Bookings : ", bookings);
@@ -73,7 +74,7 @@ const MyTicket = ({ bookings }) => {
                             {/* Ticket Details */}
                             <div className="p-4">
                                 <div className="flex justify-between items-start mb-4">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center justify-between w-full">
                                         <h2 className="font-semibold text-sm sm:text-base text-black">
                                             Shuttle Bus Tripin
                                         </h2>
@@ -81,12 +82,6 @@ const MyTicket = ({ bookings }) => {
                                             {ticket.plateNumber}
                                         </span>
                                     </div>
-                                    <button
-                                        onClick={(e) => onClick(e, ticket.id)}
-                                        className="text-blue-400 bg-transparent text-[10px]"
-                                    >
-                                        View Details
-                                    </button>
                                 </div>
 
                                 <p className="text-sm text-gray-600 mb-4">
@@ -111,7 +106,12 @@ const MyTicket = ({ bookings }) => {
                                                     .join(":")}
                                             </div>
                                             <div className="text-sm text-gray-500">
-                                                {ticket.departure.date}
+                                                {format(
+                                                    new Date(
+                                                        ticket.departure.date
+                                                    ),
+                                                    "dd MMM yyyy"
+                                                )}
                                             </div>
                                             <div className="mt-2">
                                                 <div className="font-medium text-[12px]">
@@ -140,7 +140,12 @@ const MyTicket = ({ bookings }) => {
                                                     .join(":")}
                                             </div>
                                             <div className="text-sm text-gray-500">
-                                                {ticket.arrival.date}
+                                                {format(
+                                                    new Date(
+                                                        ticket.arrival.date
+                                                    ),
+                                                    "dd MMM yyyy"
+                                                )}
                                             </div>
                                             <div className="mt-2">
                                                 <div className="font-medium  text-xs">
@@ -157,7 +162,10 @@ const MyTicket = ({ bookings }) => {
 
                             {/* Action Button - Payment or Boarding based on status */}
                             {ticket.isPaid ? (
-                                <button className="w-full py-3 bg-primary2 text-white font-medium">
+                                <button
+                                    className="w-full py-3 bg-primary2 text-white font-medium"
+                                    onClick={(e) => onClick(e, ticket.id)}
+                                >
                                     BOARDING TICKET
                                 </button>
                             ) : (

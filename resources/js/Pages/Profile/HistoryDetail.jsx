@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { format } from "date-fns";
 // import { Car, ChevronLeft, CreditCard, Users, Armchair } from 'lucide-react'; // TODO : harus import
 
 const HistoryDetail = ({ log }) => {
@@ -44,7 +45,7 @@ const HistoryDetail = ({ log }) => {
                             onClick={() => history.back()}
                         />
                         <span className="flex-1 text-center text-xl font-medium">
-                            {ticketInfo.date}
+                            {format(new Date(ticketInfo.date), "dd MMM yyyy")}
                         </span>
                     </div>
 

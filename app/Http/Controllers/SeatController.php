@@ -67,8 +67,5 @@ class SeatController extends Controller
         }catch(\Exception $e){
             FacadesLog::info('Error saving Seat : ' . $e->getMessage());
         }
-
-        
     }
-
 }

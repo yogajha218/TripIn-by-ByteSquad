@@ -118,7 +118,7 @@ const Booking = () => {
             {!isSelectOrigin ? (
                 <div className="lg:flex lg:justify-center">
                     <div className="lg:w-[400px] min-h-screen bg-white ">
-                        <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary rounded-b-md ">
+                        <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary rounded-b-lg ">
                             <ChevronLeftIcon
                                 onClick={() => (window.location.href = "/home")}
                                 className="size-8 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
@@ -374,13 +374,13 @@ const Booking = () => {
                 setIsModalHidden={setIsModalHidden}
                 isModalHidden={isModalHidden}
             >
-                <div className="flex flex-col px-5">
+                <div className="flex flex-col ">
                     <CalendarComponent
                         selectedDay={selectedDay}
                         tempSelectedDay={tempSelectedDay}
                         onDaySelection={handleDaySelection}
                     />
-                    <div className="w-full h-fit p-4">
+                    <div className="w-full h-fit  pb-5 px-4 md:p-5">
                         <ButtonComponent
                             buttonText={"Save"}
                             onclick={() => {

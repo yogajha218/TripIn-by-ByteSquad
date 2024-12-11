@@ -12,7 +12,7 @@ export const ButtonComponent = ({
         <button
             type={type}
             onClick={onclick}
-            className={`bg-${buttonColor} text-${textColor} text-lg w-full py-3  text-white rounded-lg font-medium`}
+            className={`bg-${buttonColor} text-${textColor} text-md md:text-lg w-full py-3  text-white rounded-md font-medium`}
             disabled={disabled}
         >
             {buttonText}

@@ -18,7 +18,7 @@ class TrackingController extends Controller
                         $query->where('selected_day', Carbon::today());
                     })
                     ->whereHas('trips.schedule', function($query){
-                        $query->where('departure_time', now()->format('H:i:s'));
+                        $query->where('departure_time', '<=', now()->addMinutes(15)->format('H:i:s'));
                     })
                     ->first();
 

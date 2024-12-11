@@ -1,6 +1,7 @@
 import React from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { format } from "date-fns";
 
 const BoardingTicket = ({ booking, user }) => {
     console.log("bookings : ", booking);
@@ -91,67 +92,72 @@ const BoardingTicket = ({ booking, user }) => {
                             </div>
 
                             {/* Journey Section */}
-                            <div className="relative py-6">
+                            <div className="relative py-2 grid grid-cols-2 px-4  ">
                                 {/* Departure */}
-                                <div className="flex items-start mb-16 relative">
+                                <div className="flex flex-col justify-between gap-24 relative">
                                     {/* Time and Date */}
                                     <div className="w-36">
-                                        <div className="text-xl font-bold">
+                                        <div className="text-lg text-primary font-bold">
                                             {tickets.departureTime
                                                 .split(":")
                                                 .slice(0, 2)
                                                 .join(":")}
                                         </div>
                                         <div className="text-sm text-gray-500">
-                                            {tickets.departureDate}
+                                            {format(
+                                                new Date(tickets.departureDate),
+                                                "dd MMM yyyy"
+                                            )}
                                         </div>
                                     </div>
 
                                     {/* Journey Line - Top Dot */}
-                                    <div className="mx-2 mt-2">
-                                        <div className="w-2 h-2 rounded-full bg-black" />
-                                    </div>
 
                                     {/* City and Station */}
-                                    <div className="flex-1 ml-9">
-                                        <div className="font-medium">
-                                            {tickets.departureCity}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            {tickets.departureStation}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Vertical Line */}
-                                <div className="absolute left-[9.7rem] top-8 w-0.5 h-28 bg-black" />
-
-                                {/* Arrival */}
-                                <div className="flex items-start relative">
-                                    {/* Time and Date */}
-                                    <div className="w-32">
-                                        <div className="text-xl font-bold">
+                                    <div className="w-36">
+                                        <div className="text-sm text-primary2 font-bold">
                                             {tickets.arrivalTime
                                                 .split(":")
                                                 .slice(0, 2)
                                                 .join(":")}
                                         </div>
                                         <div className="text-sm text-gray-500">
-                                            {tickets.arrivalDate}
+                                            {format(
+                                                new Date(tickets.arrivalDate),
+                                                "dd MMM yyyy"
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Vertical Line */}
+
+                                {/* Arrival */}
+                                <div className="flex flex-col items-start gap-24 relative">
+                                    <div className="absolute rounded-full size-2 bg-grey -left-[3px] top-3"></div>
+
+                                    <div className="absolute h-4/5 w-0.5 bg-grey  top-3">
+                                        <div className="absolute rounded-full size-2 bg-grey -left-[3px] top-1/2 -translate-y-[45%] "></div>
+                                    </div>
+                                    <div className="absolute size-2 rounded-full bg-grey -left-[3px] bottom-7"></div>
+                                    {/* Time and Date */}
+                                    <div className="w-32 ">
+                                        <div className="font-medium text-end">
+                                            {tickets.departureCity}
+                                        </div>
+                                        <div className="text-sm text-gray-500 text-end">
+                                            {tickets.departureStation}
                                         </div>
                                     </div>
 
                                     {/* Journey Line - Bottom Dot */}
-                                    <div className="mx-6 mt-2">
-                                        <div className="w-2 h-2 rounded-full bg-black" />
-                                    </div>
 
                                     {/* City and Station */}
-                                    <div className="flex-1 ml-5">
-                                        <div className="font-medium">
+                                    <div className="w-32 ">
+                                        <div className="font-medium text-end">
                                             {tickets.arrivalCity}
                                         </div>
-                                        <div className="text-sm text-gray-500">
+                                        <div className="text-sm text-gray-500 text-end">
                                             {tickets.arrivalStation}
                                         </div>
                                     </div>

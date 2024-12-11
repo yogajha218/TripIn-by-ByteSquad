@@ -21,6 +21,7 @@ export default {
                 primary: "#49abff",
                 primary2: "#044379",
                 white: "#ffffff",
+                grey: "#394867",
             },
             keyframes: {
                 shake: {

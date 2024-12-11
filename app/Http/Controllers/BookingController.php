@@ -21,6 +21,7 @@ use Midtrans\Config;
 use Midtrans\Snap;
 use Inertia\Inertia;
 use App\Notifications\paymentCompleted;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
@@ -262,6 +263,7 @@ class BookingController extends Controller
     }
 
     public function finishPayment(Request $request){
+
         $tempBooking = session('temp_booking');
         $user = Auth::user();
 
@@ -275,6 +277,8 @@ class BookingController extends Controller
         ];
 
         try{
+
+            DB::beginTransaction();
 
             if($tempBooking['credit']['status'] == true){
                 $user->credit->credit_amount -= $user->credit->credit_amount;
@@ -303,7 +307,7 @@ class BookingController extends Controller
                 'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
             ]);
 
-            $existingBooking = SeatBooking::where($criteria)->first();
+            $existingBooking = SeatBooking::where($criteria)->lockForUpdate()->first();
 
             if ($existingBooking) {
                 // If there is an existing booking, merge the new seat numbers
@@ -342,7 +346,9 @@ class BookingController extends Controller
 
             session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
 
+            DB::commit();
         } catch(\Exception $e){
+            DB::rollBack();
             FacadesLog::info('Error Inserting on Finish Payment : ' . $e->getMessage());
         }
 

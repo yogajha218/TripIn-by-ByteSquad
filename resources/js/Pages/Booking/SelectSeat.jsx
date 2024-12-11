@@ -145,7 +145,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
                             <div className="mx-3 flex justify-center py-5  ">
                                 {/* Back Arrow */}
                                 <ChevronLeftIcon
-                                    className="size-6 text-white absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                                    className="size-6 text-white absolute left-3 top-6 cursor-pointer"
                                     onClick={() =>
                                         (window.location.href =
                                             "/booking/bus-schedule")

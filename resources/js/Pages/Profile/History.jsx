@@ -41,8 +41,8 @@ const History = ({ logs }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="lg:w-[400px]">
-                    <header className="bg-primary h-[108px] w-full">
+                <div className="lg:w-[400px] bg-white">
+                    <header className="bg-primary h-[108px] w-full rounded-b-lg">
                         <div className="flex text-white justify-center items-center relative h-full">
                             <ChevronLeftIcon
                                 className="size-6 cursor-pointer absolute top-1/2 translate-y-[-50%] left-3"
@@ -54,7 +54,7 @@ const History = ({ logs }) => {
                         </div>
                     </header>
 
-                    <main className="px-4 py-6 bg-white min-h-screen">
+                    <main className=" px-4 py-6 bg-white min-h-screen">
                         {Object.entries(groupedLogs).map(([date, entries]) => (
                             <section key={date} className="mb-6">
                                 <p className="font-semibold text-black mb-5">
@@ -68,12 +68,14 @@ const History = ({ logs }) => {
                                         }
                                     )}
                                 </p>
-                                {entries.map((entry, index) => (
-                                    <HistoryComponent
-                                        key={index}
-                                        CardProp={entry}
-                                    />
-                                ))}
+                                <div className="flex flex-col gap-3">
+                                    {entries.map((entry, index) => (
+                                        <HistoryComponent
+                                            key={index}
+                                            CardProp={entry}
+                                        />
+                                    ))}
+                                </div>
                             </section>
                         ))}
                     </main>

@@ -129,7 +129,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         <div className="lg:flex lg:justify-center">
                             <CarouselDashboard />
                         </div>
-                        <div className="font-semibold text-black mb-5">
+                        <div className="font-semibold text-black mt-12 mb-3">
                             Today's Trip
                         </div>
 
@@ -144,8 +144,11 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             )}
                         </div>
 
-                        <div className="font-semibold text-orange my-5">
-                            Upcoming's Trip
+                        <div className=" flex justify-between items-baseline mt-16 mb-3 px-2">
+                            <p className="font-semibold text-orange">
+                                Upcoming's Trip
+                            </p>
+                            <p className="text-sm text-primary">see more</p>
                         </div>
                         <div className="grid gap-4">
                             <div className="grid mb-10 gap-4">

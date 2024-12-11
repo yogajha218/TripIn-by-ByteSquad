@@ -16,7 +16,7 @@ const JourneyDot = () => {
 
 const JourneyDetail = ({ routes, booking }) => {
     const [selectedRoute, setSelectedRoute] = useState("");
-    console.log("Routes : ", routes)
+    console.log("Routes : ", routes);
 
     const onClickDetail = async (e, routeId, plate, departure) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ const JourneyDetail = ({ routes, booking }) => {
             const response = await axios.post(
                 route("route.store"),
                 {
-                    selectedRoute: { routeId, plate, departure},
+                    selectedRoute: { routeId, plate, departure },
                 },
                 {
                     headers: {
@@ -69,13 +69,13 @@ const JourneyDetail = ({ routes, booking }) => {
                 bus.vehicles.map((vehicle) => (
                     <div
                         key={vehicle.pivot.route_id} // Use route_id from the pivot
-                        className="bg-white rounded-lg shadow-md p-4 relative"
+                        className="bg-white rounded-lg shadow-md p-4 relative cursor-pointer"
                         onClick={(e) =>
                             onClickDetail(
                                 e,
                                 vehicle.pivot.route_id,
                                 vehicle.license_plate,
-                                vehicle.pivot.departure_time,
+                                vehicle.pivot.departure_time
                             )
                         }
                     >

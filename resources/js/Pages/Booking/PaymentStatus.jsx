@@ -52,16 +52,10 @@ const PaymentStatus = ({ user, booking }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="min-h-screen bg-white lg:w-[400px]">
+                <div className="min-h-screen bg-white lg:w-[400px] relative">
                     {/* Header */}
                     <div className="bg-primary p-6">
                         <div className="relative flex items-center justify-center">
-                            <button className="absolute left-0 p-1 bg-transparent">
-                                <img
-                                    src="/backArrow.svg"
-                                    className="w-6 h-6 text-white"
-                                />
-                            </button>
                             <h1 className="text-2xl font-bold text-white">
                                 Gopay
                             </h1>
@@ -69,10 +63,10 @@ const PaymentStatus = ({ user, booking }) => {
                     </div>
 
                     {/* Main Content */}
-                    <div className="p-6">
+                    <div className="p-6 relative">
                         {/* Success Icon */}
                         <div className="flex justify-center mb-4">
-                            <div className="bg-lime-400 rounded-full border-gray-200 border shadow-black p-3">
+                            <div className="bg-blue-500 ring-2 ring-blue-100 rounded-full border-gray-200 border shadow-black p-3">
                                 <CheckIcon className="size-8 text-white"></CheckIcon>
                             </div>
                         </div>
@@ -88,7 +82,7 @@ const PaymentStatus = ({ user, booking }) => {
                         </div>
 
                         {/* Payment Details Card */}
-                        <div className="bg-gray-100 rounded-lg p-4 mb-4">
+                        <div className="bg-gray-100 rounded-lg p-4 mb-4 relative">
                             <div className="space-y-2">
                                 <div className="flex justify-between">
                                     <span className="text-black">Name</span>
@@ -128,18 +122,17 @@ const PaymentStatus = ({ user, booking }) => {
                         </div>
 
                         {/* Transaction Details Card */}
-
-                        {/* Back Button */}
-                        <div>
-                            <button
-                                onClick={() =>
-                                    (window.location.href = route("home"))
-                                }
-                                className="w-full bg-primary2 text-white py-3 rounded-lg font-medium"
-                            >
-                                BACK TO HOME
-                            </button>
-                        </div>
+                    </div>
+                    {/* Back Button */}
+                    <div className="relative w-full bottom-0 p-5">
+                        <button
+                            onClick={() =>
+                                (window.location.href = route("home"))
+                            }
+                            className="w-full bg-primary2 text-white py-3 rounded-lg font-medium"
+                        >
+                            BACK TO HOME
+                        </button>
                     </div>
                 </div>
             </div>

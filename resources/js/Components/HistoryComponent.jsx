@@ -7,21 +7,21 @@ const HistoryComponent = ({ CardProp }) => {
     return (
         <div
             onClick={() => handleClick(CardProp.logId)}
-            className="max-w-[395px] h-fit rounded-[10px] border border-[#8BAFCE80] bg-white"
+            className="w-full h-fit rounded-[10px] border border-[#8BAFCE80] bg-white "
         >
-            <div className="flex px-4 pt-7 pb-3 justify-between items-center">
+            <div className="flex px-4 pt-7 pb-3  items-center gap-3">
                 <div>
                     <img src="/shuttle_icon.svg" alt="shuttle_icon" />
                 </div>
-                <div className="flex-row justify-start items-start h-fit ml-2">
-                    <h3 className="text-lg font-bold">{CardProp.name}</h3>
-                    <p className="text-black">
+                <div className="flex-row justify-start items-start h-fit">
+                    <h3 className="text-base font-bold">{CardProp.name}</h3>
+                    <p className="text-black text-sm">
                         Booking Code: {CardProp.bookingCode}
                     </p>
                 </div>
-                <div className="text-right">
-                    <p className="text-sm text-primary">{CardProp.seat}</p>
-                    <p className="text-sm text-black">{CardProp.passengers}</p>
+                <div className="text-right self-center">
+                    <p className="text-xs text-primary">{CardProp.seat}</p>
+                    <p className="text-xs text-black">{CardProp.passengers}</p>
                 </div>
             </div>
             <div className="grid grid-cols-[5rem_1fr] pb-6 relative">
@@ -38,9 +38,12 @@ const HistoryComponent = ({ CardProp }) => {
                             <p className="text-sm w-fit">From:</p>
                             <div className="flex items-center gap-2">
                                 <p className="font-bold w-fit text-xs whitespace-nowrap">
-                                    {CardProp.originTime}
+                                    {CardProp.originTime
+                                        .split(":")
+                                        .slice(0, 2)
+                                        .join(":")}
                                 </p>
-                                <p className="font-medium w-fit text-xs break-words">
+                                <p className="font-medium w-fit text-xs break-words ">
                                     {CardProp.origin}
                                 </p>
                             </div>
@@ -52,9 +55,12 @@ const HistoryComponent = ({ CardProp }) => {
                         </div>
                         <div className="flex flex-col justify-start">
                             <p className="text-sm w-fit">To:</p>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
                                 <p className="font-bold w-fit text-xs whitespace-nowrap">
-                                    {CardProp.destinationTime}
+                                    {CardProp.destinationTime
+                                        .split(":")
+                                        .slice(0, 2)
+                                        .join(":")}
                                 </p>
                                 <p className="font-medium w-fit text-xs break-words">
                                     {CardProp.destination}

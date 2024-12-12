@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const ProfileEdit = ({ email, username, phone_number, gender }) => {
     const { data, setData, post, processing, errors } = useForm({
@@ -11,7 +12,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
+            'meta[name="csrf-token"]',
         ).content;
 
         post(route("profile.edit.send"), data, {
@@ -24,7 +25,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
     const handleOtp = (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
+            'meta[name="csrf-token"]',
         ).content;
 
         post(route("profile.edit.otp.send"), {
@@ -36,21 +37,21 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
 
     return (
         <div className="flex justify-center">
-            <div className="  h-fit w-full lg:max-w-[400px]">
-                <div className="w-full h-[220px] bg-primary ">
-                    <p className="text-white font-semibold text-3xl pt-16 text-center">
+            <div className="h-fit w-full lg:max-w-[400px]">
+                <div className="h-[220px] w-full bg-primary">
+                    <p className="pt-16 text-center text-3xl font-semibold text-white">
                         Edit Profile
                     </p>
                 </div>
-                <div className="w-full h-full min-h-[100vh] bg-white  mt-[-1.75rem] rounded-t-3xl px-6">
+                <div className="mt-[-1.75rem] h-full min-h-[100vh] w-full rounded-t-3xl bg-white px-6">
                     <div className="flex flex-col items-center">
-                        <div className="w-[120px] h-[120px] rounded-full overflow-hidden mt-[-3.5rem]">
+                        <div className="mt-[-3.5rem] h-[120px] w-[120px] overflow-hidden rounded-full">
                             <img src="https://placehold.co/120x120" />
                         </div>
                     </div>
-                    <div className="h-max-[230px] w-max-[392px] py-3 ">
+                    <div className="h-max-[230px] w-max-[392px] py-3">
                         <form onSubmit={handleSubmit}>
-                            <label className="font-bold text-lg leading-10">
+                            <label className="text-lg font-bold leading-10">
                                 Name
                             </label>
                             <input
@@ -61,10 +62,10 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 onChange={(e) =>
                                     setData("username", e.target.value)
                                 }
-                                className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 required
                             />
-                            <label className="font-bold text-lg leading-10">
+                            <label className="text-lg font-bold leading-10">
                                 Email
                             </label>
                             <input
@@ -72,13 +73,13 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 id="email"
                                 name="email"
                                 placeholder="Email"
-                                className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 value={email}
                                 disabled={true}
                                 required
                                 autoComplete="email"
                             />
-                            <label className="font-bold text-lg leading-10">
+                            <label className="text-lg font-bold leading-10">
                                 Password
                             </label>
                             <input
@@ -86,17 +87,18 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 id="password"
                                 name="password"
                                 value="********"
-                                className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 disabled={true}
                                 required
                             />
                             <a
                                 onClick={handleOtp}
-                                className="flex px-5 h-[48px] bg-white border border-slate-300 mb-8 mt-8 rounded-lg  items-center hover:bg-slate-50 hover:border-slate-500 hover:cursor-pointer"
+                                className="group relative mb-8 mt-8 flex h-[48px] items-center rounded-lg border border-slate-300 bg-white px-5 hover:cursor-pointer hover:border-slate-500 hover:bg-slate-50"
                             >
                                 <p>Change password</p>
+                                <ChevronRightIcon className="absolute right-3 size-6 group-hover:right-1" />
                             </a>
-                            <label className="font-bold text-lg leading-10">
+                            <label className="text-lg font-bold leading-10">
                                 Phone Number
                             </label>
                             <input
@@ -108,21 +110,21 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                     setData("phone_number", e.target.value)
                                 }
                                 placeholder="Your phone number"
-                                className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 required
                             />
                             {errors.phone_number && (
-                                <p className="text-red-500 text-sm">
+                                <p className="text-sm text-red-500">
                                     {errors.phone_number}
                                 </p>
                             )}
 
                             <div className="flex flex-col items-center">
-                                <label className="font-bold text-lg leading-10 w-full text-start">
+                                <label className="w-full text-start text-lg font-bold leading-10">
                                     Gender
                                 </label>
                                 <select
-                                    className="w-full border border-slate-300 rounded-md"
+                                    className="w-full rounded-md border border-slate-300"
                                     onChange={(e) =>
                                         setData("gender", e.target.value)
                                     }
@@ -138,7 +140,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="text-white bg-primary2 py-2 rounded-lg w-full my-5"
+                                className="my-5 w-full rounded-lg bg-primary2 py-2 text-white"
                             >
                                 {processing
                                     ? "Processing..."

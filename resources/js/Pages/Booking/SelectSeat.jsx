@@ -222,7 +222,8 @@ const SelectSeat = ({ plate, seatLimit }) => {
                                 <div className="mt-[20px]">
                                     <div className="flex justify-center">
                                         <h1 className="text-md font-medium">
-                                            Seat Limit: {seatLimit}
+                                            Seat Limit: {selectedSeat.length}/
+                                            {seatLimit}
                                         </h1>
                                     </div>
                                     <div className="mt-3 h-[430px] w-[300px] rounded-[15px] bg-[#8BAFCE]">

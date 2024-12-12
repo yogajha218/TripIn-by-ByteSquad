@@ -21,6 +21,7 @@ use Midtrans\Config;
 use Midtrans\Snap;
 use Inertia\Inertia;
 use App\Notifications\paymentCompleted;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -78,7 +79,6 @@ class BookingController extends Controller
         return Inertia::render('Booking/Dummy');
     }
 
-
     public function busScheduleIndex()
     {
         $city = session('bookingData.cityValue');
@@ -111,7 +111,6 @@ class BookingController extends Controller
     }
 
     public function originIndex(){
-
         return Inertia::render('Booking/Origin');
     }
 
@@ -151,7 +150,7 @@ class BookingController extends Controller
         // Find the vehicle by its license plate
         $vehicle = Vehicle::where('license_plate', $licensePlate)->first();
 
-        $departureTime = session('setRoute.selectedRoute.departure'); // You can also pass this as a parameter if needed
+        $departureTime = session('setRoute.selectedRoute.departure');
 
         if (!$vehicle) {
             return response()->json(['message' => 'Vehicle not found'], 404);
@@ -178,182 +177,182 @@ class BookingController extends Controller
     }
 
     public function storeData(Request $request){
-        $routeId = session('setRoute.selectedRoute.routeId');
-        $vehicle = session('vehicle');
+            try{
+                $routeId = session('setRoute.selectedRoute.routeId');
+                $vehicle = session('vehicle');
 
-        FacadesLog::info('Vehicle : ' . $vehicle);
+                FacadesLog::info('Vehicle : ' . $vehicle);
 
-        $location = Location::whereHas('vehicles', function($query) use ($routeId) {
-            $query->where('route_id', $routeId);
-                })->with(['vehicles' => function($query) use ($routeId) {
-                    $query->withPivot('route_id')->where('route_id', $routeId);
-                }])->first();
+                $location = Location::whereHas('vehicles', function($query) use ($routeId) {
+                    $query->where('route_id', $routeId);
+                        })->with(['vehicles' => function($query) use ($routeId) {
+                            $query->withPivot('route_id')->where('route_id', $routeId);
+                        }])->first();
 
-        $user = Auth::user();
+                $user = Auth::user();
 
-        $transaction_details = [
-            'order_id' => uniqid(),
-            'gross_amount' => $request->amount,
-        ];
+                $transaction_details = [
+                    'order_id' => uniqid(),
+                    'gross_amount' => $request->amount,
+                ];
 
-        $item_details = [
-            [
-                'id' => $location->vehicles[0]->pivot->route_id,
-                'price' => $location->vehicles[0]->pivot->price,
-                'quantity' => session('seatCount'),
-                'name' => 'Gopay Payment'
-            ]
-        ];
+                $item_details = [
+                    [
+                        'id' => $location->vehicles[0]->pivot->route_id,
+                        'price' => $location->vehicles[0]->pivot->price,
+                        'quantity' => session('seatCount'),
+                        'name' => 'Gopay Payment'
+                    ]
+                ];
 
-        $billing_address = [
-            'first_name' => $user->username,
-            'phone' => $user->phone_number,
-            'country_code' => 'IDN',
-        ];
+                $billing_address = [
+                    'first_name' => $user->username,
+                    'phone' => $user->phone_number,
+                    'country_code' => 'IDN',
+                ];
 
-        $customer_details = [
-            'first_name' => $user->username,
-            'email' => $user->email,
-            'phone' => $user->phone_number,
-            'biling_address' => $billing_address,
-        ];
+                $customer_details = [
+                    'first_name' => $user->username,
+                    'email' => $user->email,
+                    'phone' => $user->phone_number,
+                    'biling_address' => $billing_address,
+                ];
 
-        $transaction_data = [
-            'transaction_details' => $transaction_details,
-            'item_details' => $item_details,
-            'customer_details' => $customer_details,
-            'callbacks' => [
-                'finish' => route('order.dummy'), // Route where you want to redirect the user
-            ],
-        ];
+                $transaction_data = [
+                    'transaction_details' => $transaction_details,
+                    'item_details' => $item_details,
+                    'customer_details' => $customer_details,
+                    'callbacks' => [
+                        'finish' => route('order.dummy'), // Route where you want to redirect the user
+                    ],
+                ];
 
-        try{
-            $snap_token = Snap::getSnapToken($transaction_data);
+                $snap_token = Snap::getSnapToken($transaction_data);
 
-            session(['temp_booking' => [
-                'amount' => $request->amount,
-                'user_id' => $user->user_id,
-                'seat_count' => session('seatCount'),
-                'vehicle_id' => $vehicle->vehicle_id,
-                'location_id' => $location->location_id,
-                'departure_time' => session('setRoute.selectedRoute.departure'),
-                'departure_date' => date('Y-m-d', strtotime(session('bookingData.selectedDay'))),
-                'seat_number' => session('seatNumber'),
-                'route_id' => $routeId,
-                'origin' => session('bookingData.origin'),
-                'selected_day' => session('bookingData.selectedDay'),
-                'city' => session('bookingData.cityValue'),
-                'credit' => [
-                    'amount' => $request->credit,
-                    'status' => $request->credit_status,
-                ],
-                'driver' => $vehicle->driver->name,
-            ]]);
+                session(['temp_booking' => [
+                    'amount' => $request->amount,
+                    'user_id' => $user->user_id,
+                    'seat_count' => session('seatCount'),
+                    'vehicle_id' => $vehicle->vehicle_id,
+                    'location_id' => $location->location_id,
+                    'departure_time' => session('setRoute.selectedRoute.departure'),
+                    'departure_date' => date('Y-m-d', strtotime(session('bookingData.selectedDay'))),
+                    'seat_number' => session('seatNumber'),
+                    'route_id' => $routeId,
+                    'origin' => session('bookingData.origin'),
+                    'selected_day' => session('bookingData.selectedDay'),
+                    'city' => session('bookingData.cityValue'),
+                    'credit' => [
+                        'amount' => $request->credit,
+                        'status' => $request->credit_status,
+                    ],
+                    'driver' => $vehicle->driver->name,
+                ]]);
 
-            Session::forget('seat_done');
-            Session::put('order_done', true);
+                Session::forget('seat_done');
+                Session::put('order_done', true);
 
-            return response()->json(['snap_token' => $snap_token]);
+                return response()->json(['snap_token' => $snap_token]);
 
-        } catch (\Exception $e){
-            FacadesLog::info('Error Inserting on Store Data : ' . $e->getMessage());
-
-            return response()->json(['message', 'Something wrong, please try again later']);
-        }
+            } catch (\Exception $e){
+                FacadesLog::info('Error Inserting on Store Data : ' . $e->getMessage());
+                return response()->json(['message', 'Something wrong, please try again later']);
+            }
     }
 
     public function finishPayment(Request $request){
 
-        $tempBooking = session('temp_booking');
-        $user = Auth::user();
+        Cache::lock('finish-payment-lock', 5)->get(function(){
+            $tempBooking = session('temp_booking');
+            $user = Auth::user();
 
-        FacadesLog::info('Driver : ' . $tempBooking['driver']);
+            FacadesLog::info('Driver : ' . $tempBooking['driver']);
 
-        $criteria = [
-            'vehicle_id' => $tempBooking['vehicle_id'],
-            'location_id' => $tempBooking['location_id'],
-            'departure_time' => $tempBooking['departure_time'],
-            'departure_date' => $tempBooking['departure_date'],
-        ];
-
-        try{
-
-            DB::beginTransaction();
-
-
-            if($tempBooking['credit']['status'] == true){
-                $user->credit->credit_amount -= $user->credit->credit_amount;
-            }
-            $user->credit->credit_amount += $tempBooking['credit']['amount'];
-            $user->credit->save();
-
-            $booking = Booking::create([
-                'seat_total' => $tempBooking['seat_count'],
-                'seat_number' => json_decode($tempBooking['seat_number']),
-                'booking_time' => now(),
-                'status' => 'Valid',
-                'price' => $tempBooking['amount'],
-                'user_id' => $tempBooking['user_id'],
-                'booking_code' => $this->generateBookingCode(),
-            ]);
-
-            session(["bookingCode" => $booking->booking_code]);
-
-            $trip = Trip::create([
-                'origin' => $tempBooking['origin'],
-                'city' => $tempBooking['city'],
-                'booking_id' => $booking->booking_id,
-                'route_id' => $tempBooking['route_id'],
-                'driver' => $tempBooking['driver'],
-                'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
-            ]);
+            $criteria = [
+                'vehicle_id' => $tempBooking['vehicle_id'],
+                'location_id' => $tempBooking['location_id'],
+                'departure_time' => $tempBooking['departure_time'],
+                'departure_date' => $tempBooking['departure_date'],
+            ];
 
             $existingBooking = SeatBooking::where($criteria)->lockForUpdate()->first();
 
-            if ($existingBooking) {
-                // If there is an existing booking, merge the new seat numbers
-                $existingSeats = $existingBooking->seat_number;
-                $newSeats = array_merge($existingSeats, json_decode($tempBooking['seat_number']));
-                $existingBooking->seat_number = $newSeats;
-                $existingBooking->save();
-            } else {
-                // If no existing booking, create a new seat booking
-                SeatBooking::create(array_merge($criteria, [
+            try{
+
+                DB::beginTransaction();
+
+                if($tempBooking['credit']['status'] == true){
+                    $user->credit->credit_amount -= $user->credit->credit_amount;
+                }
+                $user->credit->credit_amount += $tempBooking['credit']['amount'];
+                $user->credit->save();
+
+                $booking = Booking::create([
+                    'seat_total' => $tempBooking['seat_count'],
                     'seat_number' => json_decode($tempBooking['seat_number']),
-                    'trip_id' => $trip->trip_id,
-                ]));
+                    'booking_time' => now(),
+                    'status' => 'Valid',
+                    'price' => $tempBooking['amount'],
+                    'user_id' => $tempBooking['user_id'],
+                    'booking_code' => $this->generateBookingCode(),
+                ]);
+
+                session(["bookingCode" => $booking->booking_code]);
+
+                $trip = Trip::create([
+                    'origin' => $tempBooking['origin'],
+                    'city' => $tempBooking['city'],
+                    'booking_id' => $booking->booking_id,
+                    'route_id' => $tempBooking['route_id'],
+                    'driver' => $tempBooking['driver'],
+                    'selected_day' => date('Y-m-d', strtotime($tempBooking['selected_day'])),
+                ]);
+
+                if ($existingBooking) {
+                    // If there is an existing booking, merge the new seat numbers
+                    $existingSeats = $existingBooking->seat_number;
+                    $newSeats = array_merge($existingSeats, json_decode($tempBooking['seat_number']));
+                    $existingBooking->seat_number = $newSeats;
+                    $existingBooking->save();
+                } else {
+                    // If no existing booking, create a new seat booking
+                    SeatBooking::create(array_merge($criteria, [
+                        'seat_number' => json_decode($tempBooking['seat_number']),
+                        'trip_id' => $trip->trip_id,
+                    ]));
+                }
+
+                Payment::create([
+                    'amount' => $tempBooking['amount'],
+                    'payment_time' => now(),
+                    'booking_id' => $booking->booking_id,
+                    'user_id' => $tempBooking['user_id'],
+                ]);
+
+                $ticketDetails = [
+                    'ticket_id' => $tempBooking['route_id'],
+                    'amount' => $tempBooking['amount'],
+                ];
+
+                Notification::send($user, new paymentCompleted($ticketDetails));
+                $notification = $user->notifications->sortByDesc('created_at')->first();
+                if ($notification) {
+                    // Dispatch the delete job
+                    DeleteNotificationJob::dispatch($notification->id)->delay(now()->addMinutes(5));
+                }
+
+                UpdateDayExpired::dispatch();
+
+                session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
+
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollBack();
+                FacadesLog::info('Error Inserting on Finish Payment : ' . $e->getMessage());
             }
 
-            Payment::create([
-                'amount' => $tempBooking['amount'],
-                'payment_time' => now(),
-                'booking_id' => $booking->booking_id,
-                'user_id' => $tempBooking['user_id'],
-            ]);
-
-            $ticketDetails = [
-                'ticket_id' => $tempBooking['route_id'],
-                'amount' => $tempBooking['amount'],
-            ];
-
-            Notification::send($user, new paymentCompleted($ticketDetails));
-            $notification = $user->notifications->sortByDesc('created_at')->first();
-            if ($notification) {
-                // Dispatch the delete job
-                DeleteNotificationJob::dispatch($notification->id)->delay(now()->addMinutes(5));
-            }
-
-            UpdateDayExpired::dispatch();
-
-            session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
-
-            DB::commit();
-        } catch(\Exception $e){
-            DB::rollBack();
-            FacadesLog::info('Error Inserting on Finish Payment : ' . $e->getMessage());
-        }
-
-        return response()->json(['redirect' => route('home')]);
+            return response()->json(['redirect' => route('home')]);
+        });
     }
 
     public function generateBookingCode($length = 8)
@@ -370,6 +369,4 @@ class BookingController extends Controller
 
         return $bookingCode;
     }
-
-
 }

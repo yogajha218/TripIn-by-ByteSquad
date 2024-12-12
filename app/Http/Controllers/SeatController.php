@@ -40,10 +40,13 @@ class SeatController extends Controller
             // Check if the seats are already booked using whereIn if seat_number is an array field
             $alreadyBookedSeats = SeatBooking::where('vehicle_id', $vehicle->vehicle_id)
                 ->where('departure_time', session('setRoute.selectedRoute.departure'))
-                ->whereRaw('seat_number::jsonb @> ?::jsonb', [json_encode($validated['seats'])])
+                ->where('departure_date', $formattedDate)
+                ->where('seat_number', [json_encode($validated['seats'])])
                 ->get()
                 ->toArray();
             if (!empty($alreadyBookedSeats)) {
+
+                FacadesLog::info('Seat Already Bookoed with data ');
                 return response()->json([
                     'message' => 'The following seats are already booked: ' . implode(', ', $alreadyBookedSeats),
                 ]);
@@ -64,8 +67,5 @@ class SeatController extends Controller
         }catch(\Exception $e){
             FacadesLog::info('Error saving Seat : ' . $e->getMessage());
         }
-
-        
     }
-
 }

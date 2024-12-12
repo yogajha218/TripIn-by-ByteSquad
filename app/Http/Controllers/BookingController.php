@@ -280,6 +280,7 @@ class BookingController extends Controller
 
             DB::beginTransaction();
 
+
             if($tempBooking['credit']['status'] == true){
                 $user->credit->credit_amount -= $user->credit->credit_amount;
             }

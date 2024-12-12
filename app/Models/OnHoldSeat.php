@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OnHoldSeat extends Model
 {
     protected $primaryKey = 'on_hold_seat_id';
-    protected $table = 'on_hold_seat';
+    protected $table = 'on_hold_seats';
     public $timestamps = false;
 
     protected $fillable = [

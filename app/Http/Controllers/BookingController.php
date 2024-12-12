@@ -7,6 +7,7 @@ use App\Jobs\UpdateDayExpired;
 use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
+use App\Models\OnHoldSeat;
 use App\Models\Payment;
 use App\Models\SeatBooking;
 use App\Models\Trip;
@@ -260,7 +261,6 @@ class BookingController extends Controller
 
     public function finishPayment(Request $request){
 
-        Cache::lock('finish-payment-lock', 5)->get(function(){
             $tempBooking = session('temp_booking');
             $user = Auth::user();
 
@@ -327,6 +327,8 @@ class BookingController extends Controller
                     'user_id' => $tempBooking['user_id'],
                 ]);
 
+                DB::table('on_hold_seats')->delete();
+
                 $ticketDetails = [
                     'ticket_id' => $tempBooking['route_id'],
                     'amount' => $tempBooking['amount'],
@@ -341,7 +343,7 @@ class BookingController extends Controller
 
                 UpdateDayExpired::dispatch();
 
-                session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
+                session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking', 'onHold']);
 
                 DB::commit();
             } catch(\Exception $e){
@@ -350,7 +352,6 @@ class BookingController extends Controller
             }
 
             return response()->json(['redirect' => route('home')]);
-        });
     }
 
     public function generateBookingCode($length = 8)

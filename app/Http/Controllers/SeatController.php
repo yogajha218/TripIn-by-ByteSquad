@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log as FacadesLog;
 
+use function PHPUnit\Framework\isEmpty;
+
 class SeatController extends Controller
 {
     public function seatCheck(Request $request, $plate)
@@ -43,7 +45,7 @@ class SeatController extends Controller
 
             // Implement Redis lock
             $lockKey = 'seat_lock_' . $vehicle->vehicle_id . '_' . $formattedDate;
-            $lock = Cache::lock($lockKey, 5); // Lock timeout of 10 seconds
+            $lock = Cache::lock($lockKey, 5); // Lock timeout of 5 seconds
 
             if ($lock->get()) {
                 try {
@@ -66,6 +68,11 @@ class SeatController extends Controller
                         'route_id' => session('setRoute.selectedRoute.routeId'),
                         'seat_number' => json_encode($validated['seats']),
                     ]);
+
+                    // Check if OnHoldSeat creation was successful
+                    if (!$onHold) {
+                        return response()->json(['message' => 'Unexpected error occurred, please try again later']);
+                    }
 
                     // Store seat numbers and related data in session
                     session([

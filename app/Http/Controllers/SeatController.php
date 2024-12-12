@@ -45,7 +45,7 @@ class SeatController extends Controller
 
             // Implement Redis lock
             $lockKey = 'seat_lock_' . $vehicle->vehicle_id . '_' . $formattedDate;
-            $lock = Cache::lock($lockKey, 5); // Lock timeout of 10 seconds
+            $lock = Cache::lock($lockKey, 5); // Lock timeout of 5 seconds
 
             if ($lock->get()) {
                 try {
@@ -69,8 +69,9 @@ class SeatController extends Controller
                         'seat_number' => json_encode($validated['seats']),
                     ]);
 
-                    if(!isEmpty($onHold)){
-                        return response()->json(['message', 'Unexpected rror Occurred, please try again later']);
+                    // Check if OnHoldSeat creation was successful
+                    if (!$onHold) {
+                        return response()->json(['message' => 'Unexpected error occurred, please try again later']);
                     }
 
                     // Store seat numbers and related data in session

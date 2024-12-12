@@ -11,7 +11,7 @@
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "public": true,
-    "buildCommand": "npm install && composer install && vite build",
+    "buildCommand": "npm install && curl -sS https://getcomposer.org/installer | php && php composer.phar install && vite build",
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",

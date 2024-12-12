@@ -7,12 +7,11 @@ use App\Jobs\UpdateDayExpired;
 use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
+use App\Models\OnHoldSeat;
 use App\Models\Payment;
-use App\Models\Schedule;
 use App\Models\SeatBooking;
 use App\Models\Trip;
 use App\Models\Vehicle;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
@@ -136,7 +135,7 @@ class BookingController extends Controller
             'selectedRoute.departure' => 'required',
         ]);
 
-        Session::forget('booking_done');
+        // Session::forget('booking_done');
         Session::put('schedule_done', true);
         session(['setRoute' => $route]);
 
@@ -249,7 +248,7 @@ class BookingController extends Controller
                     'driver' => $vehicle->driver->name,
                 ]]);
 
-                Session::forget('seat_done');
+                // Session::forget('seat_done');
                 Session::put('order_done', true);
 
                 return response()->json(['snap_token' => $snap_token]);
@@ -262,7 +261,6 @@ class BookingController extends Controller
 
     public function finishPayment(Request $request){
 
-        Cache::lock('finish-payment-lock', 5)->get(function(){
             $tempBooking = session('temp_booking');
             $user = Auth::user();
 
@@ -329,6 +327,8 @@ class BookingController extends Controller
                     'user_id' => $tempBooking['user_id'],
                 ]);
 
+                DB::table('on_hold_seats')->delete();
+
                 $ticketDetails = [
                     'ticket_id' => $tempBooking['route_id'],
                     'amount' => $tempBooking['amount'],
@@ -343,7 +343,7 @@ class BookingController extends Controller
 
                 UpdateDayExpired::dispatch();
 
-                session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking']);
+                session()->forget(['setCount', 'setRoute', 'bookingData', 'seatNumber', 'temp_booking', 'onHold']);
 
                 DB::commit();
             } catch(\Exception $e){
@@ -352,7 +352,6 @@ class BookingController extends Controller
             }
 
             return response()->json(['redirect' => route('home')]);
-        });
     }
 
     public function generateBookingCode($length = 8)

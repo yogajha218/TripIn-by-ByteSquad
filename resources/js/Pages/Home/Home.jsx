@@ -27,10 +27,9 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
             setTrip((prevState) => ({ ...prevState, ...datas }));
         }
     }
-
     const todayCardProp = todays.map((today) => ({
         id: today.booking_id,
-        name: "Shuttle Bus Tripi",
+        name: "Shuttle Bus Tripin",
         plateNumber: today.trips[0]?.schedule.vehicle.license_plate,
         origin: today.trips[0]?.origin,
         destination: today.trips[0]?.schedule.location.name,
@@ -40,7 +39,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
 
     const upcomingCardProp = upcomings.map((upcoming) => ({
         id: upcoming.booking_id,
-        name: "Shuttle Bus Tripi",
+        name: "Shuttle Bus Tripin",
         plateNumber: upcoming.trips[0]?.schedule.vehicle.license_plate,
         origin: upcoming.trips[0]?.origin,
         destination: upcoming.trips[0]?.schedule.location.name,
@@ -74,7 +73,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                                     (window.location.href =
                                         route("notification"))
                                 }
-                                className={`size-8 text-white cursor-pointer relative z-40 `}
+                                className={`size-8 text-white cursor-pointer relative z-40 hover:animate-shake`}
                             ></BellIcon>
                             {notification_status == "unread" && (
                                 <div className="rounded-full bg-primary2 size-2 absolute top-1 right-1 z-50"></div>
@@ -83,15 +82,16 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         <div className="h-[90px] relative pt-8 pl-5">
                             <img
                                 src="/TripInLogo.svg"
-                                className="h-8"
+                                className="w-16 h-8"
                                 alt="Logo of TripIn"
+                                loading="lazy"
                             />
                         </div>
                         <div className="mx-5">
-                            <p className="font-semibold text-white text-2xl sm:text-3xl">
+                            <p className="font-semibold text-white text-2xl sm:text-3xl tracking-tighter">
                                 Welcome, {username}
                             </p>
-                            <p className="font-medium text-white text-base sm:text-lg">
+                            <p className="font-medium text-white text-base sm:text-lg tracking-tight">
                                 Enjoy Your Trip!
                             </p>
                         </div>
@@ -102,17 +102,18 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             onClick={() =>
                                 console.log("Navigate to credit screen")
                             }
-                            className=" flex px-5 mx-5 bg-white border border-primary relative top-[-1.5rem]  rounded-lg py-2 hover:cursor-pointer"
+                            className=" group flex px-5 mx-5 bg-white border border-primary relative top-[-1.5rem]  rounded-lg py-2 hover:cursor-pointer"
                         >
                             <img
                                 className="mr-3"
                                 src="/credit.svg"
                                 alt="CreditIcon"
+                                loading="lazy"
                             />
                             <p className="text-orange text-sm absolute left-14 top-1/2 -translate-y-1/2">
                                 {formattedCredit} CP
                             </p>
-                            <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 hover:translate-x-2"></ChevronRightIcon>
+                            <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 group-hover:translate-x-2"></ChevronRightIcon>
                         </a>
                         <button
                             onClick={() =>
@@ -138,7 +139,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                                 <CardComponent CardProp={todayCardProp} />
                             ) : (
                                 <div className="pb-9 justify-center items-center flex flex-col">
-                                    <img src="/tayo-bus.svg" />
+                                    <img src="/tayo-bus.svg " loading="lazy" />
                                     <p>no tayo trip available</p>
                                 </div>
                             )}

@@ -29,11 +29,19 @@ const NavbarTripin = ({ pageInfo }) => {
         <div className=" fixed bottom-0 w-full lg:max-w-[400px] right-0 bg-primary left-1/2 translate-x-[-50%]  h-16 rounded-t-xl z-40 flex justify-evenly">
             {activePage === "HomePage" ? (
                 <Link href="/home" className="flex justify-center items-center">
-                    <img src="/home-active.svg" className="h-12" />
+                    <img
+                        src="/home-active.svg"
+                        className="h-12"
+                        loading="lazy"
+                    />
                 </Link>
             ) : (
                 <Link href="/home" className="flex justify-center items-center">
-                    <img src="/home-unactive.svg" className="h-10" />
+                    <img
+                        src="/home-unactive.svg"
+                        className="h-10"
+                        loading="lazy"
+                    />
                 </Link>
             )}
             {activePage === "TrackingPage" ? (
@@ -41,14 +49,22 @@ const NavbarTripin = ({ pageInfo }) => {
                     href="/tracking"
                     className="flex justify-center items-center"
                 >
-                    <img src="/shuttle-active.svg" className="h-10" />
+                    <img
+                        src="/shuttle-active.svg"
+                        className="h-10"
+                        loading="lazy"
+                    />
                 </Link>
             ) : (
                 <Link
                     href="/tracking"
                     className="flex justify-center items-center"
                 >
-                    <img src="/shuttle-unactive.svg" className="h-8" />
+                    <img
+                        src="/shuttle-unactive.svg"
+                        className="h-8"
+                        loading="lazy"
+                    />
                 </Link>
             )}
             {activePage === "TicketPage" ? (
@@ -56,14 +72,22 @@ const NavbarTripin = ({ pageInfo }) => {
                     href="/ticket"
                     className="flex justify-center items-center"
                 >
-                    <img src="/ticket-active.svg" className="h-8" />
+                    <img
+                        src="/ticket-active.svg"
+                        className="h-8"
+                        loading="lazy"
+                    />
                 </Link>
             ) : (
                 <Link
                     href="/ticket"
                     className="flex justify-center items-center"
                 >
-                    <img src="/ticket-unactive.svg" className="h-6" />
+                    <img
+                        src="/ticket-unactive.svg"
+                        className="h-6"
+                        loading="lazy"
+                    />
                 </Link>
             )}
             {activePage === "Profile" ? (
@@ -72,7 +96,11 @@ const NavbarTripin = ({ pageInfo }) => {
                     href="/profile"
                     className="flex justify-center items-center"
                 >
-                    <img src="/user-active.svg" className="h-10" />
+                    <img
+                        src="/user-active.svg"
+                        className="h-10"
+                        loading="lazy"
+                    />
                 </Link>
             ) : (
                 <Link
@@ -80,7 +108,11 @@ const NavbarTripin = ({ pageInfo }) => {
                     href="/profile"
                     className="flex justify-center items-center"
                 >
-                    <img src="/user-unactive.svg" className="h-8" />
+                    <img
+                        src="/user-unactive.svg"
+                        className="h-8"
+                        loading="lazy"
+                    />
                 </Link>
             )}
         </div>

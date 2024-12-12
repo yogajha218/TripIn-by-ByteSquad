@@ -1,6 +1,7 @@
 import React from "react";
 import { Ticket, CircleDot } from "lucide-react";
 import NavbarTripin from "@/Components/NavbarTripin";
+import { format } from "date-fns";
 
 const MyTicket = ({ bookings }) => {
     console.log("Bookings : ", bookings);
@@ -49,16 +50,16 @@ const MyTicket = ({ bookings }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="bg-white min-h-screen pb-16 lg:w-[400px]">
+                <div className="min-h-screen bg-white pb-16 lg:w-[400px]">
                     {/* Header */}
-                    <div className="bg-primary p-6 rounded-b-3xl">
-                        <div className="flex justify-between items-center mt-4 text-white">
+                    <div className="rounded-b-3xl bg-primary p-6">
+                        <div className="mt-4 flex items-center justify-between text-white">
                             <h1 className="text-2xl font-semibold">
                                 My Ticket
                             </h1>
-                            <Ticket className="w-8 h-8" />
+                            <Ticket className="h-8 w-8" />
                         </div>
-                        <p className="text-sm opacity-80 mt-1 text-white">
+                        <p className="mt-1 text-sm text-white opacity-80">
                             All shuttle tickets that are already active and
                             waiting for payment
                         </p>
@@ -68,37 +69,38 @@ const MyTicket = ({ bookings }) => {
                     {tickets.map((ticket) => (
                         <div
                             key={ticket.id}
-                            className="mt-6 mx-6 mb-4 bg-gray-100 rounded-lg overflow-hidden"
+                            className="mx-6 mb-4 mt-6 overflow-hidden rounded-lg bg-gray-100"
                         >
                             {/* Ticket Details */}
                             <div className="p-4">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="flex items-center gap-2">
-                                        <h2 className="font-semibold text-sm sm:text-base text-black">
+                                <div className="mb-4 flex items-start justify-between">
+                                    <div className="flex w-full items-center justify-between">
+                                        <h2 className="text-sm font-semibold text-black sm:text-base">
                                             Shuttle Bus Tripin
                                         </h2>
-                                        <span className="text-xs bg-gray-200 px-1 py-1 rounded text-gray-600">
+                                        <span className="rounded bg-gray-200 px-1 py-1 text-xs text-gray-600">
                                             {ticket.plateNumber}
                                         </span>
                                     </div>
-                                    <button
-                                        onClick={(e) => onClick(e, ticket.id)}
-                                        className="text-blue-400 bg-transparent text-[10px]"
-                                    >
-                                        View Details
-                                    </button>
                                 </div>
 
-                                <p className="text-sm text-gray-600 mb-4">
+                                <p className="mb-2 text-sm text-gray-600">
                                     Booking code: {ticket.bookingCode}
                                 </p>
+                                <div className="text-sm text-gray-500">
+                                    {`${ticket.arrival.city},
+                                    ${format(
+                                        new Date(ticket.departure.date),
+                                        "dd MMM yyyy",
+                                    )}`}
+                                </div>
 
                                 {/* Journey Details in Two Sections */}
-                                <div className="grid grid-cols-2 gap-4 mt-4">
+                                <div className="mt-4 grid grid-cols-2 gap-4">
                                     {/* Departure Section */}
-                                    <div className="bg-white p-3 rounded-lg">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <CircleDot className="w-4 h-4 text-primary" />
+                                    <div className="rounded-lg bg-white p-3">
+                                        <div className="mb-2 flex items-center gap-2">
+                                            <CircleDot className="h-4 w-4 text-primary" />
                                             <span className="text-sm font-medium text-gray-600">
                                                 Departure
                                             </span>
@@ -110,11 +112,8 @@ const MyTicket = ({ bookings }) => {
                                                     .slice(0, 2)
                                                     .join(":")}
                                             </div>
-                                            <div className="text-sm text-gray-500">
-                                                {ticket.departure.date}
-                                            </div>
                                             <div className="mt-2">
-                                                <div className="font-medium text-[12px]">
+                                                <div className="text-[12px] font-medium">
                                                     {ticket.departure.city}
                                                 </div>
                                                 <div className="text-[12px] text-gray-500">
@@ -125,9 +124,9 @@ const MyTicket = ({ bookings }) => {
                                     </div>
 
                                     {/* Arrival Section */}
-                                    <div className="bg-white p-3 rounded-lg">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <CircleDot className="w-4 h-4 text-primary" />
+                                    <div className="rounded-lg bg-white p-3">
+                                        <div className="mb-2 flex items-center gap-2">
+                                            <CircleDot className="h-4 w-4 text-primary" />
                                             <span className="text-sm font-medium text-gray-600">
                                                 Arrival
                                             </span>
@@ -140,13 +139,15 @@ const MyTicket = ({ bookings }) => {
                                                     .join(":")}
                                             </div>
                                             <div className="text-sm text-gray-500">
-                                                {ticket.arrival.date}
+                                                {format(
+                                                    new Date(
+                                                        ticket.arrival.date,
+                                                    ),
+                                                    "dd MMM yyyy",
+                                                )}
                                             </div>
                                             <div className="mt-2">
-                                                <div className="font-medium  text-xs">
-                                                    {ticket.arrival.city}
-                                                </div>
-                                                <div className=" text-gray-500 text-xs">
+                                                <div className="text-xs text-gray-500">
                                                     {ticket.arrival.place}
                                                 </div>
                                             </div>
@@ -157,11 +158,14 @@ const MyTicket = ({ bookings }) => {
 
                             {/* Action Button - Payment or Boarding based on status */}
                             {ticket.isPaid ? (
-                                <button className="w-full py-3 bg-primary2 text-white font-medium">
+                                <button
+                                    className="w-full bg-primary2 py-3 font-medium text-white"
+                                    onClick={(e) => onClick(e, ticket.id)}
+                                >
                                     BOARDING TICKET
                                 </button>
                             ) : (
-                                <button className="w-full py-3 bg-red-500 text-white font-medium">
+                                <button className="w-full bg-red-500 py-3 font-medium text-white">
                                     PAY NOW
                                 </button>
                             )}

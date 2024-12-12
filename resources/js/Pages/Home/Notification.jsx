@@ -24,7 +24,9 @@ const NotificationPage = ({ notifications }) => {
                     <div className="px-4 py-6 flex items-center relative">
                         <ChevronLeftIcon
                             className="absolute text-white size-6 cursor-pointer"
-                            onClick={() => history.back()}
+                            onClick={() => {
+                                history.back();
+                            }}
                         />
 
                         <h1 className="text-white bg-primary rounded-md text-2xl font-semibold w-full text-center">

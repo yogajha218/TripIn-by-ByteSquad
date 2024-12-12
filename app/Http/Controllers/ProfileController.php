@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\UserOtp;
@@ -15,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Inertia\Response;
 
 class ProfileController extends Controller
 {

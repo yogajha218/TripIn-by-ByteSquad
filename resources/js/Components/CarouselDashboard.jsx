@@ -8,12 +8,18 @@ const CarouselDashboard = () => {
                 {popularDestinations.map((destination, index) => (
                     <div
                         key={index}
-                        className=" relative flex-shrink-0 w-[255px] h-[100px] rounded-lg overflow-hidden"
+                        className=" relative flex-shrink-0 w-[255px] h-[100px] rounded-lg overflow-hidden "
                     >
-                        <p className="absolute text-white shadow-md px-3 py-2 font-semibold">
+                        <p className="absolute text-white shadow-md px-3 py-2 font-semibold tracking-tight z-10">
                             {destination}
                         </p>
-                        <img src={`/${destination}.png`} alt="" />
+                        <div className="absolute size-full  bg-primary2/30"></div>
+                        <img
+                            src={`/${destination}.png`}
+                            alt=""
+                            loading="lazy"
+                            className="w-[255px] h-[100px]"
+                        />
                     </div>
                 ))}
             </div>

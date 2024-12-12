@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -13,6 +12,7 @@ class TrackingController extends Controller
     public function trackingIndex()
     {
         $user = Auth::user();
+
         $routes = Booking::with([
             "trips.schedule.location",
             "trips.schedule.vehicle",
@@ -24,7 +24,7 @@ class TrackingController extends Controller
             ->whereHas("trips.schedule", function ($query) {
                 $query->where(
                     "departure_time",
-                    "<=",
+                    ">=",
                     now()->addMinutes(15)->format("H:i:s")
                 );
             })

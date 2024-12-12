@@ -8,11 +8,9 @@ use App\Models\Booking;
 use App\Models\Driver;
 use App\Models\Location;
 use App\Models\Payment;
-use App\Models\Schedule;
 use App\Models\SeatBooking;
 use App\Models\Trip;
 use App\Models\Vehicle;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
@@ -136,7 +134,7 @@ class BookingController extends Controller
             'selectedRoute.departure' => 'required',
         ]);
 
-        Session::forget('booking_done');
+        // Session::forget('booking_done');
         Session::put('schedule_done', true);
         session(['setRoute' => $route]);
 
@@ -249,7 +247,7 @@ class BookingController extends Controller
                     'driver' => $vehicle->driver->name,
                 ]]);
 
-                Session::forget('seat_done');
+                // Session::forget('seat_done');
                 Session::put('order_done', true);
 
                 return response()->json(['snap_token' => $snap_token]);

@@ -8,7 +8,6 @@ use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Session;
-use Inertia\Inertia;
 
 class SeatController extends Controller
 {
@@ -60,7 +59,7 @@ class SeatController extends Controller
             ]);
 
             // Clear and set appropriate session flags
-            Session::forget('schedule_done');
+            // Session::forget('schedule_done');
             Session::put('seat_done', true);
 
             return response()->json(['message' => 'Seats successfully booked']);

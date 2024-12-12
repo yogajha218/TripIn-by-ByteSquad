@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log as FacadesLog;
 use Inertia\Inertia;
 use Midtrans\Snap;
 use Midtrans\Config;
@@ -62,7 +61,6 @@ class MidtransController extends Controller
             'item_details' => $item_details,
             'customer_details' => $customer_details,
         ];
-
 
         try {
             $snap_token = Snap::getSnapToken($transaction_data);

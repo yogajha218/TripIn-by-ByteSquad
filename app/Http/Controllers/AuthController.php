@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Credit;
-use App\Models\Log;
 use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Http\Request;
@@ -13,10 +12,7 @@ use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
-
-use function Illuminate\Log\log;
 
 class AuthController extends Controller
 {

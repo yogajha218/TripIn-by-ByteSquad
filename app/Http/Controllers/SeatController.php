@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log as FacadesLog;
 
+use function PHPUnit\Framework\isEmpty;
+
 class SeatController extends Controller
 {
     public function seatCheck(Request $request, $plate)
@@ -66,6 +68,10 @@ class SeatController extends Controller
                         'route_id' => session('setRoute.selectedRoute.routeId'),
                         'seat_number' => json_encode($validated['seats']),
                     ]);
+
+                    if(!isEmpty($onHold)){
+                        return response()->json(['message', 'Unexpected rror Occurred, please try again later']);
+                    }
 
                     // Store seat numbers and related data in session
                     session([

@@ -7,6 +7,7 @@ import ButtonComponent from "@/Components/ButtonComponent";
 import ModalComponent from "@/Components/ModalComponent";
 import CalendarComponent from "@/Components/CalenderComponent";
 import axios from "axios";
+import { ToastComponent } from "@/Components/ToastComponent";
 
 const Booking = () => {
     const { props } = usePage();
@@ -35,11 +36,12 @@ const Booking = () => {
     const [tempSelectedDay, setTempSelectedDay] = useState(null);
     const [isSelectOrigin, setIsSelectOrigin] = useState(false);
     const [origin, setOrigin] = useState("select origin");
+    const [toastMessage, setToastMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
+            'meta[name="csrf-token"]',
         ).content;
 
         console.log("City : ", cityValue);
@@ -60,7 +62,7 @@ const Booking = () => {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },
-                }
+                },
             );
 
             if (response.status === 200) {
@@ -109,7 +111,7 @@ const Booking = () => {
             setIsSelectOrigin(true);
         } else {
             // Optionally, show an error or alert
-            alert("Please select a city first");
+            setToastMessage("Please select a city first");
         }
     };
 
@@ -117,20 +119,20 @@ const Booking = () => {
         <>
             {!isSelectOrigin ? (
                 <div className="lg:flex lg:justify-center">
-                    <div className="lg:w-[400px] min-h-screen bg-white ">
-                        <div className="h-[108px] flex items-center justify-center relative px-3 bg-primary rounded-b-lg ">
+                    <div className="min-h-screen bg-white lg:w-[400px]">
+                        <div className="relative flex h-[108px] items-center justify-center rounded-b-lg bg-primary px-3">
                             <ChevronLeftIcon
                                 onClick={() => (window.location.href = "/home")}
-                                className="size-8 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
+                                className="absolute left-3 top-1/2 z-50 size-8 translate-y-[-50%] cursor-pointer font-bold text-white"
                             ></ChevronLeftIcon>
-                            <p className="w-fit text-2xl font-medium text-white mx-2 cursor-default select-none">
+                            <p className="mx-2 w-fit cursor-default select-none text-2xl font-medium text-white">
                                 Booking
                             </p>
                         </div>
-                        <div className="bg-white h-4/5  w-full p-5 rounded-t-xl select-none relative">
+                        <div className="relative h-4/5 w-full select-none rounded-t-xl bg-white p-5">
                             {/* City Selection Dropdown */}
                             <form className=" ">
-                                <div className="flex relative items-center cursor-pointer ">
+                                <div className="relative flex cursor-pointer items-center">
                                     <img
                                         src="/select-city.svg"
                                         className="size-[47px]"
@@ -139,19 +141,19 @@ const Booking = () => {
                                         onClick={() =>
                                             showOptions(
                                                 isCityOptionsHidden,
-                                                setIsCityOptionsHidden
+                                                setIsCityOptionsHidden,
                                             )
                                         }
-                                        className="flex-1 border-b-2 border-black h-fit mx-5"
+                                        className="mx-5 h-fit flex-1 border-b-2 border-black"
                                     >
                                         <div className="w-fit">
                                             <p className="w-fit text-lg font-medium">
                                                 City
                                             </p>
                                         </div>
-                                        <div className="flex-1 flex justify-between">
+                                        <div className="flex flex-1 justify-between">
                                             <input
-                                                className={`border-none text-sm font-light p-0 ${
+                                                className={`border-none p-0 text-sm font-light ${
                                                     cityValue !==
                                                     "Select a city"
                                                         ? "text-black"
@@ -161,7 +163,7 @@ const Booking = () => {
                                                 disabled={true}
                                             />
                                             <div
-                                                className={`text-3xl transition-transform duration-300 font-bold cursor-pointer left-[424px] ${
+                                                className={`left-[424px] cursor-pointer text-3xl font-bold transition-transform duration-300 ${
                                                     isCityOptionsHidden
                                                         ? "top-[44px]"
                                                         : "top-[44px] rotate-180"
@@ -171,9 +173,9 @@ const Booking = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`w-[80%] h-fit transition-transform border duration-20 absolute top-16 left-16 shadow-lg rounded-[8px] z-50 ${
+                                            className={`duration-20 absolute left-16 top-16 z-50 h-fit w-[80%] rounded-[8px] border shadow-lg transition-transform ${
                                                 isCityOptionsHidden
-                                                    ? "opacity-0 pointer-events-none -translate-y-10"
+                                                    ? "pointer-events-none -translate-y-10 opacity-0"
                                                     : "bg-white opacity-100"
                                             }`}
                                         >
@@ -183,7 +185,7 @@ const Booking = () => {
                                                     onClick={() =>
                                                         handleCityOptions(city)
                                                     }
-                                                    className={`hover:text-white font-normal text-xl w-full px-2 py-2 border border-slate-400 cursor-pointer hover:bg-slate-500 ${
+                                                    className={`w-full cursor-pointer border border-slate-400 px-2 py-2 text-xl font-normal hover:bg-slate-500 hover:text-white ${
                                                         index === 0
                                                             ? `rounded-t-[8px]`
                                                             : ""
@@ -202,22 +204,22 @@ const Booking = () => {
                                 </div>
                                 {/* Select Origin */}
                                 <div
-                                    className="flex mt-5 relative items-center cursor-pointer"
+                                    className="relative mt-5 flex cursor-pointer items-center"
                                     onClick={handleOriginSelect}
                                 >
                                     <img
                                         src="/select-origin.svg"
                                         className="size-[47px]"
                                     />
-                                    <div className="flex-1 border-b-2 border-black h-fit mx-5">
+                                    <div className="mx-5 h-fit flex-1 border-b-2 border-black">
                                         <div className="w-fit">
                                             <p className="w-fit text-lg font-medium">
                                                 Origin
                                             </p>
                                         </div>
-                                        <div className="flex-1 flex justify-between relative">
+                                        <div className="relative flex flex-1 justify-between">
                                             <input
-                                                className="text-sm font-light    border-none p-0 w-[240px]"
+                                                className="w-[240px] border-none p-0 text-sm font-light"
                                                 value={origin}
                                                 disabled={true}
                                             />
@@ -232,7 +234,7 @@ const Booking = () => {
                                             </div> */}
                                         </div>
                                         <div
-                                            className={`text-3xl transition-transform duration-300 font-bold cursor-pointer absolute top-4 right-5 -rotate-90`}
+                                            className={`absolute right-5 top-4 -rotate-90 cursor-pointer text-3xl font-bold transition-transform duration-300`}
                                         >
                                             <img src="/expand-arrow.svg" />
                                         </div>
@@ -240,22 +242,22 @@ const Booking = () => {
                                 </div>
                                 {/* Select Departure Date */}
                                 <div
-                                    className="flex mt-5 relative items-center cursor-pointer"
+                                    className="relative mt-5 flex cursor-pointer items-center"
                                     onClick={modalVisibility}
                                 >
                                     <img
                                         src="/select-date.svg"
                                         className="size-[47px]"
                                     />
-                                    <div className="flex-1 border-b-2 border-black h-fit mx-5">
+                                    <div className="mx-5 h-fit flex-1 border-b-2 border-black">
                                         <div className="w-fit">
                                             <p className="w-fit text-lg font-medium">
                                                 Departure Date
                                             </p>
                                         </div>
-                                        <div className="flex-1 flex justify-between">
+                                        <div className="flex flex-1 justify-between">
                                             <input
-                                                className={`border-none text-sm font-light p-0 ${
+                                                className={`border-none p-0 text-sm font-light ${
                                                     selectedDay
                                                         ? "text-black"
                                                         : "text-gray-400"
@@ -264,7 +266,7 @@ const Booking = () => {
                                                     selectedDay
                                                         ? format(
                                                               selectedDay,
-                                                              "MMMM d, yyyy"
+                                                              "MMMM d, yyyy",
                                                           )
                                                         : "Select Date"
                                                 }
@@ -272,7 +274,7 @@ const Booking = () => {
                                             />
                                         </div>
                                         <div
-                                            className={`text-3xl transition-transform duration-300 font-bold cursor-pointer absolute top-5 right-5`}
+                                            className={`absolute right-5 top-5 cursor-pointer text-3xl font-bold transition-transform duration-300`}
                                         >
                                             <img src="/calender-icon.svg" />
                                         </div>
@@ -280,11 +282,11 @@ const Booking = () => {
                                 </div>
                                 {/* Select Seats */}
                                 <div
-                                    className="flex mt-5 relative items-center cursor-pointer"
+                                    className="relative mt-5 flex cursor-pointer items-center"
                                     onClick={() =>
                                         showOptions(
                                             isSeatsOptionsHidden,
-                                            setIsSeatsOptionHidden
+                                            setIsSeatsOptionHidden,
                                         )
                                     }
                                 >
@@ -292,24 +294,24 @@ const Booking = () => {
                                         src="/select-seat.svg"
                                         className="size-[47px]"
                                     />
-                                    <div className="flex-1 border-b-2 border-black h-fit mx-5">
+                                    <div className="mx-5 h-fit flex-1 border-b-2 border-black">
                                         <div className="w-fit">
                                             <p className="w-fit text-lg font-medium">
                                                 Seats
                                             </p>
                                         </div>
-                                        <div className="flex-1 flex text-sm justify-between relative">
+                                        <div className="relative flex flex-1 justify-between text-sm">
                                             <div className="absolute">
                                                 {seatsLabel}
                                             </div>
                                             <input
-                                                className={`border-none text-lg font-light p-0 opacity-0`}
+                                                className={`border-none p-0 text-lg font-light opacity-0`}
                                                 value={seatsValue}
                                                 disabled={true}
                                             />
                                         </div>
                                         <div
-                                            className={`text-3xl transition-transform duration-300 font-bold cursor-pointer absolute top-5 right-5 ${
+                                            className={`absolute right-5 top-5 cursor-pointer text-3xl font-bold transition-transform duration-300 ${
                                                 isSeatsOptionsHidden
                                                     ? "top-5"
                                                     : "top-5 rotate-180"
@@ -319,9 +321,9 @@ const Booking = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`w-[80%] h-fit transition-transform border duration-20 absolute top-16 left-16 shadow-lg rounded-[8px] z-50 ${
+                                        className={`duration-20 absolute left-16 top-16 z-50 h-fit w-[80%] rounded-[8px] border shadow-lg transition-transform ${
                                             isSeatsOptionsHidden
-                                                ? "opacity-0 pointer-events-none -translate-y-10"
+                                                ? "pointer-events-none -translate-y-10 opacity-0"
                                                 : "bg-white opacity-100"
                                         }`}
                                     >
@@ -331,10 +333,10 @@ const Booking = () => {
                                                     key={index}
                                                     onClick={() =>
                                                         handleSeatsOptions(
-                                                            index
+                                                            index,
                                                         )
                                                     }
-                                                    className={`hover:text-white font-normal text-xl w-full px-2 py-2 border border-slate-400 cursor-pointer hover:bg-slate-500 ${
+                                                    className={`w-full cursor-pointer border border-slate-400 px-2 py-2 text-xl font-normal hover:bg-slate-500 hover:text-white ${
                                                         index === 0
                                                             ? `rounded-t-[8px]`
                                                             : ""
@@ -348,7 +350,7 @@ const Booking = () => {
                                                 >
                                                     {option}
                                                 </div>
-                                            )
+                                            ),
                                         )}
                                     </div>
                                 </div>
@@ -374,13 +376,13 @@ const Booking = () => {
                 setIsModalHidden={setIsModalHidden}
                 isModalHidden={isModalHidden}
             >
-                <div className="flex flex-col ">
+                <div className="flex flex-col">
                     <CalendarComponent
                         selectedDay={selectedDay}
                         tempSelectedDay={tempSelectedDay}
                         onDaySelection={handleDaySelection}
                     />
-                    <div className="w-full h-fit  pb-5 px-4 md:p-5">
+                    <div className="h-fit w-full px-4 pb-5 md:p-5">
                         <ButtonComponent
                             buttonText={"Save"}
                             onclick={() => {
@@ -391,6 +393,15 @@ const Booking = () => {
                     </div>
                 </div>
             </ModalComponent>
+            {toastMessage !== "" && (
+                <div className="nowrap absolute left-1/2 top-5 flex h-fit w-fit items-center justify-center">
+                    <ToastComponent
+                        message={toastMessage}
+                        onClose={() => setToastMessage("")}
+                        type="alert"
+                    />
+                </div>
+            )}
         </>
     );
 };

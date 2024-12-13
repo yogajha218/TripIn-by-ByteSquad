@@ -2,7 +2,7 @@ import { useLayoutEffect, useEffect, useState } from "react";
 import { BellIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
-import NavbarTripin from "@/Components/navbarTripin";
+import NavbarTripin from "@/Components/NavbarTripin";
 
 const Home = ({ credit, username, user_id, booking, notification_status }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
@@ -127,7 +127,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </button>
 
                         <div className="font-semibold text-black">
-                            Popular Destinations
+                            Available Locations
                         </div>
                         <div className="lg:flex lg:justify-center">
                             <CarouselDashboard />

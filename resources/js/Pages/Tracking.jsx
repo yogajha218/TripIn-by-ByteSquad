@@ -14,7 +14,7 @@ const Tracking = ({ routes }) => {
                       start: routes.trips[0]?.schedule.departure_time,
                       end: routes.trips[0]?.schedule.arrival_time,
                   },
-                  currentStopIndex: 2,
+                  currentStopIndex: 1,
                   stops: [
                       {
                           label: routes.trips[0]?.origin,

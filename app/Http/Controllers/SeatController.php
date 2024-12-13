@@ -65,6 +65,7 @@ class SeatController extends Controller
 
                     $onHoldData = OnHoldSeat::lockForUpdate()->first();
                     if($onHoldData){
+                        FacadesLog::info('Error race condition');
                         return response()->json(['message' => 'Race Condition']);
                     }
 

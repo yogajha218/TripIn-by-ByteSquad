@@ -2,7 +2,7 @@
     "version": 2,
     "framework": null,
     "functions": {
-        "api/index.php": {
+        "public/index.php": {
             "runtime": "vercel-php@0.6.0"
         }
     },
@@ -11,7 +11,7 @@
         { "src": "/(.*)", "dest": "/public/index.php" }
     ],
     "public": true,
-    "buildCommand": "composer install && npm run build && php artisan config:cache",
+    "buildCommand": "npm run build",
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",

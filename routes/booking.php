@@ -37,4 +37,5 @@ Route::group(['prefix' => '/booking', 'middleware' => 'isLogin'], function(){
 });
 Route::get('/payment-terms', [BookingController::class, 'paymentTermsIndex']);
 Route::get('/order-detail/store/dummy', [BookingController::class, 'dummyIndex'])->name('order.dummy');
+Route::get('/test-booking', [BookingController::class, 'testBookingIndex']);
 

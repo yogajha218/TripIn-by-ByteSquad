@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "@inertiajs/react";
 import DatePickerComponent from "@/Components/DatePickerComponent";
 import CardComponent from "@/Components/CardComponent";
@@ -8,7 +8,11 @@ const TestBooking = ({ todays, locations }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const cities = [...new Set(locations.map((location) => location.city))];
     const [dropdownVisible, setDropdownVisible] = useState(false);
-    const [filteredCities, setFilteredCities] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const filteredRoutes = cities.filter((location) => 
+        location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const dropdownRef = useRef(null); // Create a ref for the dropdown
 
     console.log("Location Backend: ", locations);
     console.log("Location Array Mapped: ", cities);
@@ -25,8 +29,18 @@ const TestBooking = ({ todays, locations }) => {
     }, [todays]);
 
     useEffect(() => {
-        console.log(`dropdown: ${dropdownVisible}`);
-    }, [dropdownVisible]);
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownVisible(false); // Close dropdown if clicked outside
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     const todayCardProp = todays.map((today) => ({
         id: today.booking_id,
         name: "Shuttle Bus Tripin",
@@ -39,18 +53,8 @@ const TestBooking = ({ todays, locations }) => {
     }));
 
     const handleCityInputChange = (e) => {
-        const value = e.target.value;
-        setData("cityValue", value);
-
-        if (value) {
-            const filtered = cities.filter((city) =>
-                city.toLowerCase().includes(value.toLowerCase()),
-            );
-            setFilteredCities(filtered);
-            setDropdownVisible(true);
-        } else {
-            setDropdownVisible(false);
-        }
+        setSearchTerm(e.target.value);
+        setData("cityValue", e.target.value);
     };
 
     const handleCitySelect = (city) => {
@@ -80,8 +84,9 @@ const TestBooking = ({ todays, locations }) => {
                                 >
                                     Departure City
                                 </label>
-                                <div className="relative mb-6">
-                                    <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
+                                <div className="relative mb-6">                                    
+                                    <div className="relative">
+                                        <div className="pointer-events-none z-10 absolute inset-y-0 start-0 flex items-center ps-3.5">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -97,19 +102,21 @@ const TestBooking = ({ todays, locations }) => {
                                             />
                                         </svg>
                                     </div>
-                                    <input
-                                        type="text"
-                                        id="input-group-1"
-                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                                        placeholder="From"
-                                        value={data.cityValue}
-                                        onChange={handleCityInputChange}
-                                        onFocus={() => setDropdownVisible(true)}
-                                    />
+                                        <input
+                                            type="text"
+                                            id="input-group-1"
+                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                                            placeholder="From"
+                                            value={data.cityValue}
+                                            onChange={handleCityInputChange}
+                                            onFocus={() => setDropdownVisible(true)}
+                                        />
+                                    </div>
+                                    
                                     {dropdownVisible &&
-                                        filteredCities.length !== 0 && (
-                                            <ul className="absolute z-50 mt-1 size-fit w-full rounded-lg border border-gray-300 bg-white shadow-lg">
-                                                {filteredCities.map(
+                                        (
+                                            <ul ref={dropdownRef} className="relative mt-1 size-fit w-full rounded-lg border border-gray-300 bg-white shadow-lg">
+                                                {filteredRoutes.map(
                                                     (city, index) => (
                                                         <li
                                                             key={index}

@@ -6,7 +6,7 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
     const [searchTerm, setSearchTerm] = useState(""); // State for search input
 
     console.log("location: ", locations);
-
+git 
     const goBack = () => {
         setIsSelectOrigin(false);
     };
@@ -50,7 +50,7 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
                                     </svg>
                                 </div>
                                 <input required onChange={handleSearchChange} value={searchTerm} type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search routes"/>
-                            </div>
+                            </div>  
                         </form>
                         <div className="my-2">
                             {filteredRoutes.map((loc, index) => (

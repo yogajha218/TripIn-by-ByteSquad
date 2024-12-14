@@ -126,7 +126,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
             } else {
                 const error = await response.json();
                 setToaatType("alert");
-                setToastMessage(error.message);
+                setToastMessage(error.message); 
             }
         } catch (error) {
             // Handle specific error scenarios

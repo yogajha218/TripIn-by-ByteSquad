@@ -8,25 +8,15 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
+    const [showAllUpcomingRoutes, setShowAllUpcomingRoutes] = useState(false); // State to control "See More"
     const [todayTripCardProp, setTodayTripCardProp] = useState([]);
-    const [upcomingTripsCardProp, setUpcomingTripsCardProp] = useState({});
     const { todays, upcomings } = booking; // Destructure the booking props (from backend) to get today and upcoming
-
-    console.log("Today Booking : ", todays); // Debug data today
-    console.log("Upcoming Booking : ", upcomings); // Debug data upcoming
-    console.log("Notif Status: ", notification_status); // Debug data credit
 
     const formattedCredit = new Intl.NumberFormat("id-ID", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     }).format(credit);
 
-    function checkIsCardDataEmpty(datas, setTrip, setVisible) {
-        if (Object.keys(datas).length !== 0) {
-            setVisible(true);
-            setTrip((prevState) => ({ ...prevState, ...datas }));
-        }
-    }
     const todayCardProp = todays.map((today) => ({
         id: today.booking_id,
         name: "Shuttle Bus Tripin",
@@ -48,19 +38,13 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
     }));
 
     useEffect(() => {
-        // Dummy data for today's and upcoming trips
+        setIsTripsAvailable(todayCardProp.length > 0);
+        setIsUpcomingTripAvailable(upcomingCardProp.length > 0);
+    }, [booking]);
 
-        checkIsCardDataEmpty(
-            todayCardProp,
-            setTodayTripCardProp,
-            setIsTripsAvailable,
-        );
-        checkIsCardDataEmpty(
-            upcomingCardProp,
-            setUpcomingTripsCardProp,
-            setIsUpcomingTripAvailable,
-        );
-    }, [booking]); // Run effect when users data changes
+    const visibleUpcomingRoutes = showAllUpcomingRoutes
+        ? upcomingCardProp
+        : upcomingCardProp.slice(0, 2); // Show only the first 2 initially
 
     return (
         <>
@@ -68,7 +52,10 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                 <div className="h-fit w-full bg-white lg:max-w-[400px]">
                     <div className="relative h-[222px] rounded-b-3xl bg-primary">
                         <div
-                            className={`absolute right-5 top-8 ${notification_status == "unread" && "animate-shake"}`}
+                            className={`absolute right-5 top-8 ${
+                                notification_status == "unread" &&
+                                "animate-shake"
+                            }`}
                         >
                             <BellIcon
                                 onClick={() =>
@@ -127,7 +114,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </button>
 
                         <div className="font-semibold text-black">
-                            Popular Destinations
+                            Available Locations
                         </div>
                         <div className="lg:flex lg:justify-center">
                             <CarouselDashboard />
@@ -148,16 +135,22 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </div>
 
                         <div className="mb-3 mt-16 flex items-baseline justify-between px-2">
-                            <p className="text-orange font-semibold">
-                                Upcoming's Trip
-                            </p>
-                            <p className="text-sm text-primary">see more</p>
+                            <p className="text-orange font-semibold">Upcoming's Trip</p>
+                            {upcomingCardProp.length > 2 && (
+                                <button
+                                    onClick={() => setShowAllUpcomingRoutes(!showAllUpcomingRoutes)}
+                                    className="text-sm font-medium text-primary2 underline"
+                                >
+                                    {showAllUpcomingRoutes ? "See Less" : "See More"}
+                                </button>
+                            )}
+                            
                         </div>
                         <div className="grid gap-4">
                             <div className="mb-10 grid gap-4">
                                 {isUpcomingTripAvailable ? (
                                     <CardComponent
-                                        CardProp={upcomingCardProp}
+                                        CardProp={visibleUpcomingRoutes} // Show limited or all routes
                                     />
                                 ) : (
                                     <div className="flex flex-col items-center justify-center pb-9">

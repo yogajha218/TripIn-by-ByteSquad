@@ -243,7 +243,7 @@ const Auth = () => {
                                     buttonText={
                                         isSignIn ? "Sign In" : "Sign Up"
                                     }
-                                    disabled={processing || !isFormValid}
+                                    disabled={processing}
                                     type="submit"
                                 />
                             </form>

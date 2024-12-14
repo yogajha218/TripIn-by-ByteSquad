@@ -9,6 +9,7 @@ use App\Models\Driver;
 use App\Models\Location;
 use App\Models\OnHoldSeat;
 use App\Models\Payment;
+use App\Models\Schedule;
 use App\Models\SeatBooking;
 use App\Models\Trip;
 use App\Models\Vehicle;

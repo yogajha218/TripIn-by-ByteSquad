@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { usePage } from "@inertiajs/react";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import SelectOriginBooking from "./SelectOriginBooking";
 import ButtonComponent from "@/Components/ButtonComponent";
 import ModalComponent from "@/Components/ModalComponent";
@@ -121,10 +121,10 @@ const Booking = () => {
                 <div className="lg:flex lg:justify-center">
                     <div className="min-h-screen bg-white lg:w-[400px]">
                         <div className="relative flex h-[108px] items-center justify-center rounded-b-lg bg-primary px-3">
-                            <ChevronLeftIcon
+                            <ArrowLeftIcon
                                 onClick={() => (window.location.href = "/home")}
                                 className="absolute left-3 top-1/2 z-50 size-8 translate-y-[-50%] cursor-pointer font-bold text-white"
-                            ></ChevronLeftIcon>
+                            ></ArrowLeftIcon>
                             <p className="mx-2 w-fit cursor-default select-none text-2xl font-medium text-white">
                                 Booking
                             </p>
@@ -152,8 +152,11 @@ const Booking = () => {
                                             </p>
                                         </div>
                                         <div className="flex flex-1 justify-between">
+                                            <div className="absolute">
+                                                {cityValue}
+                                            </div>
                                             <input
-                                                className={`border-none p-0 text-sm font-light ${
+                                                className={`w-0 border-none p-0 text-sm font-light ${
                                                     cityValue !==
                                                     "Select a city"
                                                         ? "text-black"
@@ -163,7 +166,7 @@ const Booking = () => {
                                                 disabled={true}
                                             />
                                             <div
-                                                className={`left-[424px] cursor-pointer text-3xl font-bold transition-transform duration-300 ${
+                                                className={`right-5 top-5 cursor-pointer text-3xl font-bold transition-transform duration-300 ${
                                                     isCityOptionsHidden
                                                         ? "top-[44px]"
                                                         : "top-[44px] rotate-180"
@@ -211,30 +214,22 @@ const Booking = () => {
                                         src="/select-origin.svg"
                                         className="size-[47px]"
                                     />
-                                    <div className="mx-5 h-fit flex-1 border-b-2 border-black">
+                                    <div className="relative mx-5 h-fit flex-1 border-b-2 border-black">
                                         <div className="w-fit">
                                             <p className="w-fit text-lg font-medium">
                                                 Origin
                                             </p>
                                         </div>
                                         <div className="relative flex flex-1 justify-between">
+                                            <p className="">{origin}</p>
                                             <input
-                                                className="w-[240px] border-none p-0 text-sm font-light"
+                                                className="h-0 w-0 border-none text-sm font-light"
                                                 value={origin}
                                                 disabled={true}
                                             />
-                                            {/* <div
-                                                className={`absolute overflow-hidden w-[240px] text-sm font-light ${
-                                                    origin === "select origin"
-                                                        ? "text-gray-400"
-                                                        : "text-black"
-                                                }`}
-                                            >
-                                                {origin}
-                                            </div> */}
                                         </div>
                                         <div
-                                            className={`absolute right-5 top-4 -rotate-90 cursor-pointer text-3xl font-bold transition-transform duration-300`}
+                                            className={`absolute right-0 top-1/2 -translate-y-1/2 -rotate-90 cursor-pointer text-3xl font-bold transition-transform duration-300`}
                                         >
                                             <img src="/expand-arrow.svg" />
                                         </div>
@@ -256,12 +251,16 @@ const Booking = () => {
                                             </p>
                                         </div>
                                         <div className="flex flex-1 justify-between">
+                                            <p>
+                                                {selectedDay
+                                                    ? format(
+                                                          selectedDay,
+                                                          "MMMM d, yyyy",
+                                                      )
+                                                    : "Select Date"}
+                                            </p>
                                             <input
-                                                className={`border-none p-0 text-sm font-light ${
-                                                    selectedDay
-                                                        ? "text-black"
-                                                        : "text-gray-400"
-                                                }`}
+                                                className={`size-0 border p-0 text-lg font-light`}
                                                 value={
                                                     selectedDay
                                                         ? format(
@@ -300,12 +299,10 @@ const Booking = () => {
                                                 Seats
                                             </p>
                                         </div>
-                                        <div className="relative flex flex-1 justify-between text-sm">
-                                            <div className="absolute">
-                                                {seatsLabel}
-                                            </div>
+                                        <div className="relative flex flex-1 justify-between">
+                                            <p className="">{seatsLabel}</p>
                                             <input
-                                                className={`border-none p-0 text-lg font-light opacity-0`}
+                                                className={`size-0 border p-0 text-lg font-light`}
                                                 value={seatsValue}
                                                 disabled={true}
                                             />

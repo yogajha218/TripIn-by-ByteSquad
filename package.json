@@ -27,6 +27,6 @@
         "@heroicons/react": "^2.2.0",
         "date-fns": "^4.1.0",
         "lucide-react": "^0.462.0",
-        "qrcode.react": "^4.1.0"
+        "qrcode.react": "^4.2.0"
     }
 }

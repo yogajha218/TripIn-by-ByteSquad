@@ -15,8 +15,8 @@ const Schedule = ({ booking, routes }) => {
 
     return (
         <>
-            <div className="flex justify-center">
-                <div className="flex min-h-screen w-full flex-col bg-white lg:w-[400px]">
+            <div className="lg:flex lg:justify-center">
+                <div className="flex min-h-screen flex-col bg-white lg:w-[400px]">
                     {/* Header */}
                     <header className="h-[108px] rounded-b-md bg-primary py-6 text-white shadow-md">
                         <div className="relative flex justify-center">

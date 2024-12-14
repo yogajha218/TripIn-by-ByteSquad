@@ -37,7 +37,6 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
         status: "Upcoming Trip",
         price: upcoming.price,
         date: upcoming.trips[0]?.selected_day,
-
     }));
 
     console.log(booking);
@@ -56,9 +55,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
             <div className="flex justify-center">
                 <div className="h-fit w-full bg-white lg:max-w-[400px]">
                     <div className="relative h-[222px] rounded-b-3xl bg-primary">
-                        <div
-                            className={`absolute right-5 top-8 `}
-                        >
+                        <div className={`absolute right-5 top-8`}>
                             <BellIcon
                                 onClick={() =>
                                     (window.location.href =
@@ -80,7 +77,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </div>
                         <div className="mx-5">
                             <p className="text-2xl font-semibold tracking-tighter text-white sm:text-3xl">
-                                Welcome, {username}
+                                Welcome, doggo {username}
                             </p>
                             <p className="text-base font-medium tracking-tight text-white sm:text-lg">
                                 Enjoy Your Trip!
@@ -137,16 +134,23 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </div>
 
                         <div className="mb-3 mt-16 flex items-baseline justify-between px-2">
-                            <p className="text-orange font-semibold">Upcoming's Trip</p>
+                            <p className="text-orange font-semibold">
+                                Upcoming's Trip
+                            </p>
                             {upcomingCardProp.length > 2 && (
                                 <button
-                                    onClick={() => setShowAllUpcomingRoutes(!showAllUpcomingRoutes)}
+                                    onClick={() =>
+                                        setShowAllUpcomingRoutes(
+                                            !showAllUpcomingRoutes,
+                                        )
+                                    }
                                     className="text-sm font-medium text-primary2 underline"
                                 >
-                                    {showAllUpcomingRoutes ? "See Less" : "See More"}
+                                    {showAllUpcomingRoutes
+                                        ? "See Less"
+                                        : "See More"}
                                 </button>
                             )}
-                            
                         </div>
                         <div className="grid gap-4">
                             <div className="mb-10 grid gap-4">

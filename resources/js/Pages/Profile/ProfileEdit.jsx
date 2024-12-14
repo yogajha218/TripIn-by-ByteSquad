@@ -34,13 +34,12 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
             },
         });
 
-        console.log('Change Password clicked');
+        console.log("Change Password clicked");
     };
 
     return (
         <div className="flex justify-center">
             <div className="h-fit w-full lg:max-w-[400px]">
-                
                 <div className="h-[220px] w-full bg-primary">
                     <p className="pt-16 text-center text-3xl font-semibold text-white">
                         Edit Profile
@@ -68,7 +67,11 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 required
                             />
-                            {errors.username && <p className="text-red-500">{errors.username}</p>}
+                            {errors.username && (
+                                <p className="text-red-500">
+                                    {errors.username}
+                                </p>
+                            )}
                             <label className="text-lg font-bold leading-10">
                                 Email
                             </label>
@@ -141,8 +144,9 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                     <option value="female">Female</option>
                                 </select>
                             </div>
+
                             <button
-                                type="submit"
+                                type=""
                                 disabled={processing}
                                 className="my-5 w-full rounded-lg bg-primary2 py-2 text-white"
                             >

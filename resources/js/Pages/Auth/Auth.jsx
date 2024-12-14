@@ -22,7 +22,7 @@ const Auth = () => {
         e.preventDefault();
         console.log("Form submitted with data: ", data);
         const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
+            'meta[name="csrf-token"]',
         ).content;
 
         if (isSignIn) {
@@ -60,8 +60,8 @@ const Auth = () => {
 
     return (
         <>
-            <div className="lg:flex lg:justify-center ">
-                <div className="min-h-screen bg-primary flex flex-col lg:w-[400px]">
+            <div className="lg:flex lg:justify-center">
+                <div className="flex min-h-screen flex-col bg-primary lg:w-[400px]">
                     {/* Logo Container */}
                     <div className="flex justify-center py-16">
                         <img
@@ -72,15 +72,15 @@ const Auth = () => {
                     </div>
 
                     {/* Toggle Buttons */}
-                    <div className=" relative top-[24px] flex w-full">
+                    <div className="relative top-[24px] flex w-full">
                         <div
-                            className={`flex-1 h-[48px] top-4 rounded-[30px] ${
+                            className={`top-4 h-[48px] flex-1 rounded-[30px] ${
                                 isSignIn ? "bg-white" : "bg-primary"
                             }`}
                         >
                             <button
-                                className={`w-full py-3 text-center rounded-t-[30px] bg-transparent rounded-b-none ${
-                                    isSignIn ? " text-black" : "text-white"
+                                className={`w-full rounded-b-none rounded-t-[30px] bg-transparent py-3 text-center ${
+                                    isSignIn ? "text-black" : "text-white"
                                 }`}
                                 onClick={() => setIsSignIn(true)}
                             >
@@ -88,12 +88,12 @@ const Auth = () => {
                             </button>
                         </div>
                         <div
-                            className={`flex-1 h-[48px] top-4 rounded-[30px] ${
+                            className={`top-4 h-[48px] flex-1 rounded-[30px] ${
                                 isSignIn ? "bg-primary" : "bg-white"
                             }`}
                         >
                             <button
-                                className={`w-full py-3 text-center rounded-t-[30px]  bg-transparent rounded-b-none ${
+                                className={`w-full rounded-b-none rounded-t-[30px] bg-transparent py-3 text-center ${
                                     !isSignIn ? "text-black" : "text-white"
                                 }`}
                                 onClick={() => setIsSignIn(false)}
@@ -104,9 +104,9 @@ const Auth = () => {
                     </div>
 
                     {/* Form Container */}
-                    <div className="bg-white flex-1 px-6 py-12 min-h-[calc(100vh-240px)]">
-                        <div className="max-w-md mx-auto">
-                            <h2 className="text-lg font-medium mb-6 texx-black">
+                    <div className="min-h-[calc(100vh-240px)] flex-1 bg-white px-6 py-12">
+                        <div className="mx-auto max-w-md">
+                            <h2 className="texx-black mb-6 text-lg font-medium">
                                 {isSignIn
                                     ? "Login to your Account"
                                     : "Create your Account"}
@@ -119,7 +119,7 @@ const Auth = () => {
                                     id="email"
                                     name="email"
                                     placeholder="Email"
-                                    className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black "
+                                    className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                     value={data.email}
                                     onChange={(e) =>
                                         setData("email", e.target.value)
@@ -128,7 +128,7 @@ const Auth = () => {
                                     autoComplete="email"
                                 />
                                 {errors.email && (
-                                    <p className="text-red-500 text-sm">
+                                    <p className="text-sm text-red-500">
                                         {errors.email}
                                     </p>
                                 )}
@@ -138,7 +138,7 @@ const Auth = () => {
                                     id="password"
                                     name="password"
                                     placeholder="Password"
-                                    className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                                    className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                     value={data.password}
                                     onChange={(e) =>
                                         setData("password", e.target.value)
@@ -146,7 +146,7 @@ const Auth = () => {
                                     required
                                 />
                                 {errors.password && (
-                                    <div className="text-red-500 text-sm">
+                                    <div className="text-sm text-red-500">
                                         {errors.password}
                                     </div>
                                 )}
@@ -156,19 +156,19 @@ const Auth = () => {
                                         type="password"
                                         id="confirmPassword"
                                         placeholder="Confirm Password"
-                                        className="w-full p-3 rounded-lg bg-white border border-gray-300 text-black"
+                                        className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                         value={data.confirmPassword}
                                         onChange={(e) =>
                                             setData(
                                                 "confirmPassword",
-                                                e.target.value
+                                                e.target.value,
                                             )
                                         }
                                         required
                                     />
                                 )}
                                 {errors.confirmPassword && (
-                                    <div className="text-red-500 text-sm">
+                                    <div className="text-sm text-red-500">
                                         {errors.confirmPassword}
                                     </div>
                                 )}
@@ -231,7 +231,7 @@ const Auth = () => {
                                             </label>
                                         </div>
                                         {termsCheckError && (
-                                            <p className="text-red-500 text-sm mt-2">
+                                            <p className="mt-2 text-sm text-red-500">
                                                 Please read the Terms &
                                                 Conditions and Privacy Policy
                                                 first
@@ -244,7 +244,6 @@ const Auth = () => {
                                         isSignIn ? "Sign In" : "Sign Up"
                                     }
                                     disabled={processing}
-                                    type="submit"
                                 />
                             </form>
                         </div>

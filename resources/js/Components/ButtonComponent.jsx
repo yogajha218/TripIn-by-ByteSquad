@@ -2,8 +2,6 @@ import React from "react";
 
 export const ButtonComponent = ({
     buttonText,
-    textColor = "white",
-    buttonColor = "primary2",
     disabled,
     onclick = () => {},
     type,
@@ -12,7 +10,7 @@ export const ButtonComponent = ({
         <button
             type={type}
             onClick={onclick}
-            className={`bg-${buttonColor} text-${textColor} text-md md:text-lg w-full py-3  text-white rounded-md font-medium`}
+            className={`text-md w-full rounded-md bg-primary2 py-3 font-medium text-white md:text-lg`}
             disabled={disabled}
         >
             {buttonText}

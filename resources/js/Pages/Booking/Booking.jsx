@@ -354,7 +354,7 @@ const Booking = () => {
                             </form>
                             <div className="relative top-48">
                                 <ButtonComponent
-                                    type="submit"
+                                    type=""
                                     buttonText={"Search"}
                                     onclick={handleSubmit}
                                 />

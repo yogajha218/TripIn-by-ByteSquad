@@ -3,8 +3,6 @@ const CardComponent = ({ CardProp = [] }) => {
         return `Rp${amount.toLocaleString("id-ID")}`;
     };
 
-    
-
     return (
         <>
             {CardProp.map((data) => (

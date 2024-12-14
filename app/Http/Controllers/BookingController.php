@@ -36,6 +36,20 @@ class BookingController extends Controller
         Config::$is3ds = true;
     }
 
+    public function testBookingIndex(){
+        $user = Auth::user();  
+        $currentDate = now()->format('Y-m-d');
+        $locations = Location::select('city')->distinct()->get();
+        $todayBookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])
+            ->where('user_id', $user->user_id) // Assuming you want bookings for the authenticated user
+            ->whereHas('trips', function($query) use ($currentDate){
+                $query->where('selected_day', $currentDate);
+            })
+            ->get();
+
+        return Inertia::render('Booking/TestNewBooking', ['todays' => $todayBookings, 'locations' => $locations]);
+    }
+
     // Menampilkan halaman Detail Order
     public function OrderDetailsIndex(){
         $routeId = session('setRoute.selectedRoute.routeId');

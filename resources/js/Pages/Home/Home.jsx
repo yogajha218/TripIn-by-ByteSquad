@@ -25,6 +25,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
         destination: today.trips[0]?.schedule.location.name,
         status: "On Trip",
         price: today.price,
+        date: today.trips[0]?.selected_day,
     }));
 
     const upcomingCardProp = upcomings.map((upcoming) => ({
@@ -35,7 +36,11 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
         destination: upcoming.trips[0]?.schedule.location.name,
         status: "Upcoming Trip",
         price: upcoming.price,
+        date: upcoming.trips[0]?.selected_day,
+
     }));
+
+    console.log(booking);
 
     useEffect(() => {
         setIsTripsAvailable(todayCardProp.length > 0);
@@ -52,10 +57,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                 <div className="h-fit w-full bg-white lg:max-w-[400px]">
                     <div className="relative h-[222px] rounded-b-3xl bg-primary">
                         <div
-                            className={`absolute right-5 top-8 ${
-                                notification_status == "unread" &&
-                                "animate-shake"
-                            }`}
+                            className={`absolute right-5 top-8 `}
                         >
                             <BellIcon
                                 onClick={() =>

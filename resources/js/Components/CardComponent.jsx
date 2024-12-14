@@ -3,6 +3,8 @@ const CardComponent = ({ CardProp = [] }) => {
         return `Rp${amount.toLocaleString("id-ID")}`;
     };
 
+    
+
     return (
         <>
             {CardProp.map((data) => (
@@ -23,6 +25,9 @@ const CardComponent = ({ CardProp = [] }) => {
                             <p className="text-black text-sm w-fit p-1 border rounded-md">
                                 {data.plateNumber}
                             </p>
+                        </div>
+                        <div>
+                            <p className="text-black">{data.date}</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-[1fr] ">

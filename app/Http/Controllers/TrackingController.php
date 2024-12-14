@@ -17,18 +17,16 @@ class TrackingController extends Controller
             "trips.schedule.location",
             "trips.schedule.vehicle",
         ])
-            ->where("user_id", $user->user_id)
-            ->whereHas("trips", function ($query) {
-                $query->where("selected_day", Carbon::today());
-            })
-            ->whereHas("trips.schedule", function ($query) {
-                $query->where(
-                    "departure_time",
-                    ">=",
-                    now()->addMinutes(15)->format("H:i:s")
-                );
-            })
-            ->first();
+        ->where("user_id", $user->user_id)
+        ->whereHas("trips", function ($query) {
+            $query->where("selected_day", Carbon::today());
+        })
+        ->whereHas("trips.schedule", function ($query) {
+            $currentTime = now()->format("H:i:s");
+            $query->where("departure_time", "<=", $currentTime)
+                ->where("arrival_time", ">=", $currentTime);
+        })
+        ->first(); // Use get() to retrieve all matching records
 
         return Inertia::render("Tracking", ["routes" => $routes]);
     }

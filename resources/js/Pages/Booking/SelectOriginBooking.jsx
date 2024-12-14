@@ -1,7 +1,12 @@
 import React from "react";
+import { useState } from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 
 const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
+    const [searchTerm, setSearchTerm] = useState(""); // State for search input
+
+    console.log("location: ", locations);
+
     const goBack = () => {
         setIsSelectOrigin(false);
     };
@@ -11,6 +16,14 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
         setOrigin(locationName);
         goBack();
     };
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredRoutes = locations.filter((location) => 
+        location.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <>
@@ -29,26 +42,18 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
                         </p>
                     </div>
                     <div className="min-h-[100vh] w-full bg-white px-5 pt-4">
-                        <form
-                            method="GET"
-                            className="mb-8 mt-2 flex justify-center"
-                        >
-                            <input
-                                name="title"
-                                type="text"
-                                placeholder="Search for location..."
-                                className="w-3/4 rounded-s-md border px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                id="searchInput"
-                            />
-                            <button
-                                type="submit"
-                                className="rounded-e-md bg-[#547592] px-4 py-2 text-white hover:bg-[#415A71] focus:outline-none focus:ring-2 focus:ring-primary2"
-                            >
-                                Search
-                            </button>
+                        <form className="max-w-md mx-auto">   
+                            <div className="relative">
+                                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg className="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input required onChange={handleSearchChange} value={searchTerm} type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search routes"/>
+                            </div>
                         </form>
                         <div className="my-2">
-                            {locations.map((loc, index) => (
+                            {filteredRoutes.map((loc, index) => (
                                 <div
                                     className="flex h-fit w-full cursor-pointer justify-between border-b px-1"
                                     key={index}

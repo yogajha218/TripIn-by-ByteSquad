@@ -54,11 +54,13 @@ class ProfileController extends Controller
     public function profileEdit(Request $request)
     {
         $request->validate([
-            'username' =>  'required',
-            'phone_number' => 'required|numeric',
+            'username' =>  'required|max:20',
+            'phone_number' => 'required|numeric|digits_between:1,15',
             'gender' => 'required',
         ], [
             'phone_number.numeric'=> 'Please enter a number',
+            'phone_number.digits_between'=> 'Phone number must be less than 15 digit',
+            'username.max' => 'Username must be less than 20 letter',
         ]);
 
         try{
@@ -84,13 +86,13 @@ class ProfileController extends Controller
 
     // Fungsi untuk kirim email otp
     public function sendEmailOtp(){
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->back()->withErrors('User  not authenticated');
-        }
-
         try {
+            $user = Auth::user();
+
+            if (!$user) {
+                return redirect()->back()->withErrors('User  not authenticated');
+            }
+
             $otpCode = random_int(1111, 9999);
             Mail::raw("Your OTP code is: $otpCode", function($message) use ($user) {
                 $message->to($user->email)->subject('Your OTP Code');
@@ -107,6 +109,7 @@ class ProfileController extends Controller
             return redirect()->route('profile.edit.otp');
 
         } catch (\Exception $e) {
+            FacadesLog::info("Error on send otp: " . $e->getMessage());
             return redirect()->back()->withErrors($e->getMessage());
         }
     }
@@ -135,29 +138,38 @@ class ProfileController extends Controller
 
 
     // Fungsi untuk memperbarui password
-    public function updatePassword(Request $request){
-        $request->validate([
-            'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
-            'confirmPassword' => 'required|same:password',
+    public function updatePassword(Request $request) {
+        $user = User::where('email', Auth::user()->email)->first(); // Get the authenticated user
+        if (!$user) {
+            return redirect()->back()->withErrors('User  Not Found');
+        }
 
+        $request->validate([
+            'password' => [
+                'required',
+                'min:8',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
+                function ($attribute, $value, $fail) use ($user) {
+                    // Check if the new password is the same as the current password
+                    if (Hash::check($value, $user->password)) {
+                        $fail('The new password cannot be the same as the old password.');
+                    }
+                },
+            ],
+            'confirmPassword' => 'required|same:password',
         ], [
             'password.min' => 'Your password must be at least 8 characters.',
             'password.regex' => 'Password must contain both letters and numbers.',
             'confirmPassword.same' => 'The password confirmation does not match.',
         ]);
 
-        $user = User::where('email', Auth::user()->email);
-        if (!$user->exists()) {
-            return redirect()->back()->withErrors('User Not Found');
-        }
-
-        try{
+        try {
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
 
-            return redirect()->route('profile.edit');
-        } catch (\Exception $e){
+            return redirect()->route('profile.edit')->with('success', 'Password updated successfully.');
+        } catch (\Exception $e) {
             FacadesLog::error('Error updating password: ' . $e->getMessage());
             return redirect()->back()->withErrors('Error Updating Password');
         }

@@ -35,6 +35,7 @@ class HomeController extends Controller
             'schedule_done',
             'seat_done',
             'order_done',
+            'otp_initiated',
         ]);
 
         $todayBookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])

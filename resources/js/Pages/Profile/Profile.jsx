@@ -3,6 +3,7 @@ import { Link, usePage } from "@inertiajs/react";
 import NavbarTripin from "@/Components/navbarTripin";
 import ModalComponent from "@/Components/ModalComponent";
 import { ToastComponent } from "@/Components/ToastComponent";
+import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 
 const Profile = () => {
     const [notification, setNotification] = useState(null);
@@ -135,7 +136,7 @@ const Profile = () => {
                                     <p className="px-5 text-sm">Edit Profile</p>
                                 </Link>
                                 <Link
-                                    href="/notification"
+                                    href="/notifications"
                                     className="flex flex-row items-center border-y-2 bg-[#DADADA59] px-5 text-lg font-medium hover:bg-primary hover:text-white"
                                 >
                                     <img

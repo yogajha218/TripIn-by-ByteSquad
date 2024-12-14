@@ -6,7 +6,7 @@ const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
     const [searchTerm, setSearchTerm] = useState(""); // State for search input
 
     console.log("location: ", locations);
-
+    git;
     const goBack = () => {
         setIsSelectOrigin(false);
     };

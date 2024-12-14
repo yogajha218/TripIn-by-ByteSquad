@@ -126,7 +126,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
             } else {
                 const error = await response.json();
                 setToaatType("alert");
-                setToastMessage(error.message); 
+                setToastMessage(error.message);
             }
         } catch (error) {
             // Handle specific error scenarios
@@ -162,7 +162,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="mx-auto md:min-w-[360px] lg:max-w-[400px]">
+                <div className="mx-auto md:min-w-[360px] lg:w-[400px]">
                     <div className="relative min-h-screen min-w-[360px] bg-white">
                         {/* Header */}
                         <div className="relative h-[108px] rounded-b-xl bg-primary">

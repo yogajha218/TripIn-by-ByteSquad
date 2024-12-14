@@ -4,7 +4,7 @@ import { useForm } from "@inertiajs/react";
 import DatePickerComponent from "@/Components/DatePickerComponent";
 import CardComponent from "@/Components/CardComponent";
 
-const TestBooking = ({todays, locations}) => {
+const TestBooking = ({ todays, locations }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const cities = [...new Set(locations.map((location) => location.city))];
     const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -14,16 +14,19 @@ const TestBooking = ({todays, locations}) => {
     console.log("Location Array Mapped: ", cities);
 
     const { data, setData, post, processing, errors } = useForm({
-            cityValue: "",
-            origin: "",
-            selectedDay: "",
-            seatsValue: "",
-        });
+        cityValue: "",
+        origin: "",
+        selectedDay: "",
+        seatsValue: "",
+    });
 
-     useEffect(() => {
+    useEffect(() => {
         setIsTripsAvailable(todayCardProp.length > 0);
     }, [todays]);
 
+    useEffect(() => {
+        console.log(`dropdown: ${dropdownVisible}`);
+    }, [dropdownVisible]);
     const todayCardProp = todays.map((today) => ({
         id: today.booking_id,
         name: "Shuttle Bus Tripin",
@@ -41,7 +44,7 @@ const TestBooking = ({todays, locations}) => {
 
         if (value) {
             const filtered = cities.filter((city) =>
-                city.toLowerCase().includes(value.toLowerCase())
+                city.toLowerCase().includes(value.toLowerCase()),
             );
             setFilteredCities(filtered);
             setDropdownVisible(true);
@@ -51,8 +54,8 @@ const TestBooking = ({todays, locations}) => {
     };
 
     const handleCitySelect = (city) => {
-        setData("cityValue", city); 
-        setDropdownVisible(false); 
+        setData("cityValue", city);
+        setDropdownVisible(false);
     };
 
     return (
@@ -68,71 +71,129 @@ const TestBooking = ({todays, locations}) => {
                             Booking
                         </p>
                     </div>
-                    <div className="p-4 shadow-md border m-5 rounded-md">
+                    <div className="m-5 rounded-md border p-4 shadow-md">
                         <form>
                             <div>
-                                <label htmlFor="input-group-1" className="block mb-2 text-sm font-medium text-gray-900 ">Departure City</label>
+                                <label
+                                    htmlFor="input-group-1"
+                                    className="mb-2 block text-sm font-medium text-gray-900"
+                                >
+                                    Departure City
+                                </label>
                                 <div className="relative mb-6">
-                                    <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                                    <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            className="size-6"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                                            />
                                         </svg>
                                     </div>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         id="input-group-1"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" 
+                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
                                         placeholder="From"
                                         value={data.cityValue}
                                         onChange={handleCityInputChange}
                                         onFocus={() => setDropdownVisible(true)}
                                     />
+                                    {dropdownVisible &&
+                                        filteredCities.length !== 0 && (
+                                            <ul className="absolute z-50 mt-1 size-fit w-full rounded-lg border border-gray-300 bg-white shadow-lg">
+                                                {filteredCities.map(
+                                                    (city, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                                                            onClick={() =>
+                                                                handleCitySelect(
+                                                                    city,
+                                                                )
+                                                            }
+                                                        >
+                                                            {city}
+                                                        </li>
+                                                    ),
+                                                )}
+                                            </ul>
+                                        )}
                                 </div>
-                               {/* Dropdown */}
-                                    {dropdownVisible && filteredCities.length > 0 && (
-                                        <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg shadow-lg w-full mt-1">
-                                            {filteredCities.map((city, index) => (
-                                                <li
-                                                    key={index}
-                                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                                                    onClick={() => handleCitySelect(city)}
-                                                >
-                                                    {city}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                <label htmlFor="input-group-1" className="block mb-2 text-sm font-medium text-gray-900 ">Place</label>
+                                {/* Dropdown */}
+
+                                <label
+                                    htmlFor="input-group-1"
+                                    className="mb-2 block text-sm font-medium text-gray-900"
+                                >
+                                    Place
+                                </label>
                                 <div className="relative mb-6">
-                                    <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                    <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            className="size-6"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                            />
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                                            />
                                         </svg>
                                     </div>
-                                    <input type="text" id="input-group-1" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="   From"/>
+                                    <input
+                                        type="text"
+                                        id="input-group-1"
+                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                                        placeholder="   From"
+                                    />
                                 </div>
-                                <div className="grid grid-cols-2 gap-x-3">  
+                                <div className="grid grid-cols-2 gap-x-3">
                                     <div>
-                                        <DatePickerComponent/>
-                                    </div> 
+                                        <DatePickerComponent />
+                                    </div>
                                     <div>
-                                        <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Seat</label>
-                                        <select defaultValue="" id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                            <option value="" disabled>Choose a seat</option>
+                                        <label
+                                            htmlFor="countries"
+                                            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Select Seat
+                                        </label>
+                                        <select
+                                            defaultValue=""
+                                            id="countries"
+                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                                        >
+                                            <option value="" disabled>
+                                                Choose a seat
+                                            </option>
                                             <option value="US">1</option>
                                             <option value="CA">2</option>
                                             <option value="FR">3</option>
                                             <option value="DE">4</option>
                                             <option value="DE">5</option>
                                         </select>
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
                             <div>
-                                <button
-                                    className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white"
-                                >
+                                <button className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white">
                                     Search
                                 </button>
                             </div>
@@ -142,7 +203,7 @@ const TestBooking = ({todays, locations}) => {
                         <div className="px-5 font-semibold text-black">
                             Today's Trip
                         </div>
-                        <div className="grid gap-4 px-5 mt-2">
+                        <div className="mt-2 grid gap-4 px-5">
                             {isTripAvailable ? (
                                 <CardComponent CardProp={todayCardProp} />
                             ) : (
@@ -153,10 +214,10 @@ const TestBooking = ({todays, locations}) => {
                             )}
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </>
-    )
-} 
+    );
+};
 
-export default TestBooking
+export default TestBooking;

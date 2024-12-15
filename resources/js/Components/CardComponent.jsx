@@ -26,7 +26,7 @@ const CardComponent = ({ CardProp = [] }) => {
                             </p>
                         </div>
                         <div>
-                            <p className="self-end text-black">
+                            <p className="self-center text-black">
                                 {format(data.date, "MMM dd")}
                             </p>
                         </div>

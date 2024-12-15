@@ -36,7 +36,7 @@ class BookingController extends Controller
         Config::$is3ds = true;
     }
 
-    public function testBookingIndex()
+    public function bookingIndex()
     {
         $user = Auth::user();
         $currentDate = now()->format("Y-m-d");
@@ -53,7 +53,7 @@ class BookingController extends Controller
             })
             ->get();
 
-        return Inertia::render("Booking/TestNewBooking", [
+        return Inertia::render("Booking/Booking", [
             "todays" => $todayBookings,
             "locations" => $locations,
         ]);
@@ -153,19 +153,6 @@ class BookingController extends Controller
         return Inertia::render("Booking/Destination");
     }
 
-    public function bookingIndex()
-    {
-        $location = Location::all();
-        $driver = Driver::where("driver_id", 1)->with("vehicle")->first();
-        $routes = Vehicle::with("locations")->where("vehicle_id", 1)->first();
-
-        return Inertia::render("Booking/Booking", [
-            "location" => $location,
-            "driver" => $driver,
-            "routes" => $routes,
-        ]);
-    }
-
     public function originIndex()
     {
         return Inertia::render("Booking/Origin");
@@ -183,7 +170,7 @@ class BookingController extends Controller
         session(["bookingData" => $bookingData]);
         Session::put("booking_done", true);
 
-        return response()->json(["message" => "Booking stored successfully"]);
+        return redirect()->route('schedule', $bookingData["cityValue"]);
     }
 
     public function routeStore(Request $request)

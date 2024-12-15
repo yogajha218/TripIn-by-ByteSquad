@@ -5,9 +5,7 @@ import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import JourneyDetail from "@/Components/JourneyDetail";
 
 const Schedule = ({ booking, routes }) => {
-    const [selectedRoute, setSelectedRoute] = useState(null);
-    console.log("Booking Data", booking);
-    console.log("Rute", routes);
+    console.log("Routes: ", routes );
 
     if (!routes || routes.length === 0) {
         return <div>No routes available</div>;
@@ -15,24 +13,27 @@ const Schedule = ({ booking, routes }) => {
 
     return (
         <>
-            <div className="flex justify-center">
-                <div className="min-h-screen bg-white flex flex-col w-full lg:w-[400px]">
+            <div className="lg:flex lg:justify-center">
+                <div className="flex min-h-screen flex-col bg-white lg:w-[400px]">
                     {/* Header */}
-                    <header className="bg-primary h-[108px] text-white py-6 shadow-md rounded-b-md">
-                        <div className="flex   relative justify-center">
+                    <header className="h-[108px] rounded-b-md bg-primary py-6 text-white shadow-md">
+                        <div className="relative flex justify-center">
                             <ChevronLeftIcon
-                                className="size-6 text-white font-bold absolute z-50 top-1/2 translate-y-[-50%] left-3 cursor-pointer"
-                                onClick={() => history.back()}
+                                className="absolute left-3 top-1/2 z-50 size-6 translate-y-[-50%] cursor-pointer font-bold text-white"
+                                onClick={() =>
+                                    (window.location.href =
+                                        route("booking.index"))
+                                }
                             ></ChevronLeftIcon>
                             <div>
-                                <h1 className="text-xl font-bold text-center w-full">
+                                <h1 className="w-full text-center text-xl font-bold">
                                     {booking.cityValue}
                                 </h1>
-                                <div className="flex items-center space-x-2 mt-2 text-sm w-full">
+                                <div className="mt-2 flex w-full items-center space-x-2 text-sm">
                                     <span>
                                         {format(
                                             booking.selectedDay,
-                                            "MMMM d, yyyy"
+                                            "MMMM d, yyyy",
                                         )}{" "}
                                         • {booking.seatsValue} Seat •{" "}
                                         {routes.length} Buses
@@ -43,7 +44,7 @@ const Schedule = ({ booking, routes }) => {
                     </header>
 
                     {/* Main Content */}
-                    <main className="flex-grow p-4 space-y-4">
+                    <main className="flex-grow space-y-4 p-4">
                         <JourneyDetail routes={routes} booking={booking} />
                     </main>
                 </div>

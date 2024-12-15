@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\OnHoldSeat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Session;
@@ -35,6 +36,7 @@ class HomeController extends Controller
             'schedule_done',
             'seat_done',
             'order_done',
+            'otp_initiated',
         ]);
 
         $todayBookings = Booking::with(['user', 'trips.schedule.vehicle', 'trips.schedule.location'])

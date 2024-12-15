@@ -42,6 +42,6 @@ class BaseController extends Controller
 
     // Menampilkan halaman notifikasi
     public function notificationIndex(){
-        return Inertia::render('Notification');
+        return Inertia::render('Home/Notification');
     }
 }

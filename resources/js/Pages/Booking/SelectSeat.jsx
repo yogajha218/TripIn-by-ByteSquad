@@ -162,7 +162,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="mx-auto md:min-w-[360px] lg:max-w-[400px]">
+                <div className="mx-auto md:min-w-[360px] lg:w-[400px]">
                     <div className="relative min-h-screen min-w-[360px] bg-white">
                         {/* Header */}
                         <div className="relative h-[108px] rounded-b-xl bg-primary">
@@ -222,7 +222,8 @@ const SelectSeat = ({ plate, seatLimit }) => {
                                 <div className="mt-[20px]">
                                     <div className="flex justify-center">
                                         <h1 className="text-md font-medium">
-                                            Seat Limit: {seatLimit}
+                                            Seat Limit: {selectedSeat.length}/
+                                            {seatLimit}
                                         </h1>
                                     </div>
                                     <div className="mt-3 h-[430px] w-[300px] rounded-[15px] bg-[#8BAFCE]">

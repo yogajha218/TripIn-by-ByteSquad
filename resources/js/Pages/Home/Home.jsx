@@ -2,31 +2,21 @@ import { useLayoutEffect, useEffect, useState } from "react";
 import { BellIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import CarouselDashboard from "@/Components/CarouselDashboard";
 import CardComponent from "@/Components/CardComponent";
-import NavbarTripin from "@/Components/navbarTripin";
+import NavbarTripin from "@/Components/NavbarTripin";
 
 const Home = ({ credit, username, user_id, booking, notification_status }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
+    const [showAllUpcomingRoutes, setShowAllUpcomingRoutes] = useState(false); // State to control "See More"
     const [todayTripCardProp, setTodayTripCardProp] = useState([]);
-    const [upcomingTripsCardProp, setUpcomingTripsCardProp] = useState({});
     const { todays, upcomings } = booking; // Destructure the booking props (from backend) to get today and upcoming
-
-    console.log("Today Booking : ", todays); // Debug data today
-    console.log("Upcoming Booking : ", upcomings); // Debug data upcoming
-    console.log("Notif Status: ", notification_status); // Debug data credit
 
     const formattedCredit = new Intl.NumberFormat("id-ID", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     }).format(credit);
 
-    function checkIsCardDataEmpty(datas, setTrip, setVisible) {
-        if (Object.keys(datas).length !== 0) {
-            setVisible(true);
-            setTrip((prevState) => ({ ...prevState, ...datas }));
-        }
-    }
     const todayCardProp = todays.map((today) => ({
         id: today.booking_id,
         name: "Shuttle Bus Tripin",
@@ -35,6 +25,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
         destination: today.trips[0]?.schedule.location.name,
         status: "On Trip",
         price: today.price,
+        date: today.trips[0]?.selected_day,
     }));
 
     const upcomingCardProp = upcomings.map((upcoming) => ({
@@ -45,64 +36,61 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
         destination: upcoming.trips[0]?.schedule.location.name,
         status: "Upcoming Trip",
         price: upcoming.price,
+        date: upcoming.trips[0]?.selected_day,
     }));
 
-    useEffect(() => {
-        // Dummy data for today's and upcoming trips
+    console.log(booking);
 
-        checkIsCardDataEmpty(
-            todayCardProp,
-            setTodayTripCardProp,
-            setIsTripsAvailable
-        );
-        checkIsCardDataEmpty(
-            upcomingCardProp,
-            setUpcomingTripsCardProp,
-            setIsUpcomingTripAvailable
-        );
-    }, [booking]); // Run effect when users data changes
+    useEffect(() => {
+        setIsTripsAvailable(todayCardProp.length > 0);
+        setIsUpcomingTripAvailable(upcomingCardProp.length > 0);
+    }, [booking]);
+
+    const visibleUpcomingRoutes = showAllUpcomingRoutes
+        ? upcomingCardProp
+        : upcomingCardProp.slice(0, 2); // Show only the first 2 initially
 
     return (
         <>
-            <div className=" flex justify-center ">
-                <div className="h-fit w-full lg:max-w-[400px] bg-white">
-                    <div className="h-[222px] bg-primary rounded-b-3xl relative">
-                        <div className="absolute top-8 right-5">
+            <div className="flex justify-center">
+                <div className="h-fit w-full bg-white lg:max-w-[400px]">
+                    <div className="relative h-[222px] rounded-b-3xl bg-primary">
+                        <div className={`absolute right-5 top-8`}>
                             <BellIcon
                                 onClick={() =>
                                     (window.location.href =
                                         route("notification"))
                                 }
-                                className={`size-8 text-white cursor-pointer relative z-40 hover:animate-shake`}
+                                className={`relative z-40 size-8 cursor-pointer text-white hover:animate-none`}
                             ></BellIcon>
                             {notification_status == "unread" && (
-                                <div className="rounded-full bg-primary2 size-2 absolute top-1 right-1 z-50"></div>
+                                <div className="absolute right-1 top-1 z-50 size-2 rounded-full bg-primary2"></div>
                             )}
                         </div>
-                        <div className="h-[90px] relative pt-8 pl-5">
+                        <div className="relative h-[90px] pl-5 pt-8">
                             <img
                                 src="/TripInLogo.svg"
-                                className="w-16 h-8"
+                                className="h-8 w-16"
                                 alt="Logo of TripIn"
                                 loading="lazy"
                             />
                         </div>
                         <div className="mx-5">
-                            <p className="font-semibold text-white text-2xl sm:text-3xl tracking-tighter">
+                            <p className="text-2xl font-semibold tracking-tighter text-white sm:text-3xl">
                                 Welcome, {username}
                             </p>
-                            <p className="font-medium text-white text-base sm:text-lg tracking-tight">
+                            <p className="text-base font-medium tracking-tight text-white sm:text-lg">
                                 Enjoy Your Trip!
                             </p>
                         </div>
                     </div>
 
-                    <div className="min-h-[100vh] h-full w-full px-5 pb-8 ">
+                    <div className="h-full min-h-[100vh] w-full px-5 pb-8">
                         <a
                             onClick={() =>
                                 console.log("Navigate to credit screen")
                             }
-                            className=" group flex px-5 mx-5 bg-white border border-primary relative top-[-1.5rem]  rounded-lg py-2 hover:cursor-pointer"
+                            className="group relative top-[-1.5rem] mx-5 flex rounded-lg border border-primary bg-white px-5 py-2 hover:cursor-pointer"
                         >
                             <img
                                 className="mr-3"
@@ -110,27 +98,27 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                                 alt="CreditIcon"
                                 loading="lazy"
                             />
-                            <p className="text-orange text-sm absolute left-14 top-1/2 -translate-y-1/2">
+                            <p className="text-orange absolute left-14 top-1/2 -translate-y-1/2 text-sm">
                                 {formattedCredit} CP
                             </p>
-                            <ChevronRightIcon className="size-5 text-black absolute right-3 top-1/2 translate-y-[-50%] duration-200 group-hover:translate-x-2"></ChevronRightIcon>
+                            <ChevronRightIcon className="absolute right-3 top-1/2 size-5 translate-y-[-50%] text-black duration-200 group-hover:translate-x-2"></ChevronRightIcon>
                         </a>
                         <button
                             onClick={() =>
                                 (window.location.href = route("booking.index"))
                             }
-                            className="text-white bg-primary2 py-2 rounded-lg  mb-8 w-full"
+                            className="mb-8 w-full rounded-lg bg-primary2 py-2 text-white"
                         >
                             Booking
                         </button>
 
                         <div className="font-semibold text-black">
-                            Popular Destinations
+                            Available Locations
                         </div>
                         <div className="lg:flex lg:justify-center">
                             <CarouselDashboard />
                         </div>
-                        <div className="font-semibold text-black mt-12 mb-3">
+                        <div className="mb-3 mt-12 font-semibold text-black">
                             Today's Trip
                         </div>
 
@@ -138,27 +126,40 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             {isTripAvailable ? (
                                 <CardComponent CardProp={todayCardProp} />
                             ) : (
-                                <div className="pb-9 justify-center items-center flex flex-col">
+                                <div className="flex flex-col items-center justify-center pb-9">
                                     <img src="/tayo-bus.svg " loading="lazy" />
                                     <p>no tayo trip available</p>
                                 </div>
                             )}
                         </div>
 
-                        <div className=" flex justify-between items-baseline mt-16 mb-3 px-2">
-                            <p className="font-semibold text-orange">
+                        <div className="mb-3 mt-16 flex items-baseline justify-between px-2">
+                            <p className="text-orange font-semibold">
                                 Upcoming's Trip
                             </p>
-                            <p className="text-sm text-primary">see more</p>
+                            {upcomingCardProp.length > 2 && (
+                                <button
+                                    onClick={() =>
+                                        setShowAllUpcomingRoutes(
+                                            !showAllUpcomingRoutes,
+                                        )
+                                    }
+                                    className="text-sm font-medium text-primary2 underline"
+                                >
+                                    {showAllUpcomingRoutes
+                                        ? "See Less"
+                                        : "See More"}
+                                </button>
+                            )}
                         </div>
                         <div className="grid gap-4">
-                            <div className="grid mb-10 gap-4">
+                            <div className="mb-10 grid gap-4">
                                 {isUpcomingTripAvailable ? (
                                     <CardComponent
-                                        CardProp={upcomingCardProp}
+                                        CardProp={visibleUpcomingRoutes} // Show limited or all routes
                                     />
                                 ) : (
-                                    <div className="pb-9 justify-center items-center flex flex-col">
+                                    <div className="flex flex-col items-center justify-center pb-9">
                                         <img src="/tayo-bus.svg" />
                                         <p>no tayo trip available</p>
                                     </div>

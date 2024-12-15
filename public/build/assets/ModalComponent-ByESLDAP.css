@@ -1,0 +1,1 @@
+@keyframes slideIn{0%{transform:translateY(-50%) scale(.8);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}@keyframes slideOut{0%{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-50%) scale(.8);opacity:0}}.modal{transition:all .3s ease}.animate-slide-in{animation:slideIn .3s forwards}.animate-slide-out{animation:slideOut .3s forwards}

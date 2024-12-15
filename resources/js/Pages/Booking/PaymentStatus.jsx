@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CheckIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { format } from "date-fns";
 
 const PaymentStatus = ({ user, booking }) => {
     const csrfToken = document.head.querySelector(
@@ -8,13 +9,12 @@ const PaymentStatus = ({ user, booking }) => {
     const [paymentData, setPaymentData] = useState({
         user: user.username,
         gopayAccount: user.phone_number ?? "+62xxxxxxxxxxx",
-        date: "123",
+        date: format(booking.booking_time, 'yyy-MM-dd'),
+        time: format(booking.booking_time, 'HH:mm:ss'),
         transactionNo: booking.booking_code,
-        paymentMethod: "Gopay",
+        paymentMethod: "Dana",
         totalPrice: booking.price,
     });
-    console.log("User Data : ", user);
-    console.log("Booking Data : ", booking);
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat("id-ID", {
@@ -24,30 +24,6 @@ const PaymentStatus = ({ user, booking }) => {
             maximumFractionDigits: 0,
         }).format(price);
     };
-
-    const formatGopayAccount = (number) => {
-        const visible = number.slice(-4);
-        const hidden = number.slice(0, -4).replace(/./g, "x");
-        return hidden + visible;
-    };
-
-    // useEffect(() => {
-    //     const finishPayment = async () => {
-    //         try{
-    //             const response = await axios.post("/booking/order-detail/store/finish", {
-    //                 headers: {
-    //                     "X-CSRF-TOKEN": csrfToken,
-    //                 },
-    //             });
-
-    //             console.log("POST Response : ", response.data);
-    //         } catch (error){
-    //             console.log("Error with POST request " , error)
-    //         }
-    //     };
-
-    //     finishPayment();
-    // }, []);
 
     return (
         <>
@@ -97,6 +73,10 @@ const PaymentStatus = ({ user, booking }) => {
                                 <div className="flex justify-between">
                                     <span className="text-black">Date</span>
                                     <span>{paymentData.date}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-black">Time</span>
+                                    <span>{paymentData.time}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-black">

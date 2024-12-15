@@ -1,118 +1,90 @@
-import { useState, useEffect } from "react";
-import { format } from "date-fns";
-import { usePage } from "@inertiajs/react";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { useState, useEffect, useRef } from "react";
+import { useForm } from "@inertiajs/react";
+import DatePickerComponent from "@/Components/DatePickerComponent";
+import CardComponent from "@/Components/CardComponent";
 import SelectOriginBooking from "./SelectOriginBooking";
-import ButtonComponent from "@/Components/ButtonComponent";
-import ModalComponent from "@/Components/ModalComponent";
-import CalendarComponent from "@/Components/CalenderComponent";
-import axios from "axios";
-import { ToastComponent } from "@/Components/ToastComponent";
 
-const Booking = () => {
-    const { props } = usePage();
-    const { location, driver, routes } = props;
-    const [locations, setLocations] = useState(location); // Initialize locations with the provided locations
-    const [selectedCity, setSelectedCity] = useState("");
-    const uniqueCities = [...new Set(locations.map((loc) => loc.city))]; // Get unique cities
-    const filteredLocations = selectedCity
-        ? locations.filter((loc) => loc.city === selectedCity)
-        : locations; // Filter locations based on selected city
-
-    const numberOfSeatsOption = [
-        "1 seat",
-        "2 seats",
-        "3 seats",
-        "4 seats",
-        "5 seats",
-    ];
-    const [isCityOptionsHidden, setIsCityOptionsHidden] = useState(true);
-    const [isSeatsOptionsHidden, setIsSeatsOptionHidden] = useState(true);
-    const [cityValue, setCityValue] = useState("Select a city");
-    const [seatsValue, setSeatValue] = useState(1);
-    const [seatsLabel, setSeatLabel] = useState("1 seat");
-    const [isModalHidden, setIsModalHidden] = useState(true);
-    const [selectedDay, setSelectedDay] = useState(null);
-    const [tempSelectedDay, setTempSelectedDay] = useState(null);
+const Booking = ({ todays, locations }) => {
+    const [isTripAvailable, setIsTripsAvailable] = useState(false);
+    const cities = [...new Set(locations.map((location) => location.city))];
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
     const [isSelectOrigin, setIsSelectOrigin] = useState(false);
-    const [origin, setOrigin] = useState("select origin");
-    const [toastMessage, setToastMessage] = useState("");
+    const filteredRoutes = cities.filter((location) =>
+        location.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    // Filter locations based on selected city
+    const dropdownRef = useRef(null); // Create a ref for the dropdown
+    const { data, setData, post, processing, errors } = useForm({
+        cityValue: "",
+        origin: "",
+        selectedDay: "",
+        seatsValue: null,
+    });
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]',
-        ).content;
+        const csrfToken = document.head.querySelector('meta[name="csrf-token"]',).content;
 
-        console.log("City : ", cityValue);
-        console.log("Origin : ", origin);
-        console.log("Date/Time : ", selectedDay);
-        console.log("Seats : ", seatsValue);
+        try{
+            post(route('booking.store'), data, {
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                }
+            })
 
-        try {
-            const response = await axios.post(
-                route("booking.store"),
-                {
-                    cityValue,
-                    origin,
-                    selectedDay,
-                    seatsValue,
-                },
-                {
-                    headers: {
-                        "X-CSRF-TOKEN": csrfToken,
-                    },
-                },
-            );
+        }catch(error){
+            console.error("Error occurred:", error);
 
-            if (response.status === 200) {
-                window.location.href = route("schedule", cityValue);
+            if (error.response) {
+                console.error("Error response:", error.response.data);
+            }        
+        }
+    };
+
+    const filteredLocations = data.cityValue
+        ? locations.filter((loc) => loc.city === data.cityValue)
+        : locations;
+    useEffect(() => {
+        setIsTripsAvailable(todayCardProp.length > 0);
+    }, [todays]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setDropdownVisible(false); // Close dropdown if clicked outside
             }
-        } catch (error) {
-            // Handle error
-        }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const todayCardProp = todays.map((today) => ({
+        id: today.booking_id,
+        name: "Shuttle Bus Tripin",
+        plateNumber: today.trips[0]?.schedule.vehicle.license_plate,
+        origin: today.trips[0]?.origin,
+        destination: today.trips[0]?.schedule.location.name,
+        status: "On Trip",
+        price: today.price,
+        date: today.trips[0]?.selected_day,
+    }));
+
+    const handleCityInputChange = (e) => {
+        setSearchTerm(e.target.value);
+        setData("cityValue", e.target.value);
     };
 
-    const handleDaySelection = (day) => {
-        setTempSelectedDay(day);
-    };
-
-    const handleConfirmSelection = () => {
-        if (tempSelectedDay) {
-            setSelectedDay(tempSelectedDay);
-            setTempSelectedDay(null);
-        }
-    };
-
-    function modalVisibility() {
-        setIsModalHidden((prev) => !prev);
-    }
-
-    function showOptions(isOptionsHidden, setIsOptionsHidden) {
-        setIsOptionsHidden(!isOptionsHidden);
-    }
-
-    function handleCityOptions(city) {
-        setSelectedCity(city);
-        setCityValue(city);
-        setOrigin("select origin"); // Reset origin when city changes
-        setIsCityOptionsHidden(true); // Hide city options after selection
-    }
-
-    function handleSeatsOptions(index) {
-        setSeatValue(index + 1);
-        setSeatLabel(numberOfSeatsOption[index]);
-        setIsSeatsOptionHidden(true); // Hide seat options after selection
-    }
-
-    const handleOriginSelect = () => {
-        // Only allow selecting origin if a city is selected
-        if (cityValue !== "Select a city") {
-            setIsSelectOrigin(true);
-        } else {
-            // Optionally, show an error or alert
-            setToastMessage("Please select a city first");
-        }
+    const handleCitySelect = (city) => {
+        setData("cityValue", city);
+        setDropdownVisible(false);
     };
 
     return (
@@ -129,238 +101,163 @@ const Booking = () => {
                                 Booking
                             </p>
                         </div>
-                        <div className="relative h-4/5 w-full select-none rounded-t-xl bg-white p-5">
-                            {/* City Selection Dropdown */}
-                            <form className=" ">
-                                <div className="relative flex cursor-pointer items-center">
-                                    <img
-                                        src="/select-city.svg"
-                                        className="size-[47px]"
-                                    />
-                                    <div
-                                        onClick={() =>
-                                            showOptions(
-                                                isCityOptionsHidden,
-                                                setIsCityOptionsHidden,
-                                            )
-                                        }
-                                        className="mx-5 h-fit flex-1 border-b-2 border-black"
+                        <div className="m-5 rounded-md border p-4 shadow-md">
+                            <form>
+                                <div>
+                                    <label
+                                        htmlFor="input-group-1"
+                                        className="mb-2 block text-sm font-medium text-gray-900"
                                     >
-                                        <div className="w-fit">
-                                            <p className="w-fit text-lg font-medium">
-                                                City
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-1 justify-between">
-                                            <input
-                                                className={`border-none p-0 text-sm font-light ${
-                                                    cityValue !==
-                                                    "Select a city"
-                                                        ? "text-black"
-                                                        : "text-gray-400"
-                                                }`}
-                                                value={cityValue}
-                                                disabled={true}
-                                            />
-                                            <div
-                                                className={`left-[424px] cursor-pointer text-3xl font-bold transition-transform duration-300 ${
-                                                    isCityOptionsHidden
-                                                        ? "top-[44px]"
-                                                        : "top-[44px] rotate-180"
-                                                }`}
-                                            >
-                                                <img src="/expand-arrow.svg" />
-                                            </div>
-                                        </div>
-                                        <div
-                                            className={`duration-20 absolute left-16 top-16 z-50 h-fit w-[80%] rounded-[8px] border shadow-lg transition-transform ${
-                                                isCityOptionsHidden
-                                                    ? "pointer-events-none -translate-y-10 opacity-0"
-                                                    : "bg-white opacity-100"
-                                            }`}
-                                        >
-                                            {uniqueCities.map((city, index) => (
-                                                <div
-                                                    key={index}
-                                                    onClick={() =>
-                                                        handleCityOptions(city)
-                                                    }
-                                                    className={`w-full cursor-pointer border border-slate-400 px-2 py-2 text-xl font-normal hover:bg-slate-500 hover:text-white ${
-                                                        index === 0
-                                                            ? `rounded-t-[8px]`
-                                                            : ""
-                                                    } ${
-                                                        index ===
-                                                        uniqueCities.length - 1
-                                                            ? `rounded-b-[8px]`
-                                                            : ""
-                                                    }`}
+                                        Departure City
+                                    </label>
+                                    <div className="relative mb-6">
+                                        <div className="relative">
+                                            <div className="pointer-events-none absolute inset-y-0 start-0 z-10 flex items-center ps-3.5">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth="1.5"
+                                                    stroke="currentColor"
+                                                    className="size-6"
                                                 >
-                                                    {city}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Select Origin */}
-                                <div
-                                    className="relative mt-5 flex cursor-pointer items-center"
-                                    onClick={handleOriginSelect}
-                                >
-                                    <img
-                                        src="/select-origin.svg"
-                                        className="size-[47px]"
-                                    />
-                                    <div className="mx-5 h-fit flex-1 border-b-2 border-black">
-                                        <div className="w-fit">
-                                            <p className="w-fit text-lg font-medium">
-                                                Origin
-                                            </p>
-                                        </div>
-                                        <div className="relative flex flex-1 justify-between">
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                                                    />
+                                                </svg>
+                                            </div>
                                             <input
-                                                className="w-[240px] border-none p-0 text-sm font-light"
-                                                value={origin}
-                                                disabled={true}
-                                            />
-                                            {/* <div
-                                                className={`absolute overflow-hidden w-[240px] text-sm font-light ${
-                                                    origin === "select origin"
-                                                        ? "text-gray-400"
-                                                        : "text-black"
-                                                }`}
-                                            >
-                                                {origin}
-                                            </div> */}
-                                        </div>
-                                        <div
-                                            className={`absolute right-5 top-4 -rotate-90 cursor-pointer text-3xl font-bold transition-transform duration-300`}
-                                        >
-                                            <img src="/expand-arrow.svg" />
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Select Departure Date */}
-                                <div
-                                    className="relative mt-5 flex cursor-pointer items-center"
-                                    onClick={modalVisibility}
-                                >
-                                    <img
-                                        src="/select-date.svg"
-                                        className="size-[47px]"
-                                    />
-                                    <div className="mx-5 h-fit flex-1 border-b-2 border-black">
-                                        <div className="w-fit">
-                                            <p className="w-fit text-lg font-medium">
-                                                Departure Date
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-1 justify-between">
-                                            <input
-                                                className={`border-none p-0 text-sm font-light ${
-                                                    selectedDay
-                                                        ? "text-black"
-                                                        : "text-gray-400"
-                                                }`}
-                                                value={
-                                                    selectedDay
-                                                        ? format(
-                                                              selectedDay,
-                                                              "MMMM d, yyyy",
-                                                          )
-                                                        : "Select Date"
+                                                type="text"
+                                                id="input-group-1"
+                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                                                placeholder="From"
+                                                value={data.cityValue}
+                                                onChange={handleCityInputChange}
+                                                onFocus={() =>
+                                                    setDropdownVisible(true)
                                                 }
-                                                disabled={true}
                                             />
                                         </div>
-                                        <div
-                                            className={`absolute right-5 top-5 cursor-pointer text-3xl font-bold transition-transform duration-300`}
-                                        >
-                                            <img src="/calender-icon.svg" />
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Select Seats */}
-                                <div
-                                    className="relative mt-5 flex cursor-pointer items-center"
-                                    onClick={() =>
-                                        showOptions(
-                                            isSeatsOptionsHidden,
-                                            setIsSeatsOptionHidden,
-                                        )
-                                    }
-                                >
-                                    <img
-                                        src="/select-seat.svg"
-                                        className="size-[47px]"
-                                    />
-                                    <div className="mx-5 h-fit flex-1 border-b-2 border-black">
-                                        <div className="w-fit">
-                                            <p className="w-fit text-lg font-medium">
-                                                Seats
-                                            </p>
-                                        </div>
-                                        <div className="relative flex flex-1 justify-between text-sm">
-                                            <div className="absolute">
-                                                {seatsLabel}
-                                            </div>
-                                            <input
-                                                className={`border-none p-0 text-lg font-light opacity-0`}
-                                                value={seatsValue}
-                                                disabled={true}
-                                            />
-                                        </div>
-                                        <div
-                                            className={`absolute right-5 top-5 cursor-pointer text-3xl font-bold transition-transform duration-300 ${
-                                                isSeatsOptionsHidden
-                                                    ? "top-5"
-                                                    : "top-5 rotate-180"
-                                            }`}
-                                        >
-                                            <img src="/expand-arrow.svg" />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`duration-20 absolute left-16 top-16 z-50 h-fit w-[80%] rounded-[8px] border shadow-lg transition-transform ${
-                                            isSeatsOptionsHidden
-                                                ? "pointer-events-none -translate-y-10 opacity-0"
-                                                : "bg-white opacity-100"
-                                        }`}
-                                    >
-                                        {numberOfSeatsOption.map(
-                                            (option, index) => (
-                                                <div
-                                                    key={index}
-                                                    onClick={() =>
-                                                        handleSeatsOptions(
-                                                            index,
-                                                        )
-                                                    }
-                                                    className={`w-full cursor-pointer border border-slate-400 px-2 py-2 text-xl font-normal hover:bg-slate-500 hover:text-white ${
-                                                        index === 0
-                                                            ? `rounded-t-[8px]`
-                                                            : ""
-                                                    } ${
-                                                        index ===
-                                                        numberOfSeatsOption.length -
-                                                            1
-                                                            ? `rounded-b-[8px]`
-                                                            : ""
-                                                    }`}
-                                                >
-                                                    {option}
-                                                </div>
-                                            ),
+
+                                        {dropdownVisible && (
+                                            <ul
+                                                ref={dropdownRef}
+                                                className="relative mt-1 size-fit w-full rounded-lg border border-gray-300 bg-white shadow-lg"
+                                            >
+                                                {filteredRoutes.map(
+                                                    (city, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                                                            onClick={() =>
+                                                                handleCitySelect(
+                                                                    city,
+                                                                )
+                                                            }
+                                                        >
+                                                            {city}
+                                                        </li>
+                                                    ),
+                                                )}
+                                            </ul>
                                         )}
                                     </div>
+                                    {/* Dropdown */}
+
+                                    <label
+                                        htmlFor="input-group-1"
+                                        className="mb-2 block text-sm font-medium text-gray-900"
+                                    >
+                                        Place
+                                    </label>
+                                    <div className="relative mb-6">
+                                        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                strokeWidth="1.5"
+                                                stroke="currentColor"
+                                                className="size-6"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                                />
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <input
+                                            defaultValue={data.origin}
+                                            id="input-group-1"
+                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                                            placeholder="   From"
+                                            onFocus={() => {
+                                                setIsSelectOrigin(true);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-x-3">
+                                        <div>
+                                            <DatePickerComponent 
+                                                setSelectedDay = {setData}
+                                                data = {data}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label
+                                                htmlFor="countries"
+                                                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                            >
+                                                Select Seat
+                                            </label>
+                                            <select onClick={(e) => setData('seatsValue', parseInt(e.target.value))}
+                                                defaultValue=""
+                                                id="countries"
+                                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                                            >
+                                                <option value="" disabled>
+                                                    Choose a seat
+                                                </option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button onClick={handleSubmit} className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white">
+                                        Search
+                                    </button>
                                 </div>
                             </form>
-                            <div className="relative top-48">
-                                <ButtonComponent
-                                    type="submit"
-                                    buttonText={"Search"}
-                                    onclick={handleSubmit}
-                                />
+                        </div>
+                        <div>
+                            <div className="px-5 font-semibold text-black">
+                                Today's Trip
+                            </div>
+                            <div className="mt-2 grid gap-4 px-5">
+                                {isTripAvailable ? (
+                                    <CardComponent CardProp={todayCardProp} />
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center pb-9">
+                                        <img
+                                            src="/tayo-bus.svg "
+                                            loading="lazy"
+                                        />
+                                        <p>no tayo trip available</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -368,39 +265,9 @@ const Booking = () => {
             ) : (
                 <SelectOriginBooking
                     setIsSelectOrigin={setIsSelectOrigin}
-                    setOrigin={setOrigin}
+                    setOrigin={setData}
                     locations={filteredLocations} // Pass filtered locations
                 />
-            )}
-            <ModalComponent
-                setIsModalHidden={setIsModalHidden}
-                isModalHidden={isModalHidden}
-            >
-                <div className="flex flex-col">
-                    <CalendarComponent
-                        selectedDay={selectedDay}
-                        tempSelectedDay={tempSelectedDay}
-                        onDaySelection={handleDaySelection}
-                    />
-                    <div className="h-fit w-full px-4 pb-5 md:p-5">
-                        <ButtonComponent
-                            buttonText={"Save"}
-                            onclick={() => {
-                                handleConfirmSelection();
-                                modalVisibility();
-                            }}
-                        />
-                    </div>
-                </div>
-            </ModalComponent>
-            {toastMessage !== "" && (
-                <div className="nowrap absolute left-1/2 top-5 flex h-fit w-fit items-center justify-center">
-                    <ToastComponent
-                        message={toastMessage}
-                        onClose={() => setToastMessage("")}
-                        type="alert"
-                    />
-                </div>
             )}
         </>
     );

@@ -63,8 +63,9 @@ class SeatController extends Controller
                         ]);
                     }
 
-                    $onHoldData = OnHoldSeat::lockForUpdate()->first();
+                    $onHoldData = OnHoldSeat::where('route_id', session('setRoute.selectedRoute.routeId'))->lockForUpdate()->first();
                     if($onHoldData){
+                        FacadesLog::info('Error race condition');
                         return response()->json(['message' => 'Race Condition']);
                     }
 

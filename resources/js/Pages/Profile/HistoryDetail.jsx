@@ -37,11 +37,11 @@ const HistoryDetail = ({ log }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="flex flex-col min-h-screen bg-primary lg:w-[400px]">
+                <div className="flex min-h-screen flex-col bg-primary lg:w-[400px]">
                     {/* Header */}
-                    <div className="flex items-center p-7 text-white relative">
+                    <div className="relative flex items-center p-7 text-white">
                         <ChevronLeftIcon
-                            className="size-6 absolute top-1/2 -translate-y-1/2 left-3 cursor-pointer"
+                            className="absolute left-3 top-1/2 size-6 -translate-y-1/2 cursor-pointer"
                             onClick={() => history.back()}
                         />
                         <span className="flex-1 text-center text-xl font-medium">
@@ -50,19 +50,19 @@ const HistoryDetail = ({ log }) => {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 bg-white rounded-t-xl p-6">
+                    <div className="flex-1 rounded-t-xl bg-white px-6 py-12">
                         {/* Booking Code */}
-                        <div className="flex justify-between items-center mb-6">
-                            <span className="text-black font-semibold">
-                                Booking Code
+                        <div className="mb-2 flex items-center justify-between px-1">
+                            <span className="font-medium text-black">
+                                Booking Code :
                             </span>
-                            <span className="font-semibold">
+                            <span className="font-semibold text-primary2">
                                 {ticketInfo.bookingCode}
                             </span>
                         </div>
 
                         {/* Bus Info Card */}
-                        <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex items-center gap-4 border border-gray-100">
+                        <div className="mb-6 flex items-center gap-4 rounded-lg border bg-white p-4 shadow-md">
                             <div className="">
                                 <img
                                     src="/shuttle_icon.svg"
@@ -73,29 +73,29 @@ const HistoryDetail = ({ log }) => {
                                 <h2 className="font-medium">
                                     {ticketInfo.bus.name}
                                 </h2>
-                                <p className="text-gray-600 text-sm">
+                                <p className="text-sm text-gray-600">
                                     {ticketInfo.bus.plateNumber}
                                 </p>
                             </div>
                         </div>
 
                         {/* Detail Order */}
-                        <h3 className="font-medium p-1 mb-2">Detail Order</h3>
-                        <div className="bg-white rounded-md shadow-md border border-gray-100 mb-6">
+                        <h3 className="mb-2 p-1 font-medium">Order Detail</h3>
+                        <div className="mb-6 rounded-md border-2 bg-white shadow-md">
                             {/* Payment Method */}
-                            <div className="flex items-center p-4 border-b border-gray-100">
+                            <div className="flex items-center border-b border-gray-100 p-4">
                                 <img
                                     src="/gopay_icon.svg"
-                                    className="h-7 mr-3"
+                                    className="mr-3 h-7"
                                 />
                                 <span>{ticketInfo.payment.method}</span>
                             </div>
 
                             {/* Passengers */}
-                            <div className="flex items-center p-4 border-b border-gray-100">
+                            <div className="flex items-center border-b border-gray-100 p-4">
                                 <img
                                     src="/Passenger.svg"
-                                    className="w-6 h-6 text-blue-400 mr-3 ml-1"
+                                    className="ml-1 mr-3 h-6 w-6 text-blue-400"
                                 />
                                 <span>
                                     {ticketInfo.passengers.count} Passenger
@@ -103,16 +103,16 @@ const HistoryDetail = ({ log }) => {
                             </div>
 
                             {/* Seats */}
-                            <div className="flex items-center p-4 border-b border-gray-100">
+                            <div className="flex items-center border-b border-gray-100 p-4">
                                 <img
                                     src="/Seat.svg"
-                                    className="w-6 h-6 text-blue-400 mr-3 ml-1"
+                                    className="ml-1 mr-3 h-6 w-6 text-blue-400"
                                 />
                                 <span>{ticketInfo.passengers.seats}</span>
                             </div>
 
                             {/* Total Payment */}
-                            <div className="flex justify-between items-center p-4">
+                            <div className="flex items-center justify-between p-4">
                                 <span className="font-bold">Total Payment</span>
                                 <span className="font-bold">
                                     Rp
@@ -122,8 +122,8 @@ const HistoryDetail = ({ log }) => {
                         </div>
 
                         {/* Journey Info - Updated Section */}
-                        <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-100">
-                            <div className="flex justify-between items-center mb-4">
+                        <div className="mb-6 rounded-lg border-2 bg-white p-6 shadow-md">
+                            <div className="mb-4 flex items-center justify-between">
                                 <h3 className="font-medium">
                                     TRAVEL ITINERARY
                                 </h3>
@@ -131,11 +131,11 @@ const HistoryDetail = ({ log }) => {
 
                             <div className="space-y-6">
                                 {/* Departure Container */}
-                                <div className="bg-gray-50 rounded-lg p-4">
-                                    <div className="text-sm text-gray-500 mb-2">
+                                <div className="rounded-lg border-2 bg-gray-50 p-4">
+                                    <div className="mb-2 border-b text-sm text-gray-500">
                                         Departure
                                     </div>
-                                    <div className="flex justify-between items-center">
+                                    <div className="flex items-center justify-between">
                                         <div>
                                             <div className="text-sm font-semibold">
                                                 {ticketInfo.journey.from.city}
@@ -154,11 +154,11 @@ const HistoryDetail = ({ log }) => {
                                 </div>
 
                                 {/* Arrival Container */}
-                                <div className="bg-gray-50 rounded-lg p-4 shadow-sm">
-                                    <div className="text-sm text-gray-500 mb-2 ">
+                                <div className="rounded-lg border-2 bg-gray-50 p-4 shadow-sm">
+                                    <div className="mb-2 border-b text-sm text-gray-500">
                                         Arrival
                                     </div>
-                                    <div className="flex justify-between items-center">
+                                    <div className="flex items-center justify-between">
                                         <div>
                                             <div className="text-sm font-semibold">
                                                 {ticketInfo.journey.to.city}
@@ -167,7 +167,7 @@ const HistoryDetail = ({ log }) => {
                                                 {ticketInfo.bus.name}
                                             </div>
                                         </div>
-                                        <div className="text-lg font-semibold text-primary">
+                                        <div className="text-xl font-semibold text-primary2">
                                             {ticketInfo.journey.to.time
                                                 .split(":")
                                                 .slice(0, 2)
@@ -179,7 +179,7 @@ const HistoryDetail = ({ log }) => {
                         </div>
 
                         {/* Boarding Button */}
-                        <button className="w-full bg-primary2 text-white py-4 rounded-lg font-medium">
+                        <button className="w-full rounded-lg bg-primary2 py-4 font-medium text-white">
                             Boarding Ticket
                         </button>
                     </div>

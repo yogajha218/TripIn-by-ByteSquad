@@ -14,7 +14,7 @@ const Tracking = ({ routes }) => {
                       start: routes.trips[0]?.schedule.departure_time,
                       end: routes.trips[0]?.schedule.arrival_time,
                   },
-                  currentStopIndex: 2,
+                  currentStopIndex: 1,
                   stops: [
                       {
                           label: routes.trips[0]?.origin,
@@ -34,10 +34,10 @@ const Tracking = ({ routes }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className=" h-screen bg-white lg:w-[400px] mb-14">
+                <div className="mb-14 h-screen bg-white lg:w-[400px]">
                     {/* Header */}
-                    <div className="bg-primary p-6 rounded-b-2xl h-[108px]">
-                        <h1 className="text-2xl font-semibold text-white text-center pt-6">
+                    <div className="h-[108px] rounded-b-2xl bg-primary p-6">
+                        <h1 className="pt-6 text-center text-2xl font-semibold text-white">
                             Track Shuttle
                         </h1>
                     </div>
@@ -46,20 +46,21 @@ const Tracking = ({ routes }) => {
                     {shuttleInfo !== null ? (
                         <div className="p-6">
                             {/* Shuttle Info Card */}
-                            <div className="bg-white rounded-lg p-4 shadow-md border border-gray-100">
-                                <div className="flex justify-between items-center mb-2">
+                            <div className="rounded-lg border border-gray-100 bg-white p-4 shadow-md">
+                                <div className="mb-2 flex items-center justify-between">
                                     <div>
                                         <h2 className="fonfont-medium">
                                             {shuttleInfo.busName}
                                         </h2>
-                                        <p className="text-gray-600 text-sm">
+                                        <p className="text-sm text-gray-600">
                                             {shuttleInfo.plateNumber}
                                         </p>
                                     </div>
-                                    <div className="bg-gray-700 p-2 rounded-lg">
+                                    <div className="rounded-lg">
                                         <img
                                             src="shuttle_icon.svg"
                                             alt="shuttle"
+                                            className="size-30"
                                         />
                                     </div>
                                 </div>
@@ -78,7 +79,7 @@ const Tracking = ({ routes }) => {
                                 </p>
 
                                 {/* Journey Progress */}
-                                <div className="bg-blue-50 rounded-lg p-6">
+                                <div className="rounded-lg bg-blue-50 p-6">
                                     {shuttleInfo.stops.map((stop, index) => {
                                         const isPast =
                                             index >
@@ -96,7 +97,7 @@ const Tracking = ({ routes }) => {
                                                 className="flex items-start gap-4"
                                             >
                                                 {/* Time Column */}
-                                                <div className="flex flex-col items-end min-w-[60px]">
+                                                <div className="flex min-w-[60px] flex-col items-end">
                                                     <span
                                                         className={`font-medium ${
                                                             isCurrent
@@ -114,12 +115,12 @@ const Tracking = ({ routes }) => {
                                                 {/* Progress Line */}
                                                 <div className="flex flex-col items-center">
                                                     <div
-                                                        className={`w-3 h-3 rounded-full  ${
+                                                        className={`h-3 w-3 rounded-full ${
                                                             isCurrent
-                                                                ? "bg-blue-500 ring-4 ring-blue-100 animate-pulse"
+                                                                ? "animate-pulse bg-blue-500 ring-4 ring-blue-100"
                                                                 : isCompleted
-                                                                ? "bg-blue-500 "
-                                                                : "bg-gray-300"
+                                                                  ? "bg-blue-500"
+                                                                  : "bg-gray-300"
                                                         }`}
                                                     />
                                                     {index !==
@@ -127,41 +128,41 @@ const Tracking = ({ routes }) => {
                                                             .length -
                                                             1 && (
                                                         <div
-                                                            className={`w-0.5 h-16 ${
+                                                            className={`h-16 w-0.5 ${
                                                                 isCompleted
                                                                     ? "bg-blue-500"
                                                                     : isCurrent
-                                                                    ? "bg-gradient-to-b from-blue-500 to-gray-300"
-                                                                    : "bg-gray-300"
+                                                                      ? "bg-gradient-to-b from-blue-500 to-gray-300"
+                                                                      : "bg-gray-300"
                                                             }`}
                                                         />
                                                     )}
                                                 </div>
 
                                                 {/* Location */}
-                                                <div className="flex-1 pb-4 relative">
+                                                <div className="relative flex-1 pb-4">
                                                     <p
                                                         className={`font-medium ${
                                                             isCurrent
                                                                 ? "text-blue-600"
                                                                 : isCompleted
-                                                                ? "text-gray-700"
-                                                                : "text-gray-500"
+                                                                  ? "text-gray-700"
+                                                                  : "text-gray-500"
                                                         }`}
                                                     >
                                                         {stop.label}
                                                     </p>
                                                     {isCurrent ? (
-                                                        <span className="inline-block mt-1 text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-sm absolute">
+                                                        <span className="absolute mt-1 inline-block rounded-sm bg-blue-100 px-2 py-1 text-xs text-blue-600">
                                                             Current Position
                                                         </span>
                                                     ) : isCompleted ? (
-                                                        <span className="inline-block mt-1 text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded-sm absolute">
+                                                        <span className="absolute mt-1 inline-block rounded-sm bg-slate-100 px-2 py-1 text-xs text-slate-600">
                                                             Passed
                                                         </span>
                                                     ) : (
                                                         <>
-                                                            <div> yellow</div>
+                                                            <div> not yet</div>
                                                         </>
                                                     )}
                                                 </div>
@@ -172,7 +173,7 @@ const Tracking = ({ routes }) => {
                             </div>
                         </div>
                     ) : (
-                        <div className="h-3/4 justify-center items-center flex flex-col">
+                        <div className="flex h-3/4 flex-col items-center justify-center">
                             <img src="/tayo-bus.svg" />
                             <p>there's no trip to track</p>
                         </div>

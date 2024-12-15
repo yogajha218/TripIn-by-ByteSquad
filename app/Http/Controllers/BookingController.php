@@ -123,30 +123,42 @@ class BookingController extends Controller
     }
 
     public function busScheduleIndex()
-    {
-        $city = session("bookingData.cityValue");
+{
+    $city = session("bookingData.cityValue");
+    $origin = session("bookingData.origin");
 
-        // Fetch locations with associated vehicles and pivot data
-        $routes = Location::with([
-            "vehicles" => function ($query) {
-                $query->withPivot(
+    // Fetch routes with associated vehicles and dynamic seat count alias
+    $routes = Location::with([
+        "vehicles" => function ($query) use ($origin) {
+            $query
+                ->select(['vehicles.*']) // Ensure all vehicle columns are selected
+                ->addSelect([
+                    'booked_seats_count' => DB::table('seat_bookings')
+                        ->selectRaw('COALESCE(SUM(jsonb_array_length(seat_number)), 0)')
+                        ->whereColumn('seat_bookings.vehicle_id', 'vehicles.vehicle_id') // Match vehicle
+                        ->where('seat_bookings.trip_id', '=', DB::raw('(SELECT trip_id FROM trips WHERE trips.route_id = location_vehicle.route_id AND trips.selected_day = CURRENT_DATE LIMIT 1)')) // Match trip based on route and today's date
+                        ->where('seat_bookings.location_id', '=', DB::raw('(SELECT location_id FROM locations WHERE name = \'' . $origin . '\' LIMIT 1)')) // Match location based on origin
+                ])
+                ->withPivot(
                     "price",
                     "route_id",
                     "departure_time",
                     "arrival_time"
                 );
-            },
-        ])
-            ->where("city", $city)
-            ->where("name", "!=", session("bookingData.origin"))
-            ->get();
+        },
+    ])
+        ->where("city", $city)
+        ->where("name", "!=", $origin)
+        ->get();
 
-        // Return the filtered data to the Inertia frontend
-        return Inertia::render("Booking/BusSchedule", [
-            "booking" => session("bookingData"),
-            "routes" => $routes,
-        ]);
-    }
+    FacadesLog::info('Routes: ' . $routes);
+
+    // Return the filtered data to the Inertia frontend
+    return Inertia::render("Booking/BusSchedule", [
+        "booking" => session("bookingData"),
+        "routes" => $routes,
+    ]);
+}
 
     public function destinationIndex()
     {

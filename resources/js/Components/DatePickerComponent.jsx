@@ -23,8 +23,6 @@ const DatePickerComponent = ({setSelectedDay, data}) => {
         }
     }, [setSelectedDay]);
 
-    console.log('data: ', data);
-
     return (
         <div>
             <label

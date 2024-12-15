@@ -5,15 +5,15 @@ import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 const SelectOriginBooking = ({ setIsSelectOrigin, setOrigin, locations }) => {
     const [searchTerm, setSearchTerm] = useState(""); // State for search input
 
-    console.log("location: ", locations);
-    git;
+    // console.log("location ini apa dah: ", locations);
     const goBack = () => {
         setIsSelectOrigin(false);
     };
 
     const handleSelectLocation = (location) => {
         let locationName = location.name;
-        setOrigin(locationName);
+        setOrigin("origin", locationName);
+        // setOrigin(locationName);
         goBack();
     };
 

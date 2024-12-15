@@ -5,7 +5,7 @@ import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import JourneyDetail from "@/Components/JourneyDetail";
 
 const Schedule = ({ booking, routes }) => {
-    const [selectedRoute, setSelectedRoute] = useState(null);
+    console.log("Routes: ", routes );
 
     if (!routes || routes.length === 0) {
         return <div>No routes available</div>;

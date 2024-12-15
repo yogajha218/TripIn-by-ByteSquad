@@ -4,8 +4,6 @@ import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 
 const BoardingTicket = ({ booking, user }) => {
-    console.log("bookings : ", booking);
-
     const tickets = {
         status: booking.status,
         busName: "Shuttle Bus Tripin",

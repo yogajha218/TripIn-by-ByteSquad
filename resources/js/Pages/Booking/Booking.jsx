@@ -16,10 +16,6 @@ const Booking = ({ todays, locations }) => {
     );
     // Filter locations based on selected city
     const dropdownRef = useRef(null); // Create a ref for the dropdown
-
-    console.log("Location Backend: ", locations);
-    console.log("Location Array Mapped: ", cities);
-
     const { data, setData, post, processing, errors } = useForm({
         cityValue: "",
         origin: "",

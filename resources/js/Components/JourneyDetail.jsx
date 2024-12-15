@@ -17,7 +17,7 @@ const JourneyDot = () => {
 const JourneyDetail = ({ routes, booking }) => {
     const [selectedRoute, setSelectedRoute] = useState("");
     const [searchTerm, setSearchTerm] = useState(""); // State for search input
-   
+
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
@@ -128,17 +128,25 @@ const JourneyDetail = ({ routes, booking }) => {
                             {/* Available Seats Badge */}
                             <div
                                 className={`absolute right-4 top-4 rounded-full px-2 py-1 text-xs ${
-                                    vehicle.seats - vehicle.booked_seats_count >= 19
+                                    vehicle.seats -
+                                        vehicle.booked_seats_count >=
+                                    19
                                         ? "text-blue-600"
-                                        : vehicle.seats - vehicle.booked_seats_count < 11
-                                        ? "text-yellow-600"
-                                        : vehicle.seats - vehicle.booked_seats_count < 6
-                                        ? "text-red-600"
-                                        : "text-blue-600"
+                                        : vehicle.seats -
+                                                vehicle.booked_seats_count <
+                                            11
+                                          ? "text-yellow-600"
+                                          : vehicle.seats -
+                                                  vehicle.booked_seats_count <
+                                              6
+                                            ? "text-red-600"
+                                            : "text-blue-600"
                                 }`}
                             >
                                 {/* Dynamically display the available seats */}
-                                {vehicle.seats - vehicle.booked_seats_count} Seats Available
+                                {vehicle.seats -
+                                    vehicle.booked_seats_count}{" "}
+                                Seats Available
                             </div>
 
                             {/* Bus Details */}
@@ -213,7 +221,6 @@ const JourneyDetail = ({ routes, booking }) => {
                                                     booking.seatsValue *
                                                         vehicle.pivot.price,
                                                 )}
-                                                /pax
                                             </p>
                                         </div>
                                     </div>

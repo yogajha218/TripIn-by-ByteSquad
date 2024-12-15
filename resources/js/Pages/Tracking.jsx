@@ -162,7 +162,7 @@ const Tracking = ({ routes }) => {
                                                         </span>
                                                     ) : (
                                                         <>
-                                                            <div> yellow</div>
+                                                            <div> not yet</div>
                                                         </>
                                                     )}
                                                 </div>

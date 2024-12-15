@@ -6,8 +6,6 @@ import JourneyDetail from "@/Components/JourneyDetail";
 
 const Schedule = ({ booking, routes }) => {
     const [selectedRoute, setSelectedRoute] = useState(null);
-    console.log("Booking Data", booking);
-    console.log("Rute", routes);
 
     if (!routes || routes.length === 0) {
         return <div>No routes available</div>;

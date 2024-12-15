@@ -17,7 +17,6 @@ const JourneyDot = () => {
 const JourneyDetail = ({ routes, booking }) => {
     const [selectedRoute, setSelectedRoute] = useState("");
     const [searchTerm, setSearchTerm] = useState(""); // State for search input
-    console.log("Routes : ", routes);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);

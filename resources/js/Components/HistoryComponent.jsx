@@ -5,76 +5,74 @@ const HistoryComponent = ({ CardProp }) => {
     };
 
     return (
-        <div
-            onClick={() => handleClick(CardProp.logId)}
-            className="w-full h-fit rounded-[10px] border border-[#8BAFCE80] bg-white "
-        >
-            <div className="flex px-4 pt-7 pb-3  items-center gap-3">
-                <div>
-                    <img src="/shuttle_icon.svg" alt="shuttle_icon" />
+        <>
+            <div className="h-fit w-full rounded-md border border-[#8BAFCE80] bg-white px-4 py-5 shadow-md lg:max-w-[440px]">
+                <div className="flex h-fit w-full">
+                    <div className="">
+                        <img
+                            src="/shuttle_icon.svg"
+                            alt="shuttle_icon"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div className="flex items-center pl-2">
+                        <p className="text-black">{CardProp.name}</p>
+                    </div>
+                    <div className="flex-grow self-start">
+                        <p
+                            className="size-full cursor-pointer text-end text-xs text-primary underline"
+                            onClick={() => handleClick(CardProp.logId)}
+                        >
+                            See Detail
+                        </p>
+                    </div>
                 </div>
-                <div className="flex-row justify-start items-start h-fit">
-                    <h3 className="text-base font-bold">{CardProp.name}</h3>
-                    <p className="text-black text-sm">
-                        Booking Code: {CardProp.bookingCode}
-                    </p>
-                </div>
-                <div className="text-right self-center">
-                    <p className="text-xs text-primary">{CardProp.seat}</p>
-                    <p className="text-xs text-black">{CardProp.passengers}</p>
-                </div>
-            </div>
-            <div className="grid grid-cols-[5rem_1fr] pb-6 relative">
-                <div className="h-full flex justify-end relative top-2 right-1">
-                    <img
-                        className="h-[72px] w-[12px]"
-                        src="/cardLine.svg"
-                        alt="cardLine"
-                    />
-                </div>
-                <div className="h-full text-black">
-                    <div className="grid grid-cols-1 gap-2">
-                        <div className="flex flex-col justify-start">
-                            <p className="text-sm w-fit">From:</p>
-                            <div className="flex items-center gap-2">
-                                <p className="font-bold w-fit text-xs whitespace-nowrap">
-                                    {CardProp.originTime
-                                        .split(":")
-                                        .slice(0, 2)
-                                        .join(":")}
-                                </p>
-                                <p className="font-medium w-fit text-xs break-words ">
+                <div className="grid h-full grid-cols-[1fr] py-2 pr-2">
+                    <div className="relative h-full pl-9 text-black">
+                        <div className="absolute left-5 top-2 size-2 rounded-full bg-grey"></div>
+
+                        <div className="absolute left-[23px] top-3 h-3/4 w-0.5 bg-grey">
+                            <div className="absolute -left-[3px] top-1/2 size-2 -translate-y-[45%] rounded-full bg-grey"></div>
+                        </div>
+                        <div className="absolute bottom-1.5 left-5 size-2 rounded-full bg-grey"></div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="flex max-h-9 flex-col justify-start overflow-hidden">
+                                <p className="w-fit text-sm">from:</p>
+                                <p className="w-fit text-left text-xs font-medium">
                                     {CardProp.origin}
                                 </p>
                             </div>
-                        </div>
-                        <div className="justify-start">
-                            <p className="text-xs text-gray-500 w-fit">
-                                {CardProp.duration}
-                            </p>
-                        </div>
-                        <div className="flex flex-col justify-start">
-                            <p className="text-sm w-fit">To:</p>
-                            <div className="flex items-center gap-1">
-                                <p className="font-bold w-fit text-xs whitespace-nowrap">
-                                    {CardProp.destinationTime
-                                        .split(":")
-                                        .slice(0, 2)
-                                        .join(":")}
-                                </p>
-                                <p className="font-medium w-fit text-xs break-words">
+                            <div className="flex flex-col items-end">
+                                <div className="w-24">
+                                    <p className="w-fit text-sm">
+                                        {CardProp.seat}
+                                    </p>
+                                    <p
+                                        className={`$} w-fit text-[10px] font-medium leading-snug`}
+                                    >
+                                        {CardProp.passengers}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="relative flex max-h-9 flex-col justify-start overflow-hidden">
+                                <p className="w-fit text-sm">to:</p>
+                                <p className="w-fit text-left text-xs font-medium">
                                     {CardProp.destination}
                                 </p>
+                            </div>
+                            <div className="flex flex-col items-end">
+                                <div className="w-24">
+                                    <p className="w-fit text-sm">Price:</p>
+                                    <p className="w-fit text-xs font-medium">
+                                        {CardProp.price}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="absolute bottom-3 right-4 text-right">
-                    <p className="text-sm w-fit">Price:</p>
-                    <p className="font-bold w-fit text-m">{CardProp.price}</p>
-                </div>
             </div>
-        </div>
+        </>
     );
 };
 

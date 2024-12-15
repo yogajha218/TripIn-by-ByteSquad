@@ -31,15 +31,7 @@ const CardComponent = ({ CardProp = [] }) => {
                             </p>
                         </div>
                     </div>
-                    <div className="grid grid-cols-[1fr]">
-                        <div className="flex h-full w-4 justify-end py-2 pr-2">
-                            {/* <div className="size-full  border-r-2 border-r-red-800"></div> */}
-                            {/* <img
-                                className="h-[72px] w-[12px]"
-                                src="/cardLine.svg"
-                                alt="cardLine"
-                            /> */}
-                        </div>
+                    <div className="grid h-full grid-cols-[1fr] py-2 pr-2">
                         <div className="relative h-full pl-9 text-black">
                             <div className="absolute left-5 top-2 size-2 rounded-full bg-grey"></div>
 

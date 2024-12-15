@@ -13,6 +13,10 @@ const ConfirmationPage = ({
     credit,
 }) => {
     const [snapToken, setSnapToken] = useState(null);
+    console.log(
+        "Selected Day: ",
+        format(bookingData.selectedDay, "EEE, d MMM yyyy"),
+    );
 
     // Default data if props are not provided
     const defaultData = {
@@ -21,15 +25,9 @@ const ConfirmationPage = ({
             plateNumber: routeData[0]?.vehicles[0]?.license_plate,
             duration: "2 h 45 m",
             departureTime: routeData[0]?.vehicles[0]?.pivot.departure_time,
-            departureDate: format(
-                parseISO(bookingData.selectedDay),
-                "EEE, d MMM yyyy",
-            ),
+            departureDate: format(bookingData.selectedDay, "EEE, d MMM yyyy"),
             arrivalTime: routeData[0]?.vehicles[0]?.pivot.arrival_time,
-            arrivalDate: format(
-                parseISO(bookingData.selectedDay),
-                "EEE, d MMM yyyy",
-            ),
+            arrivalDate: format(bookingData.selectedDay, "EEE, d MMM yyyy"),
             from: bookingData.origin,
             to: routeData[0]?.name,
         },

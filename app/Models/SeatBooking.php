@@ -13,9 +13,11 @@ class SeatBooking extends Model
         'vehicle_id',
         'location_id',
         'trip_id',
+        'route_id',
         'seat_number',
         'departure_time',
         'departure_date',
+        'seat_available',
     ];
 
     protected $casts = [

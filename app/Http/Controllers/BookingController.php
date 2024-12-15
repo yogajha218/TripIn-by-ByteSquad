@@ -123,42 +123,36 @@ class BookingController extends Controller
     }
 
     public function busScheduleIndex()
-{
-    $city = session("bookingData.cityValue");
-    $origin = session("bookingData.origin");
+    {
+        $city = session("bookingData.cityValue");
+        $origin = session("bookingData.origin");
 
-    // Fetch routes with associated vehicles and dynamic seat count alias
-    $routes = Location::with([
-        "vehicles" => function ($query) use ($origin) {
-            $query
-                ->select(['vehicles.*']) // Ensure all vehicle columns are selected
-                ->addSelect([
-                    'booked_seats_count' => DB::table('seat_bookings')
-                        ->selectRaw('COALESCE(SUM(jsonb_array_length(seat_number)), 0)')
-                        ->whereColumn('seat_bookings.vehicle_id', 'vehicles.vehicle_id') // Match vehicle
-                        ->where('seat_bookings.trip_id', '=', DB::raw('(SELECT trip_id FROM trips WHERE trips.route_id = location_vehicle.route_id AND trips.selected_day = CURRENT_DATE LIMIT 1)')) // Match trip based on route and today's date
-                        ->where('seat_bookings.location_id', '=', DB::raw('(SELECT location_id FROM locations WHERE name = \'' . $origin . '\' LIMIT 1)')) // Match location based on origin
-                ])
-                ->withPivot(
-                    "price",
-                    "route_id",
-                    "departure_time",
-                    "arrival_time"
-                );
-        },
-    ])
-        ->where("city", $city)
-        ->where("name", "!=", $origin)
+        // Fetch routes with associated vehicles
+        $routes = Location::with(['vehicles' => function ($query) {
+            $query->withPivot('price', 'route_id', 'departure_time', 'arrival_time');
+        }])
+        ->where('city', $city)
+        ->where('name', '!=', $origin)
         ->get();
 
-    FacadesLog::info('Routes: ' . $routes);
+        // Fetch seat bookings for each vehicle using subqueries
+        foreach ($routes as $route) {
+            foreach ($route->vehicles as $vehicle) {
+                $vehicle->seat_booking = SeatBooking::where('vehicle_id', $vehicle->vehicle_id)
+                    ->where('route_id', $vehicle->pivot->route_id)
+                    ->get();
+            }
+        }
 
-    // Return the filtered data to the Inertia frontend
-    return Inertia::render("Booking/BusSchedule", [
-        "booking" => session("bookingData"),
-        "routes" => $routes,
-    ]);
-}
+        // Log the fetched routes for debugging
+        FacadesLog::info('Fetched Routes: ' . $routes);
+
+        // Return the data to the Inertia frontend
+        return Inertia::render("Booking/BusSchedule", [
+            "booking" => session("bookingData"),
+            "routes" => $routes,
+        ]);
+    }
 
     public function destinationIndex()
     {
@@ -406,15 +400,20 @@ class BookingController extends Controller
                     json_decode($tempBooking["seat_number"])
                 );
                 $existingBooking->seat_number = $newSeats;
+                $existingBooking->seat_available -= session('bookingData.seatsValue');
                 $existingBooking->save();
             } else {
+                $totalSeats = 19;
+                $availableSeats = $totalSeats - session('bookingData.seatsValue');
                 // If no existing booking, create a new seat booking
                 SeatBooking::create(
                     array_merge($criteria, [
                         "seat_number" => json_decode(
                             $tempBooking["seat_number"]
                         ),
+                        "seat_available" => $availableSeats,
                         "trip_id" => $trip->trip_id,
+                        'route_id' => $tempBooking['route_id'],
                     ])
                 );
             }

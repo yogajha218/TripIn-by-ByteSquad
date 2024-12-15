@@ -39,13 +39,14 @@ const Auth = () => {
     const handleTermsLinkClick = (e) => {
         e.preventDefault();
         setTermsClicked(true);
-        window.open("/terms-condition", "_blank");
+        window.location.href = '/terms-condition'
     };
 
     const handlePrivacyLinkClick = (e) => {
         e.preventDefault();
         setPrivacyClicked(true);
-        window.open("/privacy-policy", "_blank");
+        window.location.href = '/privacy-policy'
+
     };
 
     const handleTermsCheckboxChange = (e) => {

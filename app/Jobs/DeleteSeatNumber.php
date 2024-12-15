@@ -48,7 +48,7 @@ class DeleteSeatNumber implements ShouldQueue
 
                 // Remove booked seats from available seats
                 $seat->seat_number = array_diff($currentSeatNumbers, $bookingSeatNumbers);
-
+                $seat->seat_available += $log->trip->booking->seat_total;
                 // Save the updated seat numbers
                 $seat->save();
 

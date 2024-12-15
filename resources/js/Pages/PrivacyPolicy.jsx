@@ -1,8 +1,7 @@
-import React from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { Link } from "@inertiajs/react";
 
 const PrivacyPolicy = () => {
+
     return (
         <>
             <div className="flex justify-center">
@@ -15,7 +14,7 @@ const PrivacyPolicy = () => {
                         {/* Back Button */}
                         <ChevronLeftIcon
                             className="size-6 cursor-pointer absolute text-white left-5"
-                            onClick={() => history.back()} // Using browser's history.back()
+                            onClick={() => window.history.back()} // Using browser's history.back()
                         ></ChevronLeftIcon>
                         <h1 className="text-2xl font-semibold text-white w-full text-center">
                             Privacy Policy

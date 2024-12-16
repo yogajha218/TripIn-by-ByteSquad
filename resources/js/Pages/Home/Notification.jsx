@@ -7,7 +7,6 @@ const NotificationPage = ({ notifications }) => {
         const markAllAsRead = async () => {
             try {
                 await axios.post("/notifications/read"); // Adjust the endpoint as needed
-                console.log("All notifications marked as read.");
             } catch (error) {
                 console.error("Error marking notifications as read:", error);
             }

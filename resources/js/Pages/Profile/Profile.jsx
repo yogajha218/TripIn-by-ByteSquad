@@ -38,7 +38,6 @@ const Profile = () => {
             top: 0,
             behavior: "smooth", // Optional: smooth scrolling
         });
-        console.log("rerendering gakni");
     }, []);
 
     if (sessionStorage.getItem("reloaded") === "true") {
@@ -180,20 +179,20 @@ const Profile = () => {
                                             d="M26.25 15V5.625C26.25 5.12772 26.0525 4.65081 25.7008 4.29917C25.3492 3.94754 24.8723 3.75 24.375 3.75H5.625C5.12772 3.75 4.65081 3.94754 4.29917 4.29917C3.94754 4.65081 3.75 5.12772 3.75 5.625V24.375C3.75 24.8723 3.94754 25.3492 4.29917 25.7008C4.65081 26.0525 5.12772 26.25 5.625 26.25H15"
                                             className="stroke-black group-hover:stroke-white"
                                             strokeWidth="2.91667"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                         />
                                         <path
                                             d="M20 23.75C22.0711 23.75 23.75 22.0711 23.75 20C23.75 17.9289 22.0711 16.25 20 16.25C17.9289 16.25 16.25 17.9289 16.25 20C16.25 22.0711 17.9289 23.75 20 23.75Z"
                                             className="stroke-black group-hover:stroke-white"
-                                            stroke-width="2.91667"
+                                            strokeWidth="2.91667"
                                         />
                                         <path
                                             d="M23.125 22.5L26.25 25M8.75 10H21.25M8.75 15H13.75"
                                             className="stroke-black group-hover:stroke-white"
-                                            stroke-width="2.91667"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeWidth="2.91667"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                         />
                                     </svg>
 
@@ -237,8 +236,8 @@ const Profile = () => {
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <path
-                                            fill-rule="evenodd"
-                                            clip-rule="evenodd"
+                                            fillRule="evenodd"
+                                            clipRule="evenodd"
                                             d="M13 0C5.82032 0 0 5.82026 0 13C0 20.1796 5.82032 26 13 26C20.1797 26 26 20.1797 26 13C26 5.82026 20.1797 0 13 0ZM13 23.4C7.26545 23.4 2.60002 18.7345 2.60002 13C2.60002 7.26539 7.26539 2.60002 13 2.60002C18.7346 2.60002 23.4 7.26539 23.4 13C23.4 18.7345 18.7346 23.4 13 23.4ZM14.6279 7.79999C14.6279 8.74257 13.9416 9.42501 13.0132 9.42501C12.0473 9.42501 11.3778 8.74251 11.3778 7.78196C11.3778 6.85875 12.0654 6.17504 13.0132 6.17504C13.9416 6.17504 14.6279 6.85875 14.6279 7.79999ZM11.7029 11.7H14.3028V19.5H11.7029V11.7Z"
                                             className="fill-black group-hover:fill-white"
                                         />

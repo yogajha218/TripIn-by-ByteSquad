@@ -7,8 +7,6 @@ const History = ({ logs }) => {
     const { users } = usePage().props; // Get users from Inertia props
     const [groupedLogs, setGroupedLogs] = useState({}); // Grouped by date
 
-    console.log("Log Data: ", logs);
-
     useEffect(() => {
         if (logs && Array.isArray(logs)) {
             // Group logs by selected_day

@@ -1,6 +1,5 @@
 const HistoryComponent = ({ CardProp }) => {
     const handleClick = (id) => {
-        console.log("Clicked with log id : ", id);
         window.location.href = `/profile/history/${id}/detail`;
     };
 

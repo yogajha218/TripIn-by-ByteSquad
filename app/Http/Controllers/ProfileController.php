@@ -109,7 +109,7 @@ class ProfileController extends Controller
             return redirect()->route('profile.edit.otp');
 
         } catch (\Exception $e) {
-            FacadesLog::info("Error on send otp: " . $e->getMessage());
+            FacadesLog::info("Error on sending otp: " . $e->getMessage());
             return redirect()->back()->withErrors($e->getMessage());
         }
     }

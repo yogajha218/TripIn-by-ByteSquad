@@ -10,11 +10,6 @@ const SelectSeat = ({ plate, seatLimit }) => {
     const [bookedSeats, setBookedSeats] = useState([]);
     const [toastMessage, setToastMessage] = useState("");
     const [toaatType, setToaatType] = useState("");
-    // console.log('Sended Plate : ', plate);
-    console.log("Seat Limit : ", seatLimit);
-    console.log("Get plate : ", plate.selectedRoute.plate);
-    console.log("Get route_id : ", plate.selectedRoute.routeId);
-    console.log("Departure : ", plate.selectedRoute.departure);
 
     // Example seat numbers
     const seats = [

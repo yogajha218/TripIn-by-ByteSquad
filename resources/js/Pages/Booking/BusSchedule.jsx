@@ -5,7 +5,6 @@ import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import JourneyDetail from "@/Components/JourneyDetail";
 
 const Schedule = ({ booking, routes }) => {
-    console.log("Routes: ", routes);
 
     return (
         <>

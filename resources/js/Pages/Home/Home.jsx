@@ -39,8 +39,6 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
         date: upcoming.trips[0]?.selected_day,
     }));
 
-    console.log(booking);
-
     useEffect(() => {
         setIsTripsAvailable(todayCardProp.length > 0);
         setIsUpcomingTripAvailable(upcomingCardProp.length > 0);

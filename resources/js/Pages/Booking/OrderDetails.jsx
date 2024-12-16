@@ -13,10 +13,6 @@ const ConfirmationPage = ({
     credit,
 }) => {
     const [snapToken, setSnapToken] = useState(null);
-    console.log(
-        "Selected Day: ",
-        format(bookingData.selectedDay, "EEE, d MMM yyyy"),
-    );
 
     // Default data if props are not provided
     const defaultData = {
@@ -59,7 +55,6 @@ const ConfirmationPage = ({
         totalPrice = data.pricing.seatPrice * data.pricing.quantity - credit;
     }
 
-    console.log(creditStatus);
 
     // Format currency
     const formatCurrency = (amount) => {
@@ -88,7 +83,6 @@ const ConfirmationPage = ({
             );
 
             const { snap_token } = response.data;
-            console.log(snap_token);
             setSnapToken(snap_token);
 
             // Use Midtrans Snap to show the payment modal

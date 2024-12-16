@@ -4,7 +4,6 @@ import { ChevronLeftIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 const ForgotOtpVerify = ({ email }) => {
     const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
     const [error, setError] = useState("");
-    console.log("Email received : ", email);
 
     const handleChange = (index, value) => {
         if (value.length <= 1 && /^\d*$/.test(value)) {

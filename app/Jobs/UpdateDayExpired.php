@@ -30,7 +30,6 @@ class UpdateDayExpired implements ShouldQueue
             $trip = Trip::where('selected_day', '<', $currentDate)
                 ->update(['is_expired' => true]);
 
-            FacadesLog::info('Updated Trips : ' . $trip);    
 
             if(!$trip){
                 FacadesLog::info('No Trips Expired');

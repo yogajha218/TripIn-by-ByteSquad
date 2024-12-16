@@ -4,13 +4,13 @@ import { format } from "date-fns";
 
 const PaymentStatus = ({ user, booking }) => {
     const csrfToken = document.head.querySelector(
-        'meta[name="csrf-token"]'
+        'meta[name="csrf-token"]',
     ).content;
     const [paymentData, setPaymentData] = useState({
         user: user.username,
         gopayAccount: user.phone_number ?? "+62xxxxxxxxxxx",
-        date: format(booking.booking_time, 'yyy-MM-dd'),
-        time: format(booking.booking_time, 'HH:mm:ss'),
+        date: format(booking.booking_time, "yyy-MM-dd"),
+        time: format(booking.booking_time, "HH:mm "),
         transactionNo: booking.booking_code,
         paymentMethod: "Dana",
         totalPrice: booking.price,
@@ -28,7 +28,7 @@ const PaymentStatus = ({ user, booking }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="min-h-screen bg-white lg:w-[400px] relative">
+                <div className="relative min-h-screen bg-white lg:w-[400px]">
                     {/* Header */}
                     <div className="bg-primary p-6">
                         <div className="relative flex items-center justify-center">
@@ -39,26 +39,26 @@ const PaymentStatus = ({ user, booking }) => {
                     </div>
 
                     {/* Main Content */}
-                    <div className="p-6 relative">
+                    <div className="relative p-6">
                         {/* Success Icon */}
-                        <div className="flex justify-center mb-4">
-                            <div className="bg-blue-500 ring-2 ring-blue-100 rounded-full border-gray-200 border shadow-black p-3">
+                        <div className="mb-4 flex justify-center">
+                            <div className="rounded-full border border-gray-200 bg-blue-500 p-3 shadow-black ring-2 ring-blue-100">
                                 <CheckIcon className="size-8 text-white"></CheckIcon>
                             </div>
                         </div>
 
                         {/* Notification Text */}
-                        <div className="text-center text-black mb-6">
-                            <h2 className="text-xl font-semibold mb-2">
-                                Payment Successfull !!!
+                        <div className="mb-6 text-center text-black">
+                            <h2 className="mb-2 text-xl font-semibold">
+                                Payment Successfull
                             </h2>
                             <p className="text-sm">
-                                You've successfuly booked a shuttle
+                                You've successfully booked a shuttle
                             </p>
                         </div>
 
                         {/* Payment Details Card */}
-                        <div className="bg-gray-100 rounded-lg p-4 mb-4 relative">
+                        <div className="relative mb-4 rounded-lg bg-gray-100 p-4">
                             <div className="space-y-2">
                                 <div className="flex justify-between">
                                     <span className="text-black">Name</span>
@@ -72,7 +72,12 @@ const PaymentStatus = ({ user, booking }) => {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-black">Date</span>
-                                    <span>{paymentData.date}</span>
+                                    <span>
+                                        {format(
+                                            paymentData.date,
+                                            "MMM dd yyyy",
+                                        )}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-black">Time</span>
@@ -91,7 +96,7 @@ const PaymentStatus = ({ user, booking }) => {
                                     <span>{paymentData.paymentMethod}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-black font-bold">
+                                    <span className="font-bold text-black">
                                         Total Price
                                     </span>
                                     <span className="font-bold">
@@ -104,12 +109,12 @@ const PaymentStatus = ({ user, booking }) => {
                         {/* Transaction Details Card */}
                     </div>
                     {/* Back Button */}
-                    <div className="relative w-full bottom-0 p-5">
+                    <div className="relative bottom-0 w-full p-5">
                         <button
                             onClick={() =>
                                 (window.location.href = route("home"))
                             }
-                            className="w-full bg-primary2 text-white py-3 rounded-lg font-medium"
+                            className="w-full rounded-lg bg-primary2 py-3 font-medium text-white"
                         >
                             BACK TO HOME
                         </button>

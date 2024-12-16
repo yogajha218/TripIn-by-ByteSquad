@@ -25,26 +25,29 @@ const Booking = ({ todays, locations }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]',).content;
+        const csrfToken = document.head.querySelector(
+            'meta[name="csrf-token"]',
+        ).content;
 
-        try{
-            post(route('booking.store'), data, {
+        try {
+            post(route("booking.store"), data, {
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                }
-            })
-
-        }catch(error){
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            });
+        } catch (error) {
             console.error("Error occurred:", error);
 
             if (error.response) {
                 console.error("Error response:", error.response.data);
-            }        
+            }
         }
     };
 
     const filteredLocations = data.cityValue
-        ? locations.filter((loc) => loc.city === data.cityValue)
+        ? locations.filter(
+              (loc) => loc.city.toLowerCase() === data.cityValue.toLowerCase(),
+          )
         : locations;
     useEffect(() => {
         setIsTripsAvailable(todayCardProp.length > 0);
@@ -206,9 +209,9 @@ const Booking = ({ todays, locations }) => {
                                     </div>
                                     <div className="grid grid-cols-2 gap-x-3">
                                         <div>
-                                            <DatePickerComponent 
-                                                setSelectedDay = {setData}
-                                                data = {data}
+                                            <DatePickerComponent
+                                                setSelectedDay={setData}
+                                                data={data}
                                             />
                                         </div>
                                         <div>
@@ -218,7 +221,15 @@ const Booking = ({ todays, locations }) => {
                                             >
                                                 Select Seat
                                             </label>
-                                            <select onClick={(e) => setData('seatsValue', parseInt(e.target.value))}
+                                            <select
+                                                onClick={(e) =>
+                                                    setData(
+                                                        "seatsValue",
+                                                        parseInt(
+                                                            e.target.value,
+                                                        ),
+                                                    )
+                                                }
                                                 defaultValue=""
                                                 id="countries"
                                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
@@ -236,7 +247,10 @@ const Booking = ({ todays, locations }) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button onClick={handleSubmit} className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white">
+                                    <button
+                                        onClick={handleSubmit}
+                                        className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white"
+                                    >
                                         Search
                                     </button>
                                 </div>

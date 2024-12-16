@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 const CardComponent = ({ CardProp = [] }) => {
     const formatCurrency = (amount) => {
-        return `Rp${amount.toLocaleString("id-ID")}`;
+        return `Rp${new Intl.NumberFormat("id-ID").format(amount)}`;
     };
 
     return (
@@ -26,8 +26,8 @@ const CardComponent = ({ CardProp = [] }) => {
                             </p>
                         </div>
                         <div>
-                            <p className="self-center text-black">
-                                {format(data.date, "MMM dd")}
+                            <p className="self-center text-xs text-black">
+                                {format(data.date, "MMM dd yyyy")}
                             </p>
                         </div>
                     </div>

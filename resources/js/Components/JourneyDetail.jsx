@@ -128,24 +128,21 @@ const JourneyDetail = ({ routes, booking }) => {
                             {/* Available Seats Badge */}
                             <div
                                 className={`absolute right-4 top-4 rounded-full px-2 py-1 text-xs ${
-                                    vehicle.seats -
-                                        vehicle.booked_seats_count >=
+                                    vehicle.seat_booking?.[0]?.seat_available <=
                                     19
                                         ? "text-blue-600"
-                                        : vehicle.seats -
-                                                vehicle.booked_seats_count <
-                                            11
+                                        : vehicle.seat_booking?.[0]
+                                                ?.seat_available < 11
                                           ? "text-yellow-600"
-                                          : vehicle.seats -
-                                                  vehicle.booked_seats_count <
-                                              6
+                                          : vehicle.seat_booking?.[0]
+                                                  ?.seat_available < 6
                                             ? "text-red-600"
                                             : "text-blue-600"
                                 }`}
                             >
                                 {/* Dynamically display the available seats */}
-                                {vehicle.seats -
-                                    vehicle.booked_seats_count}{" "}
+                                {vehicle.seat_booking?.[0]?.seat_available ??
+                                    "19 "}{" "}
                                 Seats Available
                             </div>
 

@@ -1,1 +1,0 @@
-import{j as i}from"./app-CA6_zjF1.js";const x=({buttonText:t,textColor:e="white",buttonColor:o="primary2",disabled:m,onclick:n=()=>{},type:r})=>i.jsx("button",{type:r,onClick:n,className:`bg-${o} text-${e} text-md md:text-lg w-full py-3  text-white rounded-md font-medium`,disabled:m,children:t});export{x as B};

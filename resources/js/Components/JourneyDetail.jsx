@@ -17,7 +17,7 @@ const JourneyDot = () => {
 const JourneyDetail = ({ routes, booking }) => {
     const [selectedRoute, setSelectedRoute] = useState("");
     const [searchTerm, setSearchTerm] = useState(""); // State for search input
-   
+
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
@@ -113,112 +113,124 @@ const JourneyDetail = ({ routes, booking }) => {
             {filteredRoutes.length > 0 ? (
                 filteredRoutes.map((bus) =>
                     bus.vehicles.map((vehicle) => (
-                        <div
-                            key={vehicle.pivot.route_id} // Use route_id from the pivot
-                            className="relative cursor-pointer rounded-lg bg-white p-4 shadow-md"
-                            onClick={(e) =>
-                                onClickDetail(
-                                    e,
-                                    vehicle.pivot.route_id,
-                                    vehicle.license_plate,
-                                    vehicle.pivot.departure_time,
-                                )
-                            }
-                        >
-                            {/* Available Seats Badge */}
+                        <div className="h-fit rounded-lg border-2 bg-white shadow-lg">
                             <div
-                                className={`absolute right-4 top-4 rounded-full px-2 py-1 text-xs ${
-                                    vehicle.seat_booking?.[0]?.seat_available <= 19
-                                        ? "text-blue-600"
-                                        : vehicle.seat_booking?.[0]?.seat_available < 11
-                                        ? "text-yellow-600"
-                                        : vehicle.seat_booking?.[0]?.seat_available < 6
-                                        ? "text-red-600"
-                                        : "text-blue-600"
-                                }`}
+                                key={vehicle.pivot.route_id} // Use route_id from the pivot
+                                className="relative cursor-pointer rounded-t-lg bg-white p-4"
                             >
-                                {/* Dynamically display the available seats */}
-                                {vehicle.seat_booking?.[0]?.seat_available ?? "19 "} Seats Available
-                            </div>
-
-                            {/* Bus Details */}
-                            <div className="flex items-center space-x-4">
-                                <img
-                                    src="/Shuttle_Icon.svg"
-                                    alt="Bus"
-                                    className="h-16 w-16 rounded-md object-cover"
-                                />
-                                <div className="flex-grow">
-                                    <h2 className="text-sm font-semibold">
-                                        Shuttle Bus TripIn
-                                    </h2>
-                                    <p className="text-xs text-gray-500">
-                                        {vehicle.license_plate}
-                                    </p>
+                                {/* Available Seats Badge */}
+                                <div
+                                    className={`absolute right-4 top-4 rounded-full px-2 py-1 text-xs ${
+                                        vehicle.seat_booking?.[0]
+                                            ?.seat_available <= 19
+                                            ? "text-blue-600"
+                                            : vehicle.seat_booking?.[0]
+                                                    ?.seat_available < 11
+                                              ? "text-yellow-600"
+                                              : vehicle.seat_booking?.[0]
+                                                      ?.seat_available < 6
+                                                ? "text-red-600"
+                                                : "text-blue-600"
+                                    }`}
+                                >
+                                    {/* Dynamically display the available seats */}
+                                    {vehicle.seat_booking?.[0]
+                                        ?.seat_available ?? "19 "}{" "}
+                                    Seats Available
                                 </div>
-                            </div>
 
-                            {/* Journey Details */}
-                            <div className="mt-4">
-                                <div className="ml-20 flex items-center space-x-4">
-                                    <div className="flex h-full items-start">
-                                        <JourneyDot />
+                                {/* Bus Details */}
+                                <div className="flex items-center space-x-4">
+                                    <img
+                                        src="/Shuttle_Icon.svg"
+                                        alt="Bus"
+                                        className="h-16 w-16 rounded-md object-cover"
+                                    />
+                                    <div className="flex-grow">
+                                        <h2 className="text-sm font-semibold">
+                                            Shuttle Bus TripIn
+                                        </h2>
+                                        <p className="text-xs text-gray-500">
+                                            {vehicle.license_plate}
+                                        </p>
                                     </div>
-                                    <div className="flex-1">
-                                        <div className="mt-6 items-center">
-                                            <div>
-                                                <p className="text-xs text-gray-500">
-                                                    {format(
-                                                        booking.selectedDay,
-                                                        "MMMM d, yyyy",
-                                                    )}
-                                                </p>
-                                                <div className="flex items-center space-x-2 text-sm">
-                                                    <span className="font-semibold">
-                                                        from: {booking.origin}
-                                                    </span>
+                                </div>
+
+                                {/* Journey Details */}
+                                <div>
+                                    <div className="ml-16 flex items-center space-x-4">
+                                        <div className="flex-1">
+                                            {/* dot  */}
+                                            <div className="relative mt-3 items-center">
+                                                <div className="absolute -left-[35px] top-1 size-2 rounded-full bg-grey"></div>
+
+                                                <div className="absolute -left-8 top-1 h-[90%] w-0.5 bg-grey">
+                                                    <div className="absolute -left-[3px] top-1/2 size-2 -translate-y-[45%] rounded-full bg-grey"></div>
                                                 </div>
-                                            </div>
-                                            <span className="text-xs">
-                                                {vehicle.pivot.departure_time
-                                                    .split(":")
-                                                    .slice(0, 2)
-                                                    .join(":")}
-                                            </span>
-                                            <div className="mt-4">
-                                                <div className="flex items-center space-x-2 text-sm">
-                                                    <span className="font-semibold">
-                                                        to: {bus.name}
-                                                    </span>
+                                                <div className="absolute -left-[35px] bottom-1.5 size-2 rounded-full bg-grey"></div>
+                                                <div>
+                                                    <p className="text-xs text-gray-500">
+                                                        {format(
+                                                            booking.selectedDay,
+                                                            "MMMM d, yyyy",
+                                                        )}
+                                                    </p>
+                                                    <div className="flex items-center space-x-2 text-sm">
+                                                        <span className="font-semibold">
+                                                            from:{" "}
+                                                            {booking.origin}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                                 <span className="text-xs">
-                                                    {vehicle.pivot.arrival_time
+                                                    {vehicle.pivot.departure_time
                                                         .split(":")
                                                         .slice(0, 2)
                                                         .join(":")}
                                                 </span>
+                                                <div className="mt-4">
+                                                    <div className="flex items-center space-x-2 text-sm">
+                                                        <span className="font-semibold">
+                                                            to: {bus.name}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-xs">
+                                                        {vehicle.pivot.arrival_time
+                                                            .split(":")
+                                                            .slice(0, 2)
+                                                            .join(":")}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="mt-2 flex justify-between">
-                                            <div className="flex items-center space-x-2 text-xs text-gray-400"></div>
-                                            <p className="font-semibold text-blue-600">
-                                                {new Intl.NumberFormat(
-                                                    "id-ID",
-                                                    {
-                                                        style: "currency",
-                                                        currency: "IDR",
-                                                        minimumFractionDigits: 0,
-                                                    },
-                                                ).format(
-                                                    booking.seatsValue *
-                                                        vehicle.pivot.price,
-                                                )}
-                                                /pax
-                                            </p>
+                                            <div className="mt-2 flex justify-between">
+                                                <div className="flex items-center space-x-2 text-xs text-gray-400"></div>
+                                                <p className="pr-2 font-semibold text-blue-600">
+                                                    {`Rp${new Intl.NumberFormat(
+                                                        "id-ID",
+                                                    ).format(
+                                                        booking.seatsValue *
+                                                            vehicle.pivot.price,
+                                                    )}`}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <button
+                                className="h-full w-full rounded-b-lg bg-primary2 py-2 shadow-lg"
+                                onClick={(e) =>
+                                    onClickDetail(
+                                        e,
+                                        vehicle.pivot.route_id,
+                                        vehicle.license_plate,
+                                        vehicle.pivot.departure_time,
+                                    )
+                                }
+                            >
+                                {" "}
+                                <p className="text-white">Select Route</p>
+                            </button>
                         </div>
                     )),
                 )

@@ -285,10 +285,10 @@ const ConfirmationPage = ({
                                     <div className="flex items-center gap-2">
                                         <img
                                             src="/gopay_icon.svg"
-                                            alt="GoPay"
+                                            alt="Dana"
                                             className="h-6 w-6"
                                         />
-                                        <span>GoPay</span>
+                                        <span>Dana</span>
                                     </div>
                                     <ChevronDownIcon
                                         className={`size-5 text-black transition-transform duration-200 ${
@@ -303,10 +303,10 @@ const ConfirmationPage = ({
                                         <div className="flex cursor-pointer items-center gap-2 p-2 hover:bg-gray-50">
                                             <img
                                                 src="/gopay_icon.svg"
-                                                alt="GoPay"
+                                                alt="Dana"
                                                 className="h-6 w-6"
                                             />
-                                            <span>GoPay</span>
+                                            <span>Dana</span>
                                         </div>
                                     </div>
                                 )}

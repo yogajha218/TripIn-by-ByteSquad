@@ -101,7 +101,6 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             <p className="text-orange absolute left-14 top-1/2 -translate-y-1/2 text-sm">
                                 {formattedCredit} CP
                             </p>
-                            <ChevronRightIcon className="absolute right-3 top-1/2 size-5 translate-y-[-50%] text-black duration-200 group-hover:translate-x-2"></ChevronRightIcon>
                         </a>
                         <button
                             onClick={() =>

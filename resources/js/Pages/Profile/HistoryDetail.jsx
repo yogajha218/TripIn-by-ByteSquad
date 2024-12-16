@@ -14,8 +14,10 @@ const HistoryDetail = ({ log }) => {
             plateNumber: log.trip.schedule.vehicle.license_plate,
         },
         payment: {
-            method: "Gopay",
-            total: 240000,
+            method: "Dana",
+            total: new Intl.NumberFormat("id-ID").format(
+                log.trip.booking.price,
+            ),
         },
         passengers: {
             count: log.trip.booking.seat_total,

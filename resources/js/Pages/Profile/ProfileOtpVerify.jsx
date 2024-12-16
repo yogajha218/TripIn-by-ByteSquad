@@ -89,7 +89,7 @@ const ProfileOtpVerify = () => {
                             </p>
 
                             {/* Code Input Fields */}
-                            <form onSubmit={handleSubmit}>
+                            <form>
                                 <div className="mb-8 flex justify-between gap-3">
                                     {verificationCode.map((digit, index) => (
                                         <input
@@ -120,7 +120,7 @@ const ProfileOtpVerify = () => {
 
                                 {/* Confirm Button */}
                                 <button
-                                    type="submit"
+                                    onClick={handleSubmit}
                                     className="w-full rounded-xl bg-primary2 py-4 font-semibold text-white transition-opacity hover:opacity-90 active:scale-[0.99]"
                                 >
                                     Confirm

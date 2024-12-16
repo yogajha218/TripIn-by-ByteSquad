@@ -14,15 +14,12 @@ const ForgotPassword = ({ email }) => {
         termsAccepted: false,
     });
 
-    console.log("New Pass Email : ", email);
-
     const handleSubmitPassword = async (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
             'meta[name="csrf-token"]'
         ).content;
-        console.log("New Pass : ", data.password);
-        console.log("New Pass : ", data.confirmPassword);
+
 
         if (newPassword !== confirmPassword) {
             setError("Passwords do not match");

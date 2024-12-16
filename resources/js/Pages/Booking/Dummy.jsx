@@ -49,9 +49,8 @@ const dummy = () => {
                     window.location.href = "/booking/payment-status";
                 }
 
-                console.log("POST Response : ", response.data);
             } catch (error) {
-                console.log("Error with POST request ", error);
+                console.log("Unexpected error has occurred ", error);
             }
         };
 

@@ -202,9 +202,6 @@ class AuthController extends Controller
             'confirmPassword.same' => 'The password confirmation does not match.',
         ]);
 
-        FacadesLog::info('new pass : ' . $request->password);
-        FacadesLog::info('new confirm pass : ' . $request->confirmPassword);
-
         $user = User::where('email', $request->email)->first();
         if (!$user->exists()) {
             return redirect()->back()->withErrors('User Not Found');

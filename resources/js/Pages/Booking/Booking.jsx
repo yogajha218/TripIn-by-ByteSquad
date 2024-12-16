@@ -82,10 +82,18 @@ const Booking = ({ todays, locations }) => {
 
     const handleCityInputChange = (e) => {
         setSearchTerm(e.target.value);
+        if (e.target.value === e.target.value.toLowerCase()) {
+            e.target.value = e.target.value.toUpperCase();
+        }
+
         setData("cityValue", e.target.value);
     };
 
     const handleCitySelect = (city) => {
+        if (city === city.toLowerCase()) {
+            city = city.toUpperCase();
+        }
+        
         setData("cityValue", city);
         setDropdownVisible(false);
     };

@@ -29,8 +29,6 @@ const ForgotOtpEmail = () => {
                 "X-CSRF-TOKEN": csrfToken,
             },
         });
-
-        console.log("Email send : ", data.email);
     };
 
     const handleBack = () => {

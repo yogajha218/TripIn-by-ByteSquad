@@ -4,7 +4,6 @@ import { format } from "date-fns";
 // import { Car, ChevronLeft, CreditCard, Users, Armchair } from 'lucide-react'; // TODO : harus import
 
 const HistoryDetail = ({ log }) => {
-    console.log("Log data: ", log);
 
     const ticketInfo = {
         date: log.departure_date,

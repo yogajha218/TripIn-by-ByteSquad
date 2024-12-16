@@ -68,9 +68,9 @@ const NavbarTripin = ({ pageInfo }) => {
                                 ? "stroke-grey"
                                 : "stroke-white"
                         }
-                        stroke-width="2.91667"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth ="2.91667"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                     />
                     <path
                         className={
@@ -78,8 +78,8 @@ const NavbarTripin = ({ pageInfo }) => {
                                 ? "fill-grey"
                                 : "fill-white"
                         }
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M5.01611 18.8335H35.1122V30.5002H5.01611V18.8335ZM10.0321 23.8335C10.0321 23.3915 10.2083 22.9675 10.5218 22.655C10.8354 22.3424 11.2607 22.1668 11.7041 22.1668C12.1476 22.1668 12.5745 22.3424 12.8881 22.655C13.2016 22.9675 13.3778 23.3915 13.3778 23.8335C13.3778 24.2755 13.2016 24.6994 12.8881 25.012C12.5745 25.3246 12.1492 25.5002 11.7058 25.5002C11.2624 25.5002 10.8354 25.3246 10.5218 25.012C10.2083 24.6994 10.0321 24.2755 10.0321 23.8335ZM28.4242 22.1668C27.9807 22.1668 27.5554 22.3424 27.2419 22.655C26.9283 22.9675 26.7522 23.3915 26.7522 23.8335C26.7522 24.2755 26.9283 24.6994 27.2419 25.012C27.5554 25.3246 27.9807 25.5002 28.4242 25.5002C28.8676 25.5002 29.2946 25.3246 29.6081 25.012C29.9217 24.6994 30.0978 24.2755 30.0978 23.8335C30.0978 23.3915 29.9217 22.9675 29.6081 22.655C29.2946 22.3424 28.8676 22.1668 28.4242 22.1668Z"
                     />
                 </svg>
@@ -107,9 +107,9 @@ const NavbarTripin = ({ pageInfo }) => {
                                 ? "stroke-grey"
                                 : "stroke-white"
                         }
-                        stroke-width="2.91667"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth ="2.91667"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                     />
                 </svg>
                 <p

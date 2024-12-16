@@ -17,7 +17,6 @@ const Auth = () => {
     const [legalDocsClicked, setLegalDocsClicked] = useState(initialClickState);
 
     const [termsCheckError, setTermsCheckError] = useState(false);
-    console.log(isSignIn);
     const { data, setData, post, processing, errors } =
         useForm(initialFormData);
     useEffect(() => {
@@ -32,7 +31,6 @@ const Auth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form submitted with data: ", data);
         const csrfToken = document.head.querySelector(
             'meta[name="csrf-token"]',
         ).content;

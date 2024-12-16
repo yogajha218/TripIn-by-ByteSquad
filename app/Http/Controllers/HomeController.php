@@ -78,8 +78,6 @@ class HomeController extends Controller
             })
             ->get();          
 
-            FacadesLog::info('Tiket Data : ' . $bookings);
-
         } catch(\Exception $e){
             FacadesLog::error('Error : ' . $e->getMessage());
         }

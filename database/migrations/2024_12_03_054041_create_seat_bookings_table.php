@@ -21,6 +21,7 @@ return new class extends Migration
             $table->jsonb('seat_number')->nullable();
             $table->Time('departure_time')->nullable();
             $table->date('departure_date');
+            
 
             $table->foreign('trip_id')->references('trip_id')->on('trips');
             $table->foreign('vehicle_id')->references('vehicle_id')->on('vehicles')->onDelete('cascade');

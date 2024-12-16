@@ -4,7 +4,6 @@ import NavbarTripin from "@/Components/NavbarTripin";
 import { format } from "date-fns";
 
 const MyTicket = ({ bookings }) => {
-    console.log("Bookings : ", bookings);
 
     const tickets = bookings.map((booking) => ({
         id: booking.booking_id,
@@ -24,11 +23,9 @@ const MyTicket = ({ bookings }) => {
             place: booking.trips[0]?.schedule.location.name,
         },
     }));
-    console.log(tickets.length);
 
     const onClick = async (e, ticket_id) => {
         e.preventDefault();
-        // console.log('selected booking_id', ticket_id);
         window.location.href = `/ticket/${ticket_id}/boarding-ticket`;
     };
 
@@ -161,9 +158,9 @@ const MyTicket = ({ bookings }) => {
                                 <path
                                     d="M138 2V19M138 53V70M138 104V121M53 2H172C176.509 2 180.833 3.79107 184.021 6.97918C187.209 10.1673 189 14.4913 189 19V44.5C184.491 44.5 180.167 46.2911 176.979 49.4792C173.791 52.6673 172 56.9913 172 61.5C172 66.0087 173.791 70.3327 176.979 73.5208C180.167 76.7089 184.491 78.5 189 78.5V104C189 108.509 187.209 112.833 184.021 116.021C180.833 119.209 176.509 121 172 121H53C48.4913 121 44.1673 119.209 40.9792 116.021C37.7911 112.833 36 108.509 36 104V78.5C40.5087 78.5 44.8327 76.7089 48.0208 73.5208C51.2089 70.3327 53 66.0087 53 61.5C53 56.9913 51.2089 52.6673 48.0208 49.4792C44.8327 46.2911 40.5087 44.5 36 44.5V19C36 14.4913 37.7911 10.1673 40.9792 6.97918C44.1673 3.79107 48.4913 2 53 2Z"
                                     stroke="black"
-                                    stroke-width="2.91667"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="2.91667"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                 />
                                 <path
                                     d="M81.5832 111.5C81.5832 131.979 64.9791 148.583 44.4998 148.583C24.0206 148.583 7.4165 131.979 7.4165 111.5C7.4165 91.0207 24.0206 74.4166 44.4998 74.4166C64.9791 74.4166 81.5832 91.0207 81.5832 111.5Z"

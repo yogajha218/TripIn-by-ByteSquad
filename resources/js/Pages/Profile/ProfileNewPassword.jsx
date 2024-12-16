@@ -59,7 +59,6 @@ const ProfileNewPassword = ({ email }) => {
                             )}
 
                             <form
-                                onSubmit={handleSubmitPassword}
                                 className="w-full"
                             >
                                 <h2 className="mb-4 text-xl font-semibold text-black">
@@ -112,7 +111,7 @@ const ProfileNewPassword = ({ email }) => {
                                     </div>
                                 )}
                                 <button
-                                    type="submit"
+                                    onClick={handleSubmitPassword}
                                     className={`w-full rounded-lg bg-primary2 py-3 font-medium text-white ${!isPasswordMatch ? "cursor-not-allowed opacity-70" : "transition-opacity hover:opacity-90"} `}
                                     disabled={!isPasswordMatch || processing}
                                 >

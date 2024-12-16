@@ -140,12 +140,10 @@ class BookingController extends Controller
             foreach ($route->vehicles as $vehicle) {
                 $vehicle->seat_booking = SeatBooking::where('vehicle_id', $vehicle->vehicle_id)
                     ->where('route_id', $vehicle->pivot->route_id)
+                    ->where('departure_date', session('bookingData.selectedDay'))
                     ->get();
             }
         }
-
-        // Log the fetched routes for debugging
-        FacadesLog::info('Fetched Routes: ' . $routes);
 
         // Return the data to the Inertia frontend
         return Inertia::render("Booking/BusSchedule", [
@@ -242,8 +240,6 @@ class BookingController extends Controller
         try {
             $routeId = session("setRoute.selectedRoute.routeId");
             $vehicle = session("vehicle");
-
-            FacadesLog::info("Vehicle : " . $vehicle);
 
             $location = Location::whereHas("vehicles", function ($query) use (
                 $routeId
@@ -345,8 +341,6 @@ class BookingController extends Controller
     {
         $tempBooking = session("temp_booking");
         $user = Auth::user();
-
-        FacadesLog::info("Driver : " . $tempBooking["driver"]);
 
         $criteria = [
             "vehicle_id" => $tempBooking["vehicle_id"],

@@ -33,8 +33,6 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                 "X-CSRF-TOKEN": csrfToken,
             },
         });
-
-        console.log("Change Password clicked");
     };
 
     return (
@@ -60,7 +58,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 type="name"
                                 id="name"
                                 name="username"
-                                value={data.username}
+                                value={data.username || ""}
                                 onChange={(e) =>
                                     setData("username", e.target.value)
                                 }
@@ -81,7 +79,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 name="email"
                                 placeholder="Email"
                                 className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
-                                value={email}
+                                value={email || ""}
                                 disabled={true}
                                 required
                                 autoComplete="email"
@@ -112,7 +110,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 type="text"
                                 id="phone_number"
                                 name="phone_number"
-                                value={data.phone_number}
+                                value={data.phone_number || ""}
                                 onChange={(e) =>
                                     setData("phone_number", e.target.value)
                                 }
@@ -135,9 +133,9 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                     onChange={(e) =>
                                         setData("gender", e.target.value)
                                     }
-                                    value={data.gender}
+                                    value={data.gender || ""}
                                 >
-                                    <option value="" selected disabled>
+                                    <option value="" disabled>
                                         Select Gender
                                     </option>
                                     <option value="male">Male</option>

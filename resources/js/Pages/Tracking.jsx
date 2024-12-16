@@ -2,7 +2,6 @@ import React from "react";
 import NavbarTripin from "@/Components/NavbarTripin";
 
 const Tracking = ({ routes }) => {
-    console.log("Route Data: ", routes);
 
     const shuttleInfo =
         routes === null

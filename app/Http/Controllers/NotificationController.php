@@ -21,7 +21,7 @@ class NotificationController extends Controller
         try{
             $user->unreadNotifications->markAsRead();
         } catch(\Exception $e){
-            FacadesLog::info('Error Notif : ' . $e->getMessage());
+            FacadesLog::info('Notification Error : ' . $e->getMessage());
         }
 
         return response()->json(['message' => 'All notification marked as read']);

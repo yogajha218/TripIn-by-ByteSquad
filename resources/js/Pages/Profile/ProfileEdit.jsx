@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const ProfileEdit = ({ email, username, phone_number, gender }) => {
     const { data, setData, post, processing, errors } = useForm({
@@ -40,22 +40,26 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
     return (
         <div className="flex justify-center">
             <div className="h-fit w-full lg:max-w-[400px]">
-                <div className="h-[220px] w-full bg-primary">
+                <div className="relative h-[220px] w-full bg-primary">
+                    <ChevronLeftIcon
+                        className="lef absolute left-5 top-[66px] size-8 cursor-pointer text-white"
+                        onClick={() => {
+                            window.location.href = "/profile";
+                        }}
+                    />
                     <p className="pt-16 text-center text-3xl font-semibold text-white">
                         Edit Profile
                     </p>
                 </div>
-                <div className="mt-[-1.75rem] h-full min-h-[100vh] w-full rounded-t-3xl bg-white px-6">
+                <div className="relative z-10 mt-[-1.75rem] h-full min-h-[100vh] w-full rounded-t-3xl bg-white px-6">
                     <div className="flex flex-col items-center">
-                        <div className="mt-[-3.5rem] h-[120px] w-[120px] overflow-hidden rounded-full">
+                        <div className="relative z-40 mt-[-3.5rem] h-[120px] w-[120px] overflow-hidden rounded-full">
                             <img src="https://placehold.co/120x120" />
                         </div>
                     </div>
                     <div className="h-max-[230px] w-max-[392px] py-3">
                         <form onSubmit={handleSubmit}>
-                            <label className="text-lg font-bold leading-10">
-                                Name
-                            </label>
+                            <label className="text-md font-medium">Name</label>
                             <input
                                 type="name"
                                 id="name"
@@ -64,7 +68,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 onChange={(e) =>
                                     setData("username", e.target.value)
                                 }
-                                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
+                                className="mb-2 w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 required
                             />
                             {errors.username && (
@@ -72,21 +76,19 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                     {errors.username}
                                 </p>
                             )}
-                            <label className="text-lg font-bold leading-10">
-                                Email
-                            </label>
+                            <label className="text-md font-medium">Email</label>
                             <input
                                 type="email"
                                 id="email"
                                 name="email"
                                 placeholder="Email"
-                                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
+                                className="mb-2 w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 value={email}
                                 disabled={true}
                                 required
                                 autoComplete="email"
                             />
-                            <label className="text-lg font-bold leading-10">
+                            <label className="text-md font-medium">
                                 Password
                             </label>
                             <input
@@ -105,7 +107,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 <p>Change password</p>
                                 <ChevronRightIcon className="absolute right-3 size-6 group-hover:right-1" />
                             </a>
-                            <label className="text-lg font-bold leading-10">
+                            <label className="text-md font-medium">
                                 Phone Number
                             </label>
                             <input
@@ -117,7 +119,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                     setData("phone_number", e.target.value)
                                 }
                                 placeholder="Your phone number"
-                                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
+                                className="mb-2 w-full rounded-lg border border-gray-300 bg-white p-3 text-black"
                                 required
                             />
                             {errors.phone_number && (
@@ -127,7 +129,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                             )}
 
                             <div className="flex flex-col items-center">
-                                <label className="w-full text-start text-lg font-bold leading-10">
+                                <label className="text-md w-full text-start font-medium">
                                     Gender
                                 </label>
                                 <select

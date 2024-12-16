@@ -203,7 +203,15 @@ const JourneyDetail = ({ routes, booking }) => {
                                                 </div>
                                             </div>
                                             <div className="mt-2 flex justify-between">
-                                                <div className="flex items-center space-x-2 text-xs text-gray-400"></div>
+                                                <div className="flex items-center space-x-2 text-xs text-gray-400">
+                                                    <p className="pr-2 font-semibold text-blue-600">
+                                                        {`Rp${new Intl.NumberFormat(
+                                                            "id-ID",
+                                                        ).format(
+                                                            vehicle.pivot.price,
+                                                        )}/Pax`}
+                                                    </p>
+                                                </div>
                                                 <p className="pr-2 font-semibold text-blue-600">
                                                     {`Rp${new Intl.NumberFormat(
                                                         "id-ID",

@@ -1,18 +1,30 @@
-import React, { useState } from "react";
-import { Link, useForm } from "@inertiajs/react";
+import React, { useState, useEffect } from "react";
+import { Link, useForm, router, useRemember } from "@inertiajs/react";
 import ButtonComponent from "@/Components/ButtonComponent";
 
 const Auth = () => {
-    const [isSignIn, setIsSignIn] = useState(true);
-    const [termsClicked, setTermsClicked] = useState(false);
-    const [privacyClicked, setPrivacyClicked] = useState(false);
-    const [termsCheckError, setTermsCheckError] = useState(false);
-    const { data, setData, post, processing, errors } = useForm({
+    const initialClickState = router.restore("legal-data") || {
+        termsClicked: false,
+        privacyClicked: false,
+    };
+    const initialFormData = router.restore("form-data") || {
         email: "",
         password: "",
         confirmPassword: "",
         termsAccepted: false,
-    });
+    };
+    const [isSignIn, setIsSignIn] = useState(false);
+    const [legalDocsClicked, setLegalDocsClicked] = useState(initialClickState);
+
+    const [termsCheckError, setTermsCheckError] = useState(false);
+    console.log(isSignIn);
+    const { data, setData, post, processing, errors } =
+        useForm(initialFormData);
+    useEffect(() => {
+        // Save legal data state
+
+        router.remember(legalDocsClicked, "legal-data");
+    }, [legalDocsClicked]);
     const isFormValid =
         data.email &&
         data.password &&
@@ -38,19 +50,25 @@ const Auth = () => {
 
     const handleTermsLinkClick = (e) => {
         e.preventDefault();
-        setTermsClicked(true);
-        window.location.href = '/terms-condition'
+        setLegalDocsClicked({ ...legalDocsClicked, termsClicked: true });
+        router.remember(legalDocsClicked, "legal-data");
+        router.remember(data, "form-data");
+        window.location.href = "/terms-condition";
     };
 
     const handlePrivacyLinkClick = (e) => {
         e.preventDefault();
-        setPrivacyClicked(true);
-        window.location.href = '/privacy-policy'
-
+        setLegalDocsClicked({ ...legalDocsClicked, privacyClicked: true });
+        router.remember(legalDocsClicked, "legal-data");
+        router.remember(data, "form-data");
+        window.location.href = "/privacy-policy";
     };
 
     const handleTermsCheckboxChange = (e) => {
-        if (!termsClicked || !privacyClicked) {
+        if (
+            !legalDocsClicked.termsClicked ||
+            !legalDocsClicked.privacyClicked
+        ) {
             setTermsCheckError(true);
             setData("termsAccepted", false);
         } else {
@@ -208,7 +226,7 @@ const Auth = () => {
                                                         handleTermsLinkClick
                                                     }
                                                     className={`${
-                                                        termsClicked
+                                                        legalDocsClicked.termsClicked
                                                             ? "text-green-600"
                                                             : "text-sky-400"
                                                     }`}
@@ -222,7 +240,7 @@ const Auth = () => {
                                                         handlePrivacyLinkClick
                                                     }
                                                     className={`${
-                                                        privacyClicked
+                                                        legalDocsClicked.privacyClicked
                                                             ? "text-green-600"
                                                             : "text-sky-400"
                                                     }`}

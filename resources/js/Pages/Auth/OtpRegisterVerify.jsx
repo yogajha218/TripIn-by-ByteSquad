@@ -18,7 +18,7 @@ const OtpRegistVerify = ({ email }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
+            'meta[name="csrf-token"]',
         ).content;
         const otp = verificationCode.join("");
 
@@ -31,7 +31,7 @@ const OtpRegistVerify = ({ email }) => {
                 },
                 {
                     headers: { "X-CSRF-TOKEN": csrfToken },
-                }
+                },
             );
 
             // Show success modal
@@ -60,7 +60,7 @@ const OtpRegistVerify = ({ email }) => {
             // Auto-focus next input
             if (value && index < 3) {
                 const nextInput = document.querySelector(
-                    `input[name="code-${index + 1}"]`
+                    `input[name="code-${index + 1}"]`,
                 );
                 nextInput?.focus();
             }
@@ -70,7 +70,7 @@ const OtpRegistVerify = ({ email }) => {
     const handleKeyDown = (index, e) => {
         if (e.key === "Backspace" && !verificationCode[index] && index > 0) {
             const prevInput = document.querySelector(
-                `input[name="code-${index - 1}"]`
+                `input[name="code-${index - 1}"]`,
             );
             prevInput?.focus();
         }
@@ -79,9 +79,9 @@ const OtpRegistVerify = ({ email }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="flex flex-col min-h-screen bg-primary lg:w-[400px]">
+                <div className="flex min-h-screen flex-col bg-primary lg:w-[400px]">
                     {/* Logo Section */}
-                    <div className="  flex-none flex justify-center px-4 py-20">
+                    <div className="flex flex-none justify-center px-4 py-20">
                         <img
                             src="/TripInLogo.svg"
                             className="w-36 object-contain"
@@ -90,19 +90,19 @@ const OtpRegistVerify = ({ email }) => {
                     </div>
 
                     {/* Verification Content */}
-                    <div className="flex-grow bg-white rounded-t-md p-6">
-                        <div className="max-w-md mx-auto p-2">
-                            <h1 className="text-2xl font-semibold text-black mb-2">
+                    <div className="flex-grow rounded-t-md bg-white p-6">
+                        <div className="mx-auto max-w-md p-2">
+                            <h1 className="mb-2 text-2xl font-semibold text-black">
                                 Verification Code
                             </h1>
-                            <p className="text-gray-500 mb-8">
+                            <p className="mb-8 text-gray-500">
                                 We have sent the verification code to your email
                                 address
                             </p>
 
                             {/* Code Input Fields */}
                             <form onSubmit={handleSubmit}>
-                                <div className="flex justify-between gap-3 mb-8">
+                                <div className="mb-8 flex justify-between gap-3">
                                     {verificationCode.map((digit, index) => (
                                         <input
                                             ref={(el) =>
@@ -116,22 +116,19 @@ const OtpRegistVerify = ({ email }) => {
                                             onChange={(e) =>
                                                 handleChange(
                                                     index,
-                                                    e.target.value
+                                                    e.target.value,
                                                 )
                                             }
                                             onKeyDown={(e) =>
                                                 handleKeyDown(index, e)
                                             }
-                                            className="w-16 h-16 border-2 border-gray-200 rounded-xl
-                            text-center bg-transparent text-xl text-black
-                            font-semibold focus:border-gray-400 focus:outline-none
-                            transition-colors"
+                                            className="h-16 w-16 rounded-xl border-2 border-gray-200 bg-transparent text-center text-xl font-semibold text-black transition-colors focus:border-gray-400 focus:outline-none"
                                             maxLength={1}
                                         />
                                     ))}
                                 </div>
                                 {error && (
-                                    <p className="text-red-500 text-sm mt-2">
+                                    <p className="mt-2 text-sm text-red-500">
                                         {error}
                                     </p>
                                 )}
@@ -139,11 +136,11 @@ const OtpRegistVerify = ({ email }) => {
 
                                 <ButtonComponent buttonText="confirm" />
                                 <div
-                                    className="absolute cursor-pointer  p-2 w-fit bottom-20 -translate-y-1/2 left-1/2 -translate-x-1/2 flex justify-center gap-1 bg-white items-center  rounded-md"
+                                    className="mt-5 flex w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-white p-2"
                                     onClick={() => history.back()}
                                 >
                                     <ArrowLeftIcon className="size-4 cursor-pointer text-primary2"></ArrowLeftIcon>
-                                    <p className="text-primary2 text-sm">
+                                    <p className="text-sm text-primary2">
                                         go back to sign up
                                     </p>
                                 </div>
@@ -154,9 +151,9 @@ const OtpRegistVerify = ({ email }) => {
                         isModalHidden={isModalHidden}
                         setIsModalHidden={setIsModalHidden}
                     >
-                        <div className="w-[225px] h-[145px] flex flex-col items-center justify-center">
+                        <div className="flex h-[145px] w-[225px] flex-col items-center justify-center">
                             <img src="/success.svg" />
-                            <p className="text-sm font-normal text-center">
+                            <p className="text-center text-sm font-normal">
                                 {modalMessage}
                             </p>
                         </div>

@@ -325,7 +325,7 @@ const ConfirmationPage = ({
                         </div>
 
                         {/* Order Button */}
-                        <div className="fixed bottom-0 right-0 bg-white p-4 lg:left-1/2 lg:w-[400px] lg:translate-x-[-50%]">
+                        <div className="fixed bottom-0 right-0 bg-white p-4 lg:left-1/2 md:w-full lg:w-[400px]  lg:translate-x-[-50%]">
                             <button
                                 className="w-full rounded-lg bg-primary2 py-3 font-semibold text-white"
                                 onClick={handleSubmit}

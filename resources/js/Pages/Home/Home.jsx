@@ -75,7 +75,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </div>
                         <div className="mx-5">
                             <p className="text-2xl font-semibold tracking-tighter text-white sm:text-3xl">
-                                Welcome, {username}
+                                Welcome, pintu {username}
                             </p>
                             <p className="text-base font-medium tracking-tight text-white sm:text-lg">
                                 Enjoy Your Trip!

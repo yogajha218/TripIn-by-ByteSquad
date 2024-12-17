@@ -142,7 +142,7 @@ const JourneyDetail = ({ routes, booking }) => {
                                 {/* Bus Details */}
                                 <div className="flex items-center space-x-4">
                                     <img
-                                        src="/Shuttle_Icon.svg"
+                                        src="/shuttle_icon.svg"
                                         alt="Bus"
                                         className="h-16 w-16 rounded-md object-cover"
                                     />

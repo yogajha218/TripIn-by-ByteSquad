@@ -4,7 +4,6 @@ import { useForm } from "@inertiajs/react";
 import DatePickerComponent from "@/Components/DatePickerComponent";
 import CardComponent from "@/Components/CardComponent";
 import SelectOriginBooking from "./SelectOriginBooking";
-import axios from "axios";
 
 const Booking = ({ todays, locations }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
@@ -12,6 +11,9 @@ const Booking = ({ todays, locations }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [isSelectOrigin, setIsSelectOrigin] = useState(false);
+    const [originError, setOriginError] = useState(false);
+    const [originCityMismatch, setOriginCityMismatch] = useState(false);
+
     const filteredRoutes = cities.filter((location) =>
         location.toLowerCase().includes(searchTerm.toLowerCase()),
     );
@@ -24,37 +26,57 @@ const Booking = ({ todays, locations }) => {
         seatsValue: null,
     });
 
+    useEffect(() => {
+        if (data.cityValue && data.origin) {
+            const selectedOrigin = locations.find(
+                (loc) => loc.name.toLowerCase() === data.origin.toLowerCase(),
+            );
+
+            if (
+                !selectedOrigin ||
+                selectedOrigin.city.toLowerCase() !==
+                    data.cityValue.toLowerCase()
+            ) {
+                setOriginCityMismatch(true);
+            } else {
+                setOriginCityMismatch(false);
+            }
+        } else {
+            setOriginCityMismatch(false);
+        }
+    }, [data.cityValue, data.origin, locations]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Reset previous origin error
+        setOriginError(false);
+
+        // Validate city is selected before origin
+        if (!data.cityValue) {
+            setOriginError(true);
+            return;
+        }
+
+        if (originCityMismatch) {
+            return;
+        }
+
         const csrfToken = document.head.querySelector(
             'meta[name="csrf-token"]',
         ).content;
 
         try {
-            const response = post(route("booking.store"), data, {
+            post("/booking/store", data, {
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
                 },
             });
         } catch (error) {
+            console.error("Error occurred:", error);
+
             if (error.response) {
-                // The request was made, and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.error("Server Error:", error.response.data);
-                alert(
-                    error.response.data.message ||
-                        "An error occurred on the server.",
-                );
-            } else if (error.request) {
-                // The request was made, but no response was received
-                console.error("Network Error:", error.request);
-                alert(
-                    "Network error. Please check your internet connection and try again.",
-                );
-            } else {
-                // Something happened in setting up the request that triggered an error
-                console.error("Error:", error.message);
-                alert("An unexpected error occurred. Please try again.");
+                console.error("Error response:", error.response.data);
             }
         }
     };
@@ -102,6 +124,8 @@ const Booking = ({ todays, locations }) => {
         }
 
         setData("cityValue", e.target.value);
+        // Reset origin error when city is being changed
+        setOriginError(false);
     };
 
     const handleCitySelect = (city) => {
@@ -111,6 +135,8 @@ const Booking = ({ todays, locations }) => {
 
         setData("cityValue", city);
         setDropdownVisible(false);
+        // Reset origin error when city is selected
+        setOriginError(false);
     };
 
     return (
@@ -128,7 +154,7 @@ const Booking = ({ todays, locations }) => {
                             </p>
                         </div>
                         <div className="m-5 rounded-md border p-4 shadow-md">
-                            <form onSubmit={handleSubmit}>
+                            <form>
                                 <div>
                                     <label
                                         htmlFor="input-group-1"
@@ -196,9 +222,9 @@ const Booking = ({ todays, locations }) => {
                                         htmlFor="input-group-1"
                                         className="mb-2 block text-sm font-medium text-gray-900"
                                     >
-                                        Place
+                                        Origin
                                     </label>
-                                    <div className="relative mb-6">
+                                    <div className="relative mb-2">
                                         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -224,12 +250,35 @@ const Booking = ({ todays, locations }) => {
                                             defaultValue={data.origin}
                                             id="input-group-1"
                                             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                                            placeholder="   From"
+                                            placeholder="From"
                                             onFocus={() => {
-                                                setIsSelectOrigin(true);
+                                                if (!data.cityValue) {
+                                                    setOriginError(true);
+                                                } else {
+                                                    setIsSelectOrigin(true);
+                                                }
                                             }}
                                         />
                                     </div>
+
+                                    <div className="relative mb-4">
+                                        {originCityMismatch && (
+                                            <p className="text-sm text-red-500">
+                                                Origin and City does not match.
+                                                Please select a valid origin for
+                                                the selected city.
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <div className="relative mb-4">
+                                        {originError && (
+                                            <p className="text-sm text-red-500">
+                                                Please select a city first
+                                            </p>
+                                        )}
+                                    </div>
+
                                     <div className="grid grid-cols-2 gap-x-3">
                                         <div>
                                             <DatePickerComponent
@@ -245,7 +294,7 @@ const Booking = ({ todays, locations }) => {
                                                 Select Seat
                                             </label>
                                             <select
-                                                onChange={(e) =>
+                                                onClick={(e) =>
                                                     setData(
                                                         "seatsValue",
                                                         parseInt(
@@ -271,7 +320,7 @@ const Booking = ({ todays, locations }) => {
                                 </div>
                                 <div>
                                     <button
-                                        type="submit"
+                                        onClick={handleSubmit}
                                         className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white"
                                     >
                                         Search
@@ -292,7 +341,7 @@ const Booking = ({ todays, locations }) => {
                                             src="/tayo-bus.svg "
                                             loading="lazy"
                                         />
-                                        <p>no tayo trip available</p>
+                                        <p>No trip available</p>
                                     </div>
                                 )}
                             </div>

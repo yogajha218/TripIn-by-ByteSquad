@@ -14,100 +14,113 @@ use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
-
     // Menampilkan halaman profil user
-    public function profileIndex(){
-        return Inertia::render('Profile/Profile', [
-            'auth' => [
-                'user' => Auth::user(),
+    public function profileIndex()
+    {
+        return Inertia::render("Profile/Profile", [
+            "auth" => [
+                "user" => Auth::user(),
             ],
-            'flash' => [
-                'success' => session('success'),
-            ]
+            "flash" => [
+                "success" => session("success"),
+            ],
         ]);
     }
 
     // Menampilkan halaman edit profile
-    public function profileEditIndex(){
+    public function profileEditIndex()
+    {
         $user = Auth::user();
-        return Inertia::render('Profile/ProfileEdit',  [
-            'email' => $user->email,
-            'username' => $user->username,
-            'phone_number' => $user->phone_number,
-            'gender' => $user->gender,
+        return Inertia::render("Profile/ProfileEdit", [
+            "email" => $user->email,
+            "username" => $user->username,
+            "phone_number" => $user->phone_number,
+            "gender" => $user->gender,
         ]);
     }
 
     // Menampilkan halaman edit password baru
-    public function profileUpdatePasswordIndex(){
+    public function profileUpdatePasswordIndex()
+    {
         $user = Auth::user();
-        return Inertia::render('Profile/ProfileNewPassword', ['email' => $user->email]);
+        return Inertia::render("Profile/ProfileNewPassword", [
+            "email" => $user->email,
+        ]);
     }
 
     // Menampilkan halaman otp
-    public function profileOtpPasswordIndex(){
-        return Inertia::render('Profile/ProfileOtpVerify');
+    public function profileOtpPasswordIndex()
+    {
+        return Inertia::render("Profile/ProfileOtpVerify");
     }
-
 
     // Fungsi untuk memperbarui profile
     public function profileEdit(Request $request)
     {
-        $request->validate([
-            'username' =>  'required|max:20',
-            'phone_number' => 'required|numeric|digits_between:1,15',
-            'gender' => 'required',
-        ], [
-            'phone_number.numeric'=> 'Please enter a number',
-            'phone_number.digits_between'=> 'Phone number must be less than 15 digit',
-            'username.max' => 'Username must be less than 20 letter',
-        ]);
+        $request->validate(
+            [
+                "username" => "required|max:20",
+                "phone_number" => 'required|regex:/^[+]?\d{1,15}$/',
+                "gender" => "required",
+            ],
+            [
+                "phone_number.numeric" => "Please enter a number",
+                "phone_number.regex" =>
+                    "Please enter a valid phone number with less than 15 digits",
+                "username.max" => "Username must be less than 20 letter",
+            ]
+        );
 
-        try{
-            $user = User::where('email', Auth::user()->email)->first();
-            if(!$user){
-                return redirect()->back()->withErrors('User not authenticated');
+        try {
+            $user = User::where("email", Auth::user()->email)->first();
+            if (!$user) {
+                return redirect()->back()->withErrors("User not authenticated");
             } else {
                 $user->update([
-                    'username' => $request->username,
-                    'phone_number' => $request->phone_number,
-                    'gender' => $request->gender,
-                ]);;
+                    "username" => $request->username,
+                    "phone_number" => $request->phone_number,
+                    "gender" => $request->gender,
+                ]);
 
                 $user->save();
 
-                return redirect()->route('profile')->with('success', 'Profile updated successfully');
+                return redirect()
+                    ->route("profile")
+                    ->with("success", "Profile updated successfully");
             }
-
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }
     }
 
     // Fungsi untuk kirim email otp
-    public function sendEmailOtp(){
+    public function sendEmailOtp()
+    {
         try {
             $user = Auth::user();
 
             if (!$user) {
-                return redirect()->back()->withErrors('User  not authenticated');
+                return redirect()
+                    ->back()
+                    ->withErrors("User  not authenticated");
             }
 
             $otpCode = random_int(1111, 9999);
-            Mail::raw("Your OTP code is: $otpCode", function($message) use ($user) {
-                $message->to($user->email)->subject('Your OTP Code');
+            Mail::raw("Your OTP code is: $otpCode", function ($message) use (
+                $user
+            ) {
+                $message->to($user->email)->subject("Your OTP Code");
             });
 
-            UserOtp::where('email', $user->email)->delete();
+            UserOtp::where("email", $user->email)->delete();
             UserOtp::create([
-                'email' => $user->email,
-                'otp' => $otpCode,
-                'otp_expires_at' => now()->addMinutes(10),
+                "email" => $user->email,
+                "otp" => $otpCode,
+                "otp_expires_at" => now()->addMinutes(10),
             ]);
 
-            Session::put('otp_initiated', true);
-            return redirect()->route('profile.edit.otp');
-
+            Session::put("otp_initiated", true);
+            return redirect()->route("profile.edit.otp");
         } catch (\Exception $e) {
             FacadesLog::info("Error on sending otp: " . $e->getMessage());
             return redirect()->back()->withErrors($e->getMessage());
@@ -115,63 +128,82 @@ class ProfileController extends Controller
     }
 
     // Fungsi untuk verifikasi otp yang telah dikirim ke email
-    public function verifyEmailOtp(Request $request){
+    public function verifyEmailOtp(Request $request)
+    {
         $request->validate([
-            'otp' => 'required',
+            "otp" => "required",
         ]);
 
         $user = Auth::user();
-        $otpRecord = UserOtp::where('email', $user->email)->first();
+        $otpRecord = UserOtp::where("email", $user->email)->first();
 
         if (!$otpRecord) {
-            FacadesLog::error('OTP record not found for email: ' . $user->email);
-            return response()->json(['message' => 'OTP record not found.'], 404);
-        } else if ($request->otp != $otpRecord->otp) {
-            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
+            FacadesLog::error(
+                "OTP record not found for email: " . $user->email
+            );
+            return response()->json(
+                ["message" => "OTP record not found."],
+                404
+            );
+        } elseif ($request->otp != $otpRecord->otp) {
+            return response()->json(
+                ["message" => "Invalid or expired OTP."],
+                422
+            );
         }
 
         $otpRecord->delete();
-        Session::forget('otp_initiated');
+        Session::forget("otp_initiated");
 
-        return response()->json(['message' => 'OTP verified successfully.']);
+        return response()->json(["message" => "OTP verified successfully."]);
     }
 
-
     // Fungsi untuk memperbarui password
-    public function updatePassword(Request $request) {
-        $user = User::where('email', Auth::user()->email)->first(); // Get the authenticated user
+    public function updatePassword(Request $request)
+    {
+        $user = User::where("email", Auth::user()->email)->first(); // Get the authenticated user
         if (!$user) {
-            return redirect()->back()->withErrors('User  Not Found');
+            return redirect()->back()->withErrors("User  Not Found");
         }
 
-        $request->validate([
-            'password' => [
-                'required',
-                'min:8',
-                'regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
-                function ($attribute, $value, $fail) use ($user) {
-                    // Check if the new password is the same as the current password
-                    if (Hash::check($value, $user->password)) {
-                        $fail('The new password cannot be the same as the old password.');
-                    }
-                },
+        $request->validate(
+            [
+                "password" => [
+                    "required",
+                    "min:8",
+                    'regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
+                    function ($attribute, $value, $fail) use ($user) {
+                        // Check if the new password is the same as the current password
+                        if (Hash::check($value, $user->password)) {
+                            $fail(
+                                "The new password cannot be the same as the old password."
+                            );
+                        }
+                    },
+                ],
+                "confirmPassword" => "required|same:password",
             ],
-            'confirmPassword' => 'required|same:password',
-        ], [
-            'password.min' => 'Your password must be at least 8 characters.',
-            'password.regex' => 'Password must contain both letters and numbers.',
-            'confirmPassword.same' => 'The password confirmation does not match.',
-        ]);
+            [
+                "password.min" =>
+                    "Your password must be at least 8 characters.",
+                "password.regex" =>
+                    "Password must contain both letters and numbers.",
+                "confirmPassword.same" =>
+                    "The password confirmation does not match.",
+            ]
+        );
 
         try {
             $user->update([
-                'password' => Hash::make($request->password),
+                "password" => Hash::make($request->password),
             ]);
 
-            return redirect()->route('profile.edit')->with('success', 'Password updated successfully.');
+            return redirect()
+                ->route("profile.edit")
+                ->with("success", "Password updated successfully.");
         } catch (\Exception $e) {
-            FacadesLog::error('Error updating password: ' . $e->getMessage());
-            return redirect()->back()->withErrors('Error Updating Password');
+            FacadesLog::error("Error updating password: " . $e->getMessage());
+            return redirect()->back()->withErrors("Error Updating Password");
         }
     }
 }

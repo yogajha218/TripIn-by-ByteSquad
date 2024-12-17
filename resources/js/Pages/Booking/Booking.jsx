@@ -29,12 +29,13 @@ const Booking = ({ todays, locations }) => {
     useEffect(() => {
         if (data.cityValue && data.origin) {
             const selectedOrigin = locations.find(
-                (loc) => loc.name.toLowerCase() === data.origin.toLowerCase()
+                (loc) => loc.name.toLowerCase() === data.origin.toLowerCase(),
             );
 
             if (
                 !selectedOrigin ||
-                selectedOrigin.city.toLowerCase() !== data.cityValue.toLowerCase()
+                selectedOrigin.city.toLowerCase() !==
+                    data.cityValue.toLowerCase()
             ) {
                 setOriginCityMismatch(true);
             } else {
@@ -44,7 +45,6 @@ const Booking = ({ todays, locations }) => {
             setOriginCityMismatch(false);
         }
     }, [data.cityValue, data.origin, locations]);
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -150,7 +150,7 @@ const Booking = ({ todays, locations }) => {
                                 className="absolute left-3 top-1/2 z-50 size-8 translate-y-[-50%] cursor-pointer font-bold text-white"
                             ></ChevronLeftIcon>
                             <p className="mx-2 w-fit cursor-default select-none text-2xl font-medium text-white">
-                                Booking1
+                                Booking
                             </p>
                         </div>
                         <div className="m-5 rounded-md border p-4 shadow-md">
@@ -259,20 +259,21 @@ const Booking = ({ todays, locations }) => {
                                                 }
                                             }}
                                         />
-
                                     </div>
 
                                     <div className="relative mb-4">
-                                    {originCityMismatch && (
+                                        {originCityMismatch && (
                                             <p className="text-sm text-red-500">
-                                                Origin and City does not match. Please select a valid origin for the selected city.
+                                                Origin and City does not match.
+                                                Please select a valid origin for
+                                                the selected city.
                                             </p>
                                         )}
                                     </div>
 
                                     <div className="relative mb-4">
-                                    {originError && (
-                                            <p className=" text-sm text-red-500 " >
+                                        {originError && (
+                                            <p className="text-sm text-red-500">
                                                 Please select a city first
                                             </p>
                                         )}
@@ -340,7 +341,7 @@ const Booking = ({ todays, locations }) => {
                                             src="/tayo-bus.svg "
                                             loading="lazy"
                                         />
-                                        <p>no tayo trip available</p>
+                                        <p>No trip available</p>
                                     </div>
                                 )}
                             </div>

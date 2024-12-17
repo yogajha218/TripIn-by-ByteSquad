@@ -5,6 +5,10 @@
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://trusted.cdn.com https://app.sandbox.midtrans.com;">
+        <meta http-equiv="Content-Security-Policy" content="style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+
+
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 

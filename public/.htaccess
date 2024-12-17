@@ -1,30 +1,23 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+Options +FollowSymLinks
+RewriteEngine On
 
-    RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/public/
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+
+RewriteRule ^(.*)$ /public/$1
+#RewriteRule ^ index.php [L]
+RewriteRule ^(/)?$ public/index.php [L]
 </IfModule>
-
-# --- Security Headers ---
 
 <IfModule mod_headers.c>
     # Content Security Policy (CSP)
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://trusted.cdn.com; style-src 'self';"
+    Header set Content-Security-Policy "style-src 'self' https://fonts.bunny.net; style-src-elem 'self' https://fonts.bunny.net;"
+    Header set Content-Security-Policy "script-src-elem 'self' https://app.sandbox.midtrans.com/snap/snap.js https://app.sandbox.midtrans.com;"
 
     # Prevent Clickjacking
     Header set X-Frame-Options "DENY"
@@ -39,7 +32,6 @@
     Header unset X-Powered-By
 </IfModule>
 
-# --- Restrict Access to Sensitive Files ---
 <FilesMatch "^(composer\.lock|\.env|\.git|\.htaccess|\.htpasswd)$">
     Require all denied
 </FilesMatch>

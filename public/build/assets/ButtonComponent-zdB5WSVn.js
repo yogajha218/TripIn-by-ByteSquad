@@ -1,1 +1,0 @@
-import{j as r}from"./app-CBGLgz3W.js";const i=({buttonText:t,disabled:e,onclick:m=()=>{},type:o})=>r.jsx("button",{type:o,onClick:m,className:"text-md w-full rounded-md bg-primary2 py-3 font-medium text-white active:bg-primary2/70 md:text-lg",disabled:e,children:t});export{i as B};

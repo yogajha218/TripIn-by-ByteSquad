@@ -56,8 +56,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         <div className={`absolute right-5 top-8`}>
                             <BellIcon
                                 onClick={() =>
-                                    (window.location.href =
-                                        route("notification"))
+                                    (window.location.href = "/notifications")
                                 }
                                 className={`relative z-40 size-8 cursor-pointer text-white hover:animate-none`}
                             ></BellIcon>
@@ -101,12 +100,10 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             </p>
                         </a>
                         <button
-                            onClick={() =>
-                                (window.location.href = route("booking.index"))
-                            }
+                            onClick={() => (window.location.href = "/booking")}
                             className="mb-8 w-full rounded-lg bg-primary2 py-2 text-white"
                         >
-                            Booking
+                            Bookingi
                         </button>
 
                         <div className="font-semibold text-black">

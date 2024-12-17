@@ -57,7 +57,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             <BellIcon
                                 onClick={() =>
                                     (window.location.href =
-                                        route("notification"))
+                                        route("/notifications"))
                                 }
                                 className={`relative z-40 size-8 cursor-pointer text-white hover:animate-none`}
                             ></BellIcon>
@@ -75,7 +75,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </div>
                         <div className="mx-5">
                             <p className="text-2xl font-semibold tracking-tighter text-white sm:text-3xl">
-                                Welcome, pintu {username}
+                                Welcome, {username}
                             </p>
                             <p className="text-base font-medium tracking-tight text-white sm:text-lg">
                                 Enjoy Your Trip!
@@ -102,7 +102,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                         </a>
                         <button
                             onClick={() =>
-                                (window.location.href = route("booking.index"))
+                                (window.location.href = route("/booking"))
                             }
                             className="mb-8 w-full rounded-lg bg-primary2 py-2 text-white"
                         >

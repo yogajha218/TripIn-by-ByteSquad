@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/react";
 import DatePickerComponent from "@/Components/DatePickerComponent";
 import CardComponent from "@/Components/CardComponent";
 import SelectOriginBooking from "./SelectOriginBooking";
+import axios from "axios";
 
 const Booking = ({ todays, locations }) => {
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
@@ -30,16 +31,30 @@ const Booking = ({ todays, locations }) => {
         ).content;
 
         try {
-            post(route("booking.store"), data, {
+            const response = post(route("booking.store"), data, {
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
                 },
             });
         } catch (error) {
-            console.error("Error occurred:", error);
-
             if (error.response) {
-                console.error("Error response:", error.response.data);
+                // The request was made, and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.error("Server Error:", error.response.data);
+                alert(
+                    error.response.data.message ||
+                        "An error occurred on the server.",
+                );
+            } else if (error.request) {
+                // The request was made, but no response was received
+                console.error("Network Error:", error.request);
+                alert(
+                    "Network error. Please check your internet connection and try again.",
+                );
+            } else {
+                // Something happened in setting up the request that triggered an error
+                console.error("Error:", error.message);
+                alert("An unexpected error occurred. Please try again.");
             }
         }
     };
@@ -93,7 +108,7 @@ const Booking = ({ todays, locations }) => {
         if (city === city.toLowerCase()) {
             city = city.toUpperCase();
         }
-        
+
         setData("cityValue", city);
         setDropdownVisible(false);
     };
@@ -113,7 +128,7 @@ const Booking = ({ todays, locations }) => {
                             </p>
                         </div>
                         <div className="m-5 rounded-md border p-4 shadow-md">
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div>
                                     <label
                                         htmlFor="input-group-1"
@@ -230,7 +245,7 @@ const Booking = ({ todays, locations }) => {
                                                 Select Seat
                                             </label>
                                             <select
-                                                onClick={(e) =>
+                                                onChange={(e) =>
                                                     setData(
                                                         "seatsValue",
                                                         parseInt(
@@ -256,7 +271,7 @@ const Booking = ({ todays, locations }) => {
                                 </div>
                                 <div>
                                     <button
-                                        onClick={handleSubmit}
+                                        type="submit"
                                         className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white"
                                     >
                                         Search

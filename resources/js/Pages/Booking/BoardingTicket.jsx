@@ -39,20 +39,20 @@ const BoardingTicket = ({ booking, user }) => {
             <div className="lg:flex lg:justify-center">
                 <div className="min-h-screen bg-primary lg:w-[400px]">
                     {/* Header with centered title */}
-                    <div className="relative h-16 flex items-center justify-center mb-8">
+                    <div className="relative mb-8 flex h-16 items-center justify-center">
                         <ChevronLeftIcon
-                            className="size-8 text-white cursor-pointer absolute left-4 top-6"
+                            className="absolute left-4 top-6 size-8 cursor-pointer text-white"
                             onClick={() => {
                                 history.back();
                             }}
                         ></ChevronLeftIcon>
-                        <h1 className="text-white text-2xl font-medium mt-4">
+                        <h1 className="mt-4 text-2xl font-medium text-white">
                             Boarding Ticket
                         </h1>
                     </div>
 
-                    <div className="flex justify-center mb-5">
-                        <div className="bg-white rounded-xl p-6 mx-6 shadow-lg max-w-[400px]">
+                    <div className="flex justify-center">
+                        <div className="mx-6 mb-5 max-w-[400px] rounded-xl bg-white p-6 shadow-lg">
                             {/* Logo and Status */}
                             <div className="mb-6">
                                 <img
@@ -60,14 +60,14 @@ const BoardingTicket = ({ booking, user }) => {
                                     alt="logo TripIn"
                                     className="h-16"
                                 />
-                                <div className="flex items-center mt-2">
+                                <div className="mt-2 flex items-center">
                                     <span className="text-gray-600">
                                         Status:{" "}
                                     </span>
                                     <span
                                         className={`${getBadgeColor(
-                                            tickets.status
-                                        )} px-2 py-0.5 rounded ml-1`}
+                                            tickets.status,
+                                        )} ml-1 rounded px-2 py-0.5`}
                                     >
                                         {tickets.status}
                                     </span>
@@ -79,23 +79,23 @@ const BoardingTicket = ({ booking, user }) => {
                                 <div className="text-lg font-medium">
                                     {tickets.busName} ({tickets.plateNumber})
                                 </div>
-                                <div className="text-gray-600 text-sm">
+                                <div className="text-sm text-gray-600">
                                     Booking code : {tickets.bookingCode}
                                 </div>
                             </div>
 
-                            <div className="border-t border-dashed border-gray-400 relative">
-                                <div className="size-5 rounded-full bg-primary absolute -top-3 -left-8"></div>
-                                <div className="size-5 rounded-full bg-primary absolute -top-3 -right-8"></div>
+                            <div className="relative border-t border-dashed border-gray-400">
+                                <div className="absolute -left-8 -top-3 size-5 rounded-full bg-primary"></div>
+                                <div className="absolute -right-8 -top-3 size-5 rounded-full bg-primary"></div>
                             </div>
 
                             {/* Journey Section */}
-                            <div className="relative py-2 grid grid-cols-2 px-4  ">
+                            <div className="relative grid grid-cols-2 px-4 py-2">
                                 {/* Departure */}
-                                <div className="flex flex-col justify-between gap-24 relative">
+                                <div className="relative flex flex-col justify-between gap-24">
                                     {/* Time and Date */}
                                     <div className="w-36">
-                                        <div className="text-lg text-primary font-bold">
+                                        <div className="text-lg font-bold text-primary">
                                             {tickets.departureTime
                                                 .split(":")
                                                 .slice(0, 2)
@@ -104,7 +104,7 @@ const BoardingTicket = ({ booking, user }) => {
                                         <div className="text-sm text-gray-500">
                                             {format(
                                                 new Date(tickets.departureDate),
-                                                "dd MMM yyyy"
+                                                "dd MMM yyyy",
                                             )}
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@ const BoardingTicket = ({ booking, user }) => {
 
                                     {/* City and Station */}
                                     <div className="w-36">
-                                        <div className="text-sm text-primary2 font-bold">
+                                        <div className="text-sm font-bold text-primary2">
                                             {tickets.arrivalTime
                                                 .split(":")
                                                 .slice(0, 2)
@@ -122,7 +122,7 @@ const BoardingTicket = ({ booking, user }) => {
                                         <div className="text-sm text-gray-500">
                                             {format(
                                                 new Date(tickets.arrivalDate),
-                                                "dd MMM yyyy"
+                                                "dd MMM yyyy",
                                             )}
                                         </div>
                                     </div>
@@ -131,19 +131,19 @@ const BoardingTicket = ({ booking, user }) => {
                                 {/* Vertical Line */}
 
                                 {/* Arrival */}
-                                <div className="flex flex-col items-start gap-24 relative">
-                                    <div className="absolute rounded-full size-2 bg-grey -left-[3px] top-3"></div>
+                                <div className="relative flex flex-col items-start gap-24">
+                                    <div className="absolute -left-[3px] top-3 size-2 rounded-full bg-grey"></div>
 
-                                    <div className="absolute h-4/5 w-0.5 bg-grey  top-3">
-                                        <div className="absolute rounded-full size-2 bg-grey -left-[3px] top-1/2 -translate-y-[45%] "></div>
+                                    <div className="absolute top-3 h-4/5 w-0.5 bg-grey">
+                                        <div className="absolute -left-[3px] top-1/2 size-2 -translate-y-[45%] rounded-full bg-grey"></div>
                                     </div>
-                                    <div className="absolute size-2 rounded-full bg-grey -left-[3px] bottom-7"></div>
+                                    <div className="absolute -left-[3px] bottom-7 size-2 rounded-full bg-grey"></div>
                                     {/* Time and Date */}
-                                    <div className="w-32 ">
-                                        <div className="font-medium text-end">
+                                    <div className="w-32">
+                                        <div className="text-end font-medium">
                                             {tickets.departureCity}
                                         </div>
-                                        <div className="text-sm text-gray-500 text-end">
+                                        <div className="text-end text-sm text-gray-500">
                                             {tickets.departureStation}
                                         </div>
                                     </div>
@@ -151,11 +151,11 @@ const BoardingTicket = ({ booking, user }) => {
                                     {/* Journey Line - Bottom Dot */}
 
                                     {/* City and Station */}
-                                    <div className="w-32 ">
-                                        <div className="font-medium text-end">
+                                    <div className="w-32">
+                                        <div className="text-end font-medium">
                                             {tickets.arrivalCity}
                                         </div>
-                                        <div className="text-sm text-gray-500 text-end">
+                                        <div className="text-end text-sm text-gray-500">
                                             {tickets.arrivalStation}
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@ const BoardingTicket = ({ booking, user }) => {
                                         <div className="text-sm text-gray-500">
                                             Passenger
                                         </div>
-                                        <div className="font-medium mt-1">
+                                        <div className="mt-1 font-medium">
                                             {tickets.passenger}
                                         </div>
                                     </div>
@@ -178,26 +178,26 @@ const BoardingTicket = ({ booking, user }) => {
                                         <div className="text-sm text-gray-500">
                                             Seat Number:
                                         </div>
-                                        <div className="font-medium mt-1">
+                                        <div className="mt-1 font-medium">
                                             {tickets.seatNumber}
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="border-t border-dashed border-gray-400 relative">
-                                <div className="size-5 rounded-full bg-primary absolute -top-3 -left-8"></div>
-                                <div className="size-5 rounded-full bg-primary absolute -top-3 -right-8"></div>
+                            <div className="relative border-t border-dashed border-gray-400">
+                                <div className="absolute -left-8 -top-3 size-5 rounded-full bg-primary"></div>
+                                <div className="absolute -right-8 -top-3 size-5 rounded-full bg-primary"></div>
                             </div>
 
                             {/* TODO : QR Code Usage? */}
 
                             {/* QR Code */}
                             <div className="pt-6 text-center">
-                                <div className="text-sm mb-4">
+                                <div className="mb-4 text-sm">
                                     Scan this code
                                 </div>
-                                <div className="flex justify-center mb-6">
+                                <div className="mb-6 flex justify-center">
                                     <QRCodeSVG
                                         value={`TRIPIN-${tickets.bookingCode}-${tickets.seatNumber}`}
                                         size={160}

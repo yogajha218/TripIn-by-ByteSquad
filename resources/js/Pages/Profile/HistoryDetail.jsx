@@ -180,9 +180,6 @@ const HistoryDetail = ({ log }) => {
                         </div>
 
                         {/* Boarding Button */}
-                        <button className="w-full rounded-lg bg-primary2 py-4 font-medium text-white">
-                            Boarding Ticket
-                        </button>
                     </div>
                 </div>
             </div>

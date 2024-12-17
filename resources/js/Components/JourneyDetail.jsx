@@ -113,9 +113,8 @@ const JourneyDetail = ({ routes, booking }) => {
             {filteredRoutes.length > 0 ? (
                 filteredRoutes.map((bus) =>
                     bus.vehicles.map((vehicle) => (
-                        <div className="h-fit rounded-lg border-2 bg-white shadow-lg">
+                        <div key={vehicle.pivot.route_id} className="h-fit rounded-lg border-2 bg-white shadow-lg">
                             <div
-                                key={vehicle.pivot.route_id} // Use route_id from the pivot
                                 className="relative cursor-pointer rounded-t-lg bg-white p-4"
                             >
                                 {/* Available Seats Badge */}
@@ -142,7 +141,7 @@ const JourneyDetail = ({ routes, booking }) => {
                                 {/* Bus Details */}
                                 <div className="flex items-center space-x-4">
                                     <img
-                                        src="/Shuttle_Icon.svg"
+                                        src="/shuttle_icon.svg"
                                         alt="Bus"
                                         className="h-16 w-16 rounded-md object-cover"
                                     />
@@ -203,7 +202,15 @@ const JourneyDetail = ({ routes, booking }) => {
                                                 </div>
                                             </div>
                                             <div className="mt-2 flex justify-between">
-                                                <div className="flex items-center space-x-2 text-xs text-gray-400"></div>
+                                                <div className="flex items-center space-x-2 text-xs text-gray-400">
+                                                    <p className="pr-2 font-semibold text-blue-600">
+                                                        {`Rp${new Intl.NumberFormat(
+                                                            "id-ID",
+                                                        ).format(
+                                                            vehicle.pivot.price,
+                                                        )}/Pax`}
+                                                    </p>
+                                                </div>
                                                 <p className="pr-2 font-semibold text-blue-600">
                                                     {`Rp${new Intl.NumberFormat(
                                                         "id-ID",

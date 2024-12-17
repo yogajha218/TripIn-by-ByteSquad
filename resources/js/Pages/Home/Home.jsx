@@ -122,7 +122,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             ) : (
                                 <div className="flex flex-col items-center justify-center pb-9">
                                     <img src="/tayo-bus.svg " loading="lazy" />
-                                    <p>no tayo trip available</p>
+                                    <p>No trip available</p>
                                 </div>
                             )}
                         </div>
@@ -155,7 +155,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                                 ) : (
                                     <div className="flex flex-col items-center justify-center pb-9">
                                         <img src="/tayo-bus.svg" />
-                                        <p>no tayo trip available</p>
+                                        <p>No trip available</p>
                                     </div>
                                 )}
                             </div>

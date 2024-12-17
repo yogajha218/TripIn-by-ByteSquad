@@ -30,7 +30,7 @@ const ProfileOtpVerify = () => {
 
         try {
             const response = await axios.post(
-                route("profile.edit.otp.verify"),
+                "/profile/edit/password/otp/verify",
                 {
                     otp,
                 },
@@ -41,7 +41,7 @@ const ProfileOtpVerify = () => {
 
             if (response.data.message === "OTP verified successfully.") {
                 // Redirect to the profile edit page
-                window.location.href = route("profile.edit.password"); // You can use a function to generate the URL
+                window.location.href = "/profile/edit/password"; // You can use a function to generate the URL
             }
         } catch (err) {
             if (err.response && err.response.data.message) {

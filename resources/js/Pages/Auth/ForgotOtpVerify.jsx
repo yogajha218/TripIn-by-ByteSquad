@@ -14,7 +14,7 @@ const ForgotOtpVerify = ({ email }) => {
             // Auto-focus next input
             if (value && index < 3) {
                 const nextInput = document.querySelector(
-                    `input[name="code-${index + 1}"]`
+                    `input[name="code-${index + 1}"]`,
                 );
                 nextInput?.focus();
             }
@@ -24,20 +24,20 @@ const ForgotOtpVerify = ({ email }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
+            'meta[name="csrf-token"]',
         ).content;
         const otp = verificationCode.join("");
 
         try {
             const response = await axios.post(
-                route("password.otp.verify"),
+                "/forgot-password/otp/verify",
                 {
                     email,
                     otp,
                 },
                 {
                     headers: { "X-CSRF-TOKEN": csrfToken },
-                }
+                },
             );
 
             // Handle successful response
@@ -57,7 +57,7 @@ const ForgotOtpVerify = ({ email }) => {
     const handleKeyDown = (index, e) => {
         if (e.key === "Backspace" && !verificationCode[index] && index > 0) {
             const prevInput = document.querySelector(
-                `input[name="code-${index - 1}"]`
+                `input[name="code-${index - 1}"]`,
             );
             prevInput?.focus();
         }
@@ -70,13 +70,13 @@ const ForgotOtpVerify = ({ email }) => {
     return (
         <>
             <div className="flex justify-center">
-                <div className="flex flex-col min-h-screen bg-primary lg:w-[400px]">
+                <div className="flex min-h-screen flex-col bg-primary lg:w-[400px]">
                     {/* Top Section */}
                     <div className="relative w-full py-20">
                         {/* Back Button */}
 
                         {/* Logo Section */}
-                        <div className="flex-none flex justify-center px-4">
+                        <div className="flex flex-none justify-center px-4">
                             <img
                                 src="/TripInLogo.svg"
                                 className="w-36 object-contain"
@@ -86,12 +86,12 @@ const ForgotOtpVerify = ({ email }) => {
                     </div>
 
                     {/* Verification Content */}
-                    <div className="flex-grow bg-white rounded-t-lg p-6">
-                        <div className="max-w-md mx-auto p-2">
-                            <h1 className="text-2xl font-semibold text-black mb-2">
+                    <div className="flex-grow rounded-t-lg bg-white p-6">
+                        <div className="mx-auto max-w-md p-2">
+                            <h1 className="mb-2 text-2xl font-semibold text-black">
                                 Let’s Verify Your Account!
                             </h1>
-                            <p className="text-gray-500 mb-8">
+                            <p className="mb-8 text-gray-500">
                                 We just sent an OTP code to your email. Check
                                 your inbox and enter the code below to keep
                                 going! 🚀
@@ -99,7 +99,7 @@ const ForgotOtpVerify = ({ email }) => {
 
                             {/* Code Input Fields */}
                             <form onSubmit={handleSubmit}>
-                                <div className="flex justify-between gap-3 mb-8">
+                                <div className="mb-8 flex justify-between gap-3">
                                     {verificationCode.map((digit, index) => (
                                         <input
                                             key={index}
@@ -110,22 +110,19 @@ const ForgotOtpVerify = ({ email }) => {
                                             onChange={(e) =>
                                                 handleChange(
                                                     index,
-                                                    e.target.value
+                                                    e.target.value,
                                                 )
                                             }
                                             onKeyDown={(e) =>
                                                 handleKeyDown(index, e)
                                             }
-                                            className="w-16 h-16 border-2 border-gray-200 rounded-xl
-                          text-center bg-transparent text-xl text-black
-                          font-semibold focus:border-gray-400 focus:outline-none
-                          transition-colors"
+                                            className="h-16 w-16 rounded-xl border-2 border-gray-200 bg-transparent text-center text-xl font-semibold text-black transition-colors focus:border-gray-400 focus:outline-none"
                                             maxLength={1}
                                         />
                                     ))}
                                 </div>
                                 {error && (
-                                    <p className="text-red-500 text-sm mt-2">
+                                    <p className="mt-2 text-sm text-red-500">
                                         {error}
                                     </p>
                                 )}
@@ -133,18 +130,16 @@ const ForgotOtpVerify = ({ email }) => {
                                 {/* Confirm Button */}
                                 <button
                                     type="submit"
-                                    className="w-full bg-primary2 text-white py-4 rounded-xl
-             font-semibold hover:opacity-90 transition-opacity
-             active:scale-[0.99]"
+                                    className="w-full rounded-xl bg-primary2 py-4 font-semibold text-white transition-opacity hover:opacity-90 active:scale-[0.99]"
                                     onClick={handleSubmit}
                                 >
                                     Confirm
                                 </button>
                                 <div
-                                    className="flex justify-center items-center gap-1 p-5 cursor-pointer"
+                                    className="flex cursor-pointer items-center justify-center gap-1 p-5"
                                     onClick={() => history.back()}
                                 >
-                                    <ArrowLeftIcon className="text-primary2 size-3"></ArrowLeftIcon>
+                                    <ArrowLeftIcon className="size-3 text-primary2"></ArrowLeftIcon>
                                     <p className="text-sm text-primary2">
                                         go back
                                     </p>

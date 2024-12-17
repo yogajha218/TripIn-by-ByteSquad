@@ -40,7 +40,7 @@ const OtpRegistVerify = ({ email }) => {
 
             // Redirect after a delay to allow the user to see the message
             setTimeout(() => {
-                window.location.href = route("auth");
+                window.location.href = "/auth";
             }, 2000); // 2000 milliseconds = 2 seconds
         } catch (err) {
             if (err.response && err.response.data.message) {
@@ -97,7 +97,8 @@ const OtpRegistVerify = ({ email }) => {
                             </h1>
                             <p className="mb-8 text-gray-500">
                                 We have sent the verification code to your email
-                                address, please check your email and enter the verification code below.
+                                address, please check your email and enter the
+                                verification code below.
                             </p>
 
                             {/* Code Input Fields */}

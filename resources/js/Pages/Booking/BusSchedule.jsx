@@ -5,7 +5,6 @@ import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import JourneyDetail from "@/Components/JourneyDetail";
 
 const Schedule = ({ booking, routes }) => {
-
     return (
         <>
             <div className="lg:flex lg:justify-center">
@@ -16,8 +15,7 @@ const Schedule = ({ booking, routes }) => {
                             <ChevronLeftIcon
                                 className="absolute left-3 top-1/2 z-50 size-6 translate-y-[-50%] cursor-pointer font-bold text-white"
                                 onClick={() =>
-                                    (window.location.href =
-                                        route("booking.index"))
+                                    (window.location.href = "/booking")
                                 }
                             ></ChevronLeftIcon>
                             <div>

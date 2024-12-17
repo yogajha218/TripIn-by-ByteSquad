@@ -111,9 +111,7 @@ const PaymentStatus = ({ user, booking }) => {
                     {/* Back Button */}
                     <div className="relative bottom-0 w-full p-5">
                         <button
-                            onClick={() =>
-                                (window.location.href = route("home"))
-                            }
+                            onClick={() => (window.location.href = "/home")}
                             className="w-full rounded-lg bg-primary2 py-3 font-medium text-white"
                         >
                             BACK TO HOME

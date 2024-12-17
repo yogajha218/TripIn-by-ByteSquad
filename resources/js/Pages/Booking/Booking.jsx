@@ -73,7 +73,6 @@ const Booking = ({ todays, locations }) => {
                     "X-CSRF-TOKEN": csrfToken,
                 },
             });
-
         } catch (error) {
             if (error.response) {
                 // The request was made, and the server responded with a status code
@@ -310,7 +309,7 @@ const Booking = ({ todays, locations }) => {
                                                 Select Seat
                                             </label>
                                             <select
-                                                onClick={(e) =>
+                                                onChange={(e) =>
                                                     setData(
                                                         "seatsValue",
                                                         parseInt(

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { format, parse, parseISO, set } from "date-fns";
 import { ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
-// import Coins from '/Coins.svg';
 
 const ConfirmationPage = ({
     user,
@@ -46,6 +45,7 @@ const ConfirmationPage = ({
 
     // Using data from props or default data
     const data = defaultData;
+    
     let totalPrice = data.pricing.seatPrice * data.pricing.quantity;
     defaultData.orderDetails.potentialPoints = totalPrice * 0.05;
     let creditStatus = false;
@@ -101,11 +101,11 @@ const ConfirmationPage = ({
                     );
                 },
             });
+
         } catch (error) {
             // Handle specific error scenarios
             if (error.response) {
                 // The request was made, and the server responded with a status code
-                // that falls out of the range of 2xx
                 console.error("Server Error:", error.response.data);
                 alert(
                     error.response.data.message ||

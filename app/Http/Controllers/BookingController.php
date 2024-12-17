@@ -262,6 +262,8 @@ class BookingController extends Controller
                 "gross_amount" => $request->amount,
             ];
 
+            FacadesLog::info('Total Price: ' . $request->amount);
+
             $item_details = [
                 [
                     "id" => $location->vehicles[0]->pivot->route_id,

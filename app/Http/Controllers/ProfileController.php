@@ -55,11 +55,11 @@ class ProfileController extends Controller
     {
         $request->validate([
             'username' =>  'required|max:20',
-            'phone_number' => 'required|numeric|digits_between:1,15',
+            'phone_number' => 'required|numeric|regex:/^[+]?\d{1,15}$/',
             'gender' => 'required',
         ], [
             'phone_number.numeric'=> 'Please enter a number',
-            'phone_number.digits_between'=> 'Phone number must be less than 15 digit',
+            'phone_number.regex'=> 'Phone number must be less than 15 digit',
             'username.max' => 'Username must be less than 20 letter',
         ]);
 

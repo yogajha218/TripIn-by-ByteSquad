@@ -19,3 +19,27 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# --- Security Headers ---
+
+<IfModule mod_headers.c>
+    # Content Security Policy (CSP)
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://trusted.cdn.com; style-src 'self';"
+
+    # Prevent Clickjacking
+    Header set X-Frame-Options "DENY"
+
+    # Prevent MIME-Sniffing
+    Header set X-Content-Type-Options "nosniff"
+
+    # Enable HSTS
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Disable X-Powered-By
+    Header unset X-Powered-By
+</IfModule>
+
+# --- Restrict Access to Sensitive Files ---
+<FilesMatch "^(composer\.lock|\.env|\.git|\.htaccess|\.htpasswd)$">
+    Require all denied
+</FilesMatch>

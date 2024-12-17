@@ -21,7 +21,7 @@ class BaseController extends Controller
     public function welcomeIndex(){
         return Inertia::render('LandingPage');
     }
-    
+
     // Menampilkan halaman FAQ
     public function faqIndex(){
         return Inertia::render('Faq');

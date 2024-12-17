@@ -39,39 +39,38 @@ const FAQ = () => {
 
     return (
         <>
-            <div className="flex justify-center ">
-                <div className=" bg-primary flex flex-col lg:w-[400px]">
+            <div className="flex justify-center">
+                <div className="flex flex-col bg-primary lg:w-[400px]">
                     {/* Header */}
-                    <div className="flex items-center px-4 py-6 mt-4 mb-4 sticky top-0 bg-primary z-10 ">
+                    <div className="sticky top-0 z-10 mb-4 mt-4 flex items-center bg-primary px-4 py-6">
                         <ChevronLeftIcon
-                            className="size-6 text-white absolute left-5 cursor-pointer
-                        "
+                            className="absolute left-5 size-6 cursor-pointer text-white"
                             onClick={() => history.back()}
                         ></ChevronLeftIcon>
 
-                        <h1 className="flex-1 text-center text-[30px] font-bold text-white mx-auto pr-5">
+                        <h1 className="mx-auto flex-1 pr-5 text-center text-[30px] font-bold text-white">
                             FAQ
                         </h1>
                     </div>
 
                     {/* FAQ Content */}
-                    <div className="flex-1 bg-white p-6 rounded-t-[30px] h-full">
-                        <div className="max-w-md mx-auto">
+                    <div className="min-h-screen flex-1 rounded-t-[30px] bg-white p-6">
+                        <div className="mx-auto max-w-md">
                             <div className="space-y-4">
                                 {faqs.map((faq, index) => (
                                     <div
                                         key={index}
-                                        className="border border-gray-300 rounded-lg bg-white shadow-md"
+                                        className="rounded-lg border border-gray-300 bg-white shadow-md"
                                     >
                                         <button
-                                            className="w-full flex justify-between items-center p-4 text-left bg-transparent hover:bg-gray-50 transition"
+                                            className="flex w-full items-center justify-between bg-transparent p-4 text-left transition hover:bg-gray-50"
                                             onClick={() => toggleFAQ(index)}
                                         >
                                             <span className="font-medium text-gray-800">
                                                 {faq.question}
                                             </span>
                                             <svg
-                                                className={`w-5 h-5 text-gray-600 transform ${
+                                                className={`h-5 w-5 transform text-gray-600 ${
                                                     activeIndex === index
                                                         ? "rotate-180"
                                                         : "rotate-0"
@@ -90,7 +89,7 @@ const FAQ = () => {
                                             </svg>
                                         </button>
                                         {activeIndex === index && (
-                                            <div className="p-4 text-gray-700 bg-gray-50">
+                                            <div className="bg-gray-50 p-4 text-gray-700">
                                                 {faq.answer}
                                             </div>
                                         )}

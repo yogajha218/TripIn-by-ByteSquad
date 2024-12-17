@@ -55,7 +55,6 @@ const ConfirmationPage = ({
         totalPrice = data.pricing.seatPrice * data.pricing.quantity - credit;
     }
 
-
     // Format currency
     const formatCurrency = (amount) => {
         return `Rp${amount.toLocaleString("id-ID")}`;
@@ -323,18 +322,17 @@ const ConfirmationPage = ({
                                 <p>{formatCurrency(totalPrice)}</p>
                             </div>
                         </div>
-
-                        {/* Order Button */}
-                        <div className="fixed bottom-0 right-0 bg-white p-4 lg:left-1/2 lg:w-[400px] lg:translate-x-[-50%]">
-                            <button
-                                className="w-full rounded-lg bg-primary2 py-3 font-semibold text-white"
-                                onClick={handleSubmit}
-                            >
-                                ORDER NOW
-                            </button>
-                        </div>
                     </div>
                 </div>
+                {/* Order Button */}
+            </div>
+            <div className="fixed bottom-0 w-full bg-white p-4 lg:left-1/2 lg:w-[400px] lg:translate-x-[-50%]">
+                <button
+                    className="w-full rounded-lg bg-primary2 py-3 font-semibold text-white"
+                    onClick={handleSubmit}
+                >
+                    ORDER NOW
+                </button>
             </div>
         </>
     );

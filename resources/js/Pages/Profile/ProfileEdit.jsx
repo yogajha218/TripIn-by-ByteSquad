@@ -15,7 +15,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
             'meta[name="csrf-token"]',
         ).content;
 
-        post(route("profile.edit.send"), data, {
+        post("/profile/edit/send", data, {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
@@ -28,7 +28,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
             'meta[name="csrf-token"]',
         ).content;
 
-        post(route("profile.edit.otp.send"), {
+        post("/profile/edit/password/otp/send", {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },

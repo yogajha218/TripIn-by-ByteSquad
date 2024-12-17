@@ -24,7 +24,7 @@ const ProfileNewPassword = ({ email }) => {
         }
 
         try {
-            post(route("profile.edit.password.send"), data, {
+            post("/profile/edit/password/send", data, {
                 headers: { "X-CSRF-TOKEN": csrfToken },
             });
         } catch (err) {
@@ -58,9 +58,7 @@ const ProfileNewPassword = ({ email }) => {
                                 </div>
                             )}
 
-                            <form
-                                className="w-full"
-                            >
+                            <form className="w-full">
                                 <h2 className="mb-4 text-xl font-semibold text-black">
                                     Please enter a new password
                                 </h2>

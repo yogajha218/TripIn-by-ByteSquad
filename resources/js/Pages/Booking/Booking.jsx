@@ -30,7 +30,7 @@ const Booking = ({ todays, locations }) => {
         ).content;
 
         try {
-            post(route("booking.store"), data, {
+            post("/booking/store", data, {
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
                 },
@@ -93,7 +93,7 @@ const Booking = ({ todays, locations }) => {
         if (city === city.toLowerCase()) {
             city = city.toUpperCase();
         }
-        
+
         setData("cityValue", city);
         setDropdownVisible(false);
     };
@@ -109,7 +109,7 @@ const Booking = ({ todays, locations }) => {
                                 className="absolute left-3 top-1/2 z-50 size-8 translate-y-[-50%] cursor-pointer font-bold text-white"
                             ></ChevronLeftIcon>
                             <p className="mx-2 w-fit cursor-default select-none text-2xl font-medium text-white">
-                                Booking
+                                Booking1
                             </p>
                         </div>
                         <div className="m-5 rounded-md border p-4 shadow-md">

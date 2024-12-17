@@ -40,7 +40,7 @@ const JourneyDetail = ({ routes, booking }) => {
 
         try {
             const response = await axios.post(
-                route("route.store"),
+                "route/store",
                 {
                     selectedRoute: { routeId, plate, departure },
                 },

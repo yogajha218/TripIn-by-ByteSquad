@@ -96,7 +96,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
 
         try {
             const response = await fetch(
-                route("seat.store", plate.selectedRoute.plate),
+                `seat/store/${plate.selectedRoute.plate}`,
                 {
                     method: "POST",
                     headers: {

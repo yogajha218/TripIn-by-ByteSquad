@@ -103,7 +103,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             onClick={() => (window.location.href = "/booking")}
                             className="mb-8 w-full rounded-lg bg-primary2 py-2 text-white"
                         >
-                            Bookingi
+                            Booking
                         </button>
 
                         <div className="font-semibold text-black">

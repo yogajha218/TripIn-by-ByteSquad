@@ -113,9 +113,8 @@ const JourneyDetail = ({ routes, booking }) => {
             {filteredRoutes.length > 0 ? (
                 filteredRoutes.map((bus) =>
                     bus.vehicles.map((vehicle) => (
-                        <div className="h-fit rounded-lg border-2 bg-white shadow-lg">
+                        <div key={vehicle.pivot.route_id} className="h-fit rounded-lg border-2 bg-white shadow-lg">
                             <div
-                                key={vehicle.pivot.route_id} // Use route_id from the pivot
                                 className="relative cursor-pointer rounded-t-lg bg-white p-4"
                             >
                                 {/* Available Seats Badge */}

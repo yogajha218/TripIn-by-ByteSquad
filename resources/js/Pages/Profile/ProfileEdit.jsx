@@ -70,8 +70,13 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 required
                             />
                             {errors.username && (
-                                <p className="text-red-500">
+                                <p className="mt-2 text-sm text-red-500">
                                     {errors.username}
+                                </p>
+                            )}
+                            {data.username === "user" && (
+                                <p className="mb-2 text-sm text-red-500">
+                                    Please change your username.
                                 </p>
                             )}
                             <label className="text-md font-medium">Email</label>
@@ -143,12 +148,17 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
+                                {!data.gender && (
+                                    <p className="mt-2 text-sm text-red-500">
+                                        Please select a gender.
+                                    </p>
+                                )}
                             </div>
 
                             <button
                                 type=""
                                 disabled={processing}
-                                className="my-5 w-full rounded-lg bg-primary2 py-2 text-white"
+                                className="my-5 w-full rounded-lg bg-primary2 py-2 text-white active:bg-primary2/85"
                             >
                                 {processing
                                     ? "Processing..."

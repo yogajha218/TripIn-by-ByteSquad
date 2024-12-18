@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Datepicker } from "flowbite";
-import { format } from "date-fns";
 
 const DatePickerComponent = ({ setSelectedDay, data }) => {
     useEffect(() => {
@@ -8,7 +7,7 @@ const DatePickerComponent = ({ setSelectedDay, data }) => {
         if (inputElement) {
             new Datepicker(inputElement, {
                 autohide: true,
-                minDate: new Date(),
+                minDate: new Date(), // Set the minimum selectable date to today
             });
 
             // Listen to date selection event
@@ -44,6 +43,24 @@ const DatePickerComponent = ({ setSelectedDay, data }) => {
                         <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                     </svg>
                 </div>
+                <svg
+                    className="absolute right-2 top-1/2 size-4 -translate-y-1/2 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m19 9-7 7-7-7"
+                    />
+                </svg>
+
                 <input
                     readOnly
                     value={data.selectedDay}
@@ -53,7 +70,7 @@ const DatePickerComponent = ({ setSelectedDay, data }) => {
                     data-datepicker="true"
                     id="default-datepicker"
                     type="text"
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     placeholder="Select date"
                 />
             </div>

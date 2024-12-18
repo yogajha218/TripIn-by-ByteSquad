@@ -17,9 +17,8 @@ const ForgotPassword = ({ email }) => {
     const handleSubmitPassword = async (e) => {
         e.preventDefault();
         const csrfToken = document.head.querySelector(
-            'meta[name="csrf-token"]'
+            'meta[name="csrf-token"]',
         ).content;
-
 
         if (newPassword !== confirmPassword) {
             setError("Passwords do not match");
@@ -43,21 +42,21 @@ const ForgotPassword = ({ email }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="min-h-screen bg-primary flex flex-col lg:w-[400px]">
-                    <div className="flex justify-center py-20 bg-primary">
+                <div className="flex min-h-screen flex-col bg-primary lg:w-[400px]">
+                    <div className="flex justify-center bg-primary py-20">
                         <div className="flex items-center">
                             <img
                                 src="/TripInLogo.svg"
-                                className="w-36 "
+                                className="w-36"
                                 alt="Logo of TripIn"
                             />
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-t-md pt-8 pb-4 flex-grow">
-                        <div className="px-6 md:max-w-xl lg:max-w-2xl mx-auto">
+                    <div className="flex-grow rounded-t-md bg-white pb-4 pt-8">
+                        <div className="mx-auto px-6 md:max-w-xl lg:max-w-2xl">
                             {error && (
-                                <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-lg text-sm">
+                                <div className="mb-4 rounded-lg bg-red-100 p-3 text-sm text-red-600">
                                     {error}
                                 </div>
                             )}
@@ -66,7 +65,7 @@ const ForgotPassword = ({ email }) => {
                                 onSubmit={handleSubmitPassword}
                                 className="w-full"
                             >
-                                <h2 className="text-xl text-black font-semibold mb-4">
+                                <h2 className="mb-4 text-xl font-semibold text-black">
                                     Please enter a new password
                                 </h2>
                                 <input
@@ -78,7 +77,7 @@ const ForgotPassword = ({ email }) => {
                                         setData("email", e.target.value)
                                     }
                                     disabled
-                                    className="w-full px-4 py-3 text-black border border-gray-300 rounded-lg mb-4 bg-gray-50"
+                                    className="mb-4 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-black"
                                 />
                                 <input
                                     type="password"
@@ -89,12 +88,11 @@ const ForgotPassword = ({ email }) => {
                                     onChange={(e) =>
                                         setData("password", e.target.value)
                                     }
-                                    className={`w-full px-4 py-3 text-black bg-transparent border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-primary2 focus:border-transparent
-                ${!isPasswordMatch ? "border-red-500" : "border-gray-300"}`}
+                                    className={`mb-4 w-full rounded-lg border bg-transparent px-4 py-3 text-black focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary2 ${!isPasswordMatch ? "border-red-500" : "border-gray-300"}`}
                                     required
                                 />
                                 {errors.password && (
-                                    <div className="text-red-500 text-sm">
+                                    <div className="text-sm text-red-500">
                                         {errors.password}
                                     </div>
                                 )}
@@ -108,33 +106,30 @@ const ForgotPassword = ({ email }) => {
                                     onChange={(e) =>
                                         setData(
                                             "confirmPassword",
-                                            e.target.value
+                                            e.target.value,
                                         )
                                     }
-                                    className={`w-full px-4 py-3 text-black bg-transparent border rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-primary2 focus:border-transparent
-                ${!isPasswordMatch ? "border-red-500" : "border-gray-300"}`}
+                                    className={`mb-6 w-full rounded-lg border bg-transparent px-4 py-3 text-black focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary2 ${!isPasswordMatch ? "border-red-500" : "border-gray-300"}`}
                                     required
                                 />
                                 {errors.confirmPassword && (
-                                    <div className="text-red-500 text-sm">
+                                    <div className="text-sm text-red-500">
                                         {errors.confirmPassword}
                                     </div>
                                 )}
                                 <button
                                     type="submit"
-                                    className={`w-full bg-primary2 text-white py-3 rounded-lg font-medium
-                ${
-                    !isPasswordMatch
-                        ? "opacity-70 cursor-not-allowed"
-                        : "hover:opacity-90 transition-opacity"
-                }
-              `}
+                                    className={`w-full rounded-lg bg-primary2 py-3 font-medium text-white ${
+                                        !isPasswordMatch
+                                            ? "cursor-not-allowed opacity-70"
+                                            : "transition-opacity hover:opacity-90"
+                                    } `}
                                     disabled={!isPasswordMatch || processing}
                                 >
                                     Reset Password
                                 </button>
                                 <div
-                                    className="w-full h-fit cursor-pointer flex justify-center items-center p-5"
+                                    className="flex h-fit w-full cursor-pointer items-center justify-center"
                                     onClick={handleBack}
                                 >
                                     <ArrowLeftIcon className="size-4 text-primary2"></ArrowLeftIcon>

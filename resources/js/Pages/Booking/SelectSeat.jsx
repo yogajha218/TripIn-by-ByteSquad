@@ -3,6 +3,7 @@ import Seats from "@/Components/Seats";
 import { ToastComponent } from "@/Components/ToastComponent";
 import axios from "axios";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import ButtonComponent from "@/Components/ButtonComponent";
 
 const SelectSeat = ({ plate, seatLimit }) => {
     const [selectedSeat, setSelectedSeat] = useState([]);
@@ -273,9 +274,10 @@ const SelectSeat = ({ plate, seatLimit }) => {
 
                             {/* Save Button */}
                             <div className="mt-2 flex w-full justify-center px-3 py-3">
-                                <button className="h-[45px] w-full rounded-[10px] bg-primary2 text-white">
+                                <ButtonComponent buttonText="Save"></ButtonComponent>
+                                {/* <button className="h-[45px] w-full rounded-[10px] bg-primary2 text-white">
                                     Save
-                                </button>
+                                </button> */}
                             </div>
                         </form>
                     </div>

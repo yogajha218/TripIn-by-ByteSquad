@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "@inertiajs/react";
 import DatePickerComponent from "@/Components/DatePickerComponent";
@@ -164,7 +164,7 @@ const Booking = ({ todays, locations }) => {
                                     </label>
                                     <div className="relative mb-6">
                                         <div className="relative">
-                                            <div className="pointer-events-none absolute inset-y-0 start-0 z-10 flex items-center ps-3.5">
+                                            <div className="pointer-events-none absolute inset-y-0 start-0 z-10 flex items-center ps-2">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
@@ -225,7 +225,7 @@ const Booking = ({ todays, locations }) => {
                                         Origin
                                     </label>
                                     <div className="relative mb-2">
-                                        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
+                                        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-2">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
@@ -246,10 +246,27 @@ const Booking = ({ todays, locations }) => {
                                                 />
                                             </svg>
                                         </div>
+                                        <svg
+                                            className="absolute right-2 top-1/2 size-4 -translate-y-1/2 text-gray-800 dark:text-white"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="m9 5 7 7-7 7"
+                                            />
+                                        </svg>
+
                                         <input
                                             defaultValue={data.origin}
+                                            readOnly
                                             id="input-group-1"
-                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                                            className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
                                             placeholder="From"
                                             onFocus={() => {
                                                 if (!data.cityValue) {
@@ -294,7 +311,7 @@ const Booking = ({ todays, locations }) => {
                                                 Select Seat
                                             </label>
                                             <select
-                                                onChange={(e) =>
+                                                onClick={(e) =>
                                                     setData(
                                                         "seatsValue",
                                                         parseInt(
@@ -321,7 +338,7 @@ const Booking = ({ todays, locations }) => {
                                 <div>
                                     <button
                                         onClick={handleSubmit}
-                                        className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white"
+                                        className="mt-7 w-full rounded-lg bg-primary2 py-2 text-white active:bg-primary2/85"
                                     >
                                         Search
                                     </button>

@@ -1,10 +1,10 @@
 import React from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
+import Profile from "./Profile";
 // import { Car, ChevronLeft, CreditCard, Users, Armchair } from 'lucide-react'; // TODO : harus import
 
 const HistoryDetail = ({ log }) => {
-
     const ticketInfo = {
         date: log.departure_date,
         bookingCode: log.trip.booking.booking_code,
@@ -43,7 +43,9 @@ const HistoryDetail = ({ log }) => {
                     <div className="relative flex items-center p-7 text-white">
                         <ChevronLeftIcon
                             className="absolute left-3 top-1/2 size-6 -translate-y-1/2 cursor-pointer"
-                            onClick={() => history.back()}
+                            onClick={() => {
+                                window.location.href = "/profile/history";
+                            }}
                         />
                         <span className="flex-1 text-center text-xl font-medium">
                             {format(new Date(ticketInfo.date), "dd MMM yyyy")}
@@ -178,8 +180,6 @@ const HistoryDetail = ({ log }) => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Boarding Button */}
                     </div>
                 </div>
             </div>

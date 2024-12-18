@@ -1,17 +1,18 @@
-import { useLayoutEffect, useEffect, useState } from "react";
-import { BellIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import CarouselDashboard from "@/Components/CarouselDashboard";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { BellIcon } from "@heroicons/react/24/solid";
 import CardComponent from "@/Components/CardComponent";
 import NavbarTripin from "@/Components/NavbarTripin";
 
 const Home = ({ credit, username, user_id, booking, notification_status }) => {
+    const CarouselDashboard = lazy(
+        () => import("@/Components/CarouselDashboard"),
+    );
     const [isTripAvailable, setIsTripsAvailable] = useState(false);
     const [isUpcomingTripAvailable, setIsUpcomingTripAvailable] =
         useState(false);
     const [showAllUpcomingRoutes, setShowAllUpcomingRoutes] = useState(false); // State to control "See More"
     const [todayTripCardProp, setTodayTripCardProp] = useState([]);
     const { todays, upcomings } = booking; // Destructure the booking props (from backend) to get today and upcoming
-
     const formattedCredit = new Intl.NumberFormat("id-ID", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -104,7 +105,7 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             onClick={() =>
                                 (window.location.href = route("booking.index"))
                             }
-                            className="mb-8 w-full rounded-lg bg-primary2 py-2 text-white"
+                            className="mb-8 w-full rounded-lg bg-primary2 py-2 text-white active:bg-primary2/85"
                         >
                             Booking
                         </button>
@@ -113,7 +114,9 @@ const Home = ({ credit, username, user_id, booking, notification_status }) => {
                             Available Locations
                         </div>
                         <div className="lg:flex lg:justify-center">
-                            <CarouselDashboard />
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <CarouselDashboard />
+                            </Suspense>
                         </div>
                         <div className="mb-3 mt-12 font-semibold text-black">
                             Today's Trip

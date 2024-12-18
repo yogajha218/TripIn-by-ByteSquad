@@ -18,8 +18,6 @@ const PaymentStatus = ({ user, booking }) => {
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat("id-ID", {
-            style: "currency",
-            currency: "IDR",
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
         }).format(price);
@@ -33,7 +31,7 @@ const PaymentStatus = ({ user, booking }) => {
                     <div className="bg-primary p-6">
                         <div className="relative flex items-center justify-center">
                             <h1 className="text-2xl font-bold text-white">
-                                Gopay
+                                Dana
                             </h1>
                         </div>
                     </div>
@@ -100,7 +98,7 @@ const PaymentStatus = ({ user, booking }) => {
                                         Total Price
                                     </span>
                                     <span className="font-bold">
-                                        {formatPrice(paymentData.totalPrice)}
+                                        {`Rp${formatPrice(paymentData.totalPrice)}`}
                                     </span>
                                 </div>
                             </div>
@@ -114,7 +112,7 @@ const PaymentStatus = ({ user, booking }) => {
                             onClick={() =>
                                 (window.location.href = route("home"))
                             }
-                            className="w-full rounded-lg bg-primary2 py-3 font-medium text-white"
+                            className="w-full rounded-lg bg-primary2 py-3 font-medium text-white active:bg-primary2/85"
                         >
                             BACK TO HOME
                         </button>

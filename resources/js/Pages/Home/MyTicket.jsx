@@ -4,7 +4,6 @@ import NavbarTripin from "@/Components/NavbarTripin";
 import { format } from "date-fns";
 
 const MyTicket = ({ bookings }) => {
-
     const tickets = bookings.map((booking) => ({
         id: booking.booking_id,
         plateNumber: booking.trips[0]?.schedule.vehicle.license_plate,
@@ -138,7 +137,7 @@ const MyTicket = ({ bookings }) => {
                                 </div>
 
                                 <button
-                                    className="w-full bg-primary2 py-3 font-medium text-white"
+                                    className="w-full bg-primary2 py-3 font-medium text-white active:bg-primary2/85"
                                     onClick={(e) => onClick(e, ticket.id)}
                                 >
                                     BOARDING TICKET

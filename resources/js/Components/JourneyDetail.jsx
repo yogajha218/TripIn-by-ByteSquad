@@ -113,10 +113,11 @@ const JourneyDetail = ({ routes, booking }) => {
             {filteredRoutes.length > 0 ? (
                 filteredRoutes.map((bus) =>
                     bus.vehicles.map((vehicle) => (
-                        <div key={vehicle.pivot.route_id} className="h-fit rounded-lg border-2 bg-white shadow-lg">
-                            <div
-                                className="relative cursor-pointer rounded-t-lg bg-white p-4"
-                            >
+                        <div
+                            key={vehicle.pivot.route_id}
+                            className="h-fit rounded-lg border-2 bg-white shadow-lg"
+                        >
+                            <div className="relative cursor-pointer rounded-t-lg bg-white p-4">
                                 {/* Available Seats Badge */}
                                 <div
                                     className={`absolute right-4 top-4 rounded-full px-2 py-1 text-xs ${
@@ -225,7 +226,7 @@ const JourneyDetail = ({ routes, booking }) => {
                                 </div>
                             </div>
                             <button
-                                className="h-full w-full rounded-b-lg bg-primary2 py-2 shadow-lg"
+                                className="h-full w-full rounded-b-lg bg-primary2 py-2 shadow-lg active:bg-primary2/85"
                                 onClick={(e) =>
                                     onClickDetail(
                                         e,

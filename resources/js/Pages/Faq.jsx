@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { Link } from "@inertiajs/react";
 
 const FAQ = () => {
     const faqs = [

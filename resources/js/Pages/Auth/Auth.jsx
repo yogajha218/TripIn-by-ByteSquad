@@ -17,10 +17,14 @@ const Auth = () => {
     const [legalDocsClicked, setLegalDocsClicked] = useState(initialClickState);
 
     const [termsCheckError, setTermsCheckError] = useState(false);
+    const [signUpError, setSignUpError] = useState("");
     const { data, setData, post, processing, errors } =
         useForm(initialFormData);
-    useEffect(() => {
-        // Save legal data state
+        useEffect(() => {
+            // Automatically check terms checkbox if both docs have been clicked
+            if (legalDocsClicked.termsClicked && legalDocsClicked.privacyClicked) {
+                setData("termsAccepted", true);
+            }
 
         router.remember(legalDocsClicked, "legal-data");
     }, [legalDocsClicked]);
@@ -34,6 +38,20 @@ const Auth = () => {
         const csrfToken = document.head.querySelector(
             'meta[name="csrf-token"]',
         ).content;
+
+        if (!isSignIn) {
+            // Check if all required steps are completed
+            if (!legalDocsClicked.termsClicked || !legalDocsClicked.privacyClicked) {
+                setSignUpError("Please complete the required steps to sign up");
+                return;
+            }
+
+            // Ensure terms are accepted
+            if (!data.termsAccepted) {
+                setSignUpError("Please accept the Terms & Conditions and Privacy Policy");
+                return;
+            }
+        }
 
         if (isSignIn) {
             post("/login");
@@ -256,11 +274,21 @@ const Auth = () => {
                                         )}
                                     </div>
                                 )}
+                                {signUpError && (
+                                    <p className="text-sm text-red-500">
+                                        {signUpError}
+                                    </p>
+                                )}
                                 <ButtonComponent
                                     buttonText={
                                         isSignIn ? "Sign In" : "Sign Up"
                                     }
-                                    disabled={processing}
+                                    disabled={
+                                        processing ||
+                                        (!isSignIn &&
+                                            (!legalDocsClicked.termsClicked ||
+                                             !legalDocsClicked.privacyClicked))
+                                    }
                                 />
                             </form>
                         </div>

@@ -2,11 +2,11 @@ import { Link } from "@inertiajs/react";
 import React, { useLayoutEffect, useState } from "react";
 const NavbarTripin = ({ pageInfo }) => {
     const [activePage, setActivePage] = useState("");
-    const handleReload = () => {
-        e.preventDefault();
-        sessionStorage.setItem("reloaded", "true");
-        window.location.reload();
-    };
+    // const handleReload = () => {
+    //     e.preventDefault();
+    //     sessionStorage.setItem("reloaded", "true");
+    //     window.location.reload();
+    // };
 
     useLayoutEffect(() => {
         switch (pageInfo) {
@@ -68,7 +68,7 @@ const NavbarTripin = ({ pageInfo }) => {
                                 ? "stroke-grey"
                                 : "stroke-white"
                         }
-                        strokeWidth ="2.91667"
+                        strokeWidth="2.91667"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     />
@@ -107,7 +107,7 @@ const NavbarTripin = ({ pageInfo }) => {
                                 ? "stroke-grey"
                                 : "stroke-white"
                         }
-                        strokeWidth ="2.91667"
+                        strokeWidth="2.91667"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     />
@@ -119,7 +119,7 @@ const NavbarTripin = ({ pageInfo }) => {
                 </p>
             </Link>
             <Link
-                onClick={handleReload}
+                // onClick={handleReload}
                 href="/profile"
                 className="flex flex-col items-center justify-center"
             >

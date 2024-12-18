@@ -27,7 +27,7 @@ const History = ({ logs }) => {
                     destinationTime: log.trip.schedule.arrival_time, // Placeholder
                     duration: "2 h 45 m", // Placeholder
                     price: `Rp${parseInt(log.trip.booking.price).toLocaleString(
-                        "id-ID"
+                        "id-ID",
                     )}`,
                 });
                 return acc;
@@ -39,23 +39,25 @@ const History = ({ logs }) => {
     return (
         <>
             <div className="lg:flex lg:justify-center">
-                <div className="lg:w-[400px] bg-white">
-                    <header className="bg-primary h-[108px] w-full rounded-b-lg">
-                        <div className="flex text-white justify-center items-center relative h-full">
+                <div className="bg-white lg:w-[400px]">
+                    <header className="h-[108px] w-full rounded-b-lg bg-primary">
+                        <div className="relative flex h-full items-center justify-center text-white">
                             <ChevronLeftIcon
-                                className="size-6 cursor-pointer absolute top-1/2 translate-y-[-50%] left-3"
-                                onClick={() => history.back()}
+                                className="absolute left-3 top-1/2 size-6 translate-y-[-50%] cursor-pointer"
+                                onClick={() => {
+                                    window.location.href = "/profile";
+                                }}
                             />
-                            <h1 className="font-medium text-3xl w-full text-center">
+                            <h1 className="w-full text-center text-3xl font-medium">
                                 History
                             </h1>
                         </div>
                     </header>
 
-                    <main className=" px-4 py-6 bg-white min-h-screen">
+                    <main className="min-h-screen bg-white px-4 py-6">
                         {Object.entries(groupedLogs).map(([date, entries]) => (
                             <section key={date} className="mb-6">
-                                <p className="font-semibold text-black mb-5">
+                                <p className="mb-5 font-semibold text-black">
                                     {new Date(date).toLocaleDateString(
                                         "en-US",
                                         {
@@ -63,7 +65,7 @@ const History = ({ logs }) => {
                                             day: "numeric",
                                             month: "long",
                                             year: "numeric",
-                                        }
+                                        },
                                     )}
                                 </p>
                                 <div className="flex flex-col gap-3">

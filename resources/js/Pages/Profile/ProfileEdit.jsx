@@ -57,7 +57,7 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                     </div>
                     <div className="h-max-[230px] w-max-[392px] py-3">
                         <form onSubmit={handleSubmit}>
-                            <label className="text-md font-medium">Name</label>
+                        <label className="text-md font-medium">Name</label>
                             <input
                                 type="name"
                                 id="name"
@@ -70,8 +70,13 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                 required
                             />
                             {errors.username && (
-                                <p className="text-red-500">
+                                <p className="mt-2 text-sm text-red-500">
                                     {errors.username}
+                                </p>
+                            )}
+                            {data.username === "user" && (
+                                <p className="mb-2 text-sm text-red-500">
+                                    Please change your username.
                                 </p>
                             )}
                             <label className="text-md font-medium">Email</label>
@@ -143,6 +148,11 @@ const ProfileEdit = ({ email, username, phone_number, gender }) => {
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
+                                {!data.gender && (
+                                    <p className="mt-2 text-sm text-red-500">
+                                        Please select a gender.
+                                    </p>
+                                )}
                             </div>
 
                             <button

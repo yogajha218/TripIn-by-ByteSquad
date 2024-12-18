@@ -35,7 +35,7 @@ const OtpRegistVerify = ({ email }) => {
             );
 
             // Show success modal
-            setModalMessage("OTP verification successful! Redirecting...");
+            setModalMessage("OTP verified! You can sign in now");
             setIsModalHidden(false);
 
             // Redirect after a delay to allow the user to see the message

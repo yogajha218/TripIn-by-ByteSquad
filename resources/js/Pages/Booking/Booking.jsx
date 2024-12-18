@@ -86,6 +86,8 @@ const Booking = ({ todays, locations }) => {
               (loc) => loc.city.toLowerCase() === data.cityValue.toLowerCase(),
           )
         : locations;
+    const [city] = locations;
+
     useEffect(() => {
         setIsTripsAvailable(todayCardProp.length > 0);
     }, [todays]);
@@ -198,8 +200,12 @@ const Booking = ({ todays, locations }) => {
                                                 ref={dropdownRef}
                                                 className="relative mt-1 size-fit w-full rounded-lg border border-gray-300 bg-white shadow-lg"
                                             >
-                                                {filteredRoutes.map(
-                                                    (city, index) => (
+                                                {filteredRoutes
+                                                    .slice() // Create a copy of the array to avoid mutating the original
+                                                    .sort((a, b) =>
+                                                        a.localeCompare(b),
+                                                    )
+                                                    .map((city, index) => (
                                                         <li
                                                             key={index}
                                                             className="cursor-pointer px-4 py-2 hover:bg-gray-100"
@@ -211,8 +217,7 @@ const Booking = ({ todays, locations }) => {
                                                         >
                                                             {city}
                                                         </li>
-                                                    ),
-                                                )}
+                                                    ))}
                                             </ul>
                                         )}
                                     </div>

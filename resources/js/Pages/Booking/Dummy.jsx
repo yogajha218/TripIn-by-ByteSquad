@@ -32,7 +32,7 @@ const dummy = () => {
     useEffect(() => {
         const finishPayment = async () => {
             const csrfToken = document.head.querySelector(
-                'meta[name="csrf-token"]'
+                'meta[name="csrf-token"]',
             ).content;
 
             try {
@@ -42,13 +42,12 @@ const dummy = () => {
                         headers: {
                             "X-CSRF-TOKEN": csrfToken,
                         },
-                    }
+                    },
                 );
 
                 if (response.status == 200) {
                     window.location.href = "/booking/payment-status";
                 }
-
             } catch (error) {
                 console.log("Unexpected error has occurred ", error);
             }
@@ -59,9 +58,9 @@ const dummy = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-100 flex flex-col items-center  justify-center px-20">
+            <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-400 to-blue-100 px-20">
                 {showNotification && flash.success && (
-                    <div className="absolute top-4 left-0 right-0 z-50 flex justify-center">
+                    <div className="absolute left-0 right-0 top-4 z-50 flex justify-center">
                         <Notification
                             message={flash.success}
                             type="success"
@@ -71,7 +70,7 @@ const dummy = () => {
                 )}
 
                 {/* Logo Container */}
-                <div className={`mb-2 fade-in ${isVisible ? "active" : ""}`}>
+                <div className={`fade-in mb-2 ${isVisible ? "active" : ""}`}>
                     <img
                         src="/TripInLogo.svg"
                         className=""
@@ -81,11 +80,11 @@ const dummy = () => {
 
                 {/* Text Container */}
                 <div
-                    className={`text-center mb-12 fade-in ${
+                    className={`fade-in mb-12 text-center ${
                         isVisible ? "active" : ""
                     }`}
                 >
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-2">
+                    <h1 className="mb-2 text-2xl font-semibold text-gray-800">
                         Enjoy Your Trip,
                     </h1>
                     <h2 className="text-2xl font-semibold text-gray-800">
@@ -94,7 +93,7 @@ const dummy = () => {
                 </div>
             </div>
             <ModalComponent>
-                <div className="size-fit py-10 px-12">
+                <div className="size-fit px-12 py-10">
                     <svg
                         width="100"
                         height="100"
@@ -106,7 +105,7 @@ const dummy = () => {
                             cy="50"
                             r="40"
                             stroke="#ddd"
-                            stroke-width="8"
+                            strokeWidth="8"
                             fill="none"
                         />
                         <circle
@@ -114,11 +113,11 @@ const dummy = () => {
                             cy="50"
                             r="40"
                             stroke="#3498db"
-                            stroke-width="8"
+                            strokeWidth="8"
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-dasharray="251.2"
-                            stroke-dashoffset="0"
+                            strokeLinecap="round"
+                            strokeDasharray="251.2"
+                            strokeDashoffset="0"
                         >
                             <animate
                                 attributeName="stroke-dashoffset"

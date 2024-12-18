@@ -111,7 +111,7 @@ const SelectSeat = ({ plate, seatLimit }) => {
                 },
             );
 
-            console.log("Response Status: ", response.status); // Log the status code
+            // Log the status code
 
             if (response.ok) {
                 const result = await response.json();
@@ -151,8 +151,6 @@ const SelectSeat = ({ plate, seatLimit }) => {
                 );
             }
         }
-
-        console.log(selectedSeat);
     };
 
     return (

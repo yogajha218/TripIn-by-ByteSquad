@@ -316,7 +316,7 @@ const Booking = ({ todays, locations }) => {
                                                 Select Seat
                                             </label>
                                             <select
-                                                onClick={(e) =>
+                                                onChange={(e) =>
                                                     setData(
                                                         "seatsValue",
                                                         parseInt(
